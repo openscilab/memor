@@ -1,0 +1,36 @@
+{% set name = "memor" %}
+{% set version = "0.1" %}
+
+package:
+    name: {{ name|lower }}
+    version: {{ version }}
+source:
+    git_url: https://github.com/openscilab/memor
+    git_rev: v{{ version }}
+build:
+    noarch: python
+    number: 0
+    script: {{ PYTHON }} -m pip install . -vv
+requirements:
+    host:
+        - pip
+        - setuptools
+        - python >=3.6
+    run:
+        - python >=3.6
+about:
+    home: https://github.com/openscilab/memor
+    license: MIT
+    license_family: MIT
+    summary: TODO
+    description: |
+	TODO
+	
+        Website: https://openscilab.com
+
+        Repo: https://github.com/openscilab/memor
+extra:
+    recipe-maintainers:
+        - sepandhaghighi
+        - AHReccese
+        - sadrasabouri
