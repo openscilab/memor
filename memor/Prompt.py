@@ -7,6 +7,7 @@ import json
 
 class Role(enum.Enum):
     """Role enum."""
+    
     SYSTEM = 0
     USER = 1
     ASSISTANT = 2
