@@ -23,14 +23,8 @@ class Prompt:
             role=Role.DEFAULT,
             temperature=None,
             model=None,
-            date=datetime.datetime.now(),
-            response_obj=None):
+            date=datetime.datetime.now()):
         """Prompt object initiator."""
-        if response_obj is not None:
-            from_response = _load_prompt_from_response_obj(response_obj)
-            responses = from_response["responses"]
-            role = from_response["role"]
-            model = from_response["model"]
         self.message = message
         self.responses = responses
         self.role = role
