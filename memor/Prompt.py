@@ -2,7 +2,8 @@
 """Prompt class."""
 import enum
 import datetime
-from .functions import _load_prompt_from_response_obj
+import json
+
 
 class Role(enum.Enum):
     """Role enum."""
@@ -10,7 +11,7 @@ class Role(enum.Enum):
     USER = 1
     ASSISTANT = 2
 
-    DEFAULT = SYSTEM
+    DEFAULT = USER
 
 
 class Prompt:
@@ -31,14 +32,14 @@ class Prompt:
         self.temperature = temperature
         self.model = model
         self.date = date
-    
+
     def add_response(self, response, index=None):
         """Add a response to the prompt object."""
         if index is None:
             self.responses.append(response)
         else:
             self.responses.insert(index, response)
-    
+
     def remove_response(self, index):
         """Remove a response from the prompt object."""
         self.responses.pop(index)
@@ -46,14 +47,15 @@ class Prompt:
     def get_message(self):
         """Get the prompt message."""
         return self.message
-    
+
     def to_json(self):
         """Convert the prompt to a JSON object."""
-        return {
+        data = {
             "message": self.message,
             "responses": self.responses,
-            "role": self.role,
+            "role": str(self.role),
             "temperature": self.temperature,
             "model": self.model,
-            "date": self.date
+            "date": str(self.date)
         }
+        return json.dumps(data, indent=4)
