@@ -3,6 +3,7 @@
 import enum
 import datetime
 import json
+from .params import PromptRenderFormat
 
 
 class Role(enum.Enum):
@@ -60,3 +61,13 @@ class Prompt:
             "date": str(self.date)
         }
         return json.dumps(data, indent=4)
+
+    def render(self, format=PromptRenderFormat.OpenAI):
+        """
+        Render method.
+
+        :param format: render format
+        :type format:
+        :return:
+        """
+        pass
