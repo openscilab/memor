@@ -73,6 +73,6 @@ class Prompt:
         :return: rendered prompt
         """
         if render_format == PromptRenderFormat.OpenAI:
-            return [{"role": self.role, "content": self.template._content.format(message=self.message)}]
+            return [{"role": self.role.value, "content": self.template._content.format(message=self.message)}]
 
 
