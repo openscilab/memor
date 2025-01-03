@@ -5,4 +5,6 @@ MEMOR_VERSION = "0.1"
 
 
 class PromptRenderFormat(Enum):
+    """Prompt render format."""
+
     OpenAI = "OpenAI"
