@@ -3,8 +3,8 @@
 from enum import Enum
 
 class PromptTemplate:
-    def __int__(self, content):
-        self._template = template
+    def __init__(self, content):
+        self._content = content
 
 DEFAULT_TEMPLATE = PromptTemplate(content="{message}")
 

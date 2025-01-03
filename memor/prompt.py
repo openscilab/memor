@@ -10,10 +10,9 @@ from .template import DEFAULT_TEMPLATE
 class Role(enum.Enum):
     """Role enum."""
     
-    SYSTEM = 0
-    USER = 1
-    ASSISTANT = 2
-
+    SYSTEM = "system"
+    USER = "user"
+    ASSISTANT = "assistant"
     DEFAULT = USER
 
 
@@ -73,7 +72,7 @@ class Prompt:
         :type render_format: PromptRenderFormat object
         :return: rendered prompt
         """
-        if format == PromptRenderFormat.OpenAI:
-            return [{"role": self.role, "content": self.template.format(message=self.message)}]
+        if render_format == PromptRenderFormat.OpenAI:
+            return [{"role": self.role, "content": self.template._content.format(message=self.message)}]
 
 
