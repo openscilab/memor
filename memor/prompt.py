@@ -9,7 +9,7 @@ from .template import DEFAULT_TEMPLATE
 
 class Role(enum.Enum):
     """Role enum."""
-    
+
     SYSTEM = "system"
     USER = "user"
     ASSISTANT = "assistant"
@@ -74,5 +74,3 @@ class Prompt:
         """
         if render_format == PromptRenderFormat.OpenAI:
             return [{"role": self.role.value, "content": self.template._content.format(message=self.message)}]
-
-

@@ -3,5 +3,6 @@
 from enum import Enum
 MEMOR_VERSION = "0.1"
 
+
 class PromptRenderFormat(Enum):
     OpenAI = "OpenAI"
