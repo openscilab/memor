@@ -3,7 +3,7 @@
 from enum import Enum
 
 
-class PromptTemplate:
+class CustomPromptTemplate:
     """Prompt template."""
 
     def __init__(self, content):
@@ -16,4 +16,4 @@ class PromptTemplate:
         self._content = content
 
 
-DEFAULT_TEMPLATE = PromptTemplate(content="{message}")
+DEFAULT_TEMPLATE = CustomPromptTemplate(content="{message}")
