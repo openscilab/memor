@@ -3,15 +3,16 @@
 import enum
 import datetime
 import json
+from .params import PromptRenderFormat
+from .template import DEFAULT_TEMPLATE
 
 
 class Role(enum.Enum):
     """Role enum."""
-    
-    SYSTEM = 0
-    USER = 1
-    ASSISTANT = 2
 
+    SYSTEM = "system"
+    USER = "user"
+    ASSISTANT = "assistant"
     DEFAULT = USER
 
 
@@ -25,6 +26,7 @@ class Prompt:
             role=Role.DEFAULT,
             temperature=None,
             model=None,
+            template=DEFAULT_TEMPLATE,
             date=datetime.datetime.now()):
         """Prompt object initiator."""
         self.message = message
@@ -33,6 +35,7 @@ class Prompt:
         self.temperature = temperature
         self.model = model
         self.date = date
+        self.template = template
 
     def add_response(self, response, index=None):
         """Add a response to the prompt object."""
@@ -60,3 +63,14 @@ class Prompt:
             "date": str(self.date)
         }
         return json.dumps(data, indent=4)
+
+    def render(self, render_format=PromptRenderFormat.OpenAI):
+        """
+        Render method.
+
+        :param render_format: render format
+        :type render_format: PromptRenderFormat object
+        :return: rendered prompt
+        """
+        if render_format == PromptRenderFormat.OpenAI:
+            return [{"role": self.role.value, "content": self.template._content.format(message=self.message)}]
