@@ -5,7 +5,7 @@
 class CustomPromptTemplate:
     """Prompt template."""
 
-    def __init__(self, content, file_path=None):
+    def __init__(self, content=None, file_path=None):
         """
         Template object initiator.
 
@@ -14,6 +14,10 @@ class CustomPromptTemplate:
         :param file_path: template file path
         :type file_path: str
         """
+        if file_path:
+            with open(file_path, "r") as file:
+                loaded_obj = json.loads(file.read())
+                content = loaded_obj["content"]
         self._content = content
 
     def save(self, file_path):
