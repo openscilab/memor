@@ -28,7 +28,7 @@ class CustomPromptTemplate:
 
     def to_json(self):
         """Convert to json."""
-        pass
+        return json.dumps(self.to_dict(), indent=4)
 
     def to_dict(self):
         "Convert to dict."
