@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Template class."""
+import json
+from .params import DATA_SAVE_SUCCESS_MESSAGE
 
 
 class CustomPromptTemplate:
@@ -28,7 +30,14 @@ class CustomPromptTemplate:
         :type file_path: str
         :return: result as dict
         """
-        pass
+        result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
+        try:
+            with open(file_path, "w") as file:
+                file.write(self.to_json())
+        except Exception as e:
+            result["status"] = False
+            result["message"] = str(e)
+        return result
 
     def to_json(self):
         """Convert to json."""
@@ -41,4 +50,5 @@ class CustomPromptTemplate:
         }
 
 
-DEFAULT_TEMPLATE = CustomPromptTemplate(content="{message}")
+DEFAULT_TEMPLATE_CONTENT = "{message}"
+DEFAULT_TEMPLATE = CustomPromptTemplate(content=DEFAULT_TEMPLATE_CONTENT)
