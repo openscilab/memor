@@ -32,8 +32,9 @@ class CustomPromptTemplate:
 
     def to_dict(self):
         "Convert to dict."
-        pass
-
+        return {
+            "content": self._content,
+        }
 
 
 DEFAULT_TEMPLATE = CustomPromptTemplate(content="{message}")
