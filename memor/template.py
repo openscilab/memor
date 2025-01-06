@@ -30,6 +30,11 @@ class CustomPromptTemplate:
         self._content = content
         self._memor_version = memor_version
 
+
+    def __str__(self):
+        return self._content
+    
+
     def save(self, file_path):
         """
         Save method.
