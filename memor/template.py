@@ -33,6 +33,12 @@ class CustomPromptTemplate:
 
     def __str__(self):
         return self._content
+
+    def update_title(self, title):
+        self._title = title
+
+    def update_content(self, content):
+        self._content = content
     
 
     def save(self, file_path):
