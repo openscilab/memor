@@ -8,7 +8,7 @@ from .params import MEMOR_VERSION
 class CustomPromptTemplate:
     """Prompt template."""
 
-    def __init__(self, content=None, file_path=None):
+    def __init__(self, content=None, file_path=None, title="unknown"):
         """
         Template object initiator.
 
@@ -16,12 +16,19 @@ class CustomPromptTemplate:
         :type content: str
         :param file_path: template file path
         :type file_path: str
+        :param title: template title
+        :type title: str
         """
+        memor_version = MEMOR_VERSION
         if file_path:
             with open(file_path, "r") as file:
                 loaded_obj = json.loads(file.read())
                 content = loaded_obj["content"]
+                title = loaded_obj["title"]
+                memor_version = loaded_obj["memor_version"]
+        self._title = title
         self._content = content
+        self._memor_version = memor_version
 
     def save(self, file_path):
         """
@@ -47,6 +54,7 @@ class CustomPromptTemplate:
     def to_dict(self):
         "Convert to dict."
         return {
+            "title": self._title,
             "content": self._content,
             "memor_version": MEMOR_VERSION
         }
