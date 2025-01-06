@@ -2,6 +2,7 @@
 """Template class."""
 import json
 from .params import DATA_SAVE_SUCCESS_MESSAGE
+from .params import MEMOR_VERSION
 
 
 class CustomPromptTemplate:
@@ -47,6 +48,7 @@ class CustomPromptTemplate:
         "Convert to dict."
         return {
             "content": self._content,
+            "memor_version": MEMOR_VERSION
         }
 
 
