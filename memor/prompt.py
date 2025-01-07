@@ -65,6 +65,9 @@ class Prompt:
     def update_role(self, role):
         self.role = role
 
+    def update_temperature(self, temperature):
+        self.temperature = temperature
+
     def get_message(self):
         """Get the prompt message."""
         return self.message
