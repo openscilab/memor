@@ -71,6 +71,9 @@ class Prompt:
     def update_model(self, model):
         self.model = model
 
+    def update_template(self, template):
+        self.template = template
+
     def get_message(self):
         """Get the prompt message."""
         return self.message
