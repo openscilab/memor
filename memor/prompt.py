@@ -68,6 +68,9 @@ class Prompt:
     def update_temperature(self, temperature):
         self.temperature = temperature
 
+    def update_model(self, model):
+        self.model = model
+
     def get_message(self):
         """Get the prompt message."""
         return self.message
