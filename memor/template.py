@@ -34,7 +34,6 @@ class CustomPromptTemplate:
         self._memor_version = memor_version
         self._date_created  = date_created
 
-
     def __str__(self):
         return self._content
 
@@ -43,7 +42,6 @@ class CustomPromptTemplate:
 
     def update_content(self, content):
         self._content = content
-    
 
     def save(self, file_path):
         """
