@@ -58,6 +58,9 @@ class Prompt:
         """Remove a response from the prompt object."""
         self.responses.pop(index)
 
+    def update_responses(self, responses):
+        self.responses = responses
+
     def update_message(self, message):
         """Update the prompt message."""
         self.message = message
