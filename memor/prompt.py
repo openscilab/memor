@@ -62,6 +62,9 @@ class Prompt:
         """Update the prompt message."""
         self.message = message
 
+    def update_role(self, role):
+        self.role = role
+
     def get_message(self):
         """Get the prompt message."""
         return self.message
