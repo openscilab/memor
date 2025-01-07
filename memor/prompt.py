@@ -3,7 +3,7 @@
 import enum
 import datetime
 import json
-from .params import PromptRenderFormat
+from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .template import DEFAULT_TEMPLATE
 
 
@@ -21,14 +21,24 @@ class Prompt:
 
     def __init__(
             self,
-            message,
+            message=None,
             responses=[],
             role=Role.DEFAULT,
             temperature=None,
             model=None,
             template=DEFAULT_TEMPLATE,
-            date=datetime.datetime.now()):
+            date=datetime.datetime.now(),
+            file_path=None):
         """Prompt object initiator."""
+        if file_path:
+            with open(file_path, "r") as file:
+                loaded_obj = json.loads(file.read())
+                message = loaded_obj["message"]
+                responses = loaded_obj["responses"]
+                role = Role(loaded_obj["role"])
+                temperature = loaded_obj["temperature"]
+                model = loaded_obj["model"]
+                date = datetime.datetime.strptime(loaded_obj["date"], "%Y-%m-%d %H:%M:%S.%f")
         self.message = message
         self.responses = responses
         self.role = role
@@ -48,13 +58,38 @@ class Prompt:
         """Remove a response from the prompt object."""
         self.responses.pop(index)
 
+    def update_message(self, message):
+        """Update the prompt message."""
+        self.message = message
+
     def get_message(self):
         """Get the prompt message."""
         return self.message
+    
+    def save(self, file_path):
+        """
+        Save method.
+
+        :param file_path: prompt file path
+        :type file_path: str
+        :return: result as dict
+        """
+        result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
+        try:
+            with open(file_path, "w") as file:
+                file.write(self.to_json())
+        except Exception as e:
+            result["status"] = False
+            result["message"] = str(e)
+        return result
 
     def to_json(self):
         """Convert the prompt to a JSON object."""
-        data = {
+        return json.dumps(self.to_dict(), indent=4)
+
+    def to_dict(self):
+        """Convert the prompt to a dictionary."""
+        return {
             "message": self.message,
             "responses": self.responses,
             "role": str(self.role),
@@ -62,7 +97,6 @@ class Prompt:
             "model": self.model,
             "date": str(self.date)
         }
-        return json.dumps(data, indent=4)
 
     def render(self, render_format=PromptRenderFormat.OpenAI):
         """
@@ -73,4 +107,6 @@ class Prompt:
         :return: rendered prompt
         """
         if render_format == PromptRenderFormat.OpenAI:
-            return [{"role": self.role.value, "content": self.template._content.format(message=self.message)}]
+            return [
+                {"role": self.role.value,
+                 "content": self.template._content.format(message=self.message)}]
