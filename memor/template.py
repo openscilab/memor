@@ -72,15 +72,15 @@ class CustomPromptTemplate:
         :return: result as dict
         """
         validate_path(file_path)
-        try:
-            with open(file_path, "r") as file:
+        with open(file_path, "r") as file:
+            try:
                 loaded_obj = json.loads(file.read())
                 self._content = loaded_obj["content"]
                 self._title = loaded_obj["title"]
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = loaded_obj["date_created"]
-        except Exception:
-            raise MemorValidationError(INVALID_TEMPLATE_FILE_MESSAGE)
+            except Exception:
+                raise MemorValidationError(INVALID_TEMPLATE_FILE_MESSAGE)
 
     def to_json(self):
         """Convert to json."""
