@@ -98,6 +98,22 @@ class CustomPromptTemplate:
             "date_modified": self._date_modified
         }
 
+    @property
+    def content(self):
+        return self._content
+
+    @property
+    def title(self):
+        return self._title
+
+    @property
+    def date_created(self):
+        return self._date_created
+
+    @property
+    def date_modified(self):
+        return self._date_modified
+
 
 DEFAULT_TEMPLATE_CONTENT = "{message}"
 DEFAULT_TEMPLATE = CustomPromptTemplate(content=DEFAULT_TEMPLATE_CONTENT)
