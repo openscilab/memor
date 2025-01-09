@@ -4,7 +4,12 @@ import enum
 import datetime
 import json
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
-from .template import DEFAULT_TEMPLATE
+from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
+from .errors import MemorValidationError
+from .functions import validate_path, validate_prompt_message
+from .functions import validate_prompt_responses, validate_prompt_role
+from .functions import validate_prompt_temperature, validate_prompt_model
+from .template import DEFAULT_TEMPLATE, CustomPromptTemplate
 
 
 class Role(enum.Enum):
@@ -29,57 +34,94 @@ class Prompt:
             template=DEFAULT_TEMPLATE,
             date=datetime.datetime.now(),
             file_path=None):
-        """Prompt object initiator."""
+        """
+        Prompt object initiator.
+        
+        :param message: prompt message
+        :type message: str
+        :param responses: prompt responses
+        :type responses: list
+        :param role: prompt role
+        :type role: Role object
+        :param temperature: prompt temperature
+        :type temperature: float
+        :param model: prompt model
+        :type model: str
+        :param template: prompt template
+        :type template: CustomPromptTemplate object
+        :param date: prompt date
+        :type date: datetime.datetime
+        :param file_path: prompt file path
+        :type file_path: str
+        :return: None
+        """
         if file_path:
-            with open(file_path, "r") as file:
-                loaded_obj = json.loads(file.read())
-                message = loaded_obj["message"]
-                responses = loaded_obj["responses"]
-                role = Role(loaded_obj["role"])
-                temperature = loaded_obj["temperature"]
-                model = loaded_obj["model"]
-                date = datetime.datetime.strptime(loaded_obj["date"], "%Y-%m-%d %H:%M:%S.%f")
-        self.message = message
-        self.responses = responses
-        self.role = role
-        self.temperature = temperature
-        self.model = model
-        self.date = date
-        self.template = template
-
+            self.load(file_path)
+        if message:
+            self.update_message(message)
+        if model:
+            self.update_model(model)
+        if temperature:
+            self.update_temperature(temperature)
+        if role:
+            self.update_role(role)
+        if responses:
+            self.update_responses(responses)
+        if template:
+            self.update_template(template)
+        if date:
+            self._date = date
+        
     def add_response(self, response, index=None):
-        """Add a response to the prompt object."""
+        """
+        Add a response to the prompt object.
+        
+        :param response: response
+        :type response: str
+        :param index: index
+        :type index: int
+        :return: None
+        """
         if index is None:
             self.responses.append(response)
         else:
             self.responses.insert(index, response)
 
     def remove_response(self, index):
-        """Remove a response from the prompt object."""
+        """
+        Remove a response from the prompt object.
+        
+        :param index: index
+        :type index: int
+        :return: None
+        """
         self.responses.pop(index)
 
     def update_responses(self, responses):
+        validate_prompt_responses(responses)
         self.responses = responses
 
     def update_message(self, message):
         """Update the prompt message."""
+        validate_prompt_message(message)
         self.message = message
 
     def update_role(self, role):
+        validate_prompt_role(role)
         self.role = role
 
     def update_temperature(self, temperature):
+        validate_prompt_temperature(temperature)
         self.temperature = temperature
 
     def update_model(self, model):
+        validate_prompt_model(model)
         self.model = model
 
     def update_template(self, template):
-        self.template = template
-
-    def get_message(self):
-        """Get the prompt message."""
-        return self.message
+        if not isinstance(template, CustomPromptTemplate):
+            raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
+        self._template = template
 
     def save(self, file_path):
         """
@@ -98,6 +140,27 @@ class Prompt:
             result["message"] = str(e)
         return result
 
+    def load(self, file_path):
+        """
+        Load method.
+
+        :param file_path: prompt file path
+        :type file_path: str
+        :return: result as dict
+        """
+        validate_path(file_path)
+        with open(file_path, "r") as file:
+            try:
+                loaded_obj = json.loads(file.read())
+                self._message = loaded_obj["message"]
+                self._responses = loaded_obj["responses"]
+                self._role = Role(loaded_obj["role"])
+                self._temperature = loaded_obj["temperature"]
+                self._model = loaded_obj["model"]
+                self._date = datetime.datetime.strptime(loaded_obj["date"], "%Y-%m-%d %H:%M:%S.%f")
+            except Exception:
+                raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
+
     def to_json(self):
         """Convert the prompt to a JSON object."""
         return json.dumps(self.to_dict(), indent=4)
@@ -105,13 +168,37 @@ class Prompt:
     def to_dict(self):
         """Convert the prompt to a dictionary."""
         return {
-            "message": self.message,
-            "responses": self.responses,
-            "role": str(self.role),
-            "temperature": self.temperature,
-            "model": self.model,
-            "date": str(self.date)
+            "message": self._message,
+            "responses": self._responses,
+            "role": str(self._role),
+            "temperature": self._temperature,
+            "model": self._model,
+            "date": str(self._date)
         }
+    
+    @property
+    def message(self):
+        return self._message
+    
+    @property
+    def responses(self):
+        return self._responses
+    
+    @property
+    def role(self):
+        return self._role
+    
+    @property
+    def temperature(self):
+        return self._temperature
+    
+    @property
+    def model(self):
+        return self._model
+    
+    @property
+    def date(self):
+        return self._date
 
     def render(self, render_format=PromptRenderFormat.OpenAI):
         """
@@ -123,5 +210,5 @@ class Prompt:
         """
         if render_format == PromptRenderFormat.OpenAI:
             return [
-                {"role": self.role.value,
-                 "content": self.template._content.format(message=self.message)}]
+                {"role": self._role.value,
+                 "content": self.template._content.format(message=self._message)}]
