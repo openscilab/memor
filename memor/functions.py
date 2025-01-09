@@ -9,7 +9,7 @@ from .errors import MemorValidationError
 def validate_path(path):
     """
     Validate path.
-    
+
     :param path: path
     :type path: Any
     :return: True if path is valid
@@ -24,7 +24,7 @@ def validate_path(path):
 def _validate_string(value, parameter_name):
     """
     Validate string.
-    
+
     :param value: value
     :type value: Any
     :param parameter_name: parameter name
@@ -38,16 +38,17 @@ def _validate_string(value, parameter_name):
 
 def validate_template_title(title):
     """Validate title.
-    
+
     :param title: title
     :type title: Any
     :return: True if title is valid
     """
     return _validate_string(title, "title")
 
+
 def validate_template_content(content):
     """Validate template content.
-    
+
     :param content: content
     :type content: Any
     :return: True if content is valid

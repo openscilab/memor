@@ -25,15 +25,15 @@ class CustomPromptTemplate:
         :type title: str
         """
         memor_version = MEMOR_VERSION
-        date_created = str(datetime.datetime.now())
+        self._date_created = str(datetime.datetime.now())
+        self._date_modified = str(datetime.datetime.now())
+        self._memor_version = memor_version
         if file_path:
             self.load(file_path)
         if title:
             self.update_title(title)
         if content:
             self.update_content(content)
-        self._memor_version = memor_version
-        self._date_created  = date_created
 
     def __str__(self):
         return self._content
@@ -41,10 +41,12 @@ class CustomPromptTemplate:
     def update_title(self, title):
         validate_template_title(title)
         self._title = title
+        self._date_modified = str(datetime.datetime.now())
 
     def update_content(self, content):
         validate_template_content(content)
         self._content = content
+        self._date_modified = str(datetime.datetime.now())
 
     def save(self, file_path):
         """
@@ -92,8 +94,25 @@ class CustomPromptTemplate:
             "title": self._title,
             "content": self._content,
             "memor_version": MEMOR_VERSION,
-            "date_created": str(datetime.datetime.now())
+            "date_created": self._date_created,
+            "date_modified": self._date_modified
         }
+
+    @property
+    def content(self):
+        return self._content
+
+    @property
+    def title(self):
+        return self._title
+
+    @property
+    def date_created(self):
+        return self._date_created
+
+    @property
+    def date_modified(self):
+        return self._date_modified
 
 
 DEFAULT_TEMPLATE_CONTENT = "{message}"

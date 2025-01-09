@@ -80,7 +80,7 @@ class Prompt:
     def get_message(self):
         """Get the prompt message."""
         return self.message
-    
+
     def save(self, file_path):
         """
         Save method.
