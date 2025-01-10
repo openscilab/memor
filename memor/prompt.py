@@ -5,9 +5,10 @@ import datetime
 import json
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
+from .params import INVALID_ROLE_MESSAGE
 from .errors import MemorValidationError
 from .functions import validate_path, validate_prompt_message
-from .functions import validate_prompt_responses, validate_prompt_role
+from .functions import validate_prompt_responses
 from .functions import validate_prompt_temperature, validate_prompt_model
 from .template import DEFAULT_TEMPLATE, CustomPromptTemplate
 
@@ -83,9 +84,9 @@ class Prompt:
         :return: None
         """
         if index is None:
-            self.responses.append(response)
+            self._responses.append(response)
         else:
-            self.responses.insert(index, response)
+            self._responses.insert(index, response)
 
     def remove_response(self, index):
         """
@@ -95,28 +96,29 @@ class Prompt:
         :type index: int
         :return: None
         """
-        self.responses.pop(index)
+        self._responses.pop(index)
 
     def update_responses(self, responses):
         validate_prompt_responses(responses)
-        self.responses = responses
+        self._responses = responses
 
     def update_message(self, message):
         """Update the prompt message."""
         validate_prompt_message(message)
-        self.message = message
+        self._message = message
 
     def update_role(self, role):
-        validate_prompt_role(role)
-        self.role = role
+        if not isinstance(role, Role):
+            raise MemorValidationError(INVALID_ROLE_MESSAGE)
+        self._role = role
 
     def update_temperature(self, temperature):
         validate_prompt_temperature(temperature)
-        self.temperature = temperature
+        self._temperature = temperature
 
     def update_model(self, model):
         validate_prompt_model(model)
-        self.model = model
+        self._model = model
 
     def update_template(self, template):
         if not isinstance(template, CustomPromptTemplate):

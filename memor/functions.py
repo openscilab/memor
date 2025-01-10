@@ -3,6 +3,7 @@
 import os
 from .params import INVALID_PATH_MESSAGE, INVALID_NONSTR_VALUE_MESSAGE
 from .params import INVALID_NONFLOAT_VALUE_MESSAGE
+from .params import INVALID_NONLIST_VALUE_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .errors import MemorValidationError
 
@@ -48,7 +49,7 @@ def _validate_list(value, parameter_name):
     :return: True if value is valid
     """
     if not isinstance(value, list):
-        raise MemorValidationError(INVALID_NONSTR_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_NONLIST_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
@@ -105,16 +106,6 @@ def validate_prompt_responses(responses):
     :return: True if responses is valid
     """
     return _validate_list(responses, "responses")
-
-
-def validate_prompt_role(role):
-    """Validate prompt role.
-
-    :param role: role
-    :type role: Any
-    :return: True if role is valid
-    """
-    return _validate_string(role, "role")
 
 
 def validate_prompt_temperature(temperature):
