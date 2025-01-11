@@ -6,7 +6,8 @@ import json
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE
-from .errors import MemorValidationError
+from .params import PROMPT_RENDER_ERROR_MESSAGE
+from .errors import MemorValidationError, MemorRenderError
 from .functions import validate_path, validate_prompt_message
 from .functions import validate_prompt_responses
 from .functions import validate_prompt_temperature, validate_prompt_model
@@ -228,4 +229,4 @@ class Prompt:
                     {"role": self._role.value,
                      "content": self._template._content.format(**format_kwargs)}]
         except Exception:
-            raise
+            raise MemorRenderError(PROMPT_RENDER_ERROR_MESSAGE)
