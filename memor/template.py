@@ -26,10 +26,12 @@ class CustomPromptTemplate:
         :param title: template title
         :type title: str
         """
-        memor_version = MEMOR_VERSION
-        self._date_created = get_time_utc
+
+        self._content = None
+        self._title = None
+        self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
-        self._memor_version = memor_version
+        self._memor_version = MEMOR_VERSION
         if file_path:
             self.load(file_path)
         else:
@@ -84,6 +86,7 @@ class CustomPromptTemplate:
                 self._title = loaded_obj["title"]
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+                self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             except Exception:
                 raise MemorValidationError(INVALID_TEMPLATE_FILE_MESSAGE)
 

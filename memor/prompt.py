@@ -3,6 +3,7 @@
 import enum
 import datetime
 import json
+from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
@@ -65,6 +66,9 @@ class Prompt:
         self._role = Role.DEFAULT
         self._template = DEFAULT_TEMPLATE
         self._responses = []
+        self._date_created = get_time_utc()
+        self._date_modified = get_time_utc()
+        self._memor_version = MEMOR_VERSION
         if file_path:
             self.load(file_path)
         else:
@@ -81,7 +85,7 @@ class Prompt:
             if template:
                 self.update_template(template)
             if date:
-                self._date = date
+                self._date_created = date
 
     def add_response(self, response, index=None):
         """
@@ -97,6 +101,7 @@ class Prompt:
             self._responses.append(response)
         else:
             self._responses.insert(index, response)
+        self._date_modified = get_time_utc()
 
     def remove_response(self, index):
         """
@@ -107,33 +112,40 @@ class Prompt:
         :return: None
         """
         self._responses.pop(index)
+        self._date_modified = get_time_utc()
 
     def update_responses(self, responses):
         validate_prompt_responses(responses)
         self._responses = responses
+        self._date_modified = get_time_utc()
 
     def update_message(self, message):
         """Update the prompt message."""
         validate_prompt_message(message)
         self._message = message
+        self._date_modified = get_time_utc()
 
     def update_role(self, role):
         if not isinstance(role, Role):
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
+        self._date_modified = get_time_utc()
 
     def update_temperature(self, temperature):
         validate_prompt_temperature(temperature)
         self._temperature = temperature
+        self._date_modified = get_time_utc()
 
     def update_model(self, model):
         validate_prompt_model(model)
         self._model = model
+        self._date_modified = get_time_utc()
 
     def update_template(self, template):
         if not isinstance(template, CustomPromptTemplate):
             raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
         self._template = template
+        self._date_modified = get_time_utc()
 
     def save(self, file_path):
         """
@@ -169,7 +181,9 @@ class Prompt:
                 self._role = Role(loaded_obj["role"])
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
-                self._date = datetime.datetime.strptime(loaded_obj["date"], DATE_TIME_FORMAT)
+                self._memor_version = loaded_obj["memor_version"]
+                self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+                self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             except Exception:
                 raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
 
@@ -185,7 +199,9 @@ class Prompt:
             "role": str(self._role),
             "temperature": self._temperature,
             "model": self._model,
-            "date": get_time_utc().strftime(DATE_TIME_FORMAT)
+            "memor_version": MEMOR_VERSION,
+            "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
+            "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
         }
 
     @property
@@ -209,8 +225,12 @@ class Prompt:
         return self._model
 
     @property
-    def date(self):
-        return self._date
+    def date_created(self):
+        return self._date_created
+
+    @property
+    def date_modified(self):
+        return self._date_modified
 
     @property
     def template(self):
@@ -230,7 +250,7 @@ class Prompt:
                 "role": self._role.value,
                 "model": self._model,
                 "message": self._message,
-                "date": self._date}
+                "date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             for index, response in enumerate(self._responses):
                 format_kwargs.update({"response_{index}".format(index=index): response})
             if render_format == PromptRenderFormat.OpenAI:
