@@ -2,10 +2,12 @@
 """Template class."""
 import json
 import datetime
+from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_TEMPLATE_FILE_MESSAGE
 from .params import MEMOR_VERSION
 from .errors import MemorValidationError
+from .functions import get_time_utc
 from .functions import validate_path
 from .functions import validate_template_content, validate_template_title
 
@@ -25,8 +27,8 @@ class CustomPromptTemplate:
         :type title: str
         """
         memor_version = MEMOR_VERSION
-        self._date_created = str(datetime.datetime.now())
-        self._date_modified = str(datetime.datetime.now())
+        self._date_created = get_time_utc
+        self._date_modified = get_time_utc()
         self._memor_version = memor_version
         if file_path:
             self.load(file_path)
@@ -41,12 +43,12 @@ class CustomPromptTemplate:
     def update_title(self, title):
         validate_template_title(title)
         self._title = title
-        self._date_modified = str(datetime.datetime.now())
+        self._date_modified = get_time_utc()
 
     def update_content(self, content):
         validate_template_content(content)
         self._content = content
-        self._date_modified = str(datetime.datetime.now())
+        self._date_modified = get_time_utc()
 
     def save(self, file_path):
         """
@@ -80,7 +82,7 @@ class CustomPromptTemplate:
                 self._content = loaded_obj["content"]
                 self._title = loaded_obj["title"]
                 self._memor_version = loaded_obj["memor_version"]
-                self._date_created = loaded_obj["date_created"]
+                self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             except Exception:
                 raise MemorValidationError(INVALID_TEMPLATE_FILE_MESSAGE)
 
@@ -94,8 +96,8 @@ class CustomPromptTemplate:
             "title": self._title,
             "content": self._content,
             "memor_version": MEMOR_VERSION,
-            "date_created": self._date_created,
-            "date_modified": self._date_modified
+            "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
+            "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
         }
 
     @property

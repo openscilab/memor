@@ -1,11 +1,21 @@
 # -*- coding: utf-8 -*-
 """Memor functions."""
 import os
+import datetime
 from .params import INVALID_PATH_MESSAGE, INVALID_NONSTR_VALUE_MESSAGE
 from .params import INVALID_NONFLOAT_VALUE_MESSAGE
 from .params import INVALID_NONLIST_VALUE_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .errors import MemorValidationError
+
+
+def get_time_utc():
+    """
+    Get time in UTC format.
+    
+    :return: time in UTC format in datetime object
+    """
+    return datetime.datetime.now(datetime.timezone.utc)
 
 
 def validate_path(path):
