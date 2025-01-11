@@ -3,11 +3,13 @@
 import enum
 import datetime
 import json
+from .params import DATE_TIME_FORMAT
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
+from .functions import get_time_utc
 from .functions import validate_path, validate_prompt_message
 from .functions import validate_prompt_responses
 from .functions import validate_prompt_temperature, validate_prompt_model
@@ -34,7 +36,7 @@ class Prompt:
             temperature=None,
             model=None,
             template=DEFAULT_TEMPLATE,
-            date=datetime.datetime.now(),
+            date=get_time_utc(),
             file_path=None):
         """
         Prompt object initiator.
@@ -65,20 +67,21 @@ class Prompt:
         self._responses = []
         if file_path:
             self.load(file_path)
-        if message:
-            self.update_message(message)
-        if model:
-            self.update_model(model)
-        if temperature:
-            self.update_temperature(temperature)
-        if role:
-            self.update_role(role)
-        if responses:
-            self.update_responses(responses)
-        if template:
-            self.update_template(template)
-        if date:
-            self._date = date
+        else:
+            if message:
+                self.update_message(message)
+            if model:
+                self.update_model(model)
+            if temperature:
+                self.update_temperature(temperature)
+            if role:
+                self.update_role(role)
+            if responses:
+                self.update_responses(responses)
+            if template:
+                self.update_template(template)
+            if date:
+                self._date = date
 
     def add_response(self, response, index=None):
         """
@@ -166,7 +169,7 @@ class Prompt:
                 self._role = Role(loaded_obj["role"])
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
-                self._date = datetime.datetime.strptime(loaded_obj["date"], "%Y-%m-%d %H:%M:%S.%f")
+                self._date = datetime.datetime.strptime(loaded_obj["date"], DATE_TIME_FORMAT)
             except Exception:
                 raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
 
@@ -182,7 +185,7 @@ class Prompt:
             "role": str(self._role),
             "temperature": self._temperature,
             "model": self._model,
-            "date": str(self._date)
+            "date": get_time_utc().strftime(DATE_TIME_FORMAT)
         }
 
     @property
