@@ -27,7 +27,9 @@ class CustomPromptTemplate:
         :type title: str
         """
         memor_version = MEMOR_VERSION
-        self._date_created = get_time_utc
+        self._content = None
+        self._title = None
+        self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = memor_version
         if file_path:
