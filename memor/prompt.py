@@ -207,6 +207,10 @@ class Prompt:
     def date(self):
         return self._date
 
+    @property
+    def template(self):
+        return self._template
+
     def render(self, render_format=PromptRenderFormat.OpenAI):
         """
         Render method.
