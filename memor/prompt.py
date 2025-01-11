@@ -66,7 +66,6 @@ class Prompt:
         self._role = Role.DEFAULT
         self._template = DEFAULT_TEMPLATE
         self._responses = []
-        self._date = get_time_utc()
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
@@ -86,7 +85,7 @@ class Prompt:
             if template:
                 self.update_template(template)
             if date:
-                self._date = date
+                self._date_created = date
 
     def add_response(self, response, index=None):
         """
@@ -183,7 +182,6 @@ class Prompt:
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
                 self._memor_version = loaded_obj["memor_version"]
-                self._date = datetime.datetime.strptime(loaded_obj["date"], DATE_TIME_FORMAT)
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             except Exception:
@@ -201,7 +199,6 @@ class Prompt:
             "role": str(self._role),
             "temperature": self._temperature,
             "model": self._model,
-            "date": self._date,
             "memor_version": MEMOR_VERSION,
             "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
             "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
@@ -226,10 +223,6 @@ class Prompt:
     @property
     def model(self):
         return self._model
-
-    @property
-    def date(self):
-        return self._date
 
     @property
     def date_created(self):
@@ -257,7 +250,7 @@ class Prompt:
                 "role": self._role.value,
                 "model": self._model,
                 "message": self._message,
-                "date": self._date}
+                "date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             for index, response in enumerate(self._responses):
                 format_kwargs.update({"response_{index}".format(index=index): response})
             if render_format == PromptRenderFormat.OpenAI:
