@@ -57,6 +57,7 @@ class Prompt:
         :type file_path: str
         :return: None
         """
+        self._message = None
         self._temperature = None
         self._model = None
         self._role = Role.DEFAULT
