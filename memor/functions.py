@@ -12,7 +12,7 @@ from .errors import MemorValidationError
 def get_time_utc():
     """
     Get time in UTC format.
-    
+
     :return: time in UTC format in datetime object
     """
     return datetime.datetime.now(datetime.timezone.utc)
@@ -108,7 +108,7 @@ def validate_prompt_message(message):
     return _validate_string(message, "message")
 
 
-def validate_prompt_responses(responses): #TODO: Here we need to check that all of the list items are str or not.
+def validate_prompt_responses(responses):  # TODO: Here we need to check that all of the list items are str or not.
     """Validate prompt responses.
 
     :param responses: responses
@@ -118,7 +118,7 @@ def validate_prompt_responses(responses): #TODO: Here we need to check that all 
     return _validate_list(responses, "responses")
 
 
-def validate_prompt_temperature(temperature): #TODO: Temperature >= 0
+def validate_prompt_temperature(temperature):  # TODO: Temperature >= 0
     """Validate prompt temperature.
 
     :param temperature: temperature
