@@ -38,7 +38,7 @@ class Prompt:
             file_path=None):
         """
         Prompt object initiator.
-        
+
         :param message: prompt message
         :type message: str
         :param responses: prompt responses
@@ -78,11 +78,11 @@ class Prompt:
             self.update_template(template)
         if date:
             self._date = date
-        
+
     def add_response(self, response, index=None):
         """
         Add a response to the prompt object.
-        
+
         :param response: response
         :type response: str
         :param index: index
@@ -97,7 +97,7 @@ class Prompt:
     def remove_response(self, index):
         """
         Remove a response from the prompt object.
-        
+
         :param index: index
         :type index: int
         :return: None
@@ -183,27 +183,27 @@ class Prompt:
             "model": self._model,
             "date": str(self._date)
         }
-    
+
     @property
     def message(self):
         return self._message
-    
+
     @property
     def responses(self):
         return self._responses
-    
+
     @property
     def role(self):
         return self._role
-    
+
     @property
     def temperature(self):
         return self._temperature
-    
+
     @property
     def model(self):
         return self._model
-    
+
     @property
     def date(self):
         return self._date
@@ -221,9 +221,14 @@ class Prompt:
         :return: rendered prompt
         """
         try:
-            format_kwargs = {"temperature": self._temperature, "role": self._role.value, "model": self._model, "message": self._message, "date": self._date}
+            format_kwargs = {
+                "temperature": self._temperature,
+                "role": self._role.value,
+                "model": self._model,
+                "message": self._message,
+                "date": self._date}
             for index, response in enumerate(self._responses):
-                format_kwargs.update({"response_{index}".format(index = index): response})
+                format_kwargs.update({"response_{index}".format(index=index): response})
             if render_format == PromptRenderFormat.OpenAI:
                 return [
                     {"role": self._role.value,

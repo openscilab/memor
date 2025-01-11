@@ -7,6 +7,7 @@ class MemorValidationError(ValueError):
 
     pass
 
+
 class MemorRenderError(Exception):
     """Memor render error class."""
 
