@@ -56,6 +56,11 @@ class Prompt:
         :type file_path: str
         :return: None
         """
+        self._temperature = None
+        self._model = None
+        self._role = Role.DEFAULT
+        self._template = DEFAULT_TEMPLATE
+        self._responses = []
         if file_path:
             self.load(file_path)
         if message:
@@ -210,7 +215,10 @@ class Prompt:
         :type render_format: PromptRenderFormat object
         :return: rendered prompt
         """
+        format_kwargs = {"temperature": self._temperature, "role": self._role.value, "model": self._model, "message": self._message, "date": self._date}
+        for index, response in enumerate(self._responses):
+            format_kwargs.update({"response_{index}".format(index = index): response})
         if render_format == PromptRenderFormat.OpenAI:
             return [
                 {"role": self._role.value,
-                 "content": self.template._content.format(message=self._message)}]
+                 "content": self._template._content.format(**format_kwargs)}]
