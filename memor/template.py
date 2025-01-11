@@ -86,6 +86,7 @@ class CustomPromptTemplate:
                 self._title = loaded_obj["title"]
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+                self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             except Exception:
                 raise MemorValidationError(INVALID_TEMPLATE_FILE_MESSAGE)
 
