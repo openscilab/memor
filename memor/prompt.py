@@ -3,6 +3,7 @@
 import enum
 import datetime
 import json
+from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
@@ -68,6 +69,7 @@ class Prompt:
         self._date = get_time_utc()
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
+        self._memor_version = MEMOR_VERSION
         if file_path:
             self.load(file_path)
         else:
@@ -180,6 +182,7 @@ class Prompt:
                 self._role = Role(loaded_obj["role"])
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
+                self._memor_version = loaded_obj["memor_version"]
                 self._date = datetime.datetime.strptime(loaded_obj["date"], DATE_TIME_FORMAT)
             except Exception:
                 raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
@@ -197,6 +200,7 @@ class Prompt:
             "temperature": self._temperature,
             "model": self._model,
             "date": self._date,
+            "memor_version": MEMOR_VERSION,
             "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
             "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
         }
