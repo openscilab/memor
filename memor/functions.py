@@ -108,7 +108,7 @@ def validate_prompt_message(message):
     return _validate_string(message, "message")
 
 
-def validate_prompt_responses(responses):
+def validate_prompt_responses(responses): #TODO: Here we need to check that all of the list items are str or not.
     """Validate prompt responses.
 
     :param responses: responses
@@ -118,7 +118,7 @@ def validate_prompt_responses(responses):
     return _validate_list(responses, "responses")
 
 
-def validate_prompt_temperature(temperature):
+def validate_prompt_temperature(temperature): #TODO: Temperature >= 0
     """Validate prompt temperature.
 
     :param temperature: temperature
