@@ -6,7 +6,8 @@ import json
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE
-from .errors import MemorValidationError
+from .params import PROMPT_RENDER_ERROR_MESSAGE
+from .errors import MemorValidationError, MemorRenderError
 from .functions import validate_path, validate_prompt_message
 from .functions import validate_prompt_responses
 from .functions import validate_prompt_temperature, validate_prompt_model
@@ -37,7 +38,7 @@ class Prompt:
             file_path=None):
         """
         Prompt object initiator.
-        
+
         :param message: prompt message
         :type message: str
         :param responses: prompt responses
@@ -56,6 +57,12 @@ class Prompt:
         :type file_path: str
         :return: None
         """
+        self._message = None
+        self._temperature = None
+        self._model = None
+        self._role = Role.DEFAULT
+        self._template = DEFAULT_TEMPLATE
+        self._responses = []
         if file_path:
             self.load(file_path)
         if message:
@@ -72,11 +79,11 @@ class Prompt:
             self.update_template(template)
         if date:
             self._date = date
-        
+
     def add_response(self, response, index=None):
         """
         Add a response to the prompt object.
-        
+
         :param response: response
         :type response: str
         :param index: index
@@ -91,7 +98,7 @@ class Prompt:
     def remove_response(self, index):
         """
         Remove a response from the prompt object.
-        
+
         :param index: index
         :type index: int
         :return: None
@@ -177,30 +184,34 @@ class Prompt:
             "model": self._model,
             "date": str(self._date)
         }
-    
+
     @property
     def message(self):
         return self._message
-    
+
     @property
     def responses(self):
         return self._responses
-    
+
     @property
     def role(self):
         return self._role
-    
+
     @property
     def temperature(self):
         return self._temperature
-    
+
     @property
     def model(self):
         return self._model
-    
+
     @property
     def date(self):
         return self._date
+
+    @property
+    def template(self):
+        return self._template
 
     def render(self, render_format=PromptRenderFormat.OpenAI):
         """
@@ -210,7 +221,18 @@ class Prompt:
         :type render_format: PromptRenderFormat object
         :return: rendered prompt
         """
-        if render_format == PromptRenderFormat.OpenAI:
-            return [
-                {"role": self._role.value,
-                 "content": self.template._content.format(message=self._message)}]
+        try:
+            format_kwargs = {
+                "temperature": self._temperature,
+                "role": self._role.value,
+                "model": self._model,
+                "message": self._message,
+                "date": self._date}
+            for index, response in enumerate(self._responses):
+                format_kwargs.update({"response_{index}".format(index=index): response})
+            if render_format == PromptRenderFormat.OpenAI:
+                return [
+                    {"role": self._role.value,
+                     "content": self._template._content.format(**format_kwargs)}]
+        except Exception:
+            raise MemorRenderError(PROMPT_RENDER_ERROR_MESSAGE)

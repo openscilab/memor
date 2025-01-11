@@ -56,7 +56,7 @@ def _validate_list(value, parameter_name):
 def _validate_float(value, parameter_name):
     """
     Validate float.
-    
+
     :param value: value
     :type value: Any
     :param parameter_name: parameter name
@@ -116,6 +116,7 @@ def validate_prompt_temperature(temperature):
     :return: True if temperature is valid
     """
     return _validate_float(temperature, "temperature")
+
 
 def validate_prompt_model(model):
     """Validate prompt model.

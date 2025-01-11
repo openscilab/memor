@@ -12,6 +12,7 @@ INVALID_TEMPLATE_MESSAGE = "Invalid template. It must be an instance of `CustomP
 INVALID_ROLE_MESSAGE = "Invalid role. It must be an instance of Role enum."
 INVALID_TEMPLATE_FILE_MESSAGE = "Invalid template file. It should be a JSON file with proper fields."
 INVALID_PROMPT_FILE_MESSAGE = "Invalid prompt file. It should be a JSON file with proper fields."
+PROMPT_RENDER_ERROR_MESSAGE = "Prompt template and properties are incompatible."
 DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."
 
 
