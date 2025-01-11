@@ -67,20 +67,21 @@ class Prompt:
         self._responses = []
         if file_path:
             self.load(file_path)
-        if message:
-            self.update_message(message)
-        if model:
-            self.update_model(model)
-        if temperature:
-            self.update_temperature(temperature)
-        if role:
-            self.update_role(role)
-        if responses:
-            self.update_responses(responses)
-        if template:
-            self.update_template(template)
-        if date:
-            self._date = date
+        else:
+            if message:
+                self.update_message(message)
+            if model:
+                self.update_model(model)
+            if temperature:
+                self.update_temperature(temperature)
+            if role:
+                self.update_role(role)
+            if responses:
+                self.update_responses(responses)
+            if template:
+                self.update_template(template)
+            if date:
+                self._date = date
 
     def add_response(self, response, index=None):
         """

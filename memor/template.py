@@ -32,10 +32,11 @@ class CustomPromptTemplate:
         self._memor_version = memor_version
         if file_path:
             self.load(file_path)
-        if title:
-            self.update_title(title)
-        if content:
-            self.update_content(content)
+        else:
+            if title:
+                self.update_title(title)
+            if content:
+                self.update_content(content)
 
     def __str__(self):
         return self._content
