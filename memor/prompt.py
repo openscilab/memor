@@ -184,6 +184,8 @@ class Prompt:
                 self._model = loaded_obj["model"]
                 self._memor_version = loaded_obj["memor_version"]
                 self._date = datetime.datetime.strptime(loaded_obj["date"], DATE_TIME_FORMAT)
+                self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+                self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             except Exception:
                 raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
 
