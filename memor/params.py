@@ -21,4 +21,8 @@ DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."
 class PromptRenderFormat(Enum):
     """Prompt render format."""
 
-    OpenAI = "OpenAI"
+    STRING = "STRING"
+    AISUITE = "AISUITE"
+    DICTIONARY = "DICTIONARY"
+    DEFAULT = STRING
+
