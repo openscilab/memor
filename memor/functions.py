@@ -29,7 +29,7 @@ def validate_path(path):
     if not isinstance(path, str):
         raise MemorValidationError(INVALID_PATH_MESSAGE)
     if not os.path.exists(path):
-        raise MemorValidationError(PATH_DOES_NOT_EXIST_MESSAGE)
+        raise MemorValidationError(PATH_DOES_NOT_EXIST_MESSAGE) # TODO: Error type --> `FileNotFoundError`
     return True
 
 

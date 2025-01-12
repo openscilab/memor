@@ -15,7 +15,7 @@ from .functions import validate_template_content, validate_template_title
 class CustomPromptTemplate:
     """Prompt template."""
 
-    def __init__(self, content=None, file_path=None, title="unknown"):
+    def __init__(self, content=None, file_path=None, title="unknown"): # TODO: Add `custom_map` argument
         """
         Template object initiator.
 
