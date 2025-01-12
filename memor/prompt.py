@@ -253,9 +253,18 @@ class Prompt:
                 "date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             for index, response in enumerate(self._responses):
                 format_kwargs.update({"response_{index}".format(index=index): response})
-            if render_format == PromptRenderFormat.OpenAI:
+            content = self._template._content.format(**format_kwargs)
+            prompt_dict = self.to_dict()
+            prompt_dict["content"] = content
+            if render_format == PromptRenderFormat.AISUITE:
                 return [
                     {"role": self._role.value,
-                     "content": self._template._content.format(**format_kwargs)}]
+                     "content": content}]
+            if render_format == PromptRenderFormat.STRING:
+                return content
+            if render_format == PromptRenderFormat.DICTIONARY:
+                return promptt_dict
+            if render_format == PromptRenderFormat.ITEMS:
+                return list(prompt_dict.items())
         except Exception:
             raise MemorRenderError(PROMPT_RENDER_ERROR_MESSAGE)
