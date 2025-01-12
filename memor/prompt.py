@@ -147,7 +147,7 @@ class Prompt:
         self._template = template
         self._date_modified = get_time_utc()
 
-    def save(self, file_path): # TODO: It seems we should have an option to save/load template in/from the prompt file
+    def save(self, file_path):  # TODO: It seems we should have an option to save/load template in/from the prompt file
         """
         Save method.
 
@@ -164,7 +164,7 @@ class Prompt:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path): # TODO: It seems we should have an option to save/load template in/from the prompt file
+    def load(self, file_path):  # TODO: It seems we should have an option to save/load template in/from the prompt file
         """
         Load method.
 
@@ -236,7 +236,7 @@ class Prompt:
     def template(self):
         return self._template
 
-    def render(self, render_format=PromptRenderFormat.DEFAULT): # TODO: Validate `render_format`
+    def render(self, render_format=PromptRenderFormat.DEFAULT):  # TODO: Validate `render_format`
         """
         Render method.
 

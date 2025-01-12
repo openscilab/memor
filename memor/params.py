@@ -26,4 +26,3 @@ class PromptRenderFormat(Enum):
     DICTIONARY = "DICTIONARY"
     ITEMS = "ITEMS"
     DEFAULT = STRING
-
