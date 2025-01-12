@@ -24,5 +24,6 @@ class PromptRenderFormat(Enum):
     STRING = "STRING"
     AISUITE = "AISUITE"
     DICTIONARY = "DICTIONARY"
+    ITEMS = "ITEMS"
     DEFAULT = STRING
 
