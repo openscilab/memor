@@ -263,7 +263,7 @@ class Prompt:
             if render_format == PromptRenderFormat.STRING:
                 return content
             if render_format == PromptRenderFormat.DICTIONARY:
-                return promptt_dict
+                return prompt_dict
             if render_format == PromptRenderFormat.ITEMS:
                 return list(prompt_dict.items())
         except Exception:
