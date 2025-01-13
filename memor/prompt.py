@@ -9,6 +9,7 @@ from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE
+from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import validate_path, validate_prompt_message
@@ -147,7 +148,7 @@ class Prompt:
         self._template = template
         self._date_modified = get_time_utc()
 
-    def save(self, file_path):  # TODO: It seems we should have an option to save/load template in/from the prompt file
+    def save(self, file_path):
         """
         Save method.
 
@@ -164,7 +165,7 @@ class Prompt:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path):  # TODO: It seems we should have an option to save/load template in/from the prompt file
+    def load(self, file_path):
         """
         Load method.
 
@@ -181,6 +182,7 @@ class Prompt:
                 self._role = Role(loaded_obj["role"])
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
+                self._template = CustomPromptTemplate(**loaded_obj["template"])
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
@@ -199,6 +201,7 @@ class Prompt:
             "role": str(self._role),
             "temperature": self._temperature,
             "model": self._model,
+            "template": self._template.to_dict(),
             "memor_version": MEMOR_VERSION,
             "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
             "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
@@ -236,7 +239,7 @@ class Prompt:
     def template(self):
         return self._template
 
-    def render(self, render_format=PromptRenderFormat.DEFAULT):  # TODO: Validate `render_format`
+    def render(self, render_format=PromptRenderFormat.DEFAULT):
         """
         Render method.
 
@@ -244,6 +247,8 @@ class Prompt:
         :type render_format: PromptRenderFormat object
         :return: rendered prompt
         """
+        if not isinstance(render_format, PromptRenderFormat):
+            raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
             format_kwargs = {
                 "temperature": self._temperature,

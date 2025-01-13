@@ -6,6 +6,7 @@ from .params import INVALID_PATH_MESSAGE, INVALID_NONSTR_VALUE_MESSAGE
 from .params import INVALID_NON_POSFLOAT_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_STR_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
+from .params import INVALID_COSUTOM_MAP_MESSAGE
 from .errors import MemorValidationError
 
 
@@ -29,7 +30,7 @@ def validate_path(path):
     if not isinstance(path, str):
         raise MemorValidationError(INVALID_PATH_MESSAGE)
     if not os.path.exists(path):
-        raise MemorValidationError(PATH_DOES_NOT_EXIST_MESSAGE)  # TODO: Error type --> `FileNotFoundError`
+        raise FileNotFoundError(PATH_DOES_NOT_EXIST_MESSAGE.format(path))
     return True
 
 
@@ -140,3 +141,19 @@ def validate_prompt_model(model):
     :return: True if model is valid
     """
     return _validate_string(model, "model")
+
+def validate_custom_map(custom_map):
+    """Validate custom map.
+
+    :param custom_map: custom map
+    :type custom_map: Any
+    :return: True if custom map is valid
+    """
+    if not isinstance(custom_map, dict):
+        raise MemorValidationError(INVALID_COSUTOM_MAP_MESSAGE)
+    try:
+        for k, v in custom_map.items():
+            str(k), str(v)
+    except Exception:
+        raise MemorValidationError(INVALID_COSUTOM_MAP_MESSAGE)
+    return True
