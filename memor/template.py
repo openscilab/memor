@@ -8,14 +8,14 @@ from .params import INVALID_TEMPLATE_FILE_MESSAGE
 from .params import MEMOR_VERSION
 from .errors import MemorValidationError
 from .functions import get_time_utc
-from .functions import validate_path
+from .functions import validate_path, validate_custom_map
 from .functions import validate_template_content, validate_template_title
 
 
 class CustomPromptTemplate:
     """Prompt template."""
 
-    def __init__(self, content=None, file_path=None, title="unknown"):  # TODO: Add `custom_map` argument
+    def __init__(self, content=None, file_path=None, title="unknown", custom_map=None):
         """
         Template object initiator.
 
@@ -25,6 +25,8 @@ class CustomPromptTemplate:
         :type file_path: str
         :param title: template title
         :type title: str
+        :param custom_map: custom map
+        :type custom_map: dict
         """
 
         self._content = None
@@ -32,6 +34,7 @@ class CustomPromptTemplate:
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
+        self._custom_map = None
         if file_path:
             self.load(file_path)
         else:
@@ -39,6 +42,8 @@ class CustomPromptTemplate:
                 self.update_title(title)
             if content:
                 self.update_content(content)
+            if custom_map:
+                self.update_map(custom_map)
 
     def __str__(self):
         return self._content
@@ -51,6 +56,11 @@ class CustomPromptTemplate:
     def update_content(self, content):
         validate_template_content(content)
         self._content = content
+        self._date_modified = get_time_utc()
+    
+    def update_map(self, custom_map):
+        validate_custom_map(custom_map)
+        self._custom_map = custom_map
         self._date_modified = get_time_utc()
 
     def save(self, file_path):
@@ -85,6 +95,7 @@ class CustomPromptTemplate:
                 self._content = loaded_obj["content"]
                 self._title = loaded_obj["title"]
                 self._memor_version = loaded_obj["memor_version"]
+                self._custom_map = loaded_obj["custom_map"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             except Exception:
@@ -100,6 +111,7 @@ class CustomPromptTemplate:
             "title": self._title,
             "content": self._content,
             "memor_version": MEMOR_VERSION,
+            "custom_map": self._custom_map,
             "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
             "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
         }
@@ -119,6 +131,10 @@ class CustomPromptTemplate:
     @property
     def date_modified(self):
         return self._date_modified
+    
+    @property
+    def custom_map(self):
+        return self._custom_map
 
 
 DEFAULT_TEMPLATE_CONTENT = "{message}"
