@@ -147,7 +147,7 @@ class Prompt:
         self._template = template
         self._date_modified = get_time_utc()
 
-    def save(self, file_path):
+    def save(self, file_path):  # TODO: It seems we should have an option to save/load template in/from the prompt file
         """
         Save method.
 
@@ -164,7 +164,7 @@ class Prompt:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path):
+    def load(self, file_path):  # TODO: It seems we should have an option to save/load template in/from the prompt file
         """
         Load method.
 
@@ -236,7 +236,7 @@ class Prompt:
     def template(self):
         return self._template
 
-    def render(self, render_format=PromptRenderFormat.OpenAI):
+    def render(self, render_format=PromptRenderFormat.DEFAULT):  # TODO: Validate `render_format`
         """
         Render method.
 
@@ -253,9 +253,18 @@ class Prompt:
                 "date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             for index, response in enumerate(self._responses):
                 format_kwargs.update({"response_{index}".format(index=index): response})
-            if render_format == PromptRenderFormat.OpenAI:
+            content = self._template._content.format(**format_kwargs)
+            prompt_dict = self.to_dict()
+            prompt_dict["content"] = content
+            if render_format == PromptRenderFormat.AISUITE:
                 return [
                     {"role": self._role.value,
-                     "content": self._template._content.format(**format_kwargs)}]
+                     "content": content}]
+            if render_format == PromptRenderFormat.STRING:
+                return content
+            if render_format == PromptRenderFormat.DICTIONARY:
+                return prompt_dict
+            if render_format == PromptRenderFormat.ITEMS:
+                return list(prompt_dict.items())
         except Exception:
             raise MemorRenderError(PROMPT_RENDER_ERROR_MESSAGE)
