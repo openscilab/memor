@@ -24,7 +24,7 @@ def _validate_string(value, parameter_name):
     Validate string.
 
     :param value: value
-    :type value: Any
+    :type value: any
     :param parameter_name: parameter name
     :type parameter_name: str
     :return: True if value is a string
@@ -39,7 +39,7 @@ def _validate_pos_float(value, parameter_name):
     Validate positive float.
 
     :param value: value
-    :type value: Any
+    :type value: any
     :param parameter_name: parameter name
     :type parameter_name: str
     :return: True if value is a positive float
@@ -54,7 +54,7 @@ def _validate_list_of_str(value, parameter_name):
     Validate list of strings.
 
     :param value: value
-    :type value: Any
+    :type value: any
     :param parameter_name: parameter name
     :type parameter_name: str
     :return: True if value is a list of strings
@@ -73,7 +73,7 @@ def validate_path(path):
     Validate path property.
 
     :param path: path
-    :type path: Any
+    :type path: any
     :return: True if path is a string and exists
     """
     if not isinstance(path, str):
@@ -88,7 +88,7 @@ def validate_template_title(title):
     Validate title property in CustomPromptTemplate class.
 
     :param title: title
-    :type title: Any
+    :type title: any
     :return: True if title is valid
     """
     return _validate_string(title, "title")
@@ -99,7 +99,7 @@ def validate_template_content(content):
     Validate content property in CustomPromptTemplate class.
 
     :param content: content
-    :type content: Any
+    :type content: any
     :return: True if content is valid
     """
     return _validate_string(content, "content")
@@ -110,7 +110,7 @@ def validate_custom_map(custom_map):
     Validate custom map property in CustomPromptTemplate class.
 
     :param custom_map: custom map
-    :type custom_map: Any
+    :type custom_map: any
     :return: True if custom map is a dictionary with keys and values that can be converted to strings
     """
     if not isinstance(custom_map, dict):
@@ -128,7 +128,7 @@ def validate_prompt_message(message):
     Validate message property in Prompt class.
 
     :param message: message
-    :type message: Any
+    :type message: any
     :return: True if message is valid
     """
     return _validate_string(message, "message")
@@ -139,7 +139,7 @@ def validate_prompt_responses(responses):
     Validate responses property in Prompt class.
 
     :param responses: responses
-    :type responses: Any
+    :type responses: any
     :return: True if responses is valid
     """
     return _validate_list_of_str(responses, "responses")
@@ -150,7 +150,7 @@ def validate_prompt_temperature(temperature):
     Validate temperature property in Prompt class.
 
     :param temperature: temperature
-    :type temperature: Any
+    :type temperature: any
     :return: True if temperature is valid
     """
     return _validate_pos_float(temperature, "temperature")
@@ -161,7 +161,7 @@ def validate_prompt_model(model):
     Validate model property in Prompt class.
 
     :param model: model
-    :type model: Any
+    :type model: any
     :return: True if model is valid
     """
     return _validate_string(model, "model")
