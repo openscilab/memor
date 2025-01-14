@@ -13,7 +13,7 @@ from .functions import validate_template_content, validate_template_title
 
 
 class CustomPromptTemplate:
-    """
+    r"""
     Prompt template.
     
     >>> template = CustomPromptTemplate(content="Take a deep breath\n{message}!", title="Greeting")
@@ -57,9 +57,7 @@ class CustomPromptTemplate:
                 self.update_map(custom_map)
 
     def __str__(self):
-        """
-        String representation of CustomPromptTemplate.
-        """
+        """Return string representation of CustomPromptTemplate."""
         return self._content
 
     def update_title(self, title):

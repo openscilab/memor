@@ -19,9 +19,7 @@ from .template import DEFAULT_TEMPLATE, CustomPromptTemplate
 
 
 class Role(enum.Enum):
-    """
-    Role enum.
-    """
+    """Role enum."""
 
     SYSTEM = "system"
     USER = "user"

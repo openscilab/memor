@@ -3,16 +3,12 @@
 
 
 class MemorValidationError(ValueError):
-    """
-    Base class for validation errors in Memor.
-    """
+    """Base class for validation errors in Memor."""
 
     pass
 
 
 class MemorRenderError(Exception):
-    """
-    Base class for render error in Memor.
-    """
+    """Base class for render error in Memor."""
 
     pass
