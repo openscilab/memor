@@ -204,7 +204,6 @@ class CustomPromptTemplate:
         return self._custom_map
 
 
-
 class PresetPromptTemplate(Enum):
     """Preset prompt template enum."""
 
@@ -219,8 +218,7 @@ class PresetPromptTemplate(Enum):
     )
     IMR = CustomPromptTemplate(
         content="### Instruction: This is a message and response prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}",
-        title="IMR"
-    )
+        title="IMR")
     IMRM = CustomPromptTemplate(
         content="### Instruction: This is a message, response, and model prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}",
         title="IMRM"
@@ -231,8 +229,7 @@ class PresetPromptTemplate(Enum):
     )
     IMRD = CustomPromptTemplate(
         content="### Instruction: This is a message, response, and date prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nDate: {date}",
-        title="IMRD"
-    )
+        title="IMRD")
     IMRMD = CustomPromptTemplate(
         content="### Instruction: This is a message, response, model, and date prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}\nDate: {date}",
         title="IMRMD"
@@ -251,16 +248,13 @@ class PresetPromptTemplate(Enum):
     )
     IMT = CustomPromptTemplate(
         content="### Instruction: This is a message and temperature prompt loaded for memory initialization.\nMessage: {message}\nTemperature: {temperature}",
-        title="IMT"
-    )
+        title="IMT")
     IRT = CustomPromptTemplate(
         content="### Instruction: This is a response and temperature prompt loaded for memory initialization.\nResponse: {response_0}\nTemperature: {temperature}",
-        title="IRT"
-    )
+        title="IRT")
     IMDR = CustomPromptTemplate(
         content="### Instruction: This is a message, date, and role prompt loaded for memory initialization.\nMessage: {message}\nDate: {date}\nRole: {role}",
-        title="IMDR"
-    )
+        title="IMDR")
     IALL = CustomPromptTemplate(
         content="### Instruction: This is a complete prompt with all parameters loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}\nRole: {role}",
         title="IALL"
@@ -305,8 +299,7 @@ class PresetPromptTemplate(Enum):
     )
     MRMTDR = CustomPromptTemplate(
         content="Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}\nRole: {role}",
-        title="MRMTDR"
-    )
+        title="MRMTDR")
     MT = CustomPromptTemplate(
         content="Message: {message}\nTemperature: {temperature}",
         title="MT"
@@ -321,6 +314,4 @@ class PresetPromptTemplate(Enum):
     )
     ALL = CustomPromptTemplate(
         content="Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}\nRole: {role}",
-        title="ALL"
-    )
-
+        title="ALL")
