@@ -14,7 +14,7 @@ def get_time_utc():
     """
     Get time in UTC format.
 
-    :return: UTC format time in datetime object
+    :return: UTC format time as a datetime object
     """
     return datetime.datetime.now(datetime.timezone.utc)
 
