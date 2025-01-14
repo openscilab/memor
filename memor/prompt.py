@@ -61,7 +61,7 @@ class Prompt:
         :param model: prompt model
         :type model: str
         :param template: prompt template
-        :type template: CustomPromptTemplate object
+        :type template: CustomPromptTemplate/PresetPromptTemplate object
         :param date: prompt date
         :type date: datetime.datetime
         :param file_path: prompt file path
@@ -188,7 +188,7 @@ class Prompt:
         Update the prompt template.
 
         :param template: template
-        :type template: CustomPromptTemplate object
+        :type template: CustomPromptTemplate/PresetPromptTemplate object
         :return: None
         """
         if not isinstance(template, (CustomPromptTemplate, PresetPromptTemplate)):
