@@ -28,7 +28,14 @@ class Role(enum.Enum):
 
 
 class Prompt:
-    """Prompt class."""
+    """
+    Prompt class.
+    
+    >>> from memor import Prompt, Role
+    >>> prompt = Prompt(message="Hello, how are you?", responses=["I am fine."], role=Role.USER)
+    >>> prompt.message
+    'Hello, how are you?'
+    """
 
     def __init__(
             self,
@@ -116,50 +123,96 @@ class Prompt:
         self._date_modified = get_time_utc()
 
     def update_responses(self, responses):
+        """
+        Update the prompt responses.
+        
+        :param responses: responses
+        :type responses: list
+        :return: None
+        """
         validate_prompt_responses(responses)
         self._responses = responses
         self._date_modified = get_time_utc()
 
     def update_message(self, message):
-        """Update the prompt message."""
+        """
+        Update the prompt message.
+        
+        :param message: message
+        :type message: str
+        :return: None
+        """
         validate_prompt_message(message)
         self._message = message
         self._date_modified = get_time_utc()
 
     def update_role(self, role):
+        """
+        Update the prompt role.
+
+        :param role: role
+        :type role: Role object
+        :return: None
+        """
         if not isinstance(role, Role):
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
         self._date_modified = get_time_utc()
 
     def update_temperature(self, temperature):
+        """
+        Update the prompt temperature.
+
+        :param temperature: temperature
+        :type temperature: float
+        :return: None
+        """
         validate_prompt_temperature(temperature)
         self._temperature = temperature
         self._date_modified = get_time_utc()
 
     def update_model(self, model):
+        """
+        Update the prompt model.
+
+        :param model: model
+        :type model: str
+        :return: None
+        """
         validate_prompt_model(model)
         self._model = model
         self._date_modified = get_time_utc()
 
     def update_template(self, template):
+        """
+        Update the prompt template.
+
+        :param template: template
+        :type template: CustomPromptTemplate object
+        :return: None
+        """
         if not isinstance(template, CustomPromptTemplate):
             raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
         self._template = template
         self._date_modified = get_time_utc()
 
-    def save(self, file_path):
+    def save(self, file_path, save_template=True):
         """
         Save method.
 
         :param file_path: prompt file path
         :type file_path: str
+        :param save_template: save template flag
+        :type save_template: bool
         :return: result as dict
         """
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
             with open(file_path, "w") as file:
-                file.write(self.to_json())
+                data = self.to_dict()
+                if not save_template:
+                    del data["template"]
+                file.write(json.dumps(data, indent=4))
         except Exception as e:
             result["status"] = False
             result["message"] = str(e)
@@ -171,7 +224,7 @@ class Prompt:
 
         :param file_path: prompt file path
         :type file_path: str
-        :return: result as dict
+        :return: None
         """
         validate_path(file_path)
         with open(file_path, "r") as file:
@@ -182,7 +235,9 @@ class Prompt:
                 self._role = Role(loaded_obj["role"])
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
-                self._template = CustomPromptTemplate(**loaded_obj["template"])
+                self._template = DEFAULT_TEMPLATE
+                if "template" in loaded_obj:
+                    self._template = CustomPromptTemplate(**loaded_obj["template"])
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
@@ -190,11 +245,19 @@ class Prompt:
                 raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
 
     def to_json(self):
-        """Convert the prompt to a JSON object."""
+        """
+        Convert the prompt to a JSON object.
+        
+        :return: JSON object
+        """
         return json.dumps(self.to_dict(), indent=4)
 
     def to_dict(self):
-        """Convert the prompt to a dictionary."""
+        """
+        Convert the prompt to a dictionary.
+        
+        :return: dict
+        """
         return {
             "message": self._message,
             "responses": self._responses,
@@ -209,34 +272,74 @@ class Prompt:
 
     @property
     def message(self):
+        """
+        Get the prompt message.
+        
+        :return: prompt message
+        """
         return self._message
 
     @property
     def responses(self):
+        """
+        Get the prompt responses.
+
+        :return: prompt responses
+        """
         return self._responses
 
     @property
     def role(self):
+        """
+        Get the prompt role.
+
+        :return: prompt role
+        """
         return self._role
 
     @property
     def temperature(self):
+        """
+        Get the prompt temperature.
+
+        :return: prompt temperature
+        """
         return self._temperature
 
     @property
     def model(self):
+        """
+        Get the prompt model.
+
+        :return: prompt model
+        """
         return self._model
 
     @property
     def date_created(self):
+        """
+        Get the prompt creation date.
+
+        :return: prompt creation date
+        """
         return self._date_created
 
     @property
     def date_modified(self):
+        """
+        Get the prompt object modification date.
+
+        :return: prompt object modification date
+        """
         return self._date_modified
 
     @property
     def template(self):
+        """
+        Get the prompt template.
+
+        :return: prompt template
+        """
         return self._template
 
     def render(self, render_format=PromptRenderFormat.DEFAULT):
