@@ -15,7 +15,7 @@ from .functions import get_time_utc
 from .functions import validate_path, validate_prompt_message
 from .functions import validate_prompt_responses
 from .functions import validate_prompt_temperature, validate_prompt_model
-from .template import DEFAULT_TEMPLATE, CustomPromptTemplate
+from .template import CustomPromptTemplate, PresetPromptTemplate
 
 
 class Role(enum.Enum):
@@ -44,7 +44,7 @@ class Prompt:
             role=Role.DEFAULT,
             temperature=None,
             model=None,
-            template=DEFAULT_TEMPLATE,
+            template=PresetPromptTemplate.DEFAULT,
             date=get_time_utc(),
             file_path=None):
         """
@@ -72,7 +72,7 @@ class Prompt:
         self._temperature = None
         self._model = None
         self._role = Role.DEFAULT
-        self._template = DEFAULT_TEMPLATE
+        self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
@@ -191,9 +191,12 @@ class Prompt:
         :type template: CustomPromptTemplate object
         :return: None
         """
-        if not isinstance(template, CustomPromptTemplate):
+        if not isinstance(template, (CustomPromptTemplate, PresetPromptTemplate)):
             raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
-        self._template = template
+        if isinstance(template, CustomPromptTemplate):
+            self._template = template
+        if isinstance(template, PresetPromptTemplate):
+            self._template = template.value
         self._date_modified = get_time_utc()
 
     def save(self, file_path, save_template=True):
@@ -235,7 +238,7 @@ class Prompt:
                 self._role = Role(loaded_obj["role"])
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
-                self._template = DEFAULT_TEMPLATE
+                self._template = PresetPromptTemplate.DEFAULT.value
                 if "template" in loaded_obj:
                     self._template = CustomPromptTemplate(**loaded_obj["template"])
                 self._memor_version = loaded_obj["memor_version"]
