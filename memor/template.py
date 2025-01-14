@@ -213,6 +213,7 @@ ALL_TEMPLATE_CONTENT = "Message: {message}\nResponse: {response_0}\nModel: {mode
 
 
 class PresetPromptTemplate(Enum):
+    """Preset prompt template enum."""
     MESSAGE = CustomPromptTemplate(content=MESSAGE_TEMPLATE_CONTENT, title="Message")
     RESPONSE = CustomPromptTemplate(content=RESPONSE_TEMPLATE_CONTENT, title="Response")
     MR = CustomPromptTemplate(content=MR_TEMPLATE_CONTENT, title="MR")
