@@ -148,18 +148,23 @@ class Prompt:
         self._template = template
         self._date_modified = get_time_utc()
 
-    def save(self, file_path):
+    def save(self, file_path, save_template=True):
         """
         Save method.
 
         :param file_path: prompt file path
         :type file_path: str
+        :param save_template: save template flag
+        :type save_template: bool
         :return: result as dict
         """
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
             with open(file_path, "w") as file:
-                file.write(self.to_json())
+                data = self.to_dict()
+                if not save_template:
+                    del data["template"]
+                file.write(json.dumps(data, indent=4))
         except Exception as e:
             result["status"] = False
             result["message"] = str(e)
@@ -182,7 +187,9 @@ class Prompt:
                 self._role = Role(loaded_obj["role"])
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
-                self._template = CustomPromptTemplate(**loaded_obj["template"])
+                self._template = DEFAULT_TEMPLATE
+                if "template" in loaded_obj:
+                    self._template = CustomPromptTemplate(**loaded_obj["template"])
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
