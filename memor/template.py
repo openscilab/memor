@@ -2,6 +2,7 @@
 """Template class."""
 import json
 import datetime
+from enum import Enum
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_TEMPLATE_FILE_MESSAGE
@@ -203,5 +204,19 @@ class CustomPromptTemplate:
         return self._custom_map
 
 
-DEFAULT_TEMPLATE_CONTENT = "{message}"
-DEFAULT_TEMPLATE = CustomPromptTemplate(content=DEFAULT_TEMPLATE_CONTENT)
+MESSAGE_TEMPLATE_CONTENT = "{message}"
+RESPONSE_TEMPLATE_CONTENT = "{response_0}"
+MR_TEMPLATE_CONTENT = "Message: {message}\nResponse: {response_0}"
+MRM_TEMPLATE_CONTENT = "Message: {message}\nResponse: {response_0}\nModel: {model}"
+MRMT_TEMPLATE_CONTENT = "Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}"
+ALL_TEMPLATE_CONTENT = "Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}"
+
+
+class PresetPromptTemplate(Enum):
+    MESSAGE = CustomPromptTemplate(content=MESSAGE_TEMPLATE_CONTENT, title="Message")
+    RESPONSE = CustomPromptTemplate(content=RESPONSE_TEMPLATE_CONTENT, title="Response")
+    MR = CustomPromptTemplate(content=MR_TEMPLATE_CONTENT, title="MR")
+    MRM = CustomPromptTemplate(content=MRM_TEMPLATE_CONTENT, title="MRM")
+    MRMT = CustomPromptTemplate(content=MRMT_TEMPLATE_CONTENT, title="MRMT")
+    ALL = CustomPromptTemplate(content=ALL_TEMPLATE_CONTENT, title="All")
+    DEFAULT = MESSAGE
