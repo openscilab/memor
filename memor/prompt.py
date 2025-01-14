@@ -30,7 +30,7 @@ class Role(enum.Enum):
 class Prompt:
     """
     Prompt class.
-    
+
     >>> from memor import Prompt, Role
     >>> prompt = Prompt(message="Hello, how are you?", responses=["I am fine."], role=Role.USER)
     >>> prompt.message
@@ -125,7 +125,7 @@ class Prompt:
     def update_responses(self, responses):
         """
         Update the prompt responses.
-        
+
         :param responses: responses
         :type responses: list
         :return: None
@@ -137,7 +137,7 @@ class Prompt:
     def update_message(self, message):
         """
         Update the prompt message.
-        
+
         :param message: message
         :type message: str
         :return: None
@@ -250,7 +250,7 @@ class Prompt:
     def to_json(self):
         """
         Convert the prompt to a JSON object.
-        
+
         :return: JSON object
         """
         return json.dumps(self.to_dict(), indent=4)
@@ -258,7 +258,7 @@ class Prompt:
     def to_dict(self):
         """
         Convert the prompt to a dictionary.
-        
+
         :return: dict
         """
         return {
@@ -277,7 +277,7 @@ class Prompt:
     def message(self):
         """
         Get the prompt message.
-        
+
         :return: prompt message
         """
         return self._message

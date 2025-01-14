@@ -16,7 +16,7 @@ from .functions import validate_template_content, validate_template_title
 class CustomPromptTemplate:
     r"""
     Prompt template.
-    
+
     >>> template = CustomPromptTemplate(content="Take a deep breath\n{message}!", title="Greeting")
     >>> template.title
     'Greeting'
@@ -64,7 +64,7 @@ class CustomPromptTemplate:
     def update_title(self, title):
         """
         Update title.
-        
+
         :param title: title
         :type title: str
         :return: None
@@ -84,7 +84,7 @@ class CustomPromptTemplate:
         validate_template_content(content)
         self._content = content
         self._date_modified = get_time_utc()
-    
+
     def update_map(self, custom_map):
         """
         Update custom map.
@@ -138,7 +138,7 @@ class CustomPromptTemplate:
     def to_json(self):
         """
         Convert CustomPromptTemplate to json.
-        
+
         :return: JSON object
         """
         return json.dumps(self.to_dict(), indent=4)
@@ -162,7 +162,7 @@ class CustomPromptTemplate:
     def content(self):
         """
         Get the CustomPromptTemplate content.
-        
+
         :return: content
         """
         return self._content
@@ -171,7 +171,7 @@ class CustomPromptTemplate:
     def title(self):
         """
         Get the CustomPromptTemplate title.
-        
+
         :return: title
         """
         return self._title
@@ -180,7 +180,7 @@ class CustomPromptTemplate:
     def date_created(self):
         """
         Get the CustomPromptTemplate creation date.
-        
+
         :return: template creation date
         """
         return self._date_created
@@ -193,12 +193,12 @@ class CustomPromptTemplate:
         :return: template modification date
         """
         return self._date_modified
-    
+
     @property
     def custom_map(self):
         """
         Get the CustomPromptTemplate custom map.
-        
+
         :return: custom map
         """
         return self._custom_map
