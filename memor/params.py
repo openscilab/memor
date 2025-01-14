@@ -21,7 +21,9 @@ DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."
 
 
 class PromptRenderFormat(Enum):
-    """Prompt render format."""
+    """
+    Prompt render format.
+    """
 
     STRING = "STRING"
     AISUITE = "AISUITE"
