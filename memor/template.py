@@ -138,7 +138,7 @@ class CustomPromptTemplate:
         """
         Convert CustomPromptTemplate to json.
         
-        :return: json string
+        :return: JSON object
         """
         return json.dumps(self.to_dict(), indent=4)
 
