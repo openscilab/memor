@@ -256,7 +256,7 @@ class Prompt:
         """
         Convert the prompt to a dictionary.
         
-        :return: dictionary
+        :return: dict
         """
         return {
             "message": self._message,
