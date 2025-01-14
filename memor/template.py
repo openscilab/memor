@@ -180,7 +180,7 @@ class CustomPromptTemplate:
         """
         Get the CustomPromptTemplate creation date.
         
-        :return: date_created
+        :return: template creation date
         """
         return self._date_created
 
@@ -189,7 +189,7 @@ class CustomPromptTemplate:
         """
         Get the CustomPromptTemplate modification date.
 
-        :return: date_modified
+        :return: template modification date
         """
         return self._date_modified
     
@@ -198,7 +198,7 @@ class CustomPromptTemplate:
         """
         Get the CustomPromptTemplate custom map.
         
-        :return: custom_map
+        :return: custom map
         """
         return self._custom_map
 
