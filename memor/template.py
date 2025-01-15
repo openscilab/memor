@@ -10,7 +10,7 @@ from .params import MEMOR_VERSION
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import validate_path, validate_custom_map
-from .functions import validate_template_content, validate_template_title
+from .functions import _validate_string
 
 
 class CustomPromptTemplate:
@@ -69,7 +69,7 @@ class CustomPromptTemplate:
         :type title: str
         :return: None
         """
-        validate_template_title(title)
+        _validate_string(title, "title")
         self._title = title
         self._date_modified = get_time_utc()
 
@@ -81,7 +81,7 @@ class CustomPromptTemplate:
         :type content: str
         :return: None
         """
-        validate_template_content(content)
+        _validate_string(content, "content")
         self._content = content
         self._date_modified = get_time_utc()
 
