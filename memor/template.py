@@ -2,6 +2,7 @@
 """Template class."""
 import json
 import datetime
+from enum import Enum
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_TEMPLATE_FILE_MESSAGE
@@ -15,7 +16,7 @@ from .functions import validate_template_content, validate_template_title
 class CustomPromptTemplate:
     r"""
     Prompt template.
-    
+
     >>> template = CustomPromptTemplate(content="Take a deep breath\n{message}!", title="Greeting")
     >>> template.title
     'Greeting'
@@ -63,7 +64,7 @@ class CustomPromptTemplate:
     def update_title(self, title):
         """
         Update title.
-        
+
         :param title: title
         :type title: str
         :return: None
@@ -83,7 +84,7 @@ class CustomPromptTemplate:
         validate_template_content(content)
         self._content = content
         self._date_modified = get_time_utc()
-    
+
     def update_map(self, custom_map):
         """
         Update custom map.
@@ -137,7 +138,7 @@ class CustomPromptTemplate:
     def to_json(self):
         """
         Convert CustomPromptTemplate to json.
-        
+
         :return: JSON object
         """
         return json.dumps(self.to_dict(), indent=4)
@@ -161,7 +162,7 @@ class CustomPromptTemplate:
     def content(self):
         """
         Get the CustomPromptTemplate content.
-        
+
         :return: content
         """
         return self._content
@@ -170,7 +171,7 @@ class CustomPromptTemplate:
     def title(self):
         """
         Get the CustomPromptTemplate title.
-        
+
         :return: title
         """
         return self._title
@@ -179,7 +180,7 @@ class CustomPromptTemplate:
     def date_created(self):
         """
         Get the CustomPromptTemplate creation date.
-        
+
         :return: template creation date
         """
         return self._date_created
@@ -192,16 +193,125 @@ class CustomPromptTemplate:
         :return: template modification date
         """
         return self._date_modified
-    
+
     @property
     def custom_map(self):
         """
         Get the CustomPromptTemplate custom map.
-        
+
         :return: custom map
         """
         return self._custom_map
 
 
-DEFAULT_TEMPLATE_CONTENT = "{message}"
-DEFAULT_TEMPLATE = CustomPromptTemplate(content=DEFAULT_TEMPLATE_CONTENT)
+class PresetPromptTemplate(Enum):
+    """Preset prompt template enum."""
+
+    # With Instruction
+    IMESSAGE = CustomPromptTemplate(
+        content="### Instruction: This is a message prompt loaded for memory initialization.\n{message}",
+        title="IMessage"
+    )
+    IRESPONSE = CustomPromptTemplate(
+        content="### Instruction: This is a response prompt loaded for memory initialization.\n{response_0}",
+        title="IResponse"
+    )
+    IMR = CustomPromptTemplate(
+        content="### Instruction: This is a message and response prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}",
+        title="IMR")
+    IMRM = CustomPromptTemplate(
+        content="### Instruction: This is a message, response, and model prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}",
+        title="IMRM"
+    )
+    IMRMT = CustomPromptTemplate(
+        content="### Instruction: This is a message, response, model, and temperature prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}",
+        title="IMRMT"
+    )
+    IMRD = CustomPromptTemplate(
+        content="### Instruction: This is a message, response, and date prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nDate: {date}",
+        title="IMRD")
+    IMRMD = CustomPromptTemplate(
+        content="### Instruction: This is a message, response, model, and date prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}\nDate: {date}",
+        title="IMRMD"
+    )
+    IMRMTD = CustomPromptTemplate(
+        content="### Instruction: This is a message, response, model, temperature, and date prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}",
+        title="IMRMTD"
+    )
+    IMRMTR = CustomPromptTemplate(
+        content="### Instruction: This is a message, response, model, temperature, and role prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nRole: {role}",
+        title="IMRMTR"
+    )
+    IMRMTDR = CustomPromptTemplate(
+        content="### Instruction: This is a message, response, model, temperature, date, and role prompt loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}\nRole: {role}",
+        title="IMRMTDR"
+    )
+    IMT = CustomPromptTemplate(
+        content="### Instruction: This is a message and temperature prompt loaded for memory initialization.\nMessage: {message}\nTemperature: {temperature}",
+        title="IMT")
+    IRT = CustomPromptTemplate(
+        content="### Instruction: This is a response and temperature prompt loaded for memory initialization.\nResponse: {response_0}\nTemperature: {temperature}",
+        title="IRT")
+    IMDR = CustomPromptTemplate(
+        content="### Instruction: This is a message, date, and role prompt loaded for memory initialization.\nMessage: {message}\nDate: {date}\nRole: {role}",
+        title="IMDR")
+    IALL = CustomPromptTemplate(
+        content="### Instruction: This is a complete prompt with all parameters loaded for memory initialization.\nMessage: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}\nRole: {role}",
+        title="IALL"
+    )
+
+    # Without Instruction
+    MESSAGE = CustomPromptTemplate(
+        content="{message}",
+        title="Message"
+    )
+    RESPONSE = CustomPromptTemplate(
+        content="{response_0}",
+        title="Response"
+    )
+    MR = CustomPromptTemplate(
+        content="Message: {message}\nResponse: {response_0}",
+        title="MR"
+    )
+    MRM = CustomPromptTemplate(
+        content="Message: {message}\nResponse: {response_0}\nModel: {model}",
+        title="MRM"
+    )
+    MRMT = CustomPromptTemplate(
+        content="Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}",
+        title="MRMT"
+    )
+    MRD = CustomPromptTemplate(
+        content="Message: {message}\nResponse: {response_0}\nDate: {date}",
+        title="MRD"
+    )
+    MRMD = CustomPromptTemplate(
+        content="Message: {message}\nResponse: {response_0}\nModel: {model}\nDate: {date}",
+        title="MRMD"
+    )
+    MRMTD = CustomPromptTemplate(
+        content="Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}",
+        title="MRMTD"
+    )
+    MRMTR = CustomPromptTemplate(
+        content="Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nRole: {role}",
+        title="MRMTR"
+    )
+    MRMTDR = CustomPromptTemplate(
+        content="Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}\nRole: {role}",
+        title="MRMTDR")
+    MT = CustomPromptTemplate(
+        content="Message: {message}\nTemperature: {temperature}",
+        title="MT"
+    )
+    RT = CustomPromptTemplate(
+        content="Response: {response_0}\nTemperature: {temperature}",
+        title="RT"
+    )
+    MDR = CustomPromptTemplate(
+        content="Message: {message}\nDate: {date}\nRole: {role}",
+        title="MDR"
+    )
+    ALL = CustomPromptTemplate(
+        content="Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}\nRole: {role}",
+        title="ALL")

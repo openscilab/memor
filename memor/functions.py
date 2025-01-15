@@ -6,7 +6,7 @@ from .params import INVALID_PATH_MESSAGE, INVALID_NONSTR_VALUE_MESSAGE
 from .params import INVALID_NON_POSFLOAT_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_STR_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
-from .params import INVALID_COSUTOM_MAP_MESSAGE
+from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .errors import MemorValidationError
 
 
@@ -114,12 +114,12 @@ def validate_custom_map(custom_map):
     :return: True if custom map is a dictionary with keys and values that can be converted to strings
     """
     if not isinstance(custom_map, dict):
-        raise MemorValidationError(INVALID_COSUTOM_MAP_MESSAGE)
+        raise MemorValidationError(INVALID_CUSTOM_MAP_MESSAGE)
     try:
         for k, v in custom_map.items():
             str(k), str(v)
     except Exception:
-        raise MemorValidationError(INVALID_COSUTOM_MAP_MESSAGE)
+        raise MemorValidationError(INVALID_CUSTOM_MAP_MESSAGE)
     return True
 
 

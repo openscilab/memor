@@ -15,7 +15,7 @@ from .functions import get_time_utc
 from .functions import validate_path, validate_prompt_message
 from .functions import validate_prompt_responses
 from .functions import validate_prompt_temperature, validate_prompt_model
-from .template import DEFAULT_TEMPLATE, CustomPromptTemplate
+from .template import CustomPromptTemplate, PresetPromptTemplate
 
 
 class Role(enum.Enum):
@@ -30,7 +30,7 @@ class Role(enum.Enum):
 class Prompt:
     """
     Prompt class.
-    
+
     >>> from memor import Prompt, Role
     >>> prompt = Prompt(message="Hello, how are you?", responses=["I am fine."], role=Role.USER)
     >>> prompt.message
@@ -44,7 +44,7 @@ class Prompt:
             role=Role.DEFAULT,
             temperature=None,
             model=None,
-            template=DEFAULT_TEMPLATE,
+            template=PresetPromptTemplate.DEFAULT,
             date=get_time_utc(),
             file_path=None):
         """
@@ -61,7 +61,7 @@ class Prompt:
         :param model: prompt model
         :type model: str
         :param template: prompt template
-        :type template: CustomPromptTemplate object
+        :type template: CustomPromptTemplate/PresetPromptTemplate object
         :param date: prompt date
         :type date: datetime.datetime
         :param file_path: prompt file path
@@ -72,7 +72,7 @@ class Prompt:
         self._temperature = None
         self._model = None
         self._role = Role.DEFAULT
-        self._template = DEFAULT_TEMPLATE
+        self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
@@ -125,7 +125,7 @@ class Prompt:
     def update_responses(self, responses):
         """
         Update the prompt responses.
-        
+
         :param responses: responses
         :type responses: list
         :return: None
@@ -137,7 +137,7 @@ class Prompt:
     def update_message(self, message):
         """
         Update the prompt message.
-        
+
         :param message: message
         :type message: str
         :return: None
@@ -188,12 +188,15 @@ class Prompt:
         Update the prompt template.
 
         :param template: template
-        :type template: CustomPromptTemplate object
+        :type template: CustomPromptTemplate/PresetPromptTemplate object
         :return: None
         """
-        if not isinstance(template, CustomPromptTemplate):
+        if not isinstance(template, (CustomPromptTemplate, PresetPromptTemplate)):
             raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
-        self._template = template
+        if isinstance(template, CustomPromptTemplate):
+            self._template = template
+        if isinstance(template, PresetPromptTemplate):
+            self._template = template.value
         self._date_modified = get_time_utc()
 
     def save(self, file_path, save_template=True):
@@ -235,7 +238,7 @@ class Prompt:
                 self._role = Role(loaded_obj["role"])
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
-                self._template = DEFAULT_TEMPLATE
+                self._template = PresetPromptTemplate.DEFAULT.value
                 if "template" in loaded_obj:
                     self._template = CustomPromptTemplate(**loaded_obj["template"])
                 self._memor_version = loaded_obj["memor_version"]
@@ -247,7 +250,7 @@ class Prompt:
     def to_json(self):
         """
         Convert the prompt to a JSON object.
-        
+
         :return: JSON object
         """
         return json.dumps(self.to_dict(), indent=4)
@@ -255,7 +258,7 @@ class Prompt:
     def to_dict(self):
         """
         Convert the prompt to a dictionary.
-        
+
         :return: dict
         """
         return {
@@ -274,7 +277,7 @@ class Prompt:
     def message(self):
         """
         Get the prompt message.
-        
+
         :return: prompt message
         """
         return self._message
