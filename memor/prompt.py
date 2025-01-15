@@ -12,9 +12,8 @@ from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
-from .functions import validate_path, validate_prompt_message
-from .functions import validate_prompt_responses
-from .functions import validate_prompt_temperature, validate_prompt_model
+from .functions import _validate_string, _validate_pos_float, _validate_list_of_str
+from .functions import validate_path
 from .template import CustomPromptTemplate, PresetPromptTemplate
 
 
@@ -130,7 +129,7 @@ class Prompt:
         :type responses: list
         :return: None
         """
-        validate_prompt_responses(responses)
+        _validate_list_of_str(responses, "responses")
         self._responses = responses
         self._date_modified = get_time_utc()
 
@@ -142,7 +141,7 @@ class Prompt:
         :type message: str
         :return: None
         """
-        validate_prompt_message(message)
+        _validate_string(message, "message")
         self._message = message
         self._date_modified = get_time_utc()
 
@@ -167,7 +166,7 @@ class Prompt:
         :type temperature: float
         :return: None
         """
-        validate_prompt_temperature(temperature)
+        _validate_pos_float(temperature, "temperature")
         self._temperature = temperature
         self._date_modified = get_time_utc()
 
@@ -179,7 +178,7 @@ class Prompt:
         :type model: str
         :return: None
         """
-        validate_prompt_model(model)
+        _validate_string(model, "model")
         self._model = model
         self._date_modified = get_time_utc()
 

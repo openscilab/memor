@@ -34,6 +34,21 @@ def _validate_string(value, parameter_name):
     return True
 
 
+def _can_convert_to_string(value):
+    """
+    Check if value can be converted to string.
+
+    :param value: value
+    :type value: any
+    :return: True if value can be converted to string
+    """
+    try:
+        str(value)
+    except Exception:
+        return False
+    return True
+
+
 def _validate_pos_float(value, parameter_name):
     """
     Validate positive float.
@@ -62,9 +77,8 @@ def _validate_list_of_str(value, parameter_name):
     if not isinstance(value, list):
         raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
 
-    for x in value:
-        if not isinstance(x, str):
-            raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
+    if not all(isinstance(x, str) for x in value):
+        raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
     return True
 
 
@@ -83,28 +97,6 @@ def validate_path(path):
     return True
 
 
-def validate_template_title(title):
-    """
-    Validate title property in CustomPromptTemplate class.
-
-    :param title: title
-    :type title: any
-    :return: True if title is valid
-    """
-    return _validate_string(title, "title")
-
-
-def validate_template_content(content):
-    """
-    Validate content property in CustomPromptTemplate class.
-
-    :param content: content
-    :type content: any
-    :return: True if content is valid
-    """
-    return _validate_string(content, "content")
-
-
 def validate_custom_map(custom_map):
     """
     Validate custom map property in CustomPromptTemplate class.
@@ -115,53 +107,6 @@ def validate_custom_map(custom_map):
     """
     if not isinstance(custom_map, dict):
         raise MemorValidationError(INVALID_CUSTOM_MAP_MESSAGE)
-    try:
-        for k, v in custom_map.items():
-            str(k), str(v)
-    except Exception:
+    if not all(_can_convert_to_string(k) and _can_convert_to_string(v) for k, v in custom_map.items()):
         raise MemorValidationError(INVALID_CUSTOM_MAP_MESSAGE)
     return True
-
-
-def validate_prompt_message(message):
-    """
-    Validate message property in Prompt class.
-
-    :param message: message
-    :type message: any
-    :return: True if message is valid
-    """
-    return _validate_string(message, "message")
-
-
-def validate_prompt_responses(responses):
-    """
-    Validate responses property in Prompt class.
-
-    :param responses: responses
-    :type responses: any
-    :return: True if responses is valid
-    """
-    return _validate_list_of_str(responses, "responses")
-
-
-def validate_prompt_temperature(temperature):
-    """
-    Validate temperature property in Prompt class.
-
-    :param temperature: temperature
-    :type temperature: any
-    :return: True if temperature is valid
-    """
-    return _validate_pos_float(temperature, "temperature")
-
-
-def validate_prompt_model(model):
-    """
-    Validate model property in Prompt class.
-
-    :param model: model
-    :type model: any
-    :return: True if model is valid
-    """
-    return _validate_string(model, "model")
