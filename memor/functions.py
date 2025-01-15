@@ -34,6 +34,21 @@ def _validate_string(value, parameter_name):
     return True
 
 
+def _can_convert_to_string(value):
+    """
+    Check if value can be converted to string.
+
+    :param value: value
+    :type value: any
+    :return: True if value can be converted to string
+    """
+    try:
+        str(value)
+    except Exception:
+        return False
+    return True
+
+
 def _validate_pos_float(value, parameter_name):
     """
     Validate positive float.
@@ -62,9 +77,8 @@ def _validate_list_of_str(value, parameter_name):
     if not isinstance(value, list):
         raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
 
-    for x in value:
-        if not isinstance(x, str):
-            raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
+    if not all(isinstance(x, str) for x in value):
+        raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
     return True
 
 
