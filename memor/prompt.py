@@ -363,6 +363,9 @@ class Prompt:
                 "date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             for index, response in enumerate(self._responses):
                 format_kwargs.update({"response_{index}".format(index=index): response})
+            custom_map = self._template._custom_map
+            if custom_map is not None:
+                format_kwargs.update(custom_map)
             content = self._template._content.format(**format_kwargs)
             prompt_dict = self.to_dict()
             prompt_dict["content"] = content
