@@ -102,6 +102,8 @@ class Prompt:
         """Return string representation of Prompt."""
         return "Prompt(message={message})".format(message=self.message)
 
+    #TODO: Add __copy__ and copy methods (like PyCM)
+
     def add_response(self, response, index=None):
         """
         Add a response to the prompt object.
