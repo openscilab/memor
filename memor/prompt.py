@@ -13,6 +13,7 @@ from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_string, _validate_pos_float, _validate_list_of_str
+from .functions import _validate_date_time
 from .functions import validate_path
 from .template import CustomPromptTemplate, PresetPromptTemplate
 
@@ -92,7 +93,8 @@ class Prompt:
             if template:
                 self.update_template(template)
             if date:
-                self._date_created = date  # TODO: validate date parameter
+                _validate_date_time(date, "date")
+                self._date_created = date
 
     def __str__(self):
         """Return string representation of Prompt."""
