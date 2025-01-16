@@ -2,6 +2,7 @@
 """Memor functions."""
 import os
 import datetime
+from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_NONSTR_VALUE_MESSAGE
 from .params import INVALID_NON_POSFLOAT_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_STR_MESSAGE
@@ -79,6 +80,21 @@ def _validate_list_of_str(value, parameter_name):
 
     if not all(isinstance(x, str) for x in value):
         raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
+    return True
+
+
+def _validate_date_time(date_time, parameter_name):
+    """
+    Validate date time.
+
+    :param date_time: date time
+    :type date_time: datetime.datetime
+    :param parameter_name: parameter name
+    :type parameter_name: str
+    :return: True if date time is a datetime object
+    """
+    if not isinstance(date_time, datetime.datetime):
+        raise MemorValidationError(INVALID_DATETIME_MESSAGE)
     return True
 
 

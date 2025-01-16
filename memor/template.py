@@ -65,7 +65,23 @@ class CustomPromptTemplate:
         """Return string representation of CustomPromptTemplate."""
         return "CustomPromptTemplate(content={content})".format(content=self._content)
 
-    # TODO: Add __copy__ and copy methods (like PyCM)
+    def __copy__(self):
+        """
+        Return a copy of the CustomPromptTemplate object.
+        
+        :return: a copy of CustomPromptTemplate object"""
+        _class = self.__class__
+        result = _class.__new__(_class)
+        result.__dict__.update(self.__dict__)
+        return result
+
+    def copy(self):
+        """
+        Return a copy of the CustomPromptTemplate object.
+        
+        :return: a copy of CustomPromptTemplate object
+        """
+        return self.__copy__()
 
     def update_title(self, title):
         """
