@@ -100,7 +100,7 @@ class Prompt:
 
     def __repr__(self):
         """Return string representation of Prompt."""
-        return "Prompt(message={message})".format(message=self.message)
+        return "Prompt(message={message})".format(message=self._message)
 
     #TODO: Add __copy__ and copy methods (like PyCM)
 
