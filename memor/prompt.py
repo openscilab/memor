@@ -92,7 +92,11 @@ class Prompt:
             if template:
                 self.update_template(template)
             if date:
-                self._date_created = date
+                self._date_created = date # TODO: validate date parameter
+
+    def __str__(self):
+        """String representation."""
+        return self.message
 
     def add_response(self, response, index=None):
         """
