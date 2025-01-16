@@ -92,7 +92,17 @@ class Prompt:
             if template:
                 self.update_template(template)
             if date:
-                self._date_created = date
+                self._date_created = date  # TODO: validate date parameter
+
+    def __str__(self):
+        """Return string representation of Prompt."""
+        return self._message
+
+    def __repr__(self):
+        """Return string representation of Prompt."""
+        return "Prompt(message={message})".format(message=self._message)
+
+    # TODO: Add __copy__ and copy methods (like PyCM)
 
     def add_response(self, response, index=None):
         """
@@ -363,6 +373,9 @@ class Prompt:
                 "date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             for index, response in enumerate(self._responses):
                 format_kwargs.update({"response_{index}".format(index=index): response})
+            custom_map = self._template._custom_map
+            if custom_map is not None:
+                format_kwargs.update(custom_map)
             content = self._template._content.format(**format_kwargs)
             prompt_dict = self.to_dict()
             prompt_dict["content"] = content
