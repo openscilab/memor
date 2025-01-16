@@ -96,7 +96,7 @@ class Prompt:
 
     def __str__(self):
         """Return string representation of Prompt."""
-        return self.message
+        return self._message
 
     def __repr__(self):
         """Return string representation of Prompt."""
