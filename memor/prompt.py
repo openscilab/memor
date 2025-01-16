@@ -105,18 +105,22 @@ class Prompt:
         return "Prompt(message={message})".format(message=self._message)
 
     def __copy__(self):
-        """Return a copy of the Prompt object."""
-        return Prompt(
-            message=self._message,
-            responses=self._responses,
-            role=self._role,
-            temperature=self._temperature,
-            model=self._model,
-            template=self._template,
-            date=self._date_created)
+        """
+        Return a copy of the Prompt object.
+        
+        :return: a copy of Prompt object
+        """
+        _class = self.__class__
+        result = _class.__new__(_class)
+        result.__dict__.update(self.__dict__)
+        return result
     
     def copy(self):
-        """Return a copy of the Prompt object."""
+        """
+        Return a copy of the Prompt object.
+        
+        :return: a copy of Prompt object
+        """
         return self.__copy__()
 
     def add_response(self, response, index=None):
