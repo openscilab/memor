@@ -242,6 +242,16 @@ class Response:
         """
         return self._message
 
+    @property
+    def score(self):
+        """
+        Get the response score.
+
+        :return: response score
+        """
+        return self._score
+
+
 
     @property
     def temperature(self):
