@@ -34,10 +34,10 @@ class Prompt:
             message=None,
             responses=[],
             role=Role.DEFAULT,
-            temperature=None,
-            model=None,
+            temperature=None, #TODO: Remove
+            model=None, #TODO: Remove
             template=PresetPromptTemplate.DEFAULT,
-            date=get_time_utc(),
+            date=get_time_utc(), #TODO: Remove
             file_path=None):
         """
         Prompt object initiator.
@@ -179,7 +179,7 @@ class Prompt:
         self._role = role
         self._date_modified = get_time_utc()
 
-    def update_temperature(self, temperature):
+    def update_temperature(self, temperature): #TODO: Remove
         """
         Update the prompt temperature.
 
@@ -191,7 +191,7 @@ class Prompt:
         self._temperature = temperature
         self._date_modified = get_time_utc()
 
-    def update_model(self, model):
+    def update_model(self, model): #TODO: Remove
         """
         Update the prompt model.
 
@@ -321,7 +321,7 @@ class Prompt:
         return self._role
 
     @property
-    def temperature(self):
+    def temperature(self): #TODO: Remove
         """
         Get the prompt temperature.
 
@@ -330,7 +330,7 @@ class Prompt:
         return self._temperature
 
     @property
-    def model(self):
+    def model(self): #TODO: Remove
         """
         Get the prompt model.
 
