@@ -26,6 +26,7 @@ class Response:
     def __init__(
             self,
             message=None,
+            role=Role.ASSISTANT,
             temperature=None,
             model=None,
             date=get_time_utc(),
@@ -35,6 +36,8 @@ class Response:
 
         :param message: response message
         :type message: str
+        :param role: response role
+        :type role: Role object
         :param temperature: temperature
         :type temperature: float
         :param model: agent model
@@ -46,6 +49,7 @@ class Response:
         :return: None
         """
         self._message = None
+        self._role = Role.ASSISTANT
         self._temperature = None
         self._model = None
         self._date_created = get_time_utc()
@@ -56,6 +60,8 @@ class Response:
         else:
             if message:
                 self.update_message(message)
+            if role:
+                self.update_role(role)
             if model:
                 self.update_model(model)
             if temperature:
@@ -102,6 +108,20 @@ class Response:
         """
         _validate_string(message, "message")
         self._message = message
+        self._date_modified = get_time_utc()
+
+
+    def update_role(self, role):
+        """
+        Update the response role.
+
+        :param role: role
+        :type role: Role object
+        :return: None
+        """
+        if not isinstance(role, Role):
+            raise MemorValidationError(INVALID_ROLE_MESSAGE)
+        self._role = role
         self._date_modified = get_time_utc()
 
 
