@@ -200,6 +200,7 @@ class Response:
             try:
                 loaded_obj = json.loads(file.read())
                 self._message = loaded_obj["message"]
+                self._score = loaded_obj["score"]
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
                 self._memor_version = loaded_obj["memor_version"]
@@ -224,6 +225,7 @@ class Response:
         """
         return {
             "message": self._message,
+            "score": self._score,
             "temperature": self._temperature,
             "model": self._model,
             "memor_version": MEMOR_VERSION,
