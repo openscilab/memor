@@ -6,6 +6,7 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
+from .params import Role
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE
@@ -18,13 +19,7 @@ from .functions import validate_path
 from .template import CustomPromptTemplate, PresetPromptTemplate
 
 
-class Role(enum.Enum):
-    """Role enum."""
 
-    SYSTEM = "system"
-    USER = "user"
-    ASSISTANT = "assistant"
-    DEFAULT = USER
 
 
 class Prompt:

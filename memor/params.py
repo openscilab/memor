@@ -21,6 +21,14 @@ PROMPT_RENDER_ERROR_MESSAGE = "Prompt template and properties are incompatible."
 DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."
 
 
+class Role(enum.Enum):
+    """Role enum."""
+
+    SYSTEM = "system"
+    USER = "user"
+    ASSISTANT = "assistant"
+    DEFAULT = USER
+
 class PromptRenderFormat(Enum):
     """Prompt render format."""
 
