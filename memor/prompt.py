@@ -19,9 +19,6 @@ from .functions import validate_path
 from .template import CustomPromptTemplate, PresetPromptTemplate
 
 
-
-
-
 class Prompt:
     """
     Prompt class.
@@ -102,18 +99,18 @@ class Prompt:
     def __copy__(self):
         """
         Return a copy of the Prompt object.
-        
+
         :return: a copy of Prompt object
         """
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
-    
+
     def copy(self):
         """
         Return a copy of the Prompt object.
-        
+
         :return: a copy of Prompt object
         """
         return self.__copy__()

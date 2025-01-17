@@ -29,6 +29,7 @@ class Role(enum.Enum):
     ASSISTANT = "assistant"
     DEFAULT = USER
 
+
 class PromptRenderFormat(Enum):
     """Prompt render format."""
 

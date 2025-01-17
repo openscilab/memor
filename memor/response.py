@@ -88,22 +88,21 @@ class Response:
     def __copy__(self):
         """
         Return a copy of the Response object.
-        
+
         :return: a copy of Response object
         """
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
-    
+
     def copy(self):
         """
         Return a copy of the Response object.
-        
+
         :return: a copy of Response object
         """
         return self.__copy__()
-
 
     def update_message(self, message):
         """
@@ -117,7 +116,6 @@ class Response:
         self._message = message
         self._date_modified = get_time_utc()
 
-
     def update_score(self, score):
         """
         Update the response score.
@@ -128,8 +126,6 @@ class Response:
         """
         self._score = score
         self._date_modified = get_time_utc()
-
-
 
     def update_role(self, role):
         """
@@ -143,7 +139,6 @@ class Response:
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
         self._date_modified = get_time_utc()
-
 
     def update_temperature(self, temperature):
         """
@@ -250,8 +245,6 @@ class Response:
         :return: response score
         """
         return self._score
-
-
 
     @property
     def temperature(self):
