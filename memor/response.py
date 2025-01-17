@@ -27,6 +27,7 @@ class Response:
     def __init__(
             self,
             message=None,
+            score=None,
             role=Role.ASSISTANT,
             temperature=None,
             model=None,
@@ -37,6 +38,8 @@ class Response:
 
         :param message: response message
         :type message: str
+        :param score: response score
+        :type score: float
         :param role: response role
         :type role: Role object
         :param temperature: temperature
@@ -50,6 +53,7 @@ class Response:
         :return: None
         """
         self._message = None
+        self._score = None
         self._role = Role.ASSISTANT
         self._temperature = None
         self._model = None
@@ -61,6 +65,8 @@ class Response:
         else:
             if message:
                 self.update_message(message)
+            if score:
+                self.update_score(score)
             if role:
                 self.update_role(role)
             if model:
@@ -110,6 +116,19 @@ class Response:
         _validate_string(message, "message")
         self._message = message
         self._date_modified = get_time_utc()
+
+
+    def update_score(self, score):
+        """
+        Update the response score.
+
+        :param score: score
+        :type score: score
+        :return: None
+        """
+        self._score = score
+        self._date_modified = get_time_utc()
+
 
 
     def update_role(self, role):
