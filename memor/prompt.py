@@ -6,6 +6,7 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
+from .params import Role
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE
@@ -16,15 +17,6 @@ from .functions import _validate_string, _validate_pos_float, _validate_list_of_
 from .functions import _validate_date_time
 from .functions import validate_path
 from .template import CustomPromptTemplate, PresetPromptTemplate
-
-
-class Role(enum.Enum):
-    """Role enum."""
-
-    SYSTEM = "system"
-    USER = "user"
-    ASSISTANT = "assistant"
-    DEFAULT = USER
 
 
 class Prompt:
@@ -42,10 +34,10 @@ class Prompt:
             message=None,
             responses=[],
             role=Role.DEFAULT,
-            temperature=None,
-            model=None,
+            temperature=None, #TODO: Remove
+            model=None, #TODO: Remove
             template=PresetPromptTemplate.DEFAULT,
-            date=get_time_utc(),
+            date=get_time_utc(), #TODO: Remove
             file_path=None):
         """
         Prompt object initiator.
@@ -107,18 +99,18 @@ class Prompt:
     def __copy__(self):
         """
         Return a copy of the Prompt object.
-        
+
         :return: a copy of Prompt object
         """
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
-    
+
     def copy(self):
         """
         Return a copy of the Prompt object.
-        
+
         :return: a copy of Prompt object
         """
         return self.__copy__()
@@ -187,7 +179,7 @@ class Prompt:
         self._role = role
         self._date_modified = get_time_utc()
 
-    def update_temperature(self, temperature):
+    def update_temperature(self, temperature): #TODO: Remove
         """
         Update the prompt temperature.
 
@@ -199,7 +191,7 @@ class Prompt:
         self._temperature = temperature
         self._date_modified = get_time_utc()
 
-    def update_model(self, model):
+    def update_model(self, model): #TODO: Remove
         """
         Update the prompt model.
 
@@ -329,7 +321,7 @@ class Prompt:
         return self._role
 
     @property
-    def temperature(self):
+    def temperature(self): #TODO: Remove
         """
         Get the prompt temperature.
 
@@ -338,7 +330,7 @@ class Prompt:
         return self._temperature
 
     @property
-    def model(self):
+    def model(self): #TODO: Remove
         """
         Get the prompt model.
 

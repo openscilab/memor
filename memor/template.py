@@ -68,7 +68,7 @@ class CustomPromptTemplate:
     def __copy__(self):
         """
         Return a copy of the CustomPromptTemplate object.
-        
+
         :return: a copy of CustomPromptTemplate object"""
         _class = self.__class__
         result = _class.__new__(_class)
@@ -78,7 +78,7 @@ class CustomPromptTemplate:
     def copy(self):
         """
         Return a copy of the CustomPromptTemplate object.
-        
+
         :return: a copy of CustomPromptTemplate object
         """
         return self.__copy__()
