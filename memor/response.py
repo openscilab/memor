@@ -113,7 +113,7 @@ class Response:
         self._message = message
         self._date_modified = get_time_utc()
 
-    def update_score(self, score): #TODO: Need validation
+    def update_score(self, score):  # TODO: Need validation
         """
         Update the response score.
 
@@ -172,8 +172,7 @@ class Response:
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
             with open(file_path, "w") as file:
-                data = self.to_dict()
-                file.write(json.dumps(data, indent=4))
+                file.write(self.to_json())
         except Exception as e:
             result["status"] = False
             result["message"] = str(e)

@@ -21,7 +21,7 @@ PROMPT_RENDER_ERROR_MESSAGE = "Prompt template and properties are incompatible."
 DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."
 
 
-class Role(enum.Enum):
+class Role(Enum):
     """Role enum."""
 
     SYSTEM = "system"

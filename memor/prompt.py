@@ -34,10 +34,7 @@ class Prompt:
             message=None,
             responses=[],
             role=Role.DEFAULT,
-            temperature=None, #TODO: Remove
-            model=None, #TODO: Remove
             template=PresetPromptTemplate.DEFAULT,
-            date=get_time_utc(), #TODO: Remove
             file_path=None):
         """
         Prompt object initiator.
@@ -48,21 +45,13 @@ class Prompt:
         :type responses: list
         :param role: prompt role
         :type role: Role object
-        :param temperature: prompt temperature
-        :type temperature: float
-        :param model: prompt model
-        :type model: str
         :param template: prompt template
         :type template: CustomPromptTemplate/PresetPromptTemplate object
-        :param date: prompt date
-        :type date: datetime.datetime
         :param file_path: prompt file path
         :type file_path: str
         :return: None
         """
         self._message = None
-        self._temperature = None
-        self._model = None
         self._role = Role.DEFAULT
         self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
@@ -74,19 +63,12 @@ class Prompt:
         else:
             if message:
                 self.update_message(message)
-            if model:
-                self.update_model(model)
-            if temperature:
-                self.update_temperature(temperature)
             if role:
                 self.update_role(role)
             if responses:
                 self.update_responses(responses)
             if template:
                 self.update_template(template)
-            if date:
-                _validate_date_time(date, "date")
-                self._date_created = date
 
     def __str__(self):
         """Return string representation of Prompt."""
@@ -115,7 +97,7 @@ class Prompt:
         """
         return self.__copy__()
 
-    def add_response(self, response, index=None):
+    def add_response(self, response, index=None):  # TODO: Need validation
         """
         Add a response to the prompt object.
 
@@ -142,7 +124,7 @@ class Prompt:
         self._responses.pop(index)
         self._date_modified = get_time_utc()
 
-    def update_responses(self, responses):
+    def update_responses(self, responses):  # TODO: Need validation
         """
         Update the prompt responses.
 
@@ -177,30 +159,6 @@ class Prompt:
         if not isinstance(role, Role):
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
-        self._date_modified = get_time_utc()
-
-    def update_temperature(self, temperature): #TODO: Remove
-        """
-        Update the prompt temperature.
-
-        :param temperature: temperature
-        :type temperature: float
-        :return: None
-        """
-        _validate_pos_float(temperature, "temperature")
-        self._temperature = temperature
-        self._date_modified = get_time_utc()
-
-    def update_model(self, model): #TODO: Remove
-        """
-        Update the prompt model.
-
-        :param model: model
-        :type model: str
-        :return: None
-        """
-        _validate_string(model, "model")
-        self._model = model
         self._date_modified = get_time_utc()
 
     def update_template(self, template):
@@ -256,8 +214,6 @@ class Prompt:
                 self._message = loaded_obj["message"]
                 self._responses = loaded_obj["responses"]
                 self._role = Role(loaded_obj["role"])
-                self._temperature = loaded_obj["temperature"]
-                self._model = loaded_obj["model"]
                 self._template = PresetPromptTemplate.DEFAULT.value
                 if "template" in loaded_obj:
                     self._template = CustomPromptTemplate(**loaded_obj["template"])
@@ -285,8 +241,6 @@ class Prompt:
             "message": self._message,
             "responses": self._responses,
             "role": str(self._role),
-            "temperature": self._temperature,
-            "model": self._model,
             "template": self._template.to_dict(),
             "memor_version": MEMOR_VERSION,
             "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
@@ -319,24 +273,6 @@ class Prompt:
         :return: prompt role
         """
         return self._role
-
-    @property
-    def temperature(self): #TODO: Remove
-        """
-        Get the prompt temperature.
-
-        :return: prompt temperature
-        """
-        return self._temperature
-
-    @property
-    def model(self): #TODO: Remove
-        """
-        Get the prompt model.
-
-        :return: prompt model
-        """
-        return self._model
 
     @property
     def date_created(self):
@@ -377,9 +313,7 @@ class Prompt:
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
             format_kwargs = {
-                "temperature": self._temperature,
                 "role": self._role.value,
-                "model": self._model,
                 "message": self._message,
                 "date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             for index, response in enumerate(self._responses):
