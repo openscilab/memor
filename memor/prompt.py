@@ -124,7 +124,7 @@ class Prompt:
         self._responses.pop(index)
         self._date_modified = get_time_utc()
 
-    def update_responses(self, responses):
+    def update_responses(self, responses): #TODO: Need validation
         """
         Update the prompt responses.
 

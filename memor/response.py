@@ -172,8 +172,7 @@ class Response:
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
             with open(file_path, "w") as file:
-                data = self.to_dict()
-                file.write(json.dumps(data, indent=4))
+                file.write(self.to_json())
         except Exception as e:
             result["status"] = False
             result["message"] = str(e)
