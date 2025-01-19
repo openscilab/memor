@@ -337,3 +337,4 @@ class PresetPromptTemplate(Enum):
     ALL = CustomPromptTemplate(
         content="Message: {message}\nResponse: {response_0}\nModel: {model}\nTemperature: {temperature}\nDate: {date}\nRole: {role}",
         title="ALL")
+    DEFAULT = MESSAGE
