@@ -97,7 +97,7 @@ class Prompt:
         """
         return self.__copy__()
 
-    def add_response(self, response, index=None): #TODO: Need validation
+    def add_response(self, response, index=None):  # TODO: Need validation
         """
         Add a response to the prompt object.
 
@@ -124,7 +124,7 @@ class Prompt:
         self._responses.pop(index)
         self._date_modified = get_time_utc()
 
-    def update_responses(self, responses): #TODO: Need validation
+    def update_responses(self, responses):  # TODO: Need validation
         """
         Update the prompt responses.
 
@@ -160,7 +160,6 @@ class Prompt:
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
         self._date_modified = get_time_utc()
-
 
     def update_template(self, template):
         """

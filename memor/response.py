@@ -113,7 +113,7 @@ class Response:
         self._message = message
         self._date_modified = get_time_utc()
 
-    def update_score(self, score): #TODO: Need validation
+    def update_score(self, score):  # TODO: Need validation
         """
         Update the response score.
 
