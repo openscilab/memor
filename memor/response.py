@@ -12,7 +12,7 @@ from .params import Role
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_string, _validate_pos_float
-from .functions import _validate_date_time
+from .functions import _validate_date_time, _validate_probability
 from .functions import validate_path
 
 
@@ -113,7 +113,7 @@ class Response:
         self._message = message
         self._date_modified = get_time_utc()
 
-    def update_score(self, score):  # TODO: Need validation
+    def update_score(self, score):
         """
         Update the response score.
 
@@ -121,6 +121,7 @@ class Response:
         :type score: float
         :return: None
         """
+        _validate_probability(score, "score")
         self._score = score
         self._date_modified = get_time_utc()
 
