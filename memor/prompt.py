@@ -8,8 +8,8 @@ from .params import DATE_TIME_FORMAT
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import Role
 from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
-from .params import INVALID_ROLE_MESSAGE
-from .params import PROMPT_RENDER_ERROR_MESSAGE
+from .params import INVALID_ROLE_MESSAGE, INVALID_RESPONSE_MESSAGE
+from .params import PROMPT_RENDER_ERROR_MESSAGE, INVALID_RESPONSES_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
@@ -17,6 +17,7 @@ from .functions import _validate_string, _validate_pos_float, _validate_list_of_
 from .functions import _validate_date_time
 from .functions import validate_path
 from .template import CustomPromptTemplate, PresetPromptTemplate
+from .response import Response
 
 
 class Prompt:
@@ -107,7 +108,8 @@ class Prompt:
         :type index: int
         :return: None
         """
-        _validate_string(response, "response")
+        if not isinstance(response, Response):
+            raise MemorValidationError(INVALID_RESPONSE_MESSAGE)
         if index is None:
             self._responses.append(response)
         else:
@@ -133,7 +135,10 @@ class Prompt:
         :type responses: list
         :return: None
         """
-        _validate_list_of_str(responses, "responses")
+        if not isinstance(responses, list):
+            raise MemorValidationError(INVALID_RESPONSES_MESSAGE)
+        if not all(isinstance(x, Response) for x in responses):
+            raise MemorValidationError(INVALID_RESPONSES_MESSAGE)
         self._responses = responses
         self._date_modified = get_time_utc()
 
