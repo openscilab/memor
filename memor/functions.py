@@ -4,6 +4,7 @@ import os
 import datetime
 from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_NONSTR_VALUE_MESSAGE
+from .params import INVALID_NON_PROB_VALUE_MESSAGE
 from .params import INVALID_NON_POSFLOAT_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_STR_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
@@ -62,6 +63,21 @@ def _validate_pos_float(value, parameter_name):
     """
     if not isinstance(value, float) or value < 0:
         raise MemorValidationError(INVALID_NON_POSFLOAT_VALUE_MESSAGE.format(parameter_name))
+    return True
+
+
+def _validate_probability(value, parameter_name):
+    """
+    Validate probability.
+
+    :param value: value
+    :type value: any
+    :param parameter_name: parameter name
+    :type parameter_name: str
+    :return: True if value is a float between 0 and 1
+    """
+    if not isinstance(value, float) or value < 0 or value > 1:
+        raise MemorValidationError(INVALID_NON_PROB_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
