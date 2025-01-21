@@ -37,7 +37,7 @@ class PromptRenderFormat(Enum):
     """Prompt render format."""
 
     STRING = "STRING"
-    AISUITE = "AISUITE"
+    OPENAI = "OPENAI"
     DICTIONARY = "DICTIONARY"
     ITEMS = "ITEMS"
     DEFAULT = STRING
