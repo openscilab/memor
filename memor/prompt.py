@@ -335,7 +335,7 @@ class Prompt:
             content = self._template._content.format(**format_kwargs)
             prompt_dict = self.to_dict()
             prompt_dict["content"] = content
-            if render_format == PromptRenderFormat.AISUITE:
+            if render_format == PromptRenderFormat.OPENAI:
                 return [
                     {"role": self._role.value,
                      "content": content}]
