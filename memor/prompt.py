@@ -319,11 +319,16 @@ class Prompt:
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
             format_kwargs = {
-                "role": self._role.value,
-                "message": self._message,
-                "date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
+                "prompt_role": self._role.value,
+                "prompt_message": self._message,
+                "prompt_date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             for index, response in enumerate(self._responses):
-                format_kwargs.update({"response_{index}".format(index=index): response})
+                format_kwargs.update({"response_{index}_message".format(index=index): response._message})
+                format_kwargs.update({"response_{index}_score".format(index=index): response._score})
+                format_kwargs.update({"response_{index}_role".format(index=index): response._role})
+                format_kwargs.update({"response_{index}_temperature".format(index=index): response._temperature})
+                format_kwargs.update({"response_{index}_model".format(index=index): response._model})
+                format_kwargs.update({"response_{index}_date".format(index=index): datetime.datetime.strftime(response._date_created, DATE_TIME_FORMAT)})
             custom_map = self._template._custom_map
             if custom_map is not None:
                 format_kwargs.update(custom_map)
