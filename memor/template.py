@@ -225,17 +225,36 @@ class CustomPromptTemplate:
         """
         return self._custom_map
 
+BASIC_PROMPT_CONTENT = "{prompt_message}"
+BASIC_RESPONSE0_CONTENT = "{response_0_message}"
+BASIC_RESPONSE1_CONTENT = "{response_1_message}"
+BASIC_RESPONSE2_CONTENT = "{response_2_message}"
+BASIC_RESPONSE3_CONTENT = "{response_3_message}"
+BASIC_PROMPT_RESPONSE_STANDARD_CONTENT = "Prompt: {prompt_message}\nResponse: {response_0_message}"
+BASIC_PROMPT_RESPONSE_FULL_CONTENT = """Prompt:
+    Message: {prompt_message}
+    Role: {prompt_role}
+    Date: {prompt_date}
+Response:
+    Message: {response_0_message}
+    Role: {response_0_role}
+    Temperature: {response_0_temperature}
+    Model: {response_0_model}
+    Score: {response_0_score}
+    Date: {response_0_date}"""
 
-class PresetPromptTemplate(Enum):
-    """Preset prompt template enum."""
+class _BasicPresetPromptTemplate(Enum):
+    PROMPT = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT, title="Prompt")
+    RESPONSE0 = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT, title="Response0")
+    RESPONSE1 = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT, title="Response1")
+    RESPONSE2 = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT, title="Response2")
+    RESPONSE3 = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT, title="Response3")
+    PROMPT_RESPONSE_STANDARD = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_STANDARD_CONTENT, title="Prompt-Response Standard")
+    PROMPT_RESPONSE_FULL = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_FULL_CONTENT, title="Prompt-Response Standard")
 
-    MESSAGE = CustomPromptTemplate(
-        content="{prompt_message}",
-        title="Message"
-    )
-    RESPONSE = CustomPromptTemplate(
-        content="{response_0_message}",
-        title="Response"
-    )
+class PresetPromptTemplate:
+    """Preset prompt templates."""
 
-    DEFAULT = MESSAGE
+    BASIC = _BasicPresetPromptTemplate
+
+    DEFAULT = BASIC.PROMPT
