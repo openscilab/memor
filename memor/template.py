@@ -225,13 +225,20 @@ class CustomPromptTemplate:
         """
         return self._custom_map
 
-BASIC_PROMPT_CONTENT = "{prompt_message}"
-BASIC_RESPONSE0_CONTENT = "{response_0_message}"
-BASIC_RESPONSE1_CONTENT = "{response_1_message}"
-BASIC_RESPONSE2_CONTENT = "{response_2_message}"
-BASIC_RESPONSE3_CONTENT = "{response_3_message}"
-BASIC_PROMPT_RESPONSE_STANDARD_CONTENT = "Prompt: {prompt_message}\nResponse: {response_0_message}"
-BASIC_PROMPT_RESPONSE_FULL_CONTENT = """Prompt:
+INSTRUCTION1 = "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question."
+BASIC_PROMPT_CONTENT = "{instruction}{prompt_message}"
+BASIC_RESPONSE0_CONTENT = "{instruction}{response_0_message}"
+BASIC_RESPONSE1_CONTENT = "{instruction}{response_1_message}"
+BASIC_RESPONSE2_CONTENT = "{instruction}{response_2_message}"
+BASIC_RESPONSE3_CONTENT = "{instruction}{response_3_message}"
+BASIC_PROMPT_CONTENT_LABEL = "{instruction}Prompt: {prompt_message}"
+BASIC_RESPONSE0_CONTENT_LABEL = "{instruction}Response: {response_0_message}"
+BASIC_RESPONSE1_CONTENT_LABEL = "{instruction}Response: {response_1_message}"
+BASIC_RESPONSE2_CONTENT_LABEL = "{instruction}Response: {response_2_message}"
+BASIC_RESPONSE3_CONTENT_LABEL = "{instruction}Response: {response_3_message}"
+BASIC_PROMPT_RESPONSE_STANDARD_CONTENT = "{instruction}Prompt: {prompt_message}\nResponse: {response_0_message}"
+BASIC_PROMPT_RESPONSE_FULL_CONTENT = """{instruction}
+Prompt:
     Message: {prompt_message}
     Role: {prompt_role}
     Date: {prompt_date}
@@ -244,13 +251,18 @@ Response:
     Date: {response_0_date}"""
 
 class _BasicPresetPromptTemplate(Enum):
-    PROMPT = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT, title="Prompt")
-    RESPONSE0 = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT, title="Response0")
-    RESPONSE1 = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT, title="Response1")
-    RESPONSE2 = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT, title="Response2")
-    RESPONSE3 = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT, title="Response3")
-    PROMPT_RESPONSE_STANDARD = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_STANDARD_CONTENT, title="Prompt-Response Standard")
-    PROMPT_RESPONSE_FULL = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_FULL_CONTENT, title="Prompt-Response Standard")
+    PROMPT = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT, title="Prompt", custom_map={"instruction":""})
+    RESPONSE0 = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT, title="Response0", custom_map={"instruction":""})
+    RESPONSE1 = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT, title="Response1", custom_map={"instruction":""})
+    RESPONSE2 = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT, title="Response2", custom_map={"instruction":""})
+    RESPONSE3 = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT, title="Response3", custom_map={"instruction":""})
+    PROMPT_WITH_LABEL = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT_LABEL, title="Prompt With Label", custom_map={"instruction": ""})
+    RESPONSE0_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT_LABEL, title="Response0 With Label", custom_map={"instruction": ""})
+    RESPONSE1_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT_LABEL, title="Response1 With Label", custom_map={"instruction": ""})
+    RESPONSE2_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT_LABEL, title="Response2 With Label", custom_map={"instruction": ""})
+    RESPONSE3_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT_LABEL, title="Response3 With Label", custom_map={"instruction": ""})
+    PROMPT_RESPONSE_STANDARD = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_STANDARD_CONTENT, title="Prompt-Response Standard", custom_map={"instruction":""})
+    PROMPT_RESPONSE_FULL = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_FULL_CONTENT, title="Prompt-Response Standard", custom_map={"instruction":""})
 
 class PresetPromptTemplate:
     """Preset prompt templates."""
