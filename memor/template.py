@@ -225,7 +225,10 @@ class CustomPromptTemplate:
         """
         return self._custom_map
 
-INSTRUCTION1 = "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question."
+PROMPT_INSTRUCTION1 = "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question."
+PROMPT_INSTRUCTION2 = "Here is the context from a prior conversation. Please learn from this information and use it to provide a thoughtful and context-aware response to my next question."
+PROMPT_INSTRUCTION3 = "I am sharing a record of a previous discussion. Use this information to provide a consistent and relevant answer to my next query."
+
 BASIC_PROMPT_CONTENT = "{instruction}{prompt_message}"
 BASIC_RESPONSE0_CONTENT = "{instruction}{response_0_message}"
 BASIC_RESPONSE1_CONTENT = "{instruction}{response_1_message}"
@@ -262,11 +265,56 @@ class _BasicPresetPromptTemplate(Enum):
     RESPONSE2_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT_LABEL, title="Response2 With Label", custom_map={"instruction": ""})
     RESPONSE3_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT_LABEL, title="Response3 With Label", custom_map={"instruction": ""})
     PROMPT_RESPONSE_STANDARD = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_STANDARD_CONTENT, title="Prompt-Response Standard", custom_map={"instruction":""})
-    PROMPT_RESPONSE_FULL = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_FULL_CONTENT, title="Prompt-Response Standard", custom_map={"instruction":""})
+    PROMPT_RESPONSE_FULL = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_FULL_CONTENT, title="Prompt-Response Full", custom_map={"instruction":""})
+
+class _Instruction1PresetPromptTemplate(Enum):
+    PROMPT = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT, title="Prompt", custom_map={"instruction":PROMPT_INSTRUCTION1})
+    RESPONSE0 = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT, title="Response0", custom_map={"instruction":PROMPT_INSTRUCTION1})
+    RESPONSE1 = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT, title="Response1", custom_map={"instruction":PROMPT_INSTRUCTION1})
+    RESPONSE2 = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT, title="Response2", custom_map={"instruction":PROMPT_INSTRUCTION1})
+    RESPONSE3 = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT, title="Response3", custom_map={"instruction":PROMPT_INSTRUCTION1})
+    PROMPT_WITH_LABEL = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT_LABEL, title="Prompt With Label", custom_map={"instruction": PROMPT_INSTRUCTION1})
+    RESPONSE0_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT_LABEL, title="Response0 With Label", custom_map={"instruction": PROMPT_INSTRUCTION1})
+    RESPONSE1_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT_LABEL, title="Response1 With Label", custom_map={"instruction": PROMPT_INSTRUCTION1})
+    RESPONSE2_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT_LABEL, title="Response2 With Label", custom_map={"instruction": PROMPT_INSTRUCTION1})
+    RESPONSE3_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT_LABEL, title="Response3 With Label", custom_map={"instruction": PROMPT_INSTRUCTION1})
+    PROMPT_RESPONSE_STANDARD = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_STANDARD_CONTENT, title="Prompt-Response Standard", custom_map={"instruction":PROMPT_INSTRUCTION1})
+    PROMPT_RESPONSE_FULL = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_FULL_CONTENT, title="Prompt-Response Full", custom_map={"instruction":PROMPT_INSTRUCTION1})
+
+class _Instruction2PresetPromptTemplate(Enum):
+    PROMPT = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT, title="Prompt", custom_map={"instruction":PROMPT_INSTRUCTION2})
+    RESPONSE0 = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT, title="Response0", custom_map={"instruction":PROMPT_INSTRUCTION2})
+    RESPONSE1 = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT, title="Response1", custom_map={"instruction":PROMPT_INSTRUCTION2})
+    RESPONSE2 = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT, title="Response2", custom_map={"instruction":PROMPT_INSTRUCTION2})
+    RESPONSE3 = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT, title="Response3", custom_map={"instruction":PROMPT_INSTRUCTION2})
+    PROMPT_WITH_LABEL = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT_LABEL, title="Prompt With Label", custom_map={"instruction": PROMPT_INSTRUCTION2})
+    RESPONSE0_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT_LABEL, title="Response0 With Label", custom_map={"instruction": PROMPT_INSTRUCTION2})
+    RESPONSE1_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT_LABEL, title="Response1 With Label", custom_map={"instruction": PROMPT_INSTRUCTION2})
+    RESPONSE2_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT_LABEL, title="Response2 With Label", custom_map={"instruction": PROMPT_INSTRUCTION2})
+    RESPONSE3_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT_LABEL, title="Response3 With Label", custom_map={"instruction": PROMPT_INSTRUCTION2})
+    PROMPT_RESPONSE_STANDARD = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_STANDARD_CONTENT, title="Prompt-Response Standard", custom_map={"instruction":PROMPT_INSTRUCTION2})
+    PROMPT_RESPONSE_FULL = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_FULL_CONTENT, title="Prompt-Response Full", custom_map={"instruction":PROMPT_INSTRUCTION2})
+
+
+class _Instruction3PresetPromptTemplate(Enum):
+    PROMPT = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT, title="Prompt", custom_map={"instruction":PROMPT_INSTRUCTION3})
+    RESPONSE0 = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT, title="Response0", custom_map={"instruction":PROMPT_INSTRUCTION3})
+    RESPONSE1 = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT, title="Response1", custom_map={"instruction":PROMPT_INSTRUCTION3})
+    RESPONSE2 = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT, title="Response2", custom_map={"instruction":PROMPT_INSTRUCTION3})
+    RESPONSE3 = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT, title="Response3", custom_map={"instruction":PROMPT_INSTRUCTION3})
+    PROMPT_WITH_LABEL = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT_LABEL, title="Prompt With Label", custom_map={"instruction": PROMPT_INSTRUCTION3})
+    RESPONSE0_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE0_CONTENT_LABEL, title="Response0 With Label", custom_map={"instruction": PROMPT_INSTRUCTION3})
+    RESPONSE1_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE1_CONTENT_LABEL, title="Response1 With Label", custom_map={"instruction": PROMPT_INSTRUCTION3})
+    RESPONSE2_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE2_CONTENT_LABEL, title="Response2 With Label", custom_map={"instruction": PROMPT_INSTRUCTION3})
+    RESPONSE3_WITH_LABEL = CustomPromptTemplate(content=BASIC_RESPONSE3_CONTENT_LABEL, title="Response3 With Label", custom_map={"instruction": PROMPT_INSTRUCTION3})
+    PROMPT_RESPONSE_STANDARD = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_STANDARD_CONTENT, title="Prompt-Response Standard", custom_map={"instruction":PROMPT_INSTRUCTION3})
+    PROMPT_RESPONSE_FULL = CustomPromptTemplate(content=BASIC_PROMPT_RESPONSE_FULL_CONTENT, title="Prompt-Response Full", custom_map={"instruction":PROMPT_INSTRUCTION3})
 
 class PresetPromptTemplate:
     """Preset prompt templates."""
 
     BASIC = _BasicPresetPromptTemplate
-
+    INSTRUCTION1 = _Instruction1PresetPromptTemplate
+    INSTRUCTION2 = _Instruction2PresetPromptTemplate
+    INSTRUCTION3 = _Instruction3PresetPromptTemplate
     DEFAULT = BASIC.PROMPT
