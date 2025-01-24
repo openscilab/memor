@@ -326,6 +326,15 @@ class Prompt:
         """
         return self._template
 
+    @property
+    def selected_response(self):
+        """
+        Get the prompt selected response.
+
+        :return: selected response as Response object
+        """
+        return self._selected_response
+
     def render(self, render_format=PromptRenderFormat.DEFAULT):
         """
         Render method.
