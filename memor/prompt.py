@@ -350,6 +350,13 @@ class Prompt:
                 "prompt_role": self._role.value,
                 "prompt_message": self._message,
                 "prompt_date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
+            if isinstance(self._selected_response, Response):
+                format_kwargs.update({"response_message": self._selected_response._message})
+                format_kwargs.update({"response_score": self._selected_response._score})
+                format_kwargs.update({"response_role": self._selected_response._role})
+                format_kwargs.update({"response_temperature": self._selected_response._temperature})
+                format_kwargs.update({"response_model": self._selected_response._model})
+                format_kwargs.update({"response_date": datetime.datetime.strftime(self._selected_response._date_created, DATE_TIME_FORMAT)})
             for index, response in enumerate(self._responses):
                 format_kwargs.update({"response_{index}_message".format(index=index): response._message})
                 format_kwargs.update({"response_{index}_score".format(index=index): response._score})
