@@ -59,6 +59,8 @@ class Prompt:
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
+        self._selected_response_index = 0
+        self._selected_response = None
         if file_path:
             self.load(file_path)
         else:
@@ -126,6 +128,19 @@ class Prompt:
         """
         self._responses.pop(index)
         self._date_modified = get_time_utc()
+
+    def select_response(self, index):
+        """
+        Select a response as selected response.
+
+        :param index: index
+        :type index: int
+        :return: None
+        """
+        if len(self._responses) > 0:
+            self._selected_response_index = index
+            self._selected_response = self._responses[index]
+            self._date_modified = get_time_utc()
 
     def update_responses(self, responses):
         """
