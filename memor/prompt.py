@@ -72,6 +72,7 @@ class Prompt:
                 self.update_responses(responses)
             if template:
                 self.update_template(template)
+            self.select_response(index = self._selected_response_index)
 
     def __str__(self):
         """Return string representation of Prompt."""
@@ -241,6 +242,8 @@ class Prompt:
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+                self._selected_response_index = loaded_obj["selected_response_index"]
+                self.select_response(index = self._selected_response_index)
             except Exception:
                 raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
 
@@ -261,6 +264,7 @@ class Prompt:
         return {
             "message": self._message,
             "responses": self._responses,
+            "selected_response_index": self._selected_response_index,
             "role": str(self._role),
             "template": self._template.to_dict(),
             "memor_version": MEMOR_VERSION,
