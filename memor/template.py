@@ -334,6 +334,11 @@ class _Instruction1PresetPromptTemplate(Enum):
         title="Instruction1/Prompt",
         custom_map={
             "instruction": PROMPT_INSTRUCTION1})
+    RESPONSE = CustomPromptTemplate(
+        content=BASIC_RESPONSE_CONTENT,
+        title="Instruction1/Response",
+        custom_map={
+            "instruction": PROMPT_INSTRUCTION1})
     RESPONSE0 = CustomPromptTemplate(
         content=BASIC_RESPONSE0_CONTENT,
         title="Instruction1/Response0",
@@ -357,6 +362,11 @@ class _Instruction1PresetPromptTemplate(Enum):
     PROMPT_WITH_LABEL = CustomPromptTemplate(
         content=BASIC_PROMPT_CONTENT_LABEL,
         title="Instruction1/Prompt With Label",
+        custom_map={
+            "instruction": PROMPT_INSTRUCTION1})
+    RESPONSE_WITH_LABEL = CustomPromptTemplate(
+        content=BASIC_RESPONSE_CONTENT_LABEL,
+        title="Instruction1/Response With Label",
         custom_map={
             "instruction": PROMPT_INSTRUCTION1})
     RESPONSE0_WITH_LABEL = CustomPromptTemplate(
@@ -398,6 +408,11 @@ class _Instruction2PresetPromptTemplate(Enum):
         title="Instruction2/Prompt",
         custom_map={
             "instruction": PROMPT_INSTRUCTION2})
+    RESPONSE = CustomPromptTemplate(
+        content=BASIC_RESPONSE_CONTENT,
+        title="Instruction2/Response",
+        custom_map={
+            "instruction": PROMPT_INSTRUCTION2})
     RESPONSE0 = CustomPromptTemplate(
         content=BASIC_RESPONSE0_CONTENT,
         title="Instruction2/Response0",
@@ -421,6 +436,11 @@ class _Instruction2PresetPromptTemplate(Enum):
     PROMPT_WITH_LABEL = CustomPromptTemplate(
         content=BASIC_PROMPT_CONTENT_LABEL,
         title="Instruction2/Prompt With Label",
+        custom_map={
+            "instruction": PROMPT_INSTRUCTION2})
+    RESPONSE_WITH_LABEL = CustomPromptTemplate(
+        content=BASIC_RESPONSE_CONTENT_LABEL,
+        title="Instruction2/Response With Label",
         custom_map={
             "instruction": PROMPT_INSTRUCTION2})
     RESPONSE0_WITH_LABEL = CustomPromptTemplate(
@@ -462,6 +482,11 @@ class _Instruction3PresetPromptTemplate(Enum):
         title="Instruction3/Prompt",
         custom_map={
             "instruction": PROMPT_INSTRUCTION3})
+    RESPONSE = CustomPromptTemplate(
+        content=BASIC_RESPONSE_CONTENT,
+        title="Instruction3/Response",
+        custom_map={
+            "instruction": PROMPT_INSTRUCTION3})
     RESPONSE0 = CustomPromptTemplate(
         content=BASIC_RESPONSE0_CONTENT,
         title="Instruction3/Response0",
@@ -485,6 +510,11 @@ class _Instruction3PresetPromptTemplate(Enum):
     PROMPT_WITH_LABEL = CustomPromptTemplate(
         content=BASIC_PROMPT_CONTENT_LABEL,
         title="Instruction3/Prompt With Label",
+        custom_map={
+            "instruction": PROMPT_INSTRUCTION3})
+    RESPONSE_WITH_LABEL = CustomPromptTemplate(
+        content=BASIC_RESPONSE_CONTENT_LABEL,
+        title="Instruction3/Response With Label",
         custom_map={
             "instruction": PROMPT_INSTRUCTION3})
     RESPONSE0_WITH_LABEL = CustomPromptTemplate(
