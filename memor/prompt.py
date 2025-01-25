@@ -59,6 +59,8 @@ class Prompt:
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
+        self._selected_response_index = 0
+        self._selected_response = None
         if file_path:
             self.load(file_path)
         else:
@@ -70,6 +72,7 @@ class Prompt:
                 self.update_responses(responses)
             if template:
                 self.update_template(template)
+            self.select_response(index=self._selected_response_index)
 
     def __str__(self):
         """Return string representation of Prompt."""
@@ -126,6 +129,19 @@ class Prompt:
         """
         self._responses.pop(index)
         self._date_modified = get_time_utc()
+
+    def select_response(self, index):
+        """
+        Select a response as selected response.
+
+        :param index: index
+        :type index: int
+        :return: None
+        """
+        if len(self._responses) > 0:
+            self._selected_response_index = index
+            self._selected_response = self._responses[index]
+            self._date_modified = get_time_utc()
 
     def update_responses(self, responses):
         """
@@ -226,6 +242,8 @@ class Prompt:
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+                self._selected_response_index = loaded_obj["selected_response_index"]
+                self.select_response(index=self._selected_response_index)
             except Exception:
                 raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
 
@@ -246,6 +264,7 @@ class Prompt:
         return {
             "message": self._message,
             "responses": self._responses,
+            "selected_response_index": self._selected_response_index,
             "role": str(self._role),
             "template": self._template.to_dict(),
             "memor_version": MEMOR_VERSION,
@@ -307,6 +326,15 @@ class Prompt:
         """
         return self._template
 
+    @property
+    def selected_response(self):
+        """
+        Get the prompt selected response.
+
+        :return: selected response as Response object
+        """
+        return self._selected_response
+
     def render(self, render_format=PromptRenderFormat.DEFAULT):
         """
         Render method.
@@ -322,13 +350,21 @@ class Prompt:
                 "prompt_role": self._role.value,
                 "prompt_message": self._message,
                 "prompt_date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
+            if isinstance(self._selected_response, Response):
+                format_kwargs.update({"response_message": self._selected_response._message})
+                format_kwargs.update({"response_score": self._selected_response._score})
+                format_kwargs.update({"response_role": self._selected_response._role})
+                format_kwargs.update({"response_temperature": self._selected_response._temperature})
+                format_kwargs.update({"response_model": self._selected_response._model})
+                format_kwargs.update({"response_date": datetime.datetime.strftime(
+                    self._selected_response._date_created, DATE_TIME_FORMAT)})
             for index, response in enumerate(self._responses):
                 format_kwargs.update({"response_{index}_message".format(index=index): response._message})
                 format_kwargs.update({"response_{index}_score".format(index=index): response._score})
                 format_kwargs.update({"response_{index}_role".format(index=index): response._role})
                 format_kwargs.update({"response_{index}_temperature".format(index=index): response._temperature})
                 format_kwargs.update({"response_{index}_model".format(index=index): response._model})
-                format_kwargs.update({"response_{index}_date".format(index=index): datetime.datetime.strftime(response._date_created, DATE_TIME_FORMAT)})
+                format_kwargs.update({"response_{index}_date".format(index=index)                                      : datetime.datetime.strftime(response._date_created, DATE_TIME_FORMAT)})
             custom_map = self._template._custom_map
             if custom_map is not None:
                 format_kwargs.update(custom_map)
