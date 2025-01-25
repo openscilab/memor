@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Response class."""
-import enum
 import datetime
 import json
 from .params import MEMOR_VERSION
@@ -19,6 +18,11 @@ from .functions import validate_path
 class Response:
     """
     Response class.
+
+    >>> from memor import Response, Role
+    >>> response = Response(message="Hello!", score=0.9, role=Role.ASSISTANT, temperature=0.5, model="gpt-3.5")
+    >>> response.message
+    'Hello!'
     """
 
     def __init__(

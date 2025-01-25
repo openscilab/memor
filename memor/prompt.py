@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Prompt class."""
-import enum
 import datetime
 import json
 from .params import MEMOR_VERSION
@@ -13,8 +12,7 @@ from .params import PROMPT_RENDER_ERROR_MESSAGE, INVALID_RESPONSES_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
-from .functions import _validate_string, _validate_pos_float, _validate_list_of_str
-from .functions import _validate_date_time
+from .functions import _validate_string
 from .functions import validate_path
 from .template import CustomPromptTemplate, PresetPromptTemplate
 from .response import Response
@@ -24,10 +22,13 @@ class Prompt:
     """
     Prompt class.
 
-    >>> from memor import Prompt, Role
-    >>> prompt = Prompt(message="Hello, how are you?", responses=["I am fine."], role=Role.USER)
+    >>> from memor import Prompt, Role, Response
+    >>> responses = [Response(message="I am fine."), Response(message="I am not fine."), Response(message="I am okay.")]
+    >>> prompt = Prompt(message="Hello, how are you?", responses=responses)
     >>> prompt.message
     'Hello, how are you?'
+    >>> prompt.responses[1].message
+    'I am not fine.'
     """
 
     def __init__(

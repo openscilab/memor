@@ -29,7 +29,7 @@ class CustomPromptTemplate:
             title="unknown",
             custom_map=None):
         """
-        Template object initiator.
+        CustomPromptTemplate object initiator.
 
         :param content: template content
         :type content: str
@@ -259,6 +259,7 @@ Response:
 
 class _BasicPresetPromptTemplate(Enum):
     """Preset basic-prompt templates."""
+
     PROMPT = CustomPromptTemplate(content=BASIC_PROMPT_CONTENT, title="Basic/Prompt", custom_map={"instruction": ""})
     RESPONSE = CustomPromptTemplate(
         content=BASIC_RESPONSE_CONTENT,
@@ -329,6 +330,7 @@ class _BasicPresetPromptTemplate(Enum):
 
 class _Instruction1PresetPromptTemplate(Enum):
     """Preset instruction1-prompt templates."""
+
     PROMPT = CustomPromptTemplate(
         content=BASIC_PROMPT_CONTENT,
         title="Instruction1/Prompt",
@@ -403,6 +405,7 @@ class _Instruction1PresetPromptTemplate(Enum):
 
 class _Instruction2PresetPromptTemplate(Enum):
     """Preset instruction2-prompt templates."""
+
     PROMPT = CustomPromptTemplate(
         content=BASIC_PROMPT_CONTENT,
         title="Instruction2/Prompt",
@@ -477,6 +480,7 @@ class _Instruction2PresetPromptTemplate(Enum):
 
 class _Instruction3PresetPromptTemplate(Enum):
     """Preset instruction3-prompt templates."""
+
     PROMPT = CustomPromptTemplate(
         content=BASIC_PROMPT_CONTENT,
         title="Instruction3/Prompt",
