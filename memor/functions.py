@@ -110,7 +110,7 @@ def _validate_date_time(date_time, parameter_name):
     :return: True if date time is a datetime object
     """
     if not isinstance(date_time, datetime.datetime):
-        raise MemorValidationError(INVALID_DATETIME_MESSAGE)
+        raise MemorValidationError(INVALID_DATETIME_MESSAGE.format(parameter_name))
     return True
 
 
