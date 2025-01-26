@@ -2,11 +2,13 @@ from memor import Prompt, Response, Role
 
 TEST_CASE_NAME = "Prompt tests"
 
+
 def test_prompt_message():
     message = "Hello, how are you?"
     response = Response(message="I am fine.")
     prompt = Prompt(message=message, responses=[response], role=Role.USER)
     assert prompt.message == "Hello, how are you?"
+
 
 def test_prompt_add_response():
     message = "Hello, how are you?"

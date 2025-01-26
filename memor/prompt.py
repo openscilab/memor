@@ -193,11 +193,22 @@ class Prompt:
         :type template: CustomPromptTemplate/PresetPromptTemplate object
         :return: None
         """
-        if not isinstance(template, (CustomPromptTemplate, _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate)):
+        if not isinstance(
+            template,
+            (CustomPromptTemplate,
+             _BasicPresetPromptTemplate,
+             _Instruction1PresetPromptTemplate,
+             _Instruction2PresetPromptTemplate,
+             _Instruction3PresetPromptTemplate)):
             raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
         if isinstance(template, CustomPromptTemplate):
             self._template = template
-        if isinstance(template, (_BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate)):
+        if isinstance(
+            template,
+            (_BasicPresetPromptTemplate,
+             _Instruction1PresetPromptTemplate,
+             _Instruction2PresetPromptTemplate,
+             _Instruction3PresetPromptTemplate)):
             self._template = template.value
         self._date_modified = get_time_utc()
 
