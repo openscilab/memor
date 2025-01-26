@@ -29,7 +29,7 @@ class CustomPromptTemplate:
             title="unknown",
             custom_map=None):
         """
-        CustomPromptTemplate object initiator.
+        Prompt template object initiator.
 
         :param content: template content
         :type content: str
@@ -69,7 +69,8 @@ class CustomPromptTemplate:
         """
         Return a copy of the CustomPromptTemplate object.
 
-        :return: a copy of CustomPromptTemplate object"""
+        :return: a copy of CustomPromptTemplate object
+        """
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)

@@ -15,6 +15,7 @@ from .functions import get_time_utc
 from .functions import _validate_string
 from .functions import validate_path
 from .template import CustomPromptTemplate, PresetPromptTemplate
+from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
 from .response import Response
 
 
@@ -192,11 +193,22 @@ class Prompt:
         :type template: CustomPromptTemplate/PresetPromptTemplate object
         :return: None
         """
-        if not isinstance(template, (CustomPromptTemplate, PresetPromptTemplate)):
+        if not isinstance(
+            template,
+            (CustomPromptTemplate,
+             _BasicPresetPromptTemplate,
+             _Instruction1PresetPromptTemplate,
+             _Instruction2PresetPromptTemplate,
+             _Instruction3PresetPromptTemplate)):
             raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
         if isinstance(template, CustomPromptTemplate):
             self._template = template
-        if isinstance(template, PresetPromptTemplate):
+        if isinstance(
+            template,
+            (_BasicPresetPromptTemplate,
+             _Instruction1PresetPromptTemplate,
+             _Instruction2PresetPromptTemplate,
+             _Instruction3PresetPromptTemplate)):
             self._template = template.value
         self._date_modified = get_time_utc()
 
