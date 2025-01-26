@@ -29,7 +29,7 @@ class CustomPromptTemplate:
             title="unknown",
             custom_map=None):
         """
-        Custom prompt template object initiator.
+        Prompt template object initiator.
 
         :param content: template content
         :type content: str
