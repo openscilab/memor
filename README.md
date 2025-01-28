@@ -67,6 +67,16 @@ By bridging the gap between isolated LLM instances, Memor revolutionizes the way
 - Run `pip install .`
 
 ## Usage
+Define your prompt and the response(s) to that; Memor will wrap it into a object with a templated representation.
+
+```pycon
+>>> from memor import Prompt, Response, Role, PresetPromptTemplate
+>>> response = Response(message="I am fine.", role=Role.ASSISTANT, temperature=0.9, score=0.9)
+>>> prompt = Prompt(message="Hello, how are you?",
+                    responses=[response],
+                    role=Role.USER,
+                    template=PresetPromptTemplate.INSTRUCTION1.RESPONSE0_WITH_LABEL)
+```
 
 ## Issues & bug reports
 
