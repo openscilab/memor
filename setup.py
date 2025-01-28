@@ -35,7 +35,7 @@ setup(
     packages=[
         'memor', ],
     version='0.1',
-    description='Memor: A Python library for managing and transferring conversational memory across LLMs',
+    description='Memor: A Python Library for Managing and Transferring Conversational Memory Across LLMs',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='Memor Development Team',
