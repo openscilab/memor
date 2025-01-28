@@ -13,7 +13,13 @@
 
 ## Overview
 <p align="justify">
-TODO ...
+Memor is a library designed to help users manage the memory of their interactions with Large Language Models (LLMs).
+It enables users to seamlessly access and utilize the history of their conversations when prompting LLMs.
+That would create a more personalized and context-aware experience.
+Memor stands out by allowing users to transfer conversational history across different LLMs, eliminating cold starts where models don't have information about user and their preferences.
+Users can select specific parts of past interactions with one LLM and share them with another.
+By bridging the gap between isolated LLM instances, Memor revolutionizes the way users interact with AI by making transitions between models smoother.
+
 </p>
 <table>
     <tr>
