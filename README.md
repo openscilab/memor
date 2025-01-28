@@ -5,7 +5,7 @@
     <a href="https://codecov.io/gh/openscilab/memor"><img src="https://codecov.io/gh/openscilab/memor/branch/main/graph/badge.svg" alt="Codecov"></a>
     <a href="https://badge.fury.io/py/memor"><img src="https://badge.fury.io/py/memor.svg" alt="PyPI version"></a>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3"></a>
-    <a href="https://discord.gg/8mBspwXqcA"><img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel"></a>
+    <a href="https://discord.gg/cZxGwZ6utB"><img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel"></a>
 </div>
 
 ----------
@@ -13,7 +13,13 @@
 
 ## Overview
 <p align="justify">
-TODO ...
+Memor is a library designed to help users manage the memory of their interactions with Large Language Models (LLMs).
+It enables users to seamlessly access and utilize the history of their conversations when prompting LLMs.
+That would create a more personalized and context-aware experience.
+Memor stands out by allowing users to transfer conversational history across different LLMs, eliminating cold starts where models don't have information about user and their preferences.
+Users can select specific parts of past interactions with one LLM and share them with another.
+By bridging the gap between isolated LLM instances, Memor revolutionizes the way users interact with AI by making transitions between models smoother.
+
 </p>
 <table>
     <tr>
@@ -61,6 +67,16 @@ TODO ...
 - Run `pip install .`
 
 ## Usage
+Define your prompt and the response(s) to that; Memor will wrap it into a object with a templated representation.
+
+```pycon
+>>> from memor import Prompt, Response, Role, PresetPromptTemplate
+>>> response = Response(message="I am fine.", role=Role.ASSISTANT, temperature=0.9, score=0.9)
+>>> prompt = Prompt(message="Hello, how are you?",
+                    responses=[response],
+                    role=Role.USER,
+                    template=PresetPromptTemplate.INSTRUCTION1.RESPONSE0_WITH_LABEL)
+```
 
 ## Issues & bug reports
 
@@ -70,7 +86,7 @@ Just fill an issue and describe it. We'll check it ASAP! or send an email to [me
  
 You can also join our discord server
 
-<a href="https://discord.gg/8mBspwXqcA">
+<a href="https://discord.gg/cZxGwZ6utB">
   <img src="https://img.shields.io/discord/1064533716615049236.svg?style=for-the-badge" alt="Discord Channel">
 </a>
 
