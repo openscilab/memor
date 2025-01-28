@@ -42,7 +42,7 @@ setup(
     author_email='memor@openscilab.com',
     url='https://github.com/openscilab/memor',
     download_url='https://github.com/openscilab/memor/tarball/v0.1',
-    keywords="llm memory management conversational history",
+    keywords="llm memory management conversational history ai agent",
     project_urls={
             'Source': 'https://github.com/openscilab/memor',
     },
