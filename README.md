@@ -5,7 +5,7 @@
     <a href="https://codecov.io/gh/openscilab/memor"><img src="https://codecov.io/gh/openscilab/memor/branch/main/graph/badge.svg" alt="Codecov"></a>
     <a href="https://badge.fury.io/py/memor"><img src="https://badge.fury.io/py/memor.svg" alt="PyPI version"></a>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3"></a>
-    <a href="https://discord.gg/8mBspwXqcA"><img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel"></a>
+    <a href="https://discord.gg/cZxGwZ6utB"><img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel"></a>
 </div>
 
 ----------
@@ -70,7 +70,7 @@ Just fill an issue and describe it. We'll check it ASAP! or send an email to [me
  
 You can also join our discord server
 
-<a href="https://discord.gg/8mBspwXqcA">
+<a href="https://discord.gg/cZxGwZ6utB">
   <img src="https://img.shields.io/discord/1064533716615049236.svg?style=for-the-badge" alt="Discord Channel">
 </a>
 
