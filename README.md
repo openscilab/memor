@@ -1,6 +1,6 @@
 <div align="center">
     <img src="https://github.com/openscilab/memor/raw/main/otherfiles/logo.png" width="250">
-    <h1>Memor</h1>
+    <h1>Memor: A Python Library for Managing and Transferring Conversational Memory Across LLMs</h1>
     <br/>
     <a href="https://codecov.io/gh/openscilab/memor"><img src="https://codecov.io/gh/openscilab/memor/branch/main/graph/badge.svg" alt="Codecov"></a>
     <a href="https://badge.fury.io/py/memor"><img src="https://badge.fury.io/py/memor.svg" alt="PyPI version"></a>
@@ -70,12 +70,15 @@ By bridging the gap between isolated LLM instances, Memor revolutionizes the way
 Define your prompt and the response(s) to that; Memor will wrap it into a object with a templated representation.
 
 ```pycon
->>> from memor import Prompt, Response, Role, PresetPromptTemplate
+>>> from memor import Prompt, Response, Role
+>>> from memor import PresetPromptTemplate, PromptRenderFormat
 >>> response = Response(message="I am fine.", role=Role.ASSISTANT, temperature=0.9, score=0.9)
 >>> prompt = Prompt(message="Hello, how are you?",
                     responses=[response],
                     role=Role.USER,
-                    template=PresetPromptTemplate.INSTRUCTION1.RESPONSE0_WITH_LABEL)
+                    template=PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD)
+>>> prompt.render(render_format=PromptRenderFormat.OPENAI)
+[{'role': 'user', 'content': "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\nPrompt: Hello, how are you?\nResponse: I am fine."}]
 ```
 
 ## Issues & bug reports
