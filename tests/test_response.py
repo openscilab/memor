@@ -1,5 +1,6 @@
 import datetime
 import json
+import copy
 from memor import Response, Role
 
 TEST_CASE_NAME = "Response tests"
@@ -84,3 +85,15 @@ def test_response_load():
 def test_response_json():
     response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     assert response.to_json() == json.dumps(response.to_dict(), indent=4)
+
+
+def test_response_copy1():
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = copy.copy(response1)
+    assert id(response1) != id(response2)
+
+
+def test_response_copy2():
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = response1.copy()
+    assert id(response1) != id(response2)
