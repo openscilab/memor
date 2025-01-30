@@ -102,3 +102,8 @@ def test_response_copy2():
 def test_response_str():
     response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     assert str(response) == response.message
+
+
+def test_response_repr():
+    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    assert repr(response) == "Response(message={message})".format(message=response.message)
