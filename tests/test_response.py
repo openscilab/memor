@@ -71,14 +71,9 @@ def test_response_save():
     result = response.save("response_test.json")
     with open("response_test.json", "r") as file:
         saved_response = json.loads(file.read())
-    assert result["status"] == True and response.to_dict() == saved_response
+    assert result["status"] and response.to_dict() == saved_response
 
 
 def test_response_json():
     response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     assert response.to_json() == json.dumps(response.to_dict(), indent=4)
-
-
-
-
-
