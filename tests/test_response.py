@@ -68,10 +68,17 @@ def test_response_date():
 
 def test_response_save():
     response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    result = response.save("response_test.json")
-    with open("response_test.json", "r") as file:
+    result = response.save("response_test1.json")
+    with open("response_test1.json", "r") as file:
         saved_response = json.loads(file.read())
     assert result["status"] and response.to_dict() == saved_response
+
+
+def test_response_load():
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    result = response1.save("response_test2.json")
+    response2 = Response(file_path="response_test2.json")
+    assert result["status"] and response1.to_dict() == response2.to_dict()
 
 
 def test_response_json():
