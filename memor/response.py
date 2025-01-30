@@ -257,6 +257,15 @@ class Response:
         return self._temperature
 
     @property
+    def role(self):
+        """
+        Get the response role.
+
+        :return: response role
+        """
+        return self._role
+
+    @property
     def model(self):
         """
         Get the agent model.
