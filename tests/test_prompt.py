@@ -41,6 +41,33 @@ def test_responses2():
     assert prompt.responses[0].message == "I am fine." and prompt.responses[1].message == "Good!"
 
 
+def test_responses3():
+    message = "Hello, how are you?"
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Good!")
+    prompt = Prompt(message=message)
+    prompt.update_responses([response0, response1])
+    assert prompt.responses[0].message == "I am fine." and prompt.responses[1].message == "Good!"
+
+
+def test_add_response():
+    message = "Hello, how are you?"
+    response0 = Response(message="I am fine.")
+    prompt = Prompt(message=message, responses=[response0])
+    response1 = Response(message="Great!")
+    prompt.add_response(response1)
+    assert response1 in prompt.responses
+
+
+def test_remove_response():
+    message = "Hello, how are you?"
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    prompt = Prompt(message=message, responses=[response0, response1])
+    prompt.remove_response(0)
+    assert response0 not in prompt.responses
+
+
 def test_template1():
     message = "Hello, how are you?"
     prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC)
@@ -59,12 +86,3 @@ def test_template3():
     template = CustomPromptTemplate(content="{message}-{response}")
     prompt = Prompt(message=message, template=template)
     assert prompt.template.content == "{message}-{response}"
-
-
-def test_add_response():
-    message = "Hello, how are you?"
-    response0 = Response(message="I am fine.")
-    prompt = Prompt(message=message, responses=[response0], role=Role.USER)
-    response1 = Response(message="Great!", role=Role.ASSISTANT)
-    prompt.add_response(response1)
-    assert response1 in prompt.responses
