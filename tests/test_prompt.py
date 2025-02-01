@@ -71,15 +71,15 @@ def test_remove_response():
 
 def test_template1():
     message = "Hello, how are you?"
-    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC)
-    assert prompt.template == PresetPromptTemplate.BASIC.value
+    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    assert prompt.template == PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD.value
 
 
 def test_template2():
     message = "Hello, how are you?"
-    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC)
-    prompt.update_template(PresetPromptTemplate.INSTRUCTION1)
-    assert prompt.template.content == PresetPromptTemplate.INSTRUCTION1.value.content
+    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.RESPONSE)
+    prompt.update_template(PresetPromptTemplate.INSTRUCTION1.PROMPT)
+    assert prompt.template.content == PresetPromptTemplate.INSTRUCTION1.PROMPT.value.content
 
 
 def test_template3():
