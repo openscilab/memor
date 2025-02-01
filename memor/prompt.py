@@ -266,7 +266,11 @@ class Prompt:
 
         :return: JSON object
         """
-        return json.dumps(self.to_dict(), indent=4)
+        data = self.to_dict()
+        for index, response in enumerate(data["responses"]):
+            data["responses"][index] = response.to_dict()
+        data["template"] = data["template"].to_dict()
+        return json.dumps(data, indent=4)
 
     def to_dict(self):
         """
@@ -279,7 +283,7 @@ class Prompt:
             "responses": self._responses,
             "selected_response_index": self._selected_response_index,
             "role": str(self._role),
-            "template": self._template.to_dict(),
+            "template": self._template,
             "memor_version": MEMOR_VERSION,
             "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
             "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
