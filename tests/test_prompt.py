@@ -130,3 +130,17 @@ def test_copy2():
     prompt1 = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     prompt2 = prompt1.copy()
     assert id(prompt1) != id(prompt2)
+
+
+def test_str():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.")
+    prompt = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    assert str(prompt) == prompt.message
+
+
+def test_repr():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.")
+    prompt = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    assert repr(prompt) == "Prompt(message={message})".format(message=prompt.message)
