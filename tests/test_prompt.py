@@ -1,4 +1,5 @@
 import json
+import copy
 from memor import Prompt, Response, Role
 from memor import PresetPromptTemplate, CustomPromptTemplate
 
@@ -113,3 +114,19 @@ def test_load():
     result = prompt1.save("prompt_test2.json")
     prompt2 = Response(file_path="prompt_test2.json")
     assert result["status"] and prompt1.to_dict() == prompt2.to_dict()
+
+
+def test_copy1():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.")
+    prompt1 = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt2 = copy.copy(prompt1)
+    assert id(prompt1) != id(prompt2)
+
+
+def test_copy2():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.")
+    prompt1 = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt2 = prompt1.copy()
+    assert id(prompt1) != id(prompt2)
