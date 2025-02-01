@@ -1,3 +1,4 @@
+import json
 from memor import Prompt, Response, Role
 from memor import PresetPromptTemplate, CustomPromptTemplate
 
@@ -86,3 +87,10 @@ def test_template3():
     template = CustomPromptTemplate(content="{message}-{response}")
     prompt = Prompt(message=message, template=template)
     assert prompt.template.content == "{message}-{response}"
+
+
+def test_json():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.")
+    prompt = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    assert prompt.to_json() == json.dumps(prompt.to_dict(), indent=4)
