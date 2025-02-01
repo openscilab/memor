@@ -5,7 +5,7 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
-from .params import INVALID_PROMPT_FILE_MESSAGE
+from .params import INVALID_RESPONSE_FILE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE
 from .params import Role
 from .errors import MemorValidationError
@@ -203,7 +203,7 @@ class Response:
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             except Exception:
-                raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE) #TODO: This message is wrong (INVALID_RESPONSE_FILE_MESSAGE)
+                raise MemorValidationError(INVALID_RESPONSE_FILE_MESSAGE) #TODO: This message is wrong (INVALID_RESPONSE_FILE_MESSAGE)
 
     def to_json(self):
         """
