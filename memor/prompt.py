@@ -280,7 +280,7 @@ class Prompt:
         """
         return {
             "message": self._message,
-            "responses": self._responses,
+            "responses": self._responses.copy(),
             "selected_response_index": self._selected_response_index,
             "role": str(self._role),
             "template": self._template,
