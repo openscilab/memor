@@ -203,7 +203,7 @@ class Response:
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             except Exception:
-                raise MemorValidationError(INVALID_RESPONSE_FILE_MESSAGE) #TODO: This message is wrong (INVALID_RESPONSE_FILE_MESSAGE)
+                raise MemorValidationError(INVALID_RESPONSE_FILE_MESSAGE)
 
     def to_json(self):
         """
