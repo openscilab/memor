@@ -93,7 +93,8 @@ def test_template3():
 def test_json():
     message = "Hello, how are you?"
     response = Response(message="I am fine.")
-    prompt = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt = Prompt(message=message, responses=[response], role=Role.USER,
+                    template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     prompt_data = prompt.to_dict()
     prompt_data["template"] = prompt_data["template"].to_dict()
     for index, response in enumerate(prompt_data["responses"]):
@@ -104,7 +105,8 @@ def test_json():
 def test_copy1():
     message = "Hello, how are you?"
     response = Response(message="I am fine.")
-    prompt1 = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt1 = Prompt(message=message, responses=[response], role=Role.USER,
+                     template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     prompt2 = copy.copy(prompt1)
     assert id(prompt1) != id(prompt2)
 
@@ -112,7 +114,8 @@ def test_copy1():
 def test_copy2():
     message = "Hello, how are you?"
     response = Response(message="I am fine.")
-    prompt1 = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt1 = Prompt(message=message, responses=[response], role=Role.USER,
+                     template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     prompt2 = prompt1.copy()
     assert id(prompt1) != id(prompt2)
 
@@ -120,12 +123,14 @@ def test_copy2():
 def test_str():
     message = "Hello, how are you?"
     response = Response(message="I am fine.")
-    prompt = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt = Prompt(message=message, responses=[response], role=Role.USER,
+                    template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     assert str(prompt) == prompt.message
 
 
 def test_repr():
     message = "Hello, how are you?"
     response = Response(message="I am fine.")
-    prompt = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt = Prompt(message=message, responses=[response], role=Role.USER,
+                    template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     assert repr(prompt) == "Prompt(message={message})".format(message=prompt.message)
