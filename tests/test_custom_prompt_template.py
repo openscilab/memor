@@ -20,6 +20,7 @@ def test_equality3():
     template2 = CustomPromptTemplate(content="What is your name?", custom_map={"name": "John"}, title="template1")
     assert template1 == template2
 
+
 def test_custom_prompt_template_content():
     template = CustomPromptTemplate(content="What is your name?", custom_map={"name": "John"})
     assert template.content == "What is your name?"
