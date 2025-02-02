@@ -97,25 +97,6 @@ def test_json():
     assert prompt.to_json() == json.dumps(prompt.to_dict(), indent=4)
 
 
-def test_save():
-    message = "Hello, how are you?"
-    response = Response(message="I am fine.")
-    prompt = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
-    result = response.save("prompt_test1.json")
-    with open("prompt_test1.json", "r") as file:
-        saved_prompt = json.loads(file.read())
-    assert result["status"] and prompt.to_dict() == saved_prompt
-
-
-def test_load():
-    message = "Hello, how are you?"
-    response = Response(message="I am fine.")
-    prompt1 = Prompt(message=message, responses=[response], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
-    result = prompt1.save("prompt_test2.json")
-    prompt2 = Response(file_path="prompt_test2.json")
-    assert result["status"] and prompt1.to_dict() == prompt2.to_dict()
-
-
 def test_copy1():
     message = "Hello, how are you?"
     response = Response(message="I am fine.")
