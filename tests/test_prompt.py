@@ -140,7 +140,13 @@ def test_equality1():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    prompt1 = Prompt(message=message, responses=[response1, response2], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt1 = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     prompt2 = prompt1.copy()
     assert prompt1 == prompt2
 
@@ -149,8 +155,10 @@ def test_equality2():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    prompt1 = Prompt(message=message, responses=[response1], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
-    prompt2 = Prompt(message=message, responses=[response2], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt1 = Prompt(message=message, responses=[response1], role=Role.USER,
+                     template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt2 = Prompt(message=message, responses=[response2], role=Role.USER,
+                     template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     assert prompt1 != prompt2
 
 
@@ -158,6 +166,18 @@ def test_equality3():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    prompt1 = Prompt(message=message, responses=[response1, response2], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
-    prompt2 = Prompt(message=message, responses=[response1, response2], role=Role.USER, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt1 = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt2 = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     assert prompt1 == prompt2
