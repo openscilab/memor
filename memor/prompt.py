@@ -280,6 +280,9 @@ class Prompt:
         for index, response in enumerate(data["responses"]):
             data["responses"][index] = response.to_dict()
         data["template"] = data["template"].to_dict()
+        data["role"] = str(data["role"])
+        data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
+        data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         return json.dumps(data, indent=4)
 
     def to_dict(self):
@@ -292,11 +295,11 @@ class Prompt:
             "message": self._message,
             "responses": self._responses.copy(),
             "selected_response_index": self._selected_response_index,
-            "role": str(self._role),
+            "role": self._role,
             "template": self._template,
             "memor_version": MEMOR_VERSION,
-            "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
-            "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
+            "date_created": self._date_created,
+            "date_modified": self._date_modified,
         }
 
     @property
