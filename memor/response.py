@@ -222,7 +222,10 @@ class Response:
 
         :return: JSON object
         """
-        return json.dumps(self.to_dict(), indent=4)
+        data = self.to_dict()
+        data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
+        data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
+        return json.dumps(data, indent=4)
 
     def to_dict(self):
         """
@@ -236,8 +239,8 @@ class Response:
             "temperature": self._temperature,
             "model": self._model,
             "memor_version": MEMOR_VERSION,
-            "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
-            "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
+            "date_created": self._date_created,
+            "date_modified": self._date_modified,
         }
 
     @property
