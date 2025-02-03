@@ -76,6 +76,16 @@ class Prompt:
                 self.update_template(template)
             self.select_response(index=self._selected_response_index)
 
+    def __eq__(self, other_prompt):
+        """
+        Check prompts equality.
+
+        :param other_prompt: another prompt
+        :type other_prompt: Prompt
+        :return: result as bool
+        """
+        return self._message == other_prompt._message and self._responses == other_prompt._responses and self._role == other_prompt._role
+
     def __str__(self):
         """Return string representation of Prompt."""
         return self._message

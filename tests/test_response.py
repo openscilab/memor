@@ -107,3 +107,21 @@ def test_str():
 def test_repr():
     response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     assert repr(response) == "Response(message={message})".format(message=response.message)
+
+
+def test_equality1():
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = response1.copy()
+    assert response1 == response2
+
+
+def test_equality2():
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.6)
+    assert response1 != response2
+
+
+def test_equality3():
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    assert response1 == response2
