@@ -276,24 +276,25 @@ class Prompt:
         :type save_template: bool
         :return: JSON object
         """
-        data = self.to_dict()
+        data = self.to_dict(save_template=save_template)
         for index, response in enumerate(data["responses"]):
             data["responses"][index] = response.to_dict()
-        data["template"] = data["template"].to_dict()
+        if "template" in data:
+            data["template"] = data["template"].to_dict()
         data["role"] = str(data["role"])
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
-        if not save_template:
-            del data["template"]
         return json.dumps(data, indent=4)
 
-    def to_dict(self):
+    def to_dict(self, save_template=True):
         """
         Convert the prompt to a dictionary.
 
+        :param save_template: save template flag
+        :type save_template: bool
         :return: dict
         """
-        return {
+        data = {
             "message": self._message,
             "responses": self._responses.copy(),
             "selected_response_index": self._selected_response_index,
@@ -303,6 +304,9 @@ class Prompt:
             "date_created": self._date_created,
             "date_modified": self._date_modified,
         }
+        if not save_template:
+            del data["template"]
+        return data
 
     @property
     def message(self):
