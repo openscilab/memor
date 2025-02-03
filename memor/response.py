@@ -210,6 +210,7 @@ class Response:
                 self._score = loaded_obj["score"]
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
+                self._role = Role(loaded_obj["role"])
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)

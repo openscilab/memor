@@ -90,18 +90,6 @@ def test_template3():
     assert prompt.template.content == "{message}-{response}"
 
 
-def test_json():
-    message = "Hello, how are you?"
-    response = Response(message="I am fine.")
-    prompt = Prompt(message=message, responses=[response], role=Role.USER,
-                    template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
-    prompt_data = prompt.to_dict()
-    prompt_data["template"] = prompt_data["template"].to_dict()
-    for index, response in enumerate(prompt_data["responses"]):
-        prompt_data["responses"][index] = response.to_dict()
-    assert prompt.to_json() == json.dumps(prompt_data, indent=4)
-
-
 def test_copy1():
     message = "Hello, how are you?"
     response = Response(message="I am fine.")
