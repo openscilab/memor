@@ -254,8 +254,6 @@ class Prompt:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-
-
     def from_json(self, json_doc):
         """
         Load attributes from the JSON document.
@@ -286,7 +284,6 @@ class Prompt:
             self.select_response(index=self._selected_response_index)
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
-
 
     def to_json(self, save_template=True):
         """
@@ -420,7 +417,7 @@ class Prompt:
                 format_kwargs.update({"response_{index}_role".format(index=index): response._role})
                 format_kwargs.update({"response_{index}_temperature".format(index=index): response._temperature})
                 format_kwargs.update({"response_{index}_model".format(index=index): response._model})
-                format_kwargs.update({"response_{index}_date".format(index=index): datetime.datetime.strftime(response._date_created, DATE_TIME_FORMAT)})
+                format_kwargs.update({"response_{index}_date".format(index=index)                                      : datetime.datetime.strftime(response._date_created, DATE_TIME_FORMAT)})
             custom_map = self._template._custom_map
             if custom_map is not None:
                 format_kwargs.update(custom_map)

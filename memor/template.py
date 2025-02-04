@@ -159,8 +159,6 @@ class CustomPromptTemplate:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-
-
     def from_json(self, json_doc):
         """
         Load attributes from the JSON document.
@@ -179,7 +177,6 @@ class CustomPromptTemplate:
             self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_TEMPLATE_STRUCTURE_MESSAGE)
-
 
     def to_json(self):
         """

@@ -206,7 +206,6 @@ class Response:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-
     def from_json(self, json_doc):
         """
         Load attributes from the JSON document.
