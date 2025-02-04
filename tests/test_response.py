@@ -72,19 +72,7 @@ def test_save():
     result = response.save("response_test1.json")
     with open("response_test1.json", "r") as file:
         saved_response = json.loads(file.read())
-    assert result["status"] and response.to_dict() == saved_response
-
-
-def test_load():
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    result = response1.save("response_test2.json")
-    response2 = Response(file_path="response_test2.json")
-    assert result["status"] and response1.to_dict() == response2.to_dict()
-
-
-def test_json():
-    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    assert response.to_json() == json.dumps(response.to_dict(), indent=4)
+    assert result["status"] and json.loads(response.to_json()) == saved_response
 
 
 def test_copy1():

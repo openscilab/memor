@@ -174,7 +174,10 @@ class CustomPromptTemplate:
 
         :return: JSON object
         """
-        return json.dumps(self.to_dict(), indent=4)
+        data = self.to_dict()
+        data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
+        data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
+        return json.dumps(data, indent=4)
 
     def to_dict(self):
         """
@@ -186,9 +189,9 @@ class CustomPromptTemplate:
             "title": self._title,
             "content": self._content,
             "memor_version": MEMOR_VERSION,
-            "custom_map": self._custom_map,
-            "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
-            "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
+            "custom_map": self._custom_map.copy(),
+            "date_created": self._date_created,
+            "date_modified": self._date_modified,
         }
 
     @property

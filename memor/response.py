@@ -210,6 +210,7 @@ class Response:
                 self._score = loaded_obj["score"]
                 self._temperature = loaded_obj["temperature"]
                 self._model = loaded_obj["model"]
+                self._role = Role(loaded_obj["role"])
                 self._memor_version = loaded_obj["memor_version"]
                 self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
                 self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
@@ -222,7 +223,11 @@ class Response:
 
         :return: JSON object
         """
-        return json.dumps(self.to_dict(), indent=4)
+        data = self.to_dict()
+        data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
+        data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
+        data["role"] = str(data["role"])
+        return json.dumps(data, indent=4)
 
     def to_dict(self):
         """
@@ -234,10 +239,11 @@ class Response:
             "message": self._message,
             "score": self._score,
             "temperature": self._temperature,
+            "role": self._role,
             "model": self._model,
             "memor_version": MEMOR_VERSION,
-            "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
-            "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
+            "date_created": self._date_created,
+            "date_modified": self._date_modified,
         }
 
     @property

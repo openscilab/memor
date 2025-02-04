@@ -235,10 +235,8 @@ class Prompt:
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
             with open(file_path, "w") as file:
-                data = self.to_dict()
-                if not save_template:
-                    del data["template"]
-                file.write(json.dumps(data, indent=4))
+                data = self.to_json(save_template=save_template)
+                file.write(data, indent=4)
         except Exception as e:
             result["status"] = False
             result["message"] = str(e)
@@ -270,34 +268,45 @@ class Prompt:
             except Exception:
                 raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
 
-    def to_json(self):
+    def to_json(self, save_template=True):
         """
         Convert the prompt to a JSON object.
 
+        :param save_template: save template flag
+        :type save_template: bool
         :return: JSON object
         """
-        data = self.to_dict()
+        data = self.to_dict(save_template=save_template)
         for index, response in enumerate(data["responses"]):
             data["responses"][index] = response.to_dict()
-        data["template"] = data["template"].to_dict()
+        if "template" in data:
+            data["template"] = data["template"].to_dict()
+        data["role"] = str(data["role"])
+        data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
+        data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         return json.dumps(data, indent=4)
 
-    def to_dict(self):
+    def to_dict(self, save_template=True):
         """
         Convert the prompt to a dictionary.
 
+        :param save_template: save template flag
+        :type save_template: bool
         :return: dict
         """
-        return {
+        data = {
             "message": self._message,
             "responses": self._responses.copy(),
             "selected_response_index": self._selected_response_index,
-            "role": str(self._role),
+            "role": self._role,
             "template": self._template,
             "memor_version": MEMOR_VERSION,
-            "date_created": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT),
-            "date_modified": datetime.datetime.strftime(self._date_modified, DATE_TIME_FORMAT),
+            "date_created": self._date_created,
+            "date_modified": self._date_modified,
         }
+        if not save_template:
+            del data["template"]
+        return data
 
     @property
     def message(self):
