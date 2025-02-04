@@ -6,7 +6,7 @@ from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import Role
-from .params import INVALID_PROMPT_FILE_MESSAGE, INVALID_TEMPLATE_MESSAGE
+from .params import INVALID_PROMPT_STRUCTURE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RESPONSE_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE, INVALID_RESPONSES_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
@@ -252,21 +252,41 @@ class Prompt:
         """
         validate_path(file_path)
         with open(file_path, "r") as file:
-            try:
-                loaded_obj = json.loads(file.read())
-                self._message = loaded_obj["message"]
-                self._responses = loaded_obj["responses"]
-                self._role = Role(loaded_obj["role"])
-                self._template = PresetPromptTemplate.DEFAULT.value
-                if "template" in loaded_obj:
-                    self._template = CustomPromptTemplate(**loaded_obj["template"])
-                self._memor_version = loaded_obj["memor_version"]
-                self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-                self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
-                self._selected_response_index = loaded_obj["selected_response_index"]
-                self.select_response(index=self._selected_response_index)
-            except Exception:
-                raise MemorValidationError(INVALID_PROMPT_FILE_MESSAGE)
+            self.from_json(file.read())
+
+
+
+    def from_json(self, json_doc):
+        """
+        Load attributes from the JSON document.
+
+        :param json_doc: JSON document
+        :type json_doc: str
+        :return: None
+        """
+        try:
+            loaded_obj = json.loads(json_doc)
+            self._message = loaded_obj["message"]
+            responses = []
+            for response in loaded_obj["responses"]:
+                response_obj = Response(message="")
+                response_obj.from_json(response)
+                responses.append(response_obj)
+            self._responses = responses
+            self._role = Role(loaded_obj["role"])
+            self._template = PresetPromptTemplate.DEFAULT.value
+            if "template" in loaded_obj:
+                template_obj = CustomPromptTemplate(content="")
+                template_obj.from_json(loaded_obj["template"])
+                self._template = template_obj
+            self._memor_version = loaded_obj["memor_version"]
+            self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+            self._selected_response_index = loaded_obj["selected_response_index"]
+            self.select_response(index=self._selected_response_index)
+        except Exception:
+            raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
+
 
     def to_json(self, save_template=True):
         """
