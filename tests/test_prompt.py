@@ -124,6 +124,39 @@ def test_repr():
     assert repr(prompt) == "Prompt(message={message})".format(message=prompt.message)
 
 
+def test_json():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt1 = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt1_json = prompt1.to_json()
+    prompt2 = Prompt()
+    prompt2.from_json(prompt1_json)
+    assert prompt1 == prompt2
+
+
+def test_load():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt1 = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    result = prompt1.save("prompt_test1.json")
+    prompt2 = Prompt(file_path="prompt_test1.json")
+    assert prompt1 == prompt2
+
+
 def test_equality1():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)

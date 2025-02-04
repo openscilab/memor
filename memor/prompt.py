@@ -236,7 +236,7 @@ class Prompt:
         try:
             with open(file_path, "w") as file:
                 data = self.to_json(save_template=save_template)
-                file.write(data, indent=4)
+                file.write(data)
         except Exception as e:
             result["status"] = False
             result["message"] = str(e)
@@ -298,10 +298,10 @@ class Prompt:
         """
         data = self.to_dict(save_template=save_template)
         for index, response in enumerate(data["responses"]):
-            data["responses"][index] = response.to_dict()
+            data["responses"][index] = response.to_json()
         if "template" in data:
-            data["template"] = data["template"].to_dict()
-        data["role"] = str(data["role"])
+            data["template"] = data["template"].to_json()
+        data["role"] = data["role"].value
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         return json.dumps(data, indent=4)

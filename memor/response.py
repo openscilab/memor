@@ -237,7 +237,7 @@ class Response:
         data = self.to_dict()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
-        data["role"] = str(data["role"])
+        data["role"] = data["role"].value
         return json.dumps(data, indent=4)
 
     def to_dict(self):
