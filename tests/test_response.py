@@ -70,7 +70,7 @@ def test_date():
 def test_json():
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response1_json = response1.to_json()
-    response2 = Response(message="")
+    response2 = Response()
     response2.from_json(response1_json)
     assert response1 == response2
 

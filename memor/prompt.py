@@ -267,14 +267,14 @@ class Prompt:
             self._message = loaded_obj["message"]
             responses = []
             for response in loaded_obj["responses"]:
-                response_obj = Response(message="")
+                response_obj = Response()
                 response_obj.from_json(response)
                 responses.append(response_obj)
             self._responses = responses
             self._role = Role(loaded_obj["role"])
             self._template = PresetPromptTemplate.DEFAULT.value
             if "template" in loaded_obj:
-                template_obj = CustomPromptTemplate(content="")
+                template_obj = CustomPromptTemplate()
                 template_obj.from_json(loaded_obj["template"])
                 self._template = template_obj
             self._memor_version = loaded_obj["memor_version"]
