@@ -5,7 +5,7 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
-from .params import INVALID_RESPONSE_FILE_MESSAGE
+from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE
 from .params import Role
 from .errors import MemorValidationError
@@ -204,18 +204,28 @@ class Response:
         """
         validate_path(file_path)
         with open(file_path, "r") as file:
-            try:
-                loaded_obj = json.loads(file.read())
-                self._message = loaded_obj["message"]
-                self._score = loaded_obj["score"]
-                self._temperature = loaded_obj["temperature"]
-                self._model = loaded_obj["model"]
-                self._role = Role(loaded_obj["role"])
-                self._memor_version = loaded_obj["memor_version"]
-                self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-                self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
-            except Exception:
-                raise MemorValidationError(INVALID_RESPONSE_FILE_MESSAGE)
+            self.from_json(file.read())
+
+    def from_json(self, json_doc):
+        """
+        Load attributes from the JSON document.
+
+        :param json_doc: JSON document
+        :type json_doc: str
+        :return: None
+        """
+        try:
+            loaded_obj = json.loads(json_doc)
+            self._message = loaded_obj["message"]
+            self._score = loaded_obj["score"]
+            self._temperature = loaded_obj["temperature"]
+            self._model = loaded_obj["model"]
+            self._role = Role(loaded_obj["role"])
+            self._memor_version = loaded_obj["memor_version"]
+            self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+        except Exception:
+            raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
 
     def to_json(self):
         """
@@ -226,7 +236,7 @@ class Response:
         data = self.to_dict()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
-        data["role"] = str(data["role"])
+        data["role"] = data["role"].value
         return json.dumps(data, indent=4)
 
     def to_dict(self):
