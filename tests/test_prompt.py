@@ -154,7 +154,7 @@ def test_load():
         template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     result = prompt1.save("prompt_test1.json")
     prompt2 = Prompt(file_path="prompt_test1.json")
-    assert prompt1 == prompt2
+    assert result["status"] and prompt1 == prompt2
 
 
 def test_equality1():
