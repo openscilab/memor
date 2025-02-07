@@ -36,6 +36,28 @@ def test_custom_map2():
     assert template.custom_map == {"language": "C++"}
 
 
+def test_copy1():
+    template1 = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    template2 = copy.copy(template1)
+    assert id(template1) != id(template2)
+
+
+def test_copy2():
+    template1 = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    template2 = template1.copy()
+    assert id(template1) != id(template2)
+
+
+def test_str():
+    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    assert str(template) == template.content
+
+
+def test_repr():
+    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    assert repr(template) == "CustomPromptTemplate(content={content})".format(content=template.content)
+
+
 def test_equality1():
     template1 = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
     template2 = template1.copy()
