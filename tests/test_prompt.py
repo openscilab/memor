@@ -339,7 +339,7 @@ def test_render5():
     message = "How are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    template = CustomPromptTemplate(content="{instruction}, {prompt_message}", custom_map={"instruction" : "Hi"})
+    template = CustomPromptTemplate(content="{instruction}, {prompt_message}", custom_map={"instruction": "Hi"})
     prompt = Prompt(
         message=message,
         responses=[
