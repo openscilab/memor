@@ -1,7 +1,9 @@
-import json
+import datetime
 import copy
+import pytest
 from memor import Prompt, Response, Role
 from memor import PresetPromptTemplate, CustomPromptTemplate
+from memor import MemorValidationError
 
 TEST_CASE_NAME = "Prompt tests"
 
@@ -28,6 +30,17 @@ def test_role2():
     assert prompt.role == Role.SYSTEM
 
 
+def test_role3():
+    prompt = Prompt(message="Hello, how are you?", role=None)
+    assert prompt.role == Role.USER
+
+
+def test_role4():
+    prompt = Prompt(message="Hello, how are you?", role=None)
+    with pytest.raises(MemorValidationError, match=r"Invalid role. It must be an instance of Role enum."):
+        prompt.update_role(2)
+
+
 def test_responses1():
     message = "Hello, how are you?"
     response = Response(message="I am fine.")
@@ -52,13 +65,45 @@ def test_responses3():
     assert prompt.responses[0].message == "I am fine." and prompt.responses[1].message == "Good!"
 
 
-def test_add_response():
+def test_responses4():
+    message = "Hello, how are you?"
+    prompt = Prompt(message=message)
+    with pytest.raises(MemorValidationError, match=r"Invalid responses. It must be a list of `Response` objects."):
+        prompt.update_responses({"I am fine.", "Good!"})
+
+
+def test_responses5():
+    message = "Hello, how are you?"
+    response0 = Response(message="I am fine.")
+    prompt = Prompt(message=message)
+    with pytest.raises(MemorValidationError, match=r"Invalid responses. It must be a list of `Response` objects."):
+        prompt.update_responses([response0, "Good!"])
+
+
+def test_add_response1():
     message = "Hello, how are you?"
     response0 = Response(message="I am fine.")
     prompt = Prompt(message=message, responses=[response0])
     response1 = Response(message="Great!")
     prompt.add_response(response1)
-    assert response1 in prompt.responses
+    assert prompt.responses[0] == response0 and prompt.responses[1] == response1
+
+
+def test_add_response2():
+    message = "Hello, how are you?"
+    response0 = Response(message="I am fine.")
+    prompt = Prompt(message=message, responses=[response0])
+    response1 = Response(message="Great!")
+    prompt.add_response(response1, index=0)
+    assert prompt.responses[0] == response1 and prompt.responses[1] == response0
+
+
+def test_add_response3():
+    message = "Hello, how are you?"
+    response0 = Response(message="I am fine.")
+    prompt = Prompt(message=message, responses=[response0])
+    with pytest.raises(MemorValidationError, match=r"Invalid response. It must be an instance of `Response` object."):
+        prompt.add_response(1)
 
 
 def test_remove_response():
@@ -68,6 +113,16 @@ def test_remove_response():
     prompt = Prompt(message=message, responses=[response0, response1])
     prompt.remove_response(0)
     assert response0 not in prompt.responses
+
+
+def test_select_response():
+    message = "Hello, how are you?"
+    response0 = Response(message="I am fine.")
+    prompt = Prompt(message=message, responses=[response0])
+    response1 = Response(message="Great!")
+    prompt.add_response(response1)
+    prompt.select_response(index=1)
+    assert prompt.selected_response == response1
 
 
 def test_template1():
@@ -88,6 +143,19 @@ def test_template3():
     template = CustomPromptTemplate(content="{message}-{response}")
     prompt = Prompt(message=message, template=template)
     assert prompt.template.content == "{message}-{response}"
+
+
+def test_template4():
+    message = "Hello, how are you?"
+    prompt = Prompt(message=message, template=None)
+    assert prompt.template == PresetPromptTemplate.DEFAULT.value
+
+
+def test_template5():
+    message = "Hello, how are you?"
+    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.RESPONSE)
+    with pytest.raises(MemorValidationError, match=r"Invalid template. It must be an instance of `CustomPromptTemplate` or `PresetPromptTemplate` objects."):
+        prompt.update_template("{prompt_message}")
 
 
 def test_copy1():
@@ -124,7 +192,7 @@ def test_repr():
     assert repr(prompt) == "Prompt(message={message})".format(message=prompt.message)
 
 
-def test_json():
+def test_json1():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
@@ -141,7 +209,45 @@ def test_json():
     assert prompt1 == prompt2
 
 
-def test_load():
+def test_json2():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt1 = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt1_json = prompt1.to_json(save_template=False)
+    prompt2 = Prompt()
+    prompt2.from_json(prompt1_json)
+    assert prompt1 != prompt2 and prompt1.template == PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD.value and prompt2.template == PresetPromptTemplate.DEFAULT.value
+
+
+def test_json3():
+    prompt = Prompt()
+    with pytest.raises(MemorValidationError, match=r"Invalid prompt structure. It should be a JSON object with proper fields."):
+        prompt.from_json("{}")
+
+
+def test_save():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    result = prompt.save("f:/")
+    assert result["status"] == False
+
+
+def test_save2():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
@@ -155,6 +261,22 @@ def test_load():
     result = prompt1.save("prompt_test1.json")
     prompt2 = Prompt(file_path="prompt_test1.json")
     assert result["status"] and prompt1 == prompt2
+
+
+def test_save3():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt1 = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    result = prompt1.save("prompt_test2.json", save_template=False)
+    prompt2 = Prompt(file_path="prompt_test2.json")
+    assert result["status"] and prompt1 != prompt2 and prompt1.template == PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD.value and prompt2.template == PresetPromptTemplate.DEFAULT.value
 
 
 def test_equality1():
@@ -202,3 +324,31 @@ def test_equality3():
         role=Role.USER,
         template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     assert prompt1 == prompt2
+
+
+def test_date_modified():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    assert isinstance(prompt.date_modified, datetime.datetime)
+
+
+def test_date_created():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    assert isinstance(prompt.date_created, datetime.datetime)
