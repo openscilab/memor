@@ -1,3 +1,5 @@
+import json
+import copy
 from memor import CustomPromptTemplate
 
 TEST_CASE_NAME = "CustomPromptTemplate tests"
@@ -34,6 +36,29 @@ def test_custom_map2():
     template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
     template.update_map({"language": "C++"})
     assert template.custom_map == {"language": "C++"}
+
+
+def test_json():
+    template1 = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    template1_json = template1.to_json()
+    template2 = CustomPromptTemplate()
+    template2.from_json(template1_json)
+    assert template1 == template2
+
+
+def test_save():
+    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    result = template.save("template_test1.json")
+    with open("template_test1.json", "r") as file:
+        saved_template = json.loads(file.read())
+    assert result["status"] and json.loads(template.to_json()) == saved_template
+
+
+def test_load():
+    template1 = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    result = template1.save("template_test2.json")
+    template2 = CustomPromptTemplate(file_path="template_test2.json")
+    assert result["status"] and template1 == template2
 
 
 def test_copy1():
