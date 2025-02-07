@@ -3,7 +3,7 @@ import copy
 import pytest
 from memor import Prompt, Response, Role
 from memor import PresetPromptTemplate, CustomPromptTemplate
-from memor import MemorValidationError
+from memor import PromptRenderFormat, MemorValidationError, MemorRenderError
 
 TEST_CASE_NAME = "Prompt tests"
 
@@ -277,6 +277,90 @@ def test_save3():
     result = prompt1.save("prompt_test2.json", save_template=False)
     prompt2 = Prompt(file_path="prompt_test2.json")
     assert result["status"] and prompt1 != prompt2 and prompt1.template == PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD.value and prompt2.template == PresetPromptTemplate.DEFAULT.value
+
+
+def test_render1():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT)
+    assert prompt.render() == "Hello, how are you?"
+
+
+def test_render2():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT)
+    assert prompt.render(PromptRenderFormat.OPENAI) == [{"role": "user", "content": "Hello, how are you?"}]
+
+
+def test_render3():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT)
+    assert prompt.render(PromptRenderFormat.DICTIONARY)["content"] == "Hello, how are you?"
+
+
+def test_render4():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT)
+    assert ("content", "Hello, how are you?") in prompt.render(PromptRenderFormat.ITEMS)
+
+
+def test_render5():
+    message = "How are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    template = CustomPromptTemplate(content="{instruction}, {prompt_message}", custom_map={"instruction" : "Hi"})
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=template)
+    assert prompt.render(PromptRenderFormat.OPENAI) == [{"role": "user", "content": "Hi, How are you?"}]
+
+
+def test_render6():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    template = CustomPromptTemplate(content="{response2_message}")
+    prompt = Prompt(
+        message=message,
+        responses=[response],
+        role=Role.USER,
+        template=template)
+    with pytest.raises(MemorRenderError, match=r"Prompt template and properties are incompatible."):
+        prompt.render()
 
 
 def test_equality1():
