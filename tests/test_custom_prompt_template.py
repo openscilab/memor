@@ -3,6 +3,39 @@ from memor import CustomPromptTemplate
 TEST_CASE_NAME = "CustomPromptTemplate tests"
 
 
+def test_title1():
+    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    assert template.title == "unknown"
+
+
+def test_title2():
+    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    template.update_title("template1")
+    assert template.title == "template1"
+
+
+def test_content1():
+    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    assert template.content == "Act as a {language} developer and respond to this question:\n{prompt_message}"
+
+
+def test_content2():
+    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    template.update_content(content="Act as a {language} developer and respond to this query:\n{prompt_message}")
+    assert template.content == "Act as a {language} developer and respond to this query:\n{prompt_message}"
+
+
+def test_custom_map1():
+    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    assert template.custom_map == {"language": "Python"}
+
+
+def test_custom_map2():
+    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
+    template.update_map({"language": "C++"})
+    assert template.custom_map == {"language": "C++"}
+
+
 def test_equality1():
     template1 = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
     template2 = template1.copy()
@@ -19,13 +52,3 @@ def test_equality3():
     template1 = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"}, title="template1")
     template2 = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"}, title="template1")
     assert template1 == template2
-
-
-def test_content():
-    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
-    assert template.content == "Act as a {language} developer and respond to this question:\n{prompt_message}"
-
-
-def test_custom_map():
-    template = CustomPromptTemplate(content="Act as a {language} developer and respond to this question:\n{prompt_message}", custom_map={"language": "Python"})
-    assert template.custom_map == {"language": "Python"}
