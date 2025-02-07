@@ -42,7 +42,7 @@ class CustomPromptTemplate:
         :return: None
         """
         self._content = None
-        self._title = None
+        self._title = "unknown"
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
