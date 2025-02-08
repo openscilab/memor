@@ -13,11 +13,11 @@ from .functions import validate_path, validate_custom_map
 from .functions import _validate_string
 
 
-class CustomPromptTemplate:
+class CustomPromptTemplate: # TODO: We can change this class name to PromptTemplate
     r"""
     Prompt template.
 
-    >>> template = CustomPromptTemplate(content="Take a deep breath\n{message}!", title="Greeting")
+    >>> template = CustomPromptTemplate(content="Take a deep breath\n{prompt_message}!", title="Greeting")
     >>> template.title
     'Greeting'
     """
