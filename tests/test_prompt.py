@@ -232,7 +232,7 @@ def test_json3():
         prompt.from_json("{}")
 
 
-def test_save():
+def test_save1():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)

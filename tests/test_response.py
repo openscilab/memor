@@ -84,7 +84,7 @@ def test_date2():
     assert isinstance(response.date_created, datetime.datetime)
 
 
-def test_json():
+def test_json1():
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response1_json = response1.to_json()
     response2 = Response()
