@@ -1,7 +1,7 @@
 <div align="center">
     <h1>Memor: A Python Library for Managing and Transferring Conversational Memory Across LLMs</h1>
     <br/>
-    <a href="https://codecov.io/gh/openscilab/memor"><img src="https://codecov.io/gh/openscilab/memor/branch/main/graph/badge.svg" alt="Codecov"></a>
+    <a href="https://codecov.io/gh/openscilab/memor"> <img src="https://codecov.io/gh/openscilab/memor/branch/dev/graph/badge.svg?token=TS5IAEXX7O"></a>
     <a href="https://badge.fury.io/py/memor"><img src="https://badge.fury.io/py/memor.svg" alt="PyPI version"></a>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3"></a>
     <a href="https://github.com/openscilab/memor"><img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/openscilab/memor"></a>
