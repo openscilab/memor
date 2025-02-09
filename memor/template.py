@@ -26,7 +26,7 @@ class CustomPromptTemplate: # TODO: We can change this class name to PromptTempl
             self,
             content=None,
             file_path=None,
-            title="unknown",
+            title=None,
             custom_map=None):
         """
         Prompt template object initiator.
@@ -42,7 +42,7 @@ class CustomPromptTemplate: # TODO: We can change this class name to PromptTempl
         :return: None
         """
         self._content = None
-        self._title = "unknown"
+        self._title = None
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
