@@ -1,7 +1,7 @@
 <div align="center">
     <h1>Memor: A Python Library for Managing and Transferring Conversational Memory Across LLMs</h1>
     <br/>
-    <a href="https://codecov.io/gh/openscilab/memor"> <img src="https://codecov.io/gh/openscilab/memor/branch/dev/graph/badge.svg?token=TS5IAEXX7O"></a>
+    <a href="https://codecov.io/gh/openscilab/memor"><img src="https://codecov.io/gh/openscilab/memor/branch/dev/graph/badge.svg?token=TS5IAEXX7O"></a>
     <a href="https://badge.fury.io/py/memor"><img src="https://badge.fury.io/py/memor.svg" alt="PyPI version"></a>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3"></a>
     <a href="https://github.com/openscilab/memor"><img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/openscilab/memor"></a>
@@ -56,12 +56,12 @@ By bridging the gap between isolated LLM instances, Memor revolutionizes the way
     </tr>
 </table>
 <table>
-	<tr> 
-		<td align="center">Code Quality</td>
-		<td align="center"><a href="https://www.codefactor.io/repository/github/openscilab/memor"><img src="https://www.codefactor.io/repository/github/openscilab/memor/badge" alt="CodeFactor"></a></td>
-		<td align="center"><a href="https://app.codacy.com/gh/openscilab/memor/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/3758f5116c4347ce957997bb7f679cfa"/></a></td>
-		<td align="center"><a href="https://codebeat.co/projects/github-com-openscilab-memor-main"><img alt="codebeat badge" src="https://codebeat.co/badges/cd9a4239-280d-415d-95dd-faeea9270668"></a></td>
-	</tr>
+    <tr> 
+        <td align="center">Code Quality</td>
+        <td align="center"><a href="https://www.codefactor.io/repository/github/openscilab/memor"><img src="https://www.codefactor.io/repository/github/openscilab/memor/badge" alt="CodeFactor"></a></td>
+        <td align="center"><a href="https://app.codacy.com/gh/openscilab/memor/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/3758f5116c4347ce957997bb7f679cfa"/></a></td>
+        <td align="center"><a href="https://codebeat.co/projects/github-com-openscilab-memor-main"><img alt="codebeat badge" src="https://codebeat.co/badges/cd9a4239-280d-415d-95dd-faeea9270668"></a></td>
+    </tr>
 </table>
 
 
