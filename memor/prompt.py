@@ -84,7 +84,7 @@ class Prompt:
         :type other_prompt: Prompt
         :return: result as bool
         """
-        return self._message == other_prompt._message and self._responses == other_prompt._responses and self._role == other_prompt._role
+        return self._message == other_prompt._message and self._responses == other_prompt._responses and self._role == other_prompt._role and self._template == other_prompt._template
 
     def __str__(self):
         """Return string representation of Prompt."""
@@ -406,7 +406,7 @@ class Prompt:
             if isinstance(self._selected_response, Response):
                 format_kwargs.update({"response_message": self._selected_response._message})
                 format_kwargs.update({"response_score": self._selected_response._score})
-                format_kwargs.update({"response_role": self._selected_response._role})
+                format_kwargs.update({"response_role": self._selected_response._role.value})
                 format_kwargs.update({"response_temperature": self._selected_response._temperature})
                 format_kwargs.update({"response_model": self._selected_response._model})
                 format_kwargs.update({"response_date": datetime.datetime.strftime(
@@ -414,7 +414,7 @@ class Prompt:
             for index, response in enumerate(self._responses):
                 format_kwargs.update({"response_{index}_message".format(index=index): response._message})
                 format_kwargs.update({"response_{index}_score".format(index=index): response._score})
-                format_kwargs.update({"response_{index}_role".format(index=index): response._role})
+                format_kwargs.update({"response_{index}_role".format(index=index): response._role.value})
                 format_kwargs.update({"response_{index}_temperature".format(index=index): response._temperature})
                 format_kwargs.update({"response_{index}_model".format(index=index): response._model})
                 format_kwargs.update({"response_{index}_date".format(index=index): datetime.datetime.strftime(response._date_created, DATE_TIME_FORMAT)})
