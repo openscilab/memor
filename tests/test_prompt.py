@@ -2,7 +2,7 @@ import datetime
 import copy
 import pytest
 from memor import Prompt, Response, Role
-from memor import PresetPromptTemplate, CustomPromptTemplate
+from memor import PresetPromptTemplate, PromptTemplate
 from memor import PromptRenderFormat, MemorValidationError, MemorRenderError
 
 TEST_CASE_NAME = "Prompt tests"
@@ -140,7 +140,7 @@ def test_template2():
 
 def test_template3():
     message = "Hello, how are you?"
-    template = CustomPromptTemplate(content="{message}-{response}")
+    template = PromptTemplate(content="{message}-{response}")
     prompt = Prompt(message=message, template=template)
     assert prompt.template.content == "{message}-{response}"
 
@@ -154,7 +154,7 @@ def test_template4():
 def test_template5():
     message = "Hello, how are you?"
     prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.RESPONSE)
-    with pytest.raises(MemorValidationError, match=r"Invalid template. It must be an instance of `CustomPromptTemplate` or `PresetPromptTemplate` objects."):
+    with pytest.raises(MemorValidationError, match=r"Invalid template. It must be an instance of `PromptTemplate` or `PresetPromptTemplate` objects."):
         prompt.update_template("{prompt_message}")
 
 
@@ -339,7 +339,7 @@ def test_render5():
     message = "How are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    template = CustomPromptTemplate(content="{instruction}, {prompt_message}", custom_map={"instruction": "Hi"})
+    template = PromptTemplate(content="{instruction}, {prompt_message}", custom_map={"instruction": "Hi"})
     prompt = Prompt(
         message=message,
         responses=[
@@ -353,7 +353,7 @@ def test_render5():
 def test_render6():
     message = "Hello, how are you?"
     response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    template = CustomPromptTemplate(content="{response2_message}")
+    template = PromptTemplate(content="{response2_message}")
     prompt = Prompt(
         message=message,
         responses=[response],
