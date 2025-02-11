@@ -2,13 +2,13 @@ import datetime
 import json
 import copy
 import pytest
-from memor import CustomPromptTemplate, MemorValidationError
+from memor import PromptTemplate, MemorValidationError
 
-TEST_CASE_NAME = "CustomPromptTemplate tests"
+TEST_CASE_NAME = "PromptTemplate tests"
 
 
 def test_title1():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -16,7 +16,7 @@ def test_title1():
 
 
 def test_title2():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -25,7 +25,7 @@ def test_title2():
 
 
 def test_title3():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"},
@@ -34,7 +34,7 @@ def test_title3():
 
 
 def test_content1():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -42,7 +42,7 @@ def test_content1():
 
 
 def test_content2():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -51,7 +51,7 @@ def test_content2():
 
 
 def test_custom_map1():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -59,7 +59,7 @@ def test_custom_map1():
 
 
 def test_custom_map2():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -68,7 +68,7 @@ def test_custom_map2():
 
 
 def test_date_modified():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -76,7 +76,7 @@ def test_date_modified():
 
 
 def test_date_created():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -84,24 +84,24 @@ def test_date_created():
 
 
 def test_json1():
-    template1 = CustomPromptTemplate(
+    template1 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
     template1_json = template1.to_json()
-    template2 = CustomPromptTemplate()
+    template2 = PromptTemplate()
     template2.from_json(template1_json)
     assert template1 == template2
 
 
 def test_json2():
-    template = CustomPromptTemplate()
+    template = PromptTemplate()
     with pytest.raises(MemorValidationError, match=r"Invalid template structure. It should be a JSON object with proper fields."):
         template.from_json("{}")
 
 
 def test_save1():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -112,7 +112,7 @@ def test_save1():
 
 
 def test_save2():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -121,17 +121,17 @@ def test_save2():
 
 
 def test_load():
-    template1 = CustomPromptTemplate(
+    template1 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
     result = template1.save("template_test2.json")
-    template2 = CustomPromptTemplate(file_path="template_test2.json")
+    template2 = PromptTemplate(file_path="template_test2.json")
     assert result["status"] and template1 == template2
 
 
 def test_copy1():
-    template1 = CustomPromptTemplate(
+    template1 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -140,7 +140,7 @@ def test_copy1():
 
 
 def test_copy2():
-    template1 = CustomPromptTemplate(
+    template1 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -149,7 +149,7 @@ def test_copy2():
 
 
 def test_str():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -157,15 +157,15 @@ def test_str():
 
 
 def test_repr():
-    template = CustomPromptTemplate(
+    template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
-    assert repr(template) == "CustomPromptTemplate(content={content})".format(content=template.content)
+    assert repr(template) == "PromptTemplate(content={content})".format(content=template.content)
 
 
 def test_equality1():
-    template1 = CustomPromptTemplate(
+    template1 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
@@ -174,12 +174,12 @@ def test_equality1():
 
 
 def test_equality2():
-    template1 = CustomPromptTemplate(
+    template1 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"},
         title="template1")
-    template2 = CustomPromptTemplate(
+    template2 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"},
@@ -188,12 +188,12 @@ def test_equality2():
 
 
 def test_equality3():
-    template1 = CustomPromptTemplate(
+    template1 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"},
         title="template1")
-    template2 = CustomPromptTemplate(
+    template2 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"},

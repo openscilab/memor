@@ -131,7 +131,7 @@ def validate_path(path):
 
 def validate_custom_map(custom_map):
     """
-    Validate custom map property in CustomPromptTemplate class.
+    Validate custom map property in PromptTemplate class.
 
     :param custom_map: custom map
     :type custom_map: any

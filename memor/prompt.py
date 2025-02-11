@@ -14,7 +14,7 @@ from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_string
 from .functions import validate_path
-from .template import CustomPromptTemplate, PresetPromptTemplate
+from .template import PromptTemplate, PresetPromptTemplate
 from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
 from .response import Response
 
@@ -49,7 +49,7 @@ class Prompt:
         :param role: prompt role
         :type role: Role object
         :param template: prompt template
-        :type template: CustomPromptTemplate/PresetPromptTemplate object
+        :type template: PromptTemplate/PresetPromptTemplate object
         :param file_path: prompt file path
         :type file_path: str
         :return: None
@@ -200,18 +200,18 @@ class Prompt:
         Update the prompt template.
 
         :param template: template
-        :type template: CustomPromptTemplate/PresetPromptTemplate object
+        :type template: PromptTemplate/PresetPromptTemplate object
         :return: None
         """
         if not isinstance(
             template,
-            (CustomPromptTemplate,
+            (PromptTemplate,
              _BasicPresetPromptTemplate,
              _Instruction1PresetPromptTemplate,
              _Instruction2PresetPromptTemplate,
              _Instruction3PresetPromptTemplate)):
             raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
-        if isinstance(template, CustomPromptTemplate):
+        if isinstance(template, PromptTemplate):
             self._template = template
         if isinstance(
             template,
@@ -274,7 +274,7 @@ class Prompt:
             self._role = Role(loaded_obj["role"])
             self._template = PresetPromptTemplate.DEFAULT.value
             if "template" in loaded_obj:
-                template_obj = CustomPromptTemplate()
+                template_obj = PromptTemplate()
                 template_obj.from_json(loaded_obj["template"])
                 self._template = template_obj
             self._memor_version = loaded_obj["memor_version"]
