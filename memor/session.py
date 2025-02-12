@@ -62,7 +62,6 @@ class Session:
         """
         pass
 
-
     def disable_prompt(self, index):
         """
         Disable a prompt.
@@ -77,11 +76,9 @@ class Session:
         """Update the session prompts."""
         pass
 
-
     def update_instruction(self, instruction):
         """Update the session instruction."""
         pass
-
 
     def save(self, file_path, save_template=True):
         """Save method."""
@@ -90,7 +87,6 @@ class Session:
     def load(self, file_path):
         """Load method."""
         pass
-
 
     def from_json(self, json_doc):
         """
