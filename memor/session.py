@@ -8,6 +8,7 @@ from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .prompt import Prompt
 from .functions import get_time_utc
 
+
 class Session:
     """Session class."""
 
@@ -35,7 +36,7 @@ class Session:
         """Check sessions equality."""
         return self._instruction == other_session._instruction and self._prompts == other_session._prompts
 
-    def __str__(self): #TODO: Need discussion
+    def __str__(self):  # TODO: Need discussion
         """Return string representation of Session."""
         pass
 
@@ -62,7 +63,7 @@ class Session:
         """
         return self.__copy__()
 
-    def add_prompt(self, prompt, status=True, index=None): #TODO: Need validation
+    def add_prompt(self, prompt, status=True, index=None):  # TODO: Need validation
         """Add a prompt to the session object."""
         if index is None:
             self._prompts.append(prompt)
@@ -98,13 +99,13 @@ class Session:
         """
         self._prompts_status[index] = False
 
-    def update_prompts(self, prompts, status=None): #TODO: Need validation
+    def update_prompts(self, prompts, status=None):  # TODO: Need validation
         """Update the session prompts."""
         self._prompts = prompts
-        self._prompts_status = status #TODO: After validation or a seperate method
+        self._prompts_status = status  # TODO: After validation or a seperate method
         self._date_modified = get_time_utc()
 
-    def update_instruction(self, instruction): #TODO: Need validation
+    def update_instruction(self, instruction):  # TODO: Need validation
         """Update the session instruction."""
         self._instruction = instruction
         self._date_modified = get_time_utc()
@@ -121,7 +122,7 @@ class Session:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path): #TODO: Need validation
+    def load(self, file_path):  # TODO: Need validation
         """Load method."""
         with open(file_path, "r") as file:
             self.from_json(file.read())
@@ -146,7 +147,6 @@ class Session:
         self._memor_version = loaded_obj["memor_version"]
         self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
         self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
-
 
     def to_json(self):
         """
