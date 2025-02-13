@@ -27,7 +27,7 @@ class Session:
 
     def __eq__(self, other_session):
         """Check sessions equality."""
-        pass
+        return self._instruction == other_session._instruction and self._prompts == other_session._prompts
 
     def __str__(self):
         """Return string representation of Session."""
