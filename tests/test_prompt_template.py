@@ -12,7 +12,7 @@ def test_title1():
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
             "language": "Python"})
-    assert template.title == None
+    assert template.title is None
 
 
 def test_title2():
@@ -30,7 +30,7 @@ def test_title3():
         custom_map={
             "language": "Python"},
         title=None)
-    assert template.title == None
+    assert template.title is None
 
 
 def test_content1():
