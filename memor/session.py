@@ -161,7 +161,14 @@ class Session:
 
         :return: dict
         """
-        pass
+        data = {
+            "instruction": self._instruction,
+            "prompts": self._prompts.copy(),
+            "memor_version": MEMOR_VERSION,
+            "date_created": self._date_created,
+            "date_modified": self._date_modified,
+        }
+        return data
 
     def render(self):
         """Render method."""
