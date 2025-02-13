@@ -180,3 +180,6 @@ class Session:
     def render(self):
         """Render method."""
         pass
+
+
+#TODO: Properties
