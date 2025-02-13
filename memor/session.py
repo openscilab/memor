@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Session class."""
-
+from .params import MEMOR_VERSION
+from .functions import get_time_utc
 
 class Session:
     """Session class."""
@@ -11,7 +12,18 @@ class Session:
             prompts=[],
             file_path=None):
         """Session object initiator."""
-        pass
+        self._instruction = None
+        self._prompts = []
+        self._date_created = get_time_utc()
+        self._date_modified = get_time_utc()
+        self._memor_version = MEMOR_VERSION
+        if file_path:
+            self.load(file_path)
+        else:
+            if instruction:
+                self.update_instruction(instruction)
+            if prompts:
+                self.update_prompts(prompts)
 
     def __eq__(self, other_session):
         """Check sessions equality."""
