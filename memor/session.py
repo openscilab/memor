@@ -56,7 +56,7 @@ class Session:
         """
         return self.__copy__()
 
-    def add_prompt(self, prompt, index=None):
+    def add_prompt(self, prompt, index=None): #TODO: Need validation
         """Add a prompt to the session object."""
         if index is None:
             self._prompts.append(prompt)
@@ -89,13 +89,15 @@ class Session:
         """
         pass
 
-    def update_prompts(self, prompts):
+    def update_prompts(self, prompts): #TODO: Need validation
         """Update the session prompts."""
-        pass
+        self._prompts = prompts
+        self._date_modified = get_time_utc()
 
-    def update_instruction(self, instruction):
+    def update_instruction(self, instruction): #TODO: Need validation
         """Update the session instruction."""
-        pass
+        self._instruction = instruction
+        self._date_modified = get_time_utc()
 
     def save(self, file_path, save_template=True):
         """Save method."""
