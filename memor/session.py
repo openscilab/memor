@@ -19,6 +19,7 @@ class Session:
         """Session object initiator."""
         self._instruction = None
         self._prompts = []
+        self._prompts_status = []
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
@@ -34,7 +35,7 @@ class Session:
         """Check sessions equality."""
         return self._instruction == other_session._instruction and self._prompts == other_session._prompts
 
-    def __str__(self):
+    def __str__(self): #TODO: Need discussion
         """Return string representation of Session."""
         pass
 
@@ -61,17 +62,20 @@ class Session:
         """
         return self.__copy__()
 
-    def add_prompt(self, prompt, index=None): #TODO: Need validation
+    def add_prompt(self, prompt, status=True, index=None): #TODO: Need validation
         """Add a prompt to the session object."""
         if index is None:
             self._prompts.append(prompt)
+            self._prompts_status.append(status)
         else:
             self._prompts.insert(index, prompt)
+            self._prompts_status.insert(index, status)
         self._date_modified = get_time_utc()
 
     def remove_prompt(self, index):
         """Remove a prompt from the session object."""
         self._prompts.pop(index)
+        self._prompts_status.pop(index)
         self._date_modified = get_time_utc()
 
     def enable_prompt(self, index):
@@ -82,7 +86,7 @@ class Session:
         :type index: int
         :return: None
         """
-        pass
+        self._prompts_status[index] = True
 
     def disable_prompt(self, index):
         """
@@ -92,11 +96,12 @@ class Session:
         :type index: int
         :return: None
         """
-        pass
+        self._prompts_status[index] = False
 
-    def update_prompts(self, prompts): #TODO: Need validation
+    def update_prompts(self, prompts, status=None): #TODO: Need validation
         """Update the session prompts."""
         self._prompts = prompts
+        self._prompts_status = status #TODO: After validation or a seperate method
         self._date_modified = get_time_utc()
 
     def update_instruction(self, instruction): #TODO: Need validation
@@ -131,6 +136,7 @@ class Session:
         """
         loaded_obj = json.loads(json_doc)
         self._instruction = loaded_obj["instruction"]
+        self._prompts_status = loaded_obj["prompts_status"]
         prompts = []
         for prompt in loaded_obj["prompts"]:
             prompt_obj = Prompt()
@@ -164,6 +170,7 @@ class Session:
         data = {
             "instruction": self._instruction,
             "prompts": self._prompts.copy(),
+            "prompts_status": self._prompts_status.copy(),
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
             "date_modified": self._date_modified,
