@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 """Session class."""
+import datetime
+import json
 from .params import MEMOR_VERSION
+from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
+from .prompt import Prompt
 from .functions import get_time_utc
 
 class Session:
@@ -125,7 +129,18 @@ class Session:
         :type json_doc: str
         :return: None
         """
-        pass
+        loaded_obj = json.loads(json_doc)
+        self._instruction = loaded_obj["instruction"]
+        prompts = []
+        for prompt in loaded_obj["prompts"]:
+            prompt_obj = Prompt()
+            prompt_obj.from_json(prompt)
+            prompts.append(prompt_obj)
+        self._prompts = prompts
+        self._memor_version = loaded_obj["memor_version"]
+        self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+        self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+
 
     def to_json(self):
         """
@@ -133,7 +148,12 @@ class Session:
 
         :return: JSON object
         """
-        pass
+        data = self.to_dict()
+        for index, prompt in enumerate(data["prompts"]):
+            data["prompts"][index] = prompt.to_json()
+        data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
+        data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
+        return json.dumps(data, indent=4)
 
     def to_dict(self):
         """
