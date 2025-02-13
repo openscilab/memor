@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Session class."""
 from .params import MEMOR_VERSION
+from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .functions import get_time_utc
 
 class Session:
@@ -99,13 +100,22 @@ class Session:
         self._instruction = instruction
         self._date_modified = get_time_utc()
 
-    def save(self, file_path, save_template=True):
+    def save(self, file_path):
         """Save method."""
-        pass
+        result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
+        try:
+            with open(file_path, "w") as file:
+                data = self.to_json()
+                file.write(data)
+        except Exception as e:
+            result["status"] = False
+            result["message"] = str(e)
+        return result
 
-    def load(self, file_path):
+    def load(self, file_path): #TODO: Need validation
         """Load method."""
-        pass
+        with open(file_path, "r") as file:
+            self.from_json(file.read())
 
     def from_json(self, json_doc):
         """
