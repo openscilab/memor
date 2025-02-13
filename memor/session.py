@@ -35,7 +35,7 @@ class Session:
 
     def __repr__(self):
         """Return string representation of Session."""
-        pass
+        return "Session(instruction={instruction})".format(instruction=self._instruction)
 
     def __copy__(self):
         """
@@ -58,11 +58,16 @@ class Session:
 
     def add_prompt(self, prompt, index=None):
         """Add a prompt to the session object."""
-        pass
+        if index is None:
+            self._prompts.append(prompt)
+        else:
+            self._prompts.insert(index, prompt)
+        self._date_modified = get_time_utc()
 
     def remove_prompt(self, index):
         """Remove a prompt from the session object."""
-        pass
+        self._prompts.pop(index)
+        self._date_modified = get_time_utc()
 
     def enable_prompt(self, index):
         """
