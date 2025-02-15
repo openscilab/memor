@@ -5,8 +5,13 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
+from .params import INVALID_PROMPT_MESSAGE, INVALID_PROMPTS_MESSAGE
 from .prompt import Prompt
+from .errors import MemorValidationError
 from .functions import get_time_utc
+from .functions import validate_path
+from .functions import _validate_bool, _validate_string
+from .functions import _validate_list_of_bool
 
 
 class Session:
@@ -17,7 +22,17 @@ class Session:
             instruction=None,
             prompts=[],
             file_path=None):
-        """Session object initiator."""
+        """
+        Session object initiator.
+        
+        :param instruction: instruction
+        :type instruction: str
+        :param prompts: prompts
+        :type prompts: list
+        :param file_path: file path
+        :type file_path: str
+        :return: None
+        """
         self._instruction = None
         self._prompts = []
         self._prompts_status = []
@@ -33,7 +48,13 @@ class Session:
                 self.update_prompts(prompts)
 
     def __eq__(self, other_session):
-        """Check sessions equality."""
+        """
+        Check sessions equality.
+        
+        :param other_session: other session
+        :type other_session: Session
+        :return: bool
+        """
         return self._instruction == other_session._instruction and self._prompts == other_session._prompts
 
     def __str__(self):  # TODO: Need discussion
@@ -63,8 +84,21 @@ class Session:
         """
         return self.__copy__()
 
-    def add_prompt(self, prompt, status=True, index=None):  # TODO: Need validation
-        """Add a prompt to the session object."""
+    def add_prompt(self, prompt, status=True, index=None):
+        """
+        Add a prompt to the session object.
+        
+        :param prompt: prompt
+        :type prompt: Prompt
+        :param status: status
+        :type status: bool
+        :param index: index
+        :type index: int
+        :return: None
+        """
+        if not isinstance(prompt, Prompt):
+            raise MemorValidationError(INVALID_PROMPT_MESSAGE)
+        _validate_bool(status, "status")
         if index is None:
             self._prompts.append(prompt)
             self._prompts_status.append(status)
@@ -74,7 +108,13 @@ class Session:
         self._date_modified = get_time_utc()
 
     def remove_prompt(self, index):
-        """Remove a prompt from the session object."""
+        """
+        Remove a prompt from the session object.
+        
+        :param index: index
+        :type index: int
+        :return: None
+        """
         self._prompts.pop(index)
         self._prompts_status.pop(index)
         self._date_modified = get_time_utc()
@@ -99,19 +139,56 @@ class Session:
         """
         self._prompts_status[index] = False
 
-    def update_prompts(self, prompts, status=None):  # TODO: Need validation
-        """Update the session prompts."""
+    def update_prompts(self, prompts, status=None):
+        """
+        Update the session prompts.
+        
+        :param prompts: prompts
+        :type prompts: list
+        :param status: status
+        :type status: list
+        :return: None
+        """
+        if not isinstance(prompts, list):
+            raise MemorValidationError(INVALID_PROMPT_MESSAGE)
+        if not all(isinstance(prompt, Prompt) for prompt in prompts):
+            raise MemorValidationError(INVALID_PROMPTS_MESSAGE)
         self._prompts = prompts
-        self._prompts_status = status  # TODO: After validation or a seperate method
+        if status:
+            self._update_prompts_status(status)
         self._date_modified = get_time_utc()
 
-    def update_instruction(self, instruction):  # TODO: Need validation
-        """Update the session instruction."""
+    def _update_prompts_status(self, status):
+        """
+        Update the session prompts status.
+
+        :param status: status
+        :type status: list
+        :return: None
+        """
+        _validate_list_of_bool(status, "status")
+        self._prompts_status = status
+
+    def update_instruction(self, instruction):
+        """
+        Update the session instruction.
+        
+        :param instruction: instruction
+        :type instruction: str
+        :return: None
+        """
+        _validate_string(instruction, "instruction")
         self._instruction = instruction
         self._date_modified = get_time_utc()
 
     def save(self, file_path):
-        """Save method."""
+        """
+        Save method.
+        
+        :param file_path: session file path
+        :type file_path: str
+        :return: result as dict
+        """
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
             with open(file_path, "w") as file:
@@ -122,8 +199,15 @@ class Session:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path):  # TODO: Need validation
-        """Load method."""
+    def load(self, file_path):
+        """
+        Load method.
+        
+        :param file_path: session file path
+        :type file_path: str
+        :return: None
+        """
+        validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
