@@ -9,6 +9,8 @@ from .params import INVALID_NON_POSFLOAT_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_STR_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
+from .params import INVALID_NOBOOL_VALUE_MESSAGE
+from .params import INVALID_LIST_OF_BOOL_MESSAGE
 from .errors import MemorValidationError
 
 
@@ -33,6 +35,21 @@ def _validate_string(value, parameter_name):
     """
     if not isinstance(value, str):
         raise MemorValidationError(INVALID_NONSTR_VALUE_MESSAGE.format(parameter_name))
+    return True
+
+
+def _validate_bool(value, parameter_name):
+    """
+    Validate boolean.
+
+    :param value: value
+    :type value: any
+    :param parameter_name: parameter name
+    :type parameter_name: str
+    :return: True if value is a boolean
+    """
+    if not isinstance(value, bool):
+        raise MemorValidationError(INVALID_NOBOOL_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
@@ -96,6 +113,24 @@ def _validate_list_of_str(value, parameter_name):
 
     if not all(isinstance(x, str) for x in value):
         raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
+    return True
+
+
+def _validate_list_of_bool(value, parameter_name): # TODO: merge to _validate_list_of_
+    """
+    Validate list of booleans.
+
+    :param value: value
+    :type value: any
+    :param parameter_name: parameter name
+    :type parameter_name: str
+    :return: True if value is a list of booleans
+    """
+    if not isinstance(value, list):
+        raise MemorValidationError(INVALID_LIST_OF_BOOL_MESSAGE.format(parameter_name))
+
+    if not all(isinstance(x, bool) for x in value):
+        raise MemorValidationError(INVALID_LIST_OF_BOOL_MESSAGE.format(parameter_name))
     return True
 
 
