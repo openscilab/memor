@@ -98,7 +98,7 @@ def _validate_probability(value, parameter_name):
     return True
 
 
-def _validate_list_of_str(value, parameter_name):
+def _validate_list_of_str(value, parameter_name): # TODO: merge to _validate_list_of_
     """
     Validate list of strings.
 
