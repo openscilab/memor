@@ -98,7 +98,7 @@ def _validate_probability(value, parameter_name):
     return True
 
 
-def _validate_list_of_str(value, parameter_name): # TODO: merge to _validate_list_of_
+def _validate_list_of_str(value, parameter_name):  # TODO: merge to _validate_list_of_
     """
     Validate list of strings.
 
@@ -116,7 +116,7 @@ def _validate_list_of_str(value, parameter_name): # TODO: merge to _validate_lis
     return True
 
 
-def _validate_list_of_bool(value, parameter_name): # TODO: merge to _validate_list_of_
+def _validate_list_of_bool(value, parameter_name):  # TODO: merge to _validate_list_of_
     """
     Validate list of booleans.
 
