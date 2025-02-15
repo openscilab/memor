@@ -151,7 +151,7 @@ class Session:
         :return: None
         """
         if not isinstance(prompts, list):
-            raise MemorValidationError(INVALID_PROMPT_MESSAGE)
+            raise MemorValidationError(INVALID_PROMPTS_MESSAGE)
         if not all(isinstance(prompt, Prompt) for prompt in prompts):
             raise MemorValidationError(INVALID_PROMPTS_MESSAGE)
         self._prompts = prompts
@@ -262,7 +262,7 @@ class Session:
         }
         return data
 
-    def render(self, render_format=PromptRenderFormat.DEFAULT):
+    def render(self, render_format=PromptRenderFormat.DEFAULT): #TODO: Need validation
         """
         Render method.
 
