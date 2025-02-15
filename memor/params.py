@@ -39,7 +39,7 @@ class Role(Enum):
     DEFAULT = USER
 
 
-class PromptRenderFormat(Enum):
+class PromptRenderFormat(Enum): #TODO: rename to `RenderFormat` (need discussion)
     """Prompt render format."""
 
     STRING = "STRING"
