@@ -283,9 +283,9 @@ class Session:
         if self._instruction is not None:
             content = self._instruction + "\n"
         session_dict = self.to_dict()
-        session_dict["content"] = content
         for prompt in self._prompts:
             content += prompt.render(render_format=PromptRenderFormat.STRING) + "\n"
+        session_dict["content"] = content
         if render_format == PromptRenderFormat.STRING:
             return content
         if render_format == PromptRenderFormat.DICTIONARY:
