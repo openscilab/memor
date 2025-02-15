@@ -159,7 +159,7 @@ class Session:
             self._update_prompts_status(status)
         self._date_modified = get_time_utc()
 
-    def _update_prompts_status(self, status):
+    def _update_prompts_status(self, status): #TODO: change to a public method (`update_prompts_status` instead of `_update_prompts_status`)
         """
         Update the session prompts status.
 
@@ -167,7 +167,7 @@ class Session:
         :type status: list
         :return: None
         """
-        _validate_list_of_bool(status, "status")
+        _validate_list_of_bool(status, "status") #TODO: len(status) == len(self._prompts)
         self._prompts_status = status
 
     def update_instruction(self, instruction):
@@ -273,7 +273,7 @@ class Session:
         if render_format == PromptRenderFormat.OPENAI:
             result = []
             if self._instruction is not None:
-                result = [{"role": "user", "content": self._instruction}] #TODO: I belive that we can remove instruction (need discussion)
+                result = [{"role": "user", "content": self._instruction}] #TODO: I think we can remove instruction (need discussion)
             for prompt in self._prompts:
                 result.extend(prompt.render(render_format=PromptRenderFormat.OPENAI))
             return result
