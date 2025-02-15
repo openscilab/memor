@@ -6,6 +6,7 @@ from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_MESSAGE, INVALID_PROMPTS_MESSAGE
+from .params import PromptRenderFormat
 from .prompt import Prompt
 from .errors import MemorValidationError
 from .functions import get_time_utc
@@ -261,9 +262,35 @@ class Session:
         }
         return data
 
-    def render(self):
-        """Render method."""
-        pass
+    def render(self, render_format=PromptRenderFormat.DEFAULT):
+        """
+        Render method.
+
+        :param render_format: render format
+        :type render_format: PromptRenderFormat object
+        :return: rendered session
+        """
+        if render_format == PromptRenderFormat.OPENAI:
+            result = []
+            if self._instruction is not None:
+                result = [{"role": "user", "content": self._instruction}] #TODO: I belive that we can remove instruction (need discussion)
+            for prompt in self._prompts:
+                result.extend(prompt.render(render_format=PromptRenderFormat.OPENAI))
+            return result
+        content = ""
+        if self._instruction is not None:
+            content = self._instruction + "\n"
+        session_dict = self.to_dict()
+        session_dict["content"] = content
+        for prompt in self._prompts:
+            content += prompt.render(render_format=PromptRenderFormat.STRING) + "\n"
+        if render_format == PromptRenderFormat.STRING:
+            return content
+        if render_format == PromptRenderFormat.DICTIONARY:
+            return session_dict
+        if render_format == PromptRenderFormat.ITEMS:
+            return list(session_dict.items())
+
 
 
 #TODO: Properties
