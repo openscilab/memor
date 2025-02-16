@@ -11,6 +11,7 @@ from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_NOBOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_BOOL_MESSAGE
+from .params import INVALID_LIST_OF_X_MESSAGE
 from .errors import MemorValidationError
 
 
@@ -98,7 +99,29 @@ def _validate_probability(value, parameter_name):
     return True
 
 
-def _validate_list_of_str(value, parameter_name):  # TODO: merge to _validate_list_of_
+def _validate_list_of(value, parameter_name, type_, type_name):
+    """
+    Validate list of values.
+
+    :param value: value
+    :type value: any
+    :param parameter_name: parameter name
+    :type parameter_name: str
+    :param type_: type
+    :type type_: type
+    :param type_name: type name
+    :type type_name: str
+    :return: True if value is a list of type_
+    """
+    if not isinstance(value, list):
+        raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name, type_name))
+
+    if not all(isinstance(x, type_) for x in value):
+        raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name, type_name))
+    return True
+
+
+def _validate_list_of_str(value, parameter_name):
     """
     Validate list of strings.
 
@@ -108,15 +131,10 @@ def _validate_list_of_str(value, parameter_name):  # TODO: merge to _validate_li
     :type parameter_name: str
     :return: True if value is a list of strings
     """
-    if not isinstance(value, list):
-        raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
-
-    if not all(isinstance(x, str) for x in value):
-        raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
-    return True
+    return _validate_list_of(value, parameter_name, str, "strings")
 
 
-def _validate_list_of_bool(value, parameter_name):  # TODO: merge to _validate_list_of_
+def _validate_list_of_bool(value, parameter_name):
     """
     Validate list of booleans.
 
@@ -126,12 +144,7 @@ def _validate_list_of_bool(value, parameter_name):  # TODO: merge to _validate_l
     :type parameter_name: str
     :return: True if value is a list of booleans
     """
-    if not isinstance(value, list):
-        raise MemorValidationError(INVALID_LIST_OF_BOOL_MESSAGE.format(parameter_name))
-
-    if not all(isinstance(x, bool) for x in value):
-        raise MemorValidationError(INVALID_LIST_OF_BOOL_MESSAGE.format(parameter_name))
-    return True
+    return _validate_list_of(value, parameter_name, bool, "booleans")
 
 
 def _validate_date_time(date_time, parameter_name):
