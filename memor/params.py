@@ -5,13 +5,12 @@ MEMOR_VERSION = "0.1"
 
 DATE_TIME_FORMAT = "%Y-%m-%d %H:%M:%S %z"
 
-# TODO: error message uniformity (NONX -> X)
 INVALID_PATH_MESSAGE = "Invalid path. Path must be a string."
 PATH_DOES_NOT_EXIST_MESSAGE = "Path {0} does not exist."
-INVALID_NONSTR_VALUE_MESSAGE = "Invalid value. `{0}` must be a string."
-INVALID_NOBOOL_VALUE_MESSAGE = "Invalid value. `{0}` must be a boolean."
-INVALID_NON_POSFLOAT_VALUE_MESSAGE = "Invalid value. `{0}` must be a positive float."
-INVALID_NON_PROB_VALUE_MESSAGE = "Invalid value. `{0}` must be a value between 0 and 1."
+INVALID_STR_VALUE_MESSAGE = "Invalid value. `{0}` must be a string."
+INVALID_BOOL_VALUE_MESSAGE = "Invalid value. `{0}` must be a boolean."
+INVALID_POSFLOAT_VALUE_MESSAGE = "Invalid value. `{0}` must be a positive float."
+INVALID_PROB_VALUE_MESSAGE = "Invalid value. `{0}` must be a value between 0 and 1."
 INVALID_LIST_OF_X_MESSAGE = "Invalid value. `{0}` must be a list of {1}."
 INVALID_DATETIME_MESSAGE = "Invalid value. `{0}` must be a datetime object."
 INVALID_TEMPLATE_MESSAGE = "Invalid template. It must be an instance of `PromptTemplate` or `PresetPromptTemplate` objects."

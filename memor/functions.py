@@ -3,12 +3,12 @@
 import os
 import datetime
 from .params import INVALID_DATETIME_MESSAGE
-from .params import INVALID_PATH_MESSAGE, INVALID_NONSTR_VALUE_MESSAGE
-from .params import INVALID_NON_PROB_VALUE_MESSAGE
-from .params import INVALID_NON_POSFLOAT_VALUE_MESSAGE
+from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
+from .params import INVALID_PROB_VALUE_MESSAGE
+from .params import INVALID_POSFLOAT_VALUE_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
-from .params import INVALID_NOBOOL_VALUE_MESSAGE
+from .params import INVALID_BOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
 from .errors import MemorValidationError
 
@@ -33,7 +33,7 @@ def _validate_string(value, parameter_name):
     :return: True if value is a string
     """
     if not isinstance(value, str):
-        raise MemorValidationError(INVALID_NONSTR_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_STR_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
@@ -48,7 +48,7 @@ def _validate_bool(value, parameter_name):
     :return: True if value is a boolean
     """
     if not isinstance(value, bool):
-        raise MemorValidationError(INVALID_NOBOOL_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_BOOL_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
@@ -78,7 +78,7 @@ def _validate_pos_float(value, parameter_name):
     :return: True if value is a positive float
     """
     if not isinstance(value, float) or value < 0:
-        raise MemorValidationError(INVALID_NON_POSFLOAT_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_POSFLOAT_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
@@ -93,7 +93,7 @@ def _validate_probability(value, parameter_name):
     :return: True if value is a float between 0 and 1
     """
     if not isinstance(value, float) or value < 0 or value > 1:
-        raise MemorValidationError(INVALID_NON_PROB_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_PROB_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
