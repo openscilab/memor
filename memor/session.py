@@ -14,7 +14,7 @@ from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import validate_path
 from .functions import _validate_bool, _validate_string
-from .functions import _validate_list_of_bool
+from .functions import _validate_list_of
 
 
 class Session:
@@ -152,10 +152,7 @@ class Session:
         :type status: list
         :return: None
         """
-        if not isinstance(prompts, list):
-            raise MemorValidationError(INVALID_PROMPTS_MESSAGE)
-        if not all(isinstance(prompt, Prompt) for prompt in prompts):
-            raise MemorValidationError(INVALID_PROMPTS_MESSAGE)
+        _validate_list_of(prompts, "prompts", Prompt, "`Prompt`")
         self._prompts = prompts
         if status:
             self.update_prompts_status(status)
@@ -169,7 +166,7 @@ class Session:
         :type status: list
         :return: None
         """
-        _validate_list_of_bool(status, "status")
+        _validate_list_of(status, "status", bool, "booleans")
         if len(status) != len(self._prompts):
             raise MemorValidationError(INVALID_PROMPT_STATUS_LEN_MESSAGE)
         self._prompts_status = status

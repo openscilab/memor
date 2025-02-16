@@ -12,7 +12,7 @@ from .params import PROMPT_RENDER_ERROR_MESSAGE, INVALID_RESPONSES_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
-from .functions import _validate_string
+from .functions import _validate_string, _validate_list_of
 from .functions import validate_path
 from .template import PromptTemplate, PresetPromptTemplate
 from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
@@ -163,10 +163,7 @@ class Prompt:
         :type responses: list
         :return: None
         """
-        if not isinstance(responses, list):
-            raise MemorValidationError(INVALID_RESPONSES_MESSAGE)
-        if not all(isinstance(x, Response) for x in responses):
-            raise MemorValidationError(INVALID_RESPONSES_MESSAGE)
+        _validate_list_of(responses, "responses", Response, "`Response`")
         self._responses = responses
         self._date_modified = get_time_utc()
 

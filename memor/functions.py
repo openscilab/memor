@@ -6,11 +6,9 @@ from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_NONSTR_VALUE_MESSAGE
 from .params import INVALID_NON_PROB_VALUE_MESSAGE
 from .params import INVALID_NON_POSFLOAT_VALUE_MESSAGE
-from .params import INVALID_LIST_OF_STR_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_NOBOOL_VALUE_MESSAGE
-from .params import INVALID_LIST_OF_BOOL_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
 from .errors import MemorValidationError
 
@@ -119,32 +117,6 @@ def _validate_list_of(value, parameter_name, type_, type_name):
     if not all(isinstance(x, type_) for x in value):
         raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name, type_name))
     return True
-
-
-def _validate_list_of_str(value, parameter_name):
-    """
-    Validate list of strings.
-
-    :param value: value
-    :type value: any
-    :param parameter_name: parameter name
-    :type parameter_name: str
-    :return: True if value is a list of strings
-    """
-    return _validate_list_of(value, parameter_name, str, "strings")
-
-
-def _validate_list_of_bool(value, parameter_name):
-    """
-    Validate list of booleans.
-
-    :param value: value
-    :type value: any
-    :param parameter_name: parameter name
-    :type parameter_name: str
-    :return: True if value is a list of booleans
-    """
-    return _validate_list_of(value, parameter_name, bool, "booleans")
 
 
 def _validate_date_time(date_time, parameter_name):
