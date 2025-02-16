@@ -8,7 +8,7 @@ from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import Role
 from .params import INVALID_PROMPT_STRUCTURE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RESPONSE_MESSAGE
-from .params import PROMPT_RENDER_ERROR_MESSAGE, INVALID_RESPONSES_MESSAGE
+from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc

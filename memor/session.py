@@ -5,7 +5,7 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
-from .params import INVALID_PROMPT_MESSAGE, INVALID_PROMPTS_MESSAGE
+from .params import INVALID_PROMPT_MESSAGE
 from .params import INVALID_PROMPT_STATUS_LEN_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import PromptRenderFormat
