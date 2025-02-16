@@ -6,6 +6,7 @@ from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_MESSAGE, INVALID_PROMPTS_MESSAGE
+from .params import PromptRenderFormat
 from .prompt import Prompt
 from .errors import MemorValidationError
 from .functions import get_time_utc
@@ -24,7 +25,7 @@ class Session:
             file_path=None):
         """
         Session object initiator.
-        
+
         :param instruction: instruction
         :type instruction: str
         :param prompts: prompts
@@ -50,7 +51,7 @@ class Session:
     def __eq__(self, other_session):
         """
         Check sessions equality.
-        
+
         :param other_session: other session
         :type other_session: Session
         :return: bool
@@ -87,7 +88,7 @@ class Session:
     def add_prompt(self, prompt, status=True, index=None):
         """
         Add a prompt to the session object.
-        
+
         :param prompt: prompt
         :type prompt: Prompt
         :param status: status
@@ -110,7 +111,7 @@ class Session:
     def remove_prompt(self, index):
         """
         Remove a prompt from the session object.
-        
+
         :param index: index
         :type index: int
         :return: None
@@ -142,7 +143,7 @@ class Session:
     def update_prompts(self, prompts, status=None):
         """
         Update the session prompts.
-        
+
         :param prompts: prompts
         :type prompts: list
         :param status: status
@@ -150,7 +151,7 @@ class Session:
         :return: None
         """
         if not isinstance(prompts, list):
-            raise MemorValidationError(INVALID_PROMPT_MESSAGE)
+            raise MemorValidationError(INVALID_PROMPTS_MESSAGE)
         if not all(isinstance(prompt, Prompt) for prompt in prompts):
             raise MemorValidationError(INVALID_PROMPTS_MESSAGE)
         self._prompts = prompts
@@ -158,6 +159,7 @@ class Session:
             self._update_prompts_status(status)
         self._date_modified = get_time_utc()
 
+    # TODO: change to a public method (`update_prompts_status` instead of `_update_prompts_status`)
     def _update_prompts_status(self, status):
         """
         Update the session prompts status.
@@ -166,13 +168,13 @@ class Session:
         :type status: list
         :return: None
         """
-        _validate_list_of_bool(status, "status")
+        _validate_list_of_bool(status, "status")  # TODO: len(status) == len(self._prompts)
         self._prompts_status = status
 
     def update_instruction(self, instruction):
         """
         Update the session instruction.
-        
+
         :param instruction: instruction
         :type instruction: str
         :return: None
@@ -184,7 +186,7 @@ class Session:
     def save(self, file_path):
         """
         Save method.
-        
+
         :param file_path: session file path
         :type file_path: str
         :return: result as dict
@@ -202,7 +204,7 @@ class Session:
     def load(self, file_path):
         """
         Load method.
-        
+
         :param file_path: session file path
         :type file_path: str
         :return: None
@@ -261,9 +263,35 @@ class Session:
         }
         return data
 
-    def render(self):
-        """Render method."""
-        pass
+    def render(self, render_format=PromptRenderFormat.DEFAULT):  # TODO: Need validation
+        """
+        Render method.
+
+        :param render_format: render format
+        :type render_format: PromptRenderFormat object
+        :return: rendered session
+        """
+        if render_format == PromptRenderFormat.OPENAI:
+            result = []
+            if self._instruction is not None:
+                # TODO: I think we can remove instruction (need discussion)
+                result = [{"role": "user", "content": self._instruction}]
+            for prompt in self._prompts:
+                result.extend(prompt.render(render_format=PromptRenderFormat.OPENAI))
+            return result
+        content = ""
+        if self._instruction is not None:
+            content = self._instruction + "\n"
+        session_dict = self.to_dict()
+        for prompt in self._prompts:
+            content += prompt.render(render_format=PromptRenderFormat.STRING) + "\n"
+        session_dict["content"] = content
+        if render_format == PromptRenderFormat.STRING:
+            return content
+        if render_format == PromptRenderFormat.DICTIONARY:
+            return session_dict
+        if render_format == PromptRenderFormat.ITEMS:
+            return list(session_dict.items())
 
 
-#TODO: Properties
+# TODO: Properties
