@@ -19,6 +19,7 @@ INVALID_TEMPLATE_MESSAGE = "Invalid template. It must be an instance of `PromptT
 INVALID_RESPONSE_MESSAGE = "Invalid response. It must be an instance of `Response` object."
 INVALID_PROMPT_MESSAGE = "Invalid prompt. It must be an instance of `Prompt` object."
 INVALID_PROMPTS_MESSAGE = "Invalid prompts. It must be a list of `Prompt` objects."
+INVALID_PROMPT_STATUS_LEN_MESSAGE = "Invalid prompt status length. It must be equal to the number of prompts."
 INVALID_RESPONSES_MESSAGE = "Invalid responses. It must be a list of `Response` objects."
 INVALID_CUSTOM_MAP_MESSAGE = "Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."
 INVALID_ROLE_MESSAGE = "Invalid role. It must be an instance of Role enum."
