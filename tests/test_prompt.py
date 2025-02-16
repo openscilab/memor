@@ -68,7 +68,7 @@ def test_responses3():
 def test_responses4():
     message = "Hello, how are you?"
     prompt = Prompt(message=message)
-    with pytest.raises(MemorValidationError, match=r"Invalid responses. It must be a list of `Response` objects."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `responses` must be a list of `Response`."):
         prompt.update_responses({"I am fine.", "Good!"})
 
 
@@ -76,7 +76,7 @@ def test_responses5():
     message = "Hello, how are you?"
     response0 = Response(message="I am fine.")
     prompt = Prompt(message=message)
-    with pytest.raises(MemorValidationError, match=r"Invalid responses. It must be a list of `Response` objects."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `responses` must be a list of `Response`."):
         prompt.update_responses([response0, "Good!"])
 
 
@@ -102,7 +102,7 @@ def test_add_response3():
     message = "Hello, how are you?"
     response0 = Response(message="I am fine.")
     prompt = Prompt(message=message, responses=[response0])
-    with pytest.raises(MemorValidationError, match=r"Invalid response. It must be an instance of `Response` object."):
+    with pytest.raises(MemorValidationError, match=r"Invalid response. It must be an instance of `Response`."):
         prompt.add_response(1)
 
 
@@ -154,7 +154,7 @@ def test_template4():
 def test_template5():
     message = "Hello, how are you?"
     prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.RESPONSE)
-    with pytest.raises(MemorValidationError, match=r"Invalid template. It must be an instance of `PromptTemplate` or `PresetPromptTemplate` objects."):
+    with pytest.raises(MemorValidationError, match=r"Invalid template. It must be an instance of `PromptTemplate` or `PresetPromptTemplate`."):
         prompt.update_template("{prompt_message}")
 
 
