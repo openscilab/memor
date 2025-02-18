@@ -23,7 +23,7 @@ class Session:
     def __init__(
             self,
             instruction=None,
-            messages=[],
+            messages=[], #TODO: Should support Prompt/Response/Session (Additionally, ensure that all error messages are updated accordingly.)
             file_path=None):
         """
         Session object initiator.
