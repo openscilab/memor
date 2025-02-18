@@ -3,14 +3,13 @@
 import os
 import datetime
 from .params import INVALID_DATETIME_MESSAGE
-from .params import INVALID_PATH_MESSAGE, INVALID_NONSTR_VALUE_MESSAGE
-from .params import INVALID_NON_PROB_VALUE_MESSAGE
-from .params import INVALID_NON_POSFLOAT_VALUE_MESSAGE
-from .params import INVALID_LIST_OF_STR_MESSAGE
+from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
+from .params import INVALID_PROB_VALUE_MESSAGE
+from .params import INVALID_POSFLOAT_VALUE_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
-from .params import INVALID_NOBOOL_VALUE_MESSAGE
-from .params import INVALID_LIST_OF_BOOL_MESSAGE
+from .params import INVALID_BOOL_VALUE_MESSAGE
+from .params import INVALID_LIST_OF_X_MESSAGE
 from .errors import MemorValidationError
 
 
@@ -34,7 +33,7 @@ def _validate_string(value, parameter_name):
     :return: True if value is a string
     """
     if not isinstance(value, str):
-        raise MemorValidationError(INVALID_NONSTR_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_STR_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
@@ -49,7 +48,7 @@ def _validate_bool(value, parameter_name):
     :return: True if value is a boolean
     """
     if not isinstance(value, bool):
-        raise MemorValidationError(INVALID_NOBOOL_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_BOOL_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
@@ -79,7 +78,7 @@ def _validate_pos_float(value, parameter_name):
     :return: True if value is a positive float
     """
     if not isinstance(value, float) or value < 0:
-        raise MemorValidationError(INVALID_NON_POSFLOAT_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_POSFLOAT_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
@@ -94,43 +93,29 @@ def _validate_probability(value, parameter_name):
     :return: True if value is a float between 0 and 1
     """
     if not isinstance(value, float) or value < 0 or value > 1:
-        raise MemorValidationError(INVALID_NON_PROB_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_PROB_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
-def _validate_list_of_str(value, parameter_name):  # TODO: merge to _validate_list_of_
+def _validate_list_of(value, parameter_name, type_, type_name):
     """
-    Validate list of strings.
+    Validate list of values.
 
     :param value: value
     :type value: any
     :param parameter_name: parameter name
     :type parameter_name: str
-    :return: True if value is a list of strings
+    :param type_: type
+    :type type_: type
+    :param type_name: type name
+    :type type_name: str
+    :return: True if value is a list of type_
     """
     if not isinstance(value, list):
-        raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name, type_name))
 
-    if not all(isinstance(x, str) for x in value):
-        raise MemorValidationError(INVALID_LIST_OF_STR_MESSAGE.format(parameter_name))
-    return True
-
-
-def _validate_list_of_bool(value, parameter_name):  # TODO: merge to _validate_list_of_
-    """
-    Validate list of booleans.
-
-    :param value: value
-    :type value: any
-    :param parameter_name: parameter name
-    :type parameter_name: str
-    :return: True if value is a list of booleans
-    """
-    if not isinstance(value, list):
-        raise MemorValidationError(INVALID_LIST_OF_BOOL_MESSAGE.format(parameter_name))
-
-    if not all(isinstance(x, bool) for x in value):
-        raise MemorValidationError(INVALID_LIST_OF_BOOL_MESSAGE.format(parameter_name))
+    if not all(isinstance(x, type_) for x in value):
+        raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name, type_name))
     return True
 
 

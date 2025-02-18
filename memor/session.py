@@ -5,14 +5,16 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
-from .params import INVALID_PROMPT_MESSAGE, INVALID_PROMPTS_MESSAGE
+from .params import INVALID_PROMPT_MESSAGE
+from .params import INVALID_PROMPT_STATUS_LEN_MESSAGE
+from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import PromptRenderFormat
 from .prompt import Prompt
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import validate_path
 from .functions import _validate_bool, _validate_string
-from .functions import _validate_list_of_bool
+from .functions import _validate_list_of
 
 
 class Session:
@@ -150,17 +152,13 @@ class Session:
         :type status: list
         :return: None
         """
-        if not isinstance(prompts, list):
-            raise MemorValidationError(INVALID_PROMPTS_MESSAGE)
-        if not all(isinstance(prompt, Prompt) for prompt in prompts):
-            raise MemorValidationError(INVALID_PROMPTS_MESSAGE)
+        _validate_list_of(prompts, "prompts", Prompt, "`Prompt`")
         self._prompts = prompts
         if status:
-            self._update_prompts_status(status)
+            self.update_prompts_status(status)
         self._date_modified = get_time_utc()
 
-    # TODO: change to a public method (`update_prompts_status` instead of `_update_prompts_status`)
-    def _update_prompts_status(self, status):
+    def update_prompts_status(self, status):
         """
         Update the session prompts status.
 
@@ -168,7 +166,9 @@ class Session:
         :type status: list
         :return: None
         """
-        _validate_list_of_bool(status, "status")  # TODO: len(status) == len(self._prompts)
+        _validate_list_of(status, "status", bool, "booleans")
+        if len(status) != len(self._prompts):
+            raise MemorValidationError(INVALID_PROMPT_STATUS_LEN_MESSAGE)
         self._prompts_status = status
 
     def update_instruction(self, instruction):
@@ -271,6 +271,8 @@ class Session:
         :type render_format: PromptRenderFormat object
         :return: rendered session
         """
+        if not isinstance(render_format, PromptRenderFormat):
+            raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         if render_format == PromptRenderFormat.OPENAI:
             result = []
             if self._instruction is not None:
