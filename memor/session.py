@@ -22,21 +22,17 @@ class Session:
 
     def __init__(
             self,
-            instruction=None,
             messages=[], #TODO: Should support Prompt/Response/Session (Additionally, ensure that all error messages are updated accordingly.)
             file_path=None):
         """
         Session object initiator.
 
-        :param instruction: instruction
-        :type instruction: str
         :param messages: messages
         :type messages: list
         :param file_path: file path
         :type file_path: str
         :return: None
         """
-        self._instruction = None
         self._messages = []
         self._messages_status = []
         self._date_created = get_time_utc()
@@ -45,8 +41,6 @@ class Session:
         if file_path:
             self.load(file_path)
         else:
-            if instruction:
-                self.update_instruction(instruction)
             if messages:
                 self.update_messages(messages)
 
@@ -58,7 +52,7 @@ class Session:
         :type other_session: Session
         :return: bool
         """
-        return self._instruction == other_session._instruction and self._messages == other_session._messages
+        return self._messages == other_session._messages
 
     def __str__(self):  # TODO: Need discussion
         """Return string representation of Session."""
@@ -66,7 +60,7 @@ class Session:
 
     def __repr__(self):
         """Return string representation of Session."""
-        return "Session(instruction={instruction})".format(instruction=self._instruction)
+        pass
 
     def __copy__(self):
         """
@@ -171,17 +165,6 @@ class Session:
             raise MemorValidationError(INVALID_PROMPT_STATUS_LEN_MESSAGE)
         self._messages_status = status
 
-    def update_instruction(self, instruction):
-        """
-        Update the session instruction.
-
-        :param instruction: instruction
-        :type instruction: str
-        :return: None
-        """
-        _validate_string(instruction, "instruction")
-        self._instruction = instruction
-        self._date_modified = get_time_utc()
 
     def save(self, file_path):
         """
@@ -222,7 +205,6 @@ class Session:
         :return: None
         """
         loaded_obj = json.loads(json_doc)
-        self._instruction = loaded_obj["instruction"]
         self._messages_status = loaded_obj["messages_status"]
         messages = []
         for message in loaded_obj["messages"]:
@@ -254,7 +236,6 @@ class Session:
         :return: dict
         """
         data = {
-            "instruction": self._instruction,
             "messages": self._messages.copy(),
             "messages_status": self._messages_status.copy(),
             "memor_version": MEMOR_VERSION,
@@ -275,15 +256,10 @@ class Session:
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         if render_format == PromptRenderFormat.OPENAI:
             result = []
-            if self._instruction is not None:
-                # TODO: I think we can remove instruction (need discussion)
-                result = [{"role": "user", "content": self._instruction}]
             for message in self._messages:
                 result.extend(message.render(render_format=PromptRenderFormat.OPENAI))
             return result
         content = ""
-        if self._instruction is not None:
-            content = self._instruction + "\n"
         session_dict = self.to_dict()
         for message in self._messages:
             content += message.render(render_format=PromptRenderFormat.STRING) + "\n"
