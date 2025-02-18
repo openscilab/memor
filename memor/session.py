@@ -22,7 +22,9 @@ class Session:
 
     def __init__(
             self,
-            messages=[], #TODO: Should support Prompt/Response/Session (Additionally, ensure that all error messages are updated accordingly.)
+            messages=[],
+        # TODO: Should support Prompt/Response/Session (Additionally, ensure that
+        # all error messages are updated accordingly.)
             file_path=None):
         """
         Session object initiator.
@@ -164,7 +166,6 @@ class Session:
         if len(status) != len(self._messages):
             raise MemorValidationError(INVALID_PROMPT_STATUS_LEN_MESSAGE)
         self._messages_status = status
-
 
     def save(self, file_path):
         """

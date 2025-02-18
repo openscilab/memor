@@ -256,7 +256,7 @@ class Response:
             "date_modified": self._date_modified,
         }
 
-    #TODO: render method
+    # TODO: render method
 
     @property
     def message(self):
