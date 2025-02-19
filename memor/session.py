@@ -88,7 +88,7 @@ class Session:
         Add a message to the session object.
 
         :param message: message
-        :type message: message
+        :type message: Prompt/Response/Session
         :param status: status
         :type status: bool
         :param index: index
