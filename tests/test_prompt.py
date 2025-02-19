@@ -304,7 +304,7 @@ def test_render2():
             response2],
         role=Role.USER,
         template=PresetPromptTemplate.BASIC.PROMPT)
-    assert prompt.render(RenderFormat.OPENAI) == [{"role": "user", "content": "Hello, how are you?"}]
+    assert prompt.render(RenderFormat.OPENAI) == {"role": "user", "content": "Hello, how are you?"}
 
 
 def test_render3():
@@ -339,7 +339,7 @@ def test_render5():
     message = "How are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    template = PromptTemplate(content="{instruction}, {prompt_message}", custom_map={"instruction": "Hi"})
+    template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
     prompt = Prompt(
         message=message,
         responses=[
@@ -347,13 +347,13 @@ def test_render5():
             response2],
         role=Role.USER,
         template=template)
-    assert prompt.render(RenderFormat.OPENAI) == [{"role": "user", "content": "Hi, How are you?"}]
+    assert prompt.render(RenderFormat.OPENAI) == {"role": "user", "content": "Hi, How are you?"}
 
 
 def test_render6():
     message = "Hello, how are you?"
     response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    template = PromptTemplate(content="{response2_message}")
+    template = PromptTemplate(content="{response[2][message]}")
     prompt = Prompt(
         message=message,
         responses=[response],
