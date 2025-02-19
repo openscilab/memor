@@ -384,7 +384,7 @@ class Prompt:
         """
         return self._selected_response
 
-    def render(self, render_format=RenderFormat.DEFAULT): # TODO: update based on Response.render
+    def render(self, render_format=RenderFormat.DEFAULT):  # TODO: update based on Response.render
         """
         Render method.
 
@@ -395,7 +395,7 @@ class Prompt:
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
-            format_kwargs = {"prompt":json.loads(self.to_json(save_template=False))}
+            format_kwargs = {"prompt": json.loads(self.to_json(save_template=False))}
             if isinstance(self._selected_response, Response):
                 format_kwargs.update({"response": json.loads(self._selected_response.to_json())})
             responses_dicts = []
