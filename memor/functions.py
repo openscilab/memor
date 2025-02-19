@@ -134,7 +134,7 @@ def _validate_date_time(date_time, parameter_name):
     return True
 
 
-def validate_path(path):
+def validate_path(path): #TODO: _validate_path
     """
     Validate path property.
 
@@ -149,7 +149,7 @@ def validate_path(path):
     return True
 
 
-def validate_custom_map(custom_map):
+def validate_custom_map(custom_map): #TODO: _validate_custom_map
     """
     Validate custom map property in PromptTemplate class.
 
