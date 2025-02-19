@@ -395,15 +395,12 @@ class Prompt:
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
-            format_kwargs = {
-                "prompt_role": self._role.value,
-                "prompt_message": self._message,
-                "prompt_date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
+            format_kwargs = {"prompt":json.loads(self.to_json(save_template=False))}
             if isinstance(self._selected_response, Response):
-                format_kwargs.update({"response_message": self._selected_response._message})
+                format_kwargs.update({"response": json.loads(self._selected_response.to_json())})
             responses_dicts = []
             for _, response in enumerate(self._responses):
-                responses_dicts.append(response.to_dict())
+                responses_dicts.append(json.loads(response.to_json()))
             format_kwargs.update({"responses": responses_dicts})
             custom_map = self._template._custom_map
             if custom_map is not None:

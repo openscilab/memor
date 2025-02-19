@@ -254,31 +254,31 @@ PROMPT_INSTRUCTION1 = "I'm providing you with a history of a previous conversati
 PROMPT_INSTRUCTION2 = "Here is the context from a prior conversation. Please learn from this information and use it to provide a thoughtful and context-aware response to my next questions.\n"
 PROMPT_INSTRUCTION3 = "I am sharing a record of a previous discussion. Use this information to provide a consistent and relevant answer to my next query.\n"
 
-BASIC_PROMPT_CONTENT = "{instruction}{prompt_message}"
-BASIC_RESPONSE_CONTENT = "{instruction}{response_message}"
-BASIC_RESPONSE0_CONTENT = "{instruction}{response_0_message}"
-BASIC_RESPONSE1_CONTENT = "{instruction}{response_1_message}"
-BASIC_RESPONSE2_CONTENT = "{instruction}{response_2_message}"
-BASIC_RESPONSE3_CONTENT = "{instruction}{response_3_message}"
-BASIC_PROMPT_CONTENT_LABEL = "{instruction}Prompt: {prompt_message}"
-BASIC_RESPONSE_CONTENT_LABEL = "{instruction}Response: {response_message}"
-BASIC_RESPONSE0_CONTENT_LABEL = "{instruction}Response: {response_0_message}"
-BASIC_RESPONSE1_CONTENT_LABEL = "{instruction}Response: {response_1_message}"
-BASIC_RESPONSE2_CONTENT_LABEL = "{instruction}Response: {response_2_message}"
-BASIC_RESPONSE3_CONTENT_LABEL = "{instruction}Response: {response_3_message}"
-BASIC_PROMPT_RESPONSE_STANDARD_CONTENT = "{instruction}Prompt: {prompt_message}\nResponse: {response_message}"
+BASIC_PROMPT_CONTENT = "{instruction}{prompt[message]}"
+BASIC_RESPONSE_CONTENT = "{instruction}{response[message]}"
+BASIC_RESPONSE0_CONTENT = "{instruction}{responses[0][message]}"
+BASIC_RESPONSE1_CONTENT = "{instruction}{responses[1][message]}"
+BASIC_RESPONSE2_CONTENT = "{instruction}{responses[2][message]}"
+BASIC_RESPONSE3_CONTENT = "{instruction}{responses[3][message]}"
+BASIC_PROMPT_CONTENT_LABEL = "{instruction}Prompt: {prompt[message]}"
+BASIC_RESPONSE_CONTENT_LABEL = "{instruction}Response: {response[message]}"
+BASIC_RESPONSE0_CONTENT_LABEL = "{instruction}Response: {responses[0][message]}"
+BASIC_RESPONSE1_CONTENT_LABEL = "{instruction}Response: {responses[1][message]}"
+BASIC_RESPONSE2_CONTENT_LABEL = "{instruction}Response: {responses[2][message]}"
+BASIC_RESPONSE3_CONTENT_LABEL = "{instruction}Response: {responses[3][message]}"
+BASIC_PROMPT_RESPONSE_STANDARD_CONTENT = "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}"
 BASIC_PROMPT_RESPONSE_FULL_CONTENT = """{instruction}
 Prompt:
-    Message: {prompt_message}
-    Role: {prompt_role}
-    Date: {prompt_date}
+    Message: {prompt[message]}
+    Role: {prompt[role]}
+    Date: {prompt[date]}
 Response:
-    Message: {response_message}
-    Role: {response_role}
-    Temperature: {response_temperature}
-    Model: {response_model}
-    Score: {response_score}
-    Date: {response_date}"""
+    Message: {response[message]}
+    Role: {response[role]}
+    Temperature: {response[temperature]}
+    Model: {response[model]}
+    Score: {response[score]}
+    Date: {response[date]}"""
 
 
 class _BasicPresetPromptTemplate(Enum):
