@@ -244,7 +244,7 @@ class Session:
         }
         return data
 
-    def render(self, render_format=PromptRenderFormat.DEFAULT):  # TODO: Need validation
+    def render(self, render_format=PromptRenderFormat.DEFAULT):
         """
         Render method.
 
