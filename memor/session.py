@@ -22,33 +22,29 @@ class Session:
 
     def __init__(
             self,
-            instruction=None,
-            prompts=[],
+            messages=[],
+        # TODO: Should support Prompt/Response/Session (Additionally, ensure that
+        # all error messages are updated accordingly.)
             file_path=None):
         """
         Session object initiator.
 
-        :param instruction: instruction
-        :type instruction: str
-        :param prompts: prompts
-        :type prompts: list
+        :param messages: messages
+        :type messages: list
         :param file_path: file path
         :type file_path: str
         :return: None
         """
-        self._instruction = None
-        self._prompts = []
-        self._prompts_status = []
+        self._messages = []
+        self._messages_status = []
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
         if file_path:
             self.load(file_path)
         else:
-            if instruction:
-                self.update_instruction(instruction)
-            if prompts:
-                self.update_prompts(prompts)
+            if messages:
+                self.update_messages(messages)
 
     def __eq__(self, other_session):
         """
@@ -58,7 +54,7 @@ class Session:
         :type other_session: Session
         :return: bool
         """
-        return self._instruction == other_session._instruction and self._prompts == other_session._prompts
+        return self._messages == other_session._messages
 
     def __str__(self):  # TODO: Need discussion
         """Return string representation of Session."""
@@ -66,7 +62,7 @@ class Session:
 
     def __repr__(self):
         """Return string representation of Session."""
-        return "Session(instruction={instruction})".format(instruction=self._instruction)
+        pass
 
     def __copy__(self):
         """
@@ -87,101 +83,89 @@ class Session:
         """
         return self.__copy__()
 
-    def add_prompt(self, prompt, status=True, index=None):
+    def add_message(self, message, status=True, index=None):
         """
-        Add a prompt to the session object.
+        Add a message to the session object.
 
-        :param prompt: prompt
-        :type prompt: Prompt
+        :param message: message
+        :type message: Prompt/Response/Session
         :param status: status
         :type status: bool
         :param index: index
         :type index: int
         :return: None
         """
-        if not isinstance(prompt, Prompt):
+        if not isinstance(message, Prompt):
             raise MemorValidationError(INVALID_PROMPT_MESSAGE)
         _validate_bool(status, "status")
         if index is None:
-            self._prompts.append(prompt)
-            self._prompts_status.append(status)
+            self._messages.append(message)
+            self._messages_status.append(status)
         else:
-            self._prompts.insert(index, prompt)
-            self._prompts_status.insert(index, status)
+            self._messages.insert(index, message)
+            self._messages_status.insert(index, status)
         self._date_modified = get_time_utc()
 
-    def remove_prompt(self, index):
+    def remove_message(self, index):
         """
-        Remove a prompt from the session object.
+        Remove a message from the session object.
 
         :param index: index
         :type index: int
         :return: None
         """
-        self._prompts.pop(index)
-        self._prompts_status.pop(index)
+        self._messages.pop(index)
+        self._messages_status.pop(index)
         self._date_modified = get_time_utc()
 
-    def enable_prompt(self, index):
+    def enable_message(self, index):
         """
-        Enable a prompt.
+        Enable a message.
 
         :param index: index
         :type index: int
         :return: None
         """
-        self._prompts_status[index] = True
+        self._messages_status[index] = True
 
-    def disable_prompt(self, index):
+    def disable_message(self, index):
         """
-        Disable a prompt.
+        Disable a message.
 
         :param index: index
         :type index: int
         :return: None
         """
-        self._prompts_status[index] = False
+        self._messages_status[index] = False
 
-    def update_prompts(self, prompts, status=None):
+    def update_messages(self, messages, status=None):
         """
-        Update the session prompts.
+        Update the session messages.
 
-        :param prompts: prompts
-        :type prompts: list
+        :param messages: messages
+        :type messages: list
         :param status: status
         :type status: list
         :return: None
         """
-        _validate_list_of(prompts, "prompts", Prompt, "`Prompt`")
-        self._prompts = prompts
+        _validate_list_of(messages, "messages", Prompt, "`Prompt`")
+        self._messages = messages
         if status:
-            self.update_prompts_status(status)
+            self.update_messages_status(status)
         self._date_modified = get_time_utc()
 
-    def update_prompts_status(self, status):
+    def update_messages_status(self, status):
         """
-        Update the session prompts status.
+        Update the session messages status.
 
         :param status: status
         :type status: list
         :return: None
         """
         _validate_list_of(status, "status", bool, "booleans")
-        if len(status) != len(self._prompts):
+        if len(status) != len(self._messages):
             raise MemorValidationError(INVALID_PROMPT_STATUS_LEN_MESSAGE)
-        self._prompts_status = status
-
-    def update_instruction(self, instruction):
-        """
-        Update the session instruction.
-
-        :param instruction: instruction
-        :type instruction: str
-        :return: None
-        """
-        _validate_string(instruction, "instruction")
-        self._instruction = instruction
-        self._date_modified = get_time_utc()
+        self._messages_status = status
 
     def save(self, file_path):
         """
@@ -222,14 +206,13 @@ class Session:
         :return: None
         """
         loaded_obj = json.loads(json_doc)
-        self._instruction = loaded_obj["instruction"]
-        self._prompts_status = loaded_obj["prompts_status"]
-        prompts = []
-        for prompt in loaded_obj["prompts"]:
-            prompt_obj = Prompt()
-            prompt_obj.from_json(prompt)
-            prompts.append(prompt_obj)
-        self._prompts = prompts
+        self._messages_status = loaded_obj["messages_status"]
+        messages = []
+        for message in loaded_obj["messages"]:
+            message_obj = Prompt()
+            message_obj.from_json(message)
+            messages.append(message_obj)
+        self._messages = messages
         self._memor_version = loaded_obj["memor_version"]
         self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
         self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
@@ -241,8 +224,8 @@ class Session:
         :return: JSON object
         """
         data = self.to_dict()
-        for index, prompt in enumerate(data["prompts"]):
-            data["prompts"][index] = prompt.to_json()
+        for index, message in enumerate(data["messages"]):
+            data["messages"][index] = message.to_json()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         return json.dumps(data, indent=4)
@@ -254,9 +237,8 @@ class Session:
         :return: dict
         """
         data = {
-            "instruction": self._instruction,
-            "prompts": self._prompts.copy(),
-            "prompts_status": self._prompts_status.copy(),
+            "messages": self._messages.copy(),
+            "messages_status": self._messages_status.copy(),
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
             "date_modified": self._date_modified,
@@ -275,18 +257,13 @@ class Session:
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         if render_format == PromptRenderFormat.OPENAI:
             result = []
-            if self._instruction is not None:
-                # TODO: I think we can remove instruction (need discussion)
-                result = [{"role": "user", "content": self._instruction}]
-            for prompt in self._prompts:
-                result.extend(prompt.render(render_format=PromptRenderFormat.OPENAI))
+            for message in self._messages:
+                result.extend(message.render(render_format=PromptRenderFormat.OPENAI))
             return result
         content = ""
-        if self._instruction is not None:
-            content = self._instruction + "\n"
         session_dict = self.to_dict()
-        for prompt in self._prompts:
-            content += prompt.render(render_format=PromptRenderFormat.STRING) + "\n"
+        for message in self._messages:
+            content += message.render(render_format=PromptRenderFormat.STRING) + "\n"
         session_dict["content"] = content
         if render_format == PromptRenderFormat.STRING:
             return content
