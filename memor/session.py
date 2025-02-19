@@ -59,7 +59,7 @@ class Session:
         :type other_session: Session
         :return: bool
         """
-        return self._messages == other_session._messages
+        return self._title == other_session._title and self._messages == other_session._messages
 
     def __str__(self):  # TODO: Need discussion
         """Return string representation of Session."""
@@ -255,6 +255,7 @@ class Session:
         :return: dict
         """
         data = {
+            "title": self._title,
             "messages": self._messages.copy(),
             "messages_status": self._messages_status.copy(),
             "memor_version": MEMOR_VERSION,
