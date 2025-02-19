@@ -4,7 +4,7 @@ import datetime
 import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
-from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
+from .params import RenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import Role
 from .params import INVALID_PROMPT_STRUCTURE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RESPONSE_MESSAGE
@@ -384,15 +384,15 @@ class Prompt:
         """
         return self._selected_response
 
-    def render(self, render_format=PromptRenderFormat.DEFAULT):
+    def render(self, render_format=RenderFormat.DEFAULT):
         """
         Render method.
 
         :param render_format: render format
-        :type render_format: PromptRenderFormat object
+        :type render_format: RenderFormat object
         :return: rendered prompt
         """
-        if not isinstance(render_format, PromptRenderFormat):
+        if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
             format_kwargs = {
@@ -420,15 +420,15 @@ class Prompt:
             content = self._template._content.format(**format_kwargs)
             prompt_dict = self.to_dict()
             prompt_dict["content"] = content
-            if render_format == PromptRenderFormat.OPENAI:
+            if render_format == RenderFormat.OPENAI:
                 return [
                     {"role": self._role.value,
                      "content": content}]
-            if render_format == PromptRenderFormat.STRING:
+            if render_format == RenderFormat.STRING:
                 return content
-            if render_format == PromptRenderFormat.DICTIONARY:
+            if render_format == RenderFormat.DICTIONARY:
                 return prompt_dict
-            if render_format == PromptRenderFormat.ITEMS:
+            if render_format == RenderFormat.ITEMS:
                 return list(prompt_dict.items())
         except Exception:
             raise MemorRenderError(PROMPT_RENDER_ERROR_MESSAGE)

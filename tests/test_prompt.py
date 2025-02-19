@@ -3,7 +3,7 @@ import copy
 import pytest
 from memor import Prompt, Response, Role
 from memor import PresetPromptTemplate, PromptTemplate
-from memor import PromptRenderFormat, MemorValidationError, MemorRenderError
+from memor import RenderFormat, MemorValidationError, MemorRenderError
 
 TEST_CASE_NAME = "Prompt tests"
 
@@ -304,7 +304,7 @@ def test_render2():
             response2],
         role=Role.USER,
         template=PresetPromptTemplate.BASIC.PROMPT)
-    assert prompt.render(PromptRenderFormat.OPENAI) == [{"role": "user", "content": "Hello, how are you?"}]
+    assert prompt.render(RenderFormat.OPENAI) == [{"role": "user", "content": "Hello, how are you?"}]
 
 
 def test_render3():
@@ -318,7 +318,7 @@ def test_render3():
             response2],
         role=Role.USER,
         template=PresetPromptTemplate.BASIC.PROMPT)
-    assert prompt.render(PromptRenderFormat.DICTIONARY)["content"] == "Hello, how are you?"
+    assert prompt.render(RenderFormat.DICTIONARY)["content"] == "Hello, how are you?"
 
 
 def test_render4():
@@ -332,7 +332,7 @@ def test_render4():
             response2],
         role=Role.USER,
         template=PresetPromptTemplate.BASIC.PROMPT)
-    assert ("content", "Hello, how are you?") in prompt.render(PromptRenderFormat.ITEMS)
+    assert ("content", "Hello, how are you?") in prompt.render(RenderFormat.ITEMS)
 
 
 def test_render5():
@@ -347,7 +347,7 @@ def test_render5():
             response2],
         role=Role.USER,
         template=template)
-    assert prompt.render(PromptRenderFormat.OPENAI) == [{"role": "user", "content": "Hi, How are you?"}]
+    assert prompt.render(RenderFormat.OPENAI) == [{"role": "user", "content": "Hi, How are you?"}]
 
 
 def test_render6():

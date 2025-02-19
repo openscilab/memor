@@ -8,7 +8,7 @@ from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_PROMPT_MESSAGE
 from .params import INVALID_PROMPT_STATUS_LEN_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
-from .params import PromptRenderFormat
+from .params import RenderFormat
 from .prompt import Prompt
 from .errors import MemorValidationError
 from .functions import get_time_utc
@@ -244,31 +244,31 @@ class Session:
         }
         return data
 
-    def render(self, render_format=PromptRenderFormat.DEFAULT):
+    def render(self, render_format=RenderFormat.DEFAULT):
         """
         Render method.
 
         :param render_format: render format
-        :type render_format: PromptRenderFormat object
+        :type render_format: RenderFormat object
         :return: rendered session
         """
-        if not isinstance(render_format, PromptRenderFormat):
+        if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
-        if render_format == PromptRenderFormat.OPENAI:
+        if render_format == RenderFormat.OPENAI:
             result = []
             for message in self._messages:
-                result.extend(message.render(render_format=PromptRenderFormat.OPENAI))
+                result.extend(message.render(render_format=RenderFormat.OPENAI))
             return result
         content = ""
         session_dict = self.to_dict()
         for message in self._messages:
-            content += message.render(render_format=PromptRenderFormat.STRING) + "\n"
+            content += message.render(render_format=RenderFormat.STRING) + "\n"
         session_dict["content"] = content
-        if render_format == PromptRenderFormat.STRING:
+        if render_format == RenderFormat.STRING:
             return content
-        if render_format == PromptRenderFormat.DICTIONARY:
+        if render_format == RenderFormat.DICTIONARY:
             return session_dict
-        if render_format == PromptRenderFormat.ITEMS:
+        if render_format == RenderFormat.ITEMS:
             return list(session_dict.items())
 
 
