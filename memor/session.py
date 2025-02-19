@@ -61,9 +61,9 @@ class Session:
         """
         return self._title == other_session._title and self._messages == other_session._messages
 
-    def __str__(self):  # TODO: Need discussion
+    def __str__(self):
         """Return string representation of Session."""
-        pass
+        return self.render(render_format=RenderFormat.STRING)
 
     def __repr__(self):
         """Return string representation of Session."""
