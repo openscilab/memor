@@ -143,7 +143,6 @@ class Session:
         """
         self._messages_status[index] = False
 
-
     def update_title(self, title):
         """
         Update the session title.
