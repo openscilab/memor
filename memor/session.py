@@ -277,7 +277,7 @@ class Session:
         if render_format == RenderFormat.OPENAI:
             result = []
             for message in self._messages:
-                result.extend(message.render(render_format=RenderFormat.OPENAI))
+                result.append(message.render(render_format=RenderFormat.OPENAI))
             return result
         content = ""
         session_dict = self.to_dict()
