@@ -67,7 +67,7 @@ class Session:
 
     def __repr__(self):
         """Return string representation of Session."""
-        pass
+        return "Session(title={title})".format(title=self._title)
 
     def __copy__(self):
         """
