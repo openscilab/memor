@@ -400,9 +400,11 @@ class Prompt:
                 "prompt_message": self._message,
                 "prompt_date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             if isinstance(self._selected_response, Response):
-                format_kwargs.update({"response": self._selected_response.to_json()})
+                format_kwargs.update({"response_message": self._selected_response._message})
+            responses_dicts = []
             for _, response in enumerate(self._responses):
-                format_kwargs.update({"responses": response.to_json()})
+                responses_dicts.append(response.to_dict())
+            format_kwargs.update({"responses": responses_dicts})
             custom_map = self._template._custom_map
             if custom_map is not None:
                 format_kwargs.update(custom_map)
@@ -410,9 +412,7 @@ class Prompt:
             prompt_dict = self.to_dict()
             prompt_dict["content"] = content
             if render_format == RenderFormat.OPENAI:
-                return [
-                    {"role": self._role.value,
-                     "content": content}]
+                return {"role": self._role.value, "content": content}
             if render_format == RenderFormat.STRING:
                 return content
             if render_format == RenderFormat.DICTIONARY:
