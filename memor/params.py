@@ -22,7 +22,7 @@ INVALID_ROLE_MESSAGE = "Invalid role. It must be an instance of Role enum."
 INVALID_TEMPLATE_STRUCTURE_MESSAGE = "Invalid template structure. It should be a JSON object with proper fields."
 INVALID_PROMPT_STRUCTURE_MESSAGE = "Invalid prompt structure. It should be a JSON object with proper fields."
 INVALID_RESPONSE_STRUCTURE_MESSAGE = "Invalid response structure. It should be a JSON object with proper fields."
-INVALID_RENDER_FORMAT_MESSAGE = "Invalid render format. It must be an instance of PromptRenderFormat enum."
+INVALID_RENDER_FORMAT_MESSAGE = "Invalid render format. It must be an instance of RenderFormat enum."
 PROMPT_RENDER_ERROR_MESSAGE = "Prompt template and properties are incompatible."
 DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."
 
@@ -36,8 +36,8 @@ class Role(Enum):
     DEFAULT = USER
 
 
-class PromptRenderFormat(Enum):  # TODO: rename to `RenderFormat` (need discussion)
-    """Prompt render format."""
+class RenderFormat(Enum):
+    """Render format."""
 
     STRING = "STRING"
     OPENAI = "OPENAI"

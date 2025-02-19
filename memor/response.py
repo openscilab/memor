@@ -6,13 +6,12 @@ from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
-from .params import INVALID_ROLE_MESSAGE
-from .params import Role
+from .params import INVALID_ROLE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
+from .params import Role, RenderFormat
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_string, _validate_pos_float
-from .functions import _validate_date_time, _validate_probability
-from .functions import validate_path
+from .functions import _validate_date_time, _validate_probability, _validate_path
 
 
 class Response:
@@ -202,7 +201,7 @@ class Response:
         :type file_path: str
         :return: None
         """
-        validate_path(file_path)
+        _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
@@ -256,7 +255,26 @@ class Response:
             "date_modified": self._date_modified,
         }
 
-    # TODO: render method
+    def render(self, render_format=RenderFormat.DEFAULT):
+        """
+        Render the response.
+
+        :param render_format: render format
+        :type render_format: RenderFormat
+        :return: rendered response
+        """
+        if not isinstance(render_format, RenderFormat):
+            raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
+        if render_format == RenderFormat.STRING:
+            return self._message
+        elif render_format == RenderFormat.OPENAI:
+            return {"role": self._role.value,
+                    "content": self._message}
+        elif render_format == RenderFormat.DICTIONARY:
+            return self.to_dict()
+        elif render_format == RenderFormat.ITEMS:
+            return self.to_dict().items()
+        return self._message
 
     @property
     def message(self):

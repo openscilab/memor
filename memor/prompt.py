@@ -4,7 +4,7 @@ import datetime
 import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
-from .params import PromptRenderFormat, DATA_SAVE_SUCCESS_MESSAGE
+from .params import RenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import Role
 from .params import INVALID_PROMPT_STRUCTURE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RESPONSE_MESSAGE
@@ -12,8 +12,7 @@ from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
-from .functions import _validate_string, _validate_list_of
-from .functions import validate_path
+from .functions import _validate_string, _validate_list_of, _validate_path
 from .template import PromptTemplate, PresetPromptTemplate
 from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
 from .response import Response
@@ -247,7 +246,7 @@ class Prompt:
         :type file_path: str
         :return: None
         """
-        validate_path(file_path)
+        _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
@@ -385,51 +384,37 @@ class Prompt:
         """
         return self._selected_response
 
-    def render(self, render_format=PromptRenderFormat.DEFAULT):
+    def render(self, render_format=RenderFormat.DEFAULT):  # TODO: update based on Response.render
         """
         Render method.
 
         :param render_format: render format
-        :type render_format: PromptRenderFormat object
+        :type render_format: RenderFormat object
         :return: rendered prompt
         """
-        if not isinstance(render_format, PromptRenderFormat):
+        if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
-            format_kwargs = {
-                "prompt_role": self._role.value,
-                "prompt_message": self._message,
-                "prompt_date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
+            format_kwargs = {"prompt": json.loads(self.to_json(save_template=False))}
             if isinstance(self._selected_response, Response):
-                format_kwargs.update({"response_message": self._selected_response._message})
-                format_kwargs.update({"response_score": self._selected_response._score})
-                format_kwargs.update({"response_role": self._selected_response._role.value})
-                format_kwargs.update({"response_temperature": self._selected_response._temperature})
-                format_kwargs.update({"response_model": self._selected_response._model})
-                format_kwargs.update({"response_date": datetime.datetime.strftime(
-                    self._selected_response._date_created, DATE_TIME_FORMAT)})
-            for index, response in enumerate(self._responses):
-                format_kwargs.update({"response_{index}_message".format(index=index): response._message})
-                format_kwargs.update({"response_{index}_score".format(index=index): response._score})
-                format_kwargs.update({"response_{index}_role".format(index=index): response._role.value})
-                format_kwargs.update({"response_{index}_temperature".format(index=index): response._temperature})
-                format_kwargs.update({"response_{index}_model".format(index=index): response._model})
-                format_kwargs.update({"response_{index}_date".format(index=index): datetime.datetime.strftime(response._date_created, DATE_TIME_FORMAT)})
+                format_kwargs.update({"response": json.loads(self._selected_response.to_json())})
+            responses_dicts = []
+            for _, response in enumerate(self._responses):
+                responses_dicts.append(json.loads(response.to_json()))
+            format_kwargs.update({"responses": responses_dicts})
             custom_map = self._template._custom_map
             if custom_map is not None:
                 format_kwargs.update(custom_map)
             content = self._template._content.format(**format_kwargs)
             prompt_dict = self.to_dict()
             prompt_dict["content"] = content
-            if render_format == PromptRenderFormat.OPENAI:
-                return [
-                    {"role": self._role.value,
-                     "content": content}]
-            if render_format == PromptRenderFormat.STRING:
+            if render_format == RenderFormat.OPENAI:
+                return {"role": self._role.value, "content": content}
+            if render_format == RenderFormat.STRING:
                 return content
-            if render_format == PromptRenderFormat.DICTIONARY:
+            if render_format == RenderFormat.DICTIONARY:
                 return prompt_dict
-            if render_format == PromptRenderFormat.ITEMS:
+            if render_format == RenderFormat.ITEMS:
                 return list(prompt_dict.items())
         except Exception:
             raise MemorRenderError(PROMPT_RENDER_ERROR_MESSAGE)

@@ -79,13 +79,13 @@ Define your prompt and the response(s) to that; Memor will wrap it into a object
 
 ```pycon
 >>> from memor import Prompt, Response, Role
->>> from memor import PresetPromptTemplate, PromptRenderFormat
+>>> from memor import PresetPromptTemplate, RenderFormat
 >>> response = Response(message="I am fine.", role=Role.ASSISTANT, temperature=0.9, score=0.9)
 >>> prompt = Prompt(message="Hello, how are you?",
                     responses=[response],
                     role=Role.USER,
                     template=PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD)
->>> prompt.render(render_format=PromptRenderFormat.OPENAI)
+>>> prompt.render(render_format=RenderFormat.OPENAI)
 [{'role': 'user', 'content': "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\nPrompt: Hello, how are you?\nResponse: I am fine."}]
 ```
 
