@@ -12,8 +12,7 @@ from .params import PromptRenderFormat
 from .prompt import Prompt
 from .errors import MemorValidationError
 from .functions import get_time_utc
-from .functions import validate_path
-from .functions import _validate_bool, _validate_string
+from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of
 
 
@@ -193,7 +192,7 @@ class Session:
         :type file_path: str
         :return: None
         """
-        validate_path(file_path)
+        _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 

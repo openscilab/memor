@@ -9,7 +9,7 @@ from .params import INVALID_TEMPLATE_STRUCTURE_MESSAGE
 from .params import MEMOR_VERSION
 from .errors import MemorValidationError
 from .functions import get_time_utc
-from .functions import validate_path, validate_custom_map
+from .functions import _validate_path, _validate_custom_map
 from .functions import _validate_string
 
 
@@ -126,7 +126,7 @@ class PromptTemplate:
         :type custom_map: dict
         :return: None
         """
-        validate_custom_map(custom_map)
+        _validate_custom_map(custom_map)
         self._custom_map = custom_map
         self._date_modified = get_time_utc()
 
@@ -155,7 +155,7 @@ class PromptTemplate:
         :type file_path: str
         :return: None
         """
-        validate_path(file_path)
+        _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 

@@ -12,8 +12,7 @@ from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
-from .functions import _validate_string, _validate_list_of
-from .functions import validate_path
+from .functions import _validate_string, _validate_list_of, _validate_path
 from .template import PromptTemplate, PresetPromptTemplate
 from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
 from .response import Response
@@ -247,7 +246,7 @@ class Prompt:
         :type file_path: str
         :return: None
         """
-        validate_path(file_path)
+        _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 

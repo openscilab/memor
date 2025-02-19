@@ -11,8 +11,7 @@ from .params import Role
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_string, _validate_pos_float
-from .functions import _validate_date_time, _validate_probability
-from .functions import validate_path
+from .functions import _validate_date_time, _validate_probability, _validate_path
 
 
 class Response:
@@ -202,7 +201,7 @@ class Response:
         :type file_path: str
         :return: None
         """
-        validate_path(file_path)
+        _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
