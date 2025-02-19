@@ -384,7 +384,7 @@ class Prompt:
         """
         return self._selected_response
 
-    def render(self, render_format=RenderFormat.DEFAULT):
+    def render(self, render_format=RenderFormat.DEFAULT): # TODO: update based on Response.render
         """
         Render method.
 
@@ -400,20 +400,9 @@ class Prompt:
                 "prompt_message": self._message,
                 "prompt_date": datetime.datetime.strftime(self._date_created, DATE_TIME_FORMAT)}
             if isinstance(self._selected_response, Response):
-                format_kwargs.update({"response_message": self._selected_response._message})
-                format_kwargs.update({"response_score": self._selected_response._score})
-                format_kwargs.update({"response_role": self._selected_response._role.value})
-                format_kwargs.update({"response_temperature": self._selected_response._temperature})
-                format_kwargs.update({"response_model": self._selected_response._model})
-                format_kwargs.update({"response_date": datetime.datetime.strftime(
-                    self._selected_response._date_created, DATE_TIME_FORMAT)})
-            for index, response in enumerate(self._responses):
-                format_kwargs.update({"response_{index}_message".format(index=index): response._message})
-                format_kwargs.update({"response_{index}_score".format(index=index): response._score})
-                format_kwargs.update({"response_{index}_role".format(index=index): response._role.value})
-                format_kwargs.update({"response_{index}_temperature".format(index=index): response._temperature})
-                format_kwargs.update({"response_{index}_model".format(index=index): response._model})
-                format_kwargs.update({"response_{index}_date".format(index=index): datetime.datetime.strftime(response._date_created, DATE_TIME_FORMAT)})
+                format_kwargs.update({"response": self._selected_response.to_json()})
+            for _, response in enumerate(self._responses):
+                format_kwargs.update({"responses": response.to_json()})
             custom_map = self._template._custom_map
             if custom_map is not None:
                 format_kwargs.update(custom_map)
