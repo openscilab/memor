@@ -181,7 +181,7 @@ def test_str():
     response = Response(message="I am fine.")
     prompt = Prompt(message=message, responses=[response], role=Role.USER,
                     template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
-    assert str(prompt) == prompt.message
+    assert str(prompt) == prompt.render(render_format=RenderFormat.STRING)
 
 
 def test_repr():

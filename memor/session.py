@@ -13,7 +13,7 @@ from .prompt import Prompt
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
-from .functions import _validate_list_of
+from .functions import _validate_list_of, _validate_string
 
 
 class Session:
@@ -21,6 +21,7 @@ class Session:
 
     def __init__(
             self,
+            title=None,
             messages=[],
         # TODO: Should support Prompt/Response/Session (Additionally, ensure that
         # all error messages are updated accordingly.)
@@ -28,12 +29,15 @@ class Session:
         """
         Session object initiator.
 
+        :param title: title
+        :type title: str
         :param messages: messages
         :type messages: list
         :param file_path: file path
         :type file_path: str
         :return: None
         """
+        self._title = None
         self._messages = []
         self._messages_status = []
         self._date_created = get_time_utc()
@@ -42,6 +46,8 @@ class Session:
         if file_path:
             self.load(file_path)
         else:
+            if title:
+                self.update_title(title)
             if messages:
                 self.update_messages(messages)
 
@@ -53,15 +59,15 @@ class Session:
         :type other_session: Session
         :return: bool
         """
-        return self._messages == other_session._messages
+        return self._title == other_session._title and self._messages == other_session._messages
 
-    def __str__(self):  # TODO: Need discussion
+    def __str__(self):
         """Return string representation of Session."""
-        pass
+        return self.render(render_format=RenderFormat.STRING)
 
     def __repr__(self):
         """Return string representation of Session."""
-        pass
+        return "Session(title={title})".format(title=self._title)
 
     def __copy__(self):
         """
@@ -136,6 +142,18 @@ class Session:
         :return: None
         """
         self._messages_status[index] = False
+
+    def update_title(self, title):
+        """
+        Update the session title.
+
+        :param title: title
+        :type title: str
+        :return: None
+        """
+        _validate_string(title, "title")
+        self._title = title
+        self._date_modified = get_time_utc()
 
     def update_messages(self, messages, status=None):
         """
@@ -236,6 +254,7 @@ class Session:
         :return: dict
         """
         data = {
+            "title": self._title,
             "messages": self._messages.copy(),
             "messages_status": self._messages_status.copy(),
             "memor_version": MEMOR_VERSION,
@@ -257,7 +276,10 @@ class Session:
         if render_format == RenderFormat.OPENAI:
             result = []
             for message in self._messages:
-                result.extend(message.render(render_format=RenderFormat.OPENAI))
+                if isinstance(message, Session):
+                    result.extend(message.render(render_format=RenderFormat.OPENAI))
+                else:
+                    result.append(message.render(render_format=RenderFormat.OPENAI))
             return result
         content = ""
         session_dict = self.to_dict()

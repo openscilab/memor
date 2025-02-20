@@ -90,7 +90,7 @@ class Response:
 
     def __str__(self):
         """Return string representation of Response."""
-        return self._message
+        return self.render(render_format=RenderFormat.STRING)
 
     def __repr__(self):
         """Return string representation of Response."""
