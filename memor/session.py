@@ -166,7 +166,7 @@ class Session:
         :type status: list
         :return: None
         """
-        _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`") #TODO: It is not possible to use this function here due to a recursive import.
+        _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
         self._messages = messages
         if status:
             self.update_messages_status(status)
