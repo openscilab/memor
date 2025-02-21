@@ -308,6 +308,7 @@ class Prompt:
         :return: dict
         """
         data = {
+            "type": "Prompt",
             "message": self._message,
             "responses": self._responses.copy(),
             "selected_response_index": self._selected_response_index,

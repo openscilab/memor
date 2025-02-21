@@ -255,6 +255,7 @@ class Session:
         :return: dict
         """
         data = {
+            "type": "Session",
             "title": self._title,
             "messages": self._messages.copy(),
             "messages_status": self._messages_status.copy(),
