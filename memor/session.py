@@ -24,7 +24,7 @@ class Session:
             self,
             title=None,
             messages=[],
-        # TODO: Should support Prompt/Response/Session (Additionally, ensure that
+        # TODO: Should support Prompt/Response (Additionally, ensure that
         # all error messages are updated accordingly.)
             file_path=None):
         """
@@ -94,7 +94,7 @@ class Session:
         Add a message to the session object.
 
         :param message: message
-        :type message: Prompt/Response/Session
+        :type message: Prompt/Response
         :param status: status
         :type status: bool
         :param index: index
@@ -166,7 +166,7 @@ class Session:
         :type status: list
         :return: None
         """
-        _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
+        _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`") #TODO: It is not possible to use this function here due to a recursive import.
         self._messages = messages
         if status:
             self.update_messages_status(status)
