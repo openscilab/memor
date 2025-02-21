@@ -166,7 +166,7 @@ class Session:
         :type status: list
         :return: None
         """
-        _validate_list_of(messages, "messages", Prompt, "`Prompt`")
+        _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
         self._messages = messages
         if status:
             self.update_messages_status(status)
