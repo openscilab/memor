@@ -226,7 +226,7 @@ class Session:
         loaded_obj = json.loads(json_doc)
         self._messages_status = loaded_obj["messages_status"]
         messages = []
-        for message in loaded_obj["messages"]: #TODO: Need refactor
+        for message in loaded_obj["messages"]:  # TODO: Need refactor
             if json.loads(message)["type"] == "Prompt":
                 message_obj = Prompt()
             elif json.loads(message)["type"] == "Response":
