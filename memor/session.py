@@ -5,11 +5,12 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
-from .params import INVALID_PROMPT_MESSAGE
+from .params import INVALID_MESSAGE
 from .params import INVALID_PROMPT_STATUS_LEN_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import RenderFormat
 from .prompt import Prompt
+from .response import Response
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
@@ -100,8 +101,8 @@ class Session:
         :type index: int
         :return: None
         """
-        if not isinstance(message, Prompt):
-            raise MemorValidationError(INVALID_PROMPT_MESSAGE)
+        if not isinstance(message, (Prompt, Response)):
+            raise MemorValidationError(INVALID_MESSAGE)
         _validate_bool(status, "status")
         if index is None:
             self._messages.append(message)
