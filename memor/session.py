@@ -5,11 +5,12 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
-from .params import INVALID_PROMPT_MESSAGE
+from .params import INVALID_MESSAGE
 from .params import INVALID_PROMPT_STATUS_LEN_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import RenderFormat
 from .prompt import Prompt
+from .response import Response
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
@@ -23,7 +24,7 @@ class Session:
             self,
             title=None,
             messages=[],
-        # TODO: Should support Prompt/Response/Session (Additionally, ensure that
+        # TODO: Should support Prompt/Response (Additionally, ensure that
         # all error messages are updated accordingly.)
             file_path=None):
         """
@@ -93,15 +94,15 @@ class Session:
         Add a message to the session object.
 
         :param message: message
-        :type message: Prompt/Response/Session
+        :type message: Prompt/Response
         :param status: status
         :type status: bool
         :param index: index
         :type index: int
         :return: None
         """
-        if not isinstance(message, Prompt):
-            raise MemorValidationError(INVALID_PROMPT_MESSAGE)
+        if not isinstance(message, (Prompt, Response)):
+            raise MemorValidationError(INVALID_MESSAGE)
         _validate_bool(status, "status")
         if index is None:
             self._messages.append(message)
@@ -165,7 +166,7 @@ class Session:
         :type status: list
         :return: None
         """
-        _validate_list_of(messages, "messages", Prompt, "`Prompt`")
+        _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
         self._messages = messages
         if status:
             self.update_messages_status(status)
@@ -225,8 +226,11 @@ class Session:
         loaded_obj = json.loads(json_doc)
         self._messages_status = loaded_obj["messages_status"]
         messages = []
-        for message in loaded_obj["messages"]:
-            message_obj = Prompt()
+        for message in loaded_obj["messages"]:  # TODO: Need refactor
+            if json.loads(message)["type"] == "Prompt":
+                message_obj = Prompt()
+            elif json.loads(message)["type"] == "Response":
+                message_obj = Response()
             message_obj.from_json(message)
             messages.append(message_obj)
         self._messages = messages
@@ -254,6 +258,7 @@ class Session:
         :return: dict
         """
         data = {
+            "type": "Session",
             "title": self._title,
             "messages": self._messages.copy(),
             "messages_status": self._messages_status.copy(),
