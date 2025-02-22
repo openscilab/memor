@@ -103,7 +103,7 @@ def test_save1():
     result = response.save("response_test1.json")
     with open("response_test1.json", "r") as file:
         saved_response = json.loads(file.read())
-    assert result["status"] and json.loads(response.to_json()) == saved_response
+    assert result["status"] and response.to_json() == saved_response
 
 
 def test_save2():

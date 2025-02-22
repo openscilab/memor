@@ -108,7 +108,7 @@ def test_save1():
     result = template.save("template_test1.json")
     with open("template_test1.json", "r") as file:
         saved_template = json.loads(file.read())
-    assert result["status"] and json.loads(template.to_json()) == saved_template
+    assert result["status"] and template.to_json() == saved_template
 
 
 def test_save2():
