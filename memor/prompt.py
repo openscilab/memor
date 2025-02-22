@@ -232,7 +232,7 @@ class Prompt:
         try:
             with open(file_path, "w") as file:
                 data = self.to_json(save_template=save_template)
-                file.write(data)
+                json.dump(data, file)
         except Exception as e:
             result["status"] = False
             result["message"] = str(e)
@@ -250,16 +250,19 @@ class Prompt:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_doc):
+    def from_json(self, json_object):
         """
-        Load attributes from the JSON document.
+        Load attributes from the JSON object.
 
-        :param json_doc: JSON document
-        :type json_doc: str
+        :param json_object: JSON object
+        :type json_object: str or dict
         :return: None
         """
         try:
-            loaded_obj = json.loads(json_doc)
+            if isinstance(json_object, str):
+                loaded_obj = json.loads(json_object)
+            else:
+                loaded_obj = json_object.copy()
             self._message = loaded_obj["message"]
             responses = []
             for response in loaded_obj["responses"]:
@@ -287,9 +290,9 @@ class Prompt:
 
         :param save_template: save template flag
         :type save_template: bool
-        :return: JSON object
+        :return: JSON object as dict
         """
-        data = self.to_dict(save_template=save_template)
+        data = self.to_dict(save_template=save_template).copy()
         for index, response in enumerate(data["responses"]):
             data["responses"][index] = response.to_json()
         if "template" in data:
@@ -297,7 +300,7 @@ class Prompt:
         data["role"] = data["role"].value
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
-        return json.dumps(data, indent=4)
+        return data
 
     def to_dict(self, save_template=True):
         """
@@ -396,12 +399,12 @@ class Prompt:
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
-            format_kwargs = {"prompt": json.loads(self.to_json(save_template=False))}
+            format_kwargs = {"prompt": self.to_json(save_template=False)}
             if isinstance(self._selected_response, Response):
-                format_kwargs.update({"response": json.loads(self._selected_response.to_json())})
+                format_kwargs.update({"response": self._selected_response.to_json()})
             responses_dicts = []
             for _, response in enumerate(self._responses):
-                responses_dicts.append(json.loads(response.to_json()))
+                responses_dicts.append(response.to_json())
             format_kwargs.update({"responses": responses_dicts})
             custom_map = self._template._custom_map
             if custom_map is not None:
