@@ -86,7 +86,7 @@ Define your prompt and the response(s) to that; Memor will wrap it into a object
                     role=Role.USER,
                     template=PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD)
 >>> prompt.render(render_format=RenderFormat.OPENAI)
-[{'role': 'user', 'content': "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\nPrompt: Hello, how are you?\nResponse: I am fine."}]
+{'role': 'user', 'content': "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\nPrompt: Hello, how are you?\nResponse: I am fine."}
 ```
 
 ## Issues & bug reports
