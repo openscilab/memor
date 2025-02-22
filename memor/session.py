@@ -197,7 +197,7 @@ class Session:
         try:
             with open(file_path, "w") as file:
                 data = self.to_json()
-                file.write(data)
+                json.dump(data, file)
         except Exception as e:
             result["status"] = False
             result["message"] = str(e)
@@ -215,21 +215,24 @@ class Session:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_doc):
+    def from_json(self, json_object):
         """
-        Load attributes from the JSON document.
+        Load attributes from the JSON object.
 
-        :param json_doc: JSON document
-        :type json_doc: str
+        :param json_object: JSON object
+        :type json_object: str or dict
         :return: None
         """
-        loaded_obj = json.loads(json_doc)
+        if isinstance(json_object, str):
+            loaded_obj = json.loads(json_object)
+        else:
+            loaded_obj = json_object.copy()
         self._messages_status = loaded_obj["messages_status"]
         messages = []
         for message in loaded_obj["messages"]:  # TODO: Need refactor
-            if json.loads(message)["type"] == "Prompt":
+            if message["type"] == "Prompt":
                 message_obj = Prompt()
-            elif json.loads(message)["type"] == "Response":
+            elif message["type"] == "Response":
                 message_obj = Response()
             message_obj.from_json(message)
             messages.append(message_obj)
@@ -242,14 +245,14 @@ class Session:
         """
         Convert the session to a JSON object.
 
-        :return: JSON object
+        :return: JSON object as dict
         """
-        data = self.to_dict()
+        data = self.to_dict().copy()
         for index, message in enumerate(data["messages"]):
             data["messages"][index] = message.to_json()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
-        return json.dumps(data, indent=4)
+        return data
 
     def to_dict(self):
         """
