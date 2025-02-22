@@ -245,6 +245,7 @@ class Response:
         :return: dict
         """
         return {
+            "type": "Response",
             "message": self._message,
             "score": self._score,
             "temperature": self._temperature,
