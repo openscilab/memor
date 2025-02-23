@@ -24,8 +24,6 @@ class Session:
             self,
             title=None,
             messages=[],
-        # TODO: Should support Prompt/Response (Additionally, ensure that
-        # all error messages are updated accordingly.)
             file_path=None):
         """
         Session object initiator.
