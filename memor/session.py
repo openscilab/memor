@@ -301,5 +301,47 @@ class Session:
         if render_format == RenderFormat.ITEMS:
             return list(session_dict.items())
 
+    @property
+    def date_created(self):
+        """
+        Get the session creation date.
 
-# TODO: Properties
+        :return: session creation date
+        """
+        return self._date_created
+
+    @property
+    def date_modified(self):
+        """
+        Get the session object modification date.
+
+        :return: session object modification date
+        """
+        return self._date_modified
+
+    @property
+    def title(self):
+        """
+        Get the session title.
+
+        :return: session title
+        """
+        return self._title
+
+    @property
+    def messages(self):
+        """
+        Get the session messages.
+
+        :return: session messages
+        """
+        return self._messages
+
+    @property
+    def messages_status(self):
+        """
+        Get the session messages status.
+
+        :return: session messages status
+        """
+        return self._messages_status
