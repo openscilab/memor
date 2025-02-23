@@ -141,7 +141,7 @@ class PromptTemplate:
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
             with open(file_path, "w") as file:
-                file.write(self.to_json())
+                json.dump(self.to_json(), file)
         except Exception as e:
             result["status"] = False
             result["message"] = str(e)
@@ -159,16 +159,19 @@ class PromptTemplate:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_doc):
+    def from_json(self, json_object):
         """
-        Load attributes from the JSON document.
+        Load attributes from the JSON object.
 
-        :param json_doc: JSON document
-        :type json_doc: str
+        :param json_object: JSON object
+        :type json_object: str or dict
         :return: None
         """
         try:
-            loaded_obj = json.loads(json_doc)
+            if isinstance(json_object, str):
+                loaded_obj = json.loads(json_object)
+            else:
+                loaded_obj = json_object.copy()
             self._content = loaded_obj["content"]
             self._title = loaded_obj["title"]
             self._memor_version = loaded_obj["memor_version"]
@@ -182,12 +185,12 @@ class PromptTemplate:
         """
         Convert PromptTemplate to json.
 
-        :return: JSON object
+        :return: JSON structure as dict
         """
-        data = self.to_dict()
+        data = self.to_dict().copy()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
-        return json.dumps(data, indent=4)
+        return data
 
     def to_dict(self):
         """
