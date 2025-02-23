@@ -229,7 +229,7 @@ class Session:
             loaded_obj = json_object.copy()
         self._messages_status = loaded_obj["messages_status"]
         messages = []
-        for message in loaded_obj["messages"]:  # TODO: Need refactor
+        for message in loaded_obj["messages"]:
             if message["type"] == "Prompt":
                 message_obj = Prompt()
             elif message["type"] == "Response":
