@@ -24,8 +24,6 @@ class Session:
             self,
             title=None,
             messages=[],
-        # TODO: Should support Prompt/Response (Additionally, ensure that
-        # all error messages are updated accordingly.)
             file_path=None):
         """
         Session object initiator.
@@ -229,7 +227,7 @@ class Session:
             loaded_obj = json_object.copy()
         self._messages_status = loaded_obj["messages_status"]
         messages = []
-        for message in loaded_obj["messages"]:  # TODO: Need refactor
+        for message in loaded_obj["messages"]:
             if message["type"] == "Prompt":
                 message_obj = Prompt()
             elif message["type"] == "Response":
@@ -301,5 +299,47 @@ class Session:
         if render_format == RenderFormat.ITEMS:
             return list(session_dict.items())
 
+    @property
+    def date_created(self):
+        """
+        Get the session creation date.
 
-# TODO: Properties
+        :return: session creation date
+        """
+        return self._date_created
+
+    @property
+    def date_modified(self):
+        """
+        Get the session object modification date.
+
+        :return: session object modification date
+        """
+        return self._date_modified
+
+    @property
+    def title(self):
+        """
+        Get the session title.
+
+        :return: session title
+        """
+        return self._title
+
+    @property
+    def messages(self):
+        """
+        Get the session messages.
+
+        :return: session messages
+        """
+        return self._messages
+
+    @property
+    def messages_status(self):
+        """
+        Get the session messages status.
+
+        :return: session messages status
+        """
+        return self._messages_status
