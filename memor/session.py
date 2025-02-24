@@ -50,7 +50,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
 
-    def __eq__(self, other_session): #TODO: Need discussion
+    def __eq__(self, other_session):  # TODO: Need discussion
         """
         Check sessions equality.
 
@@ -169,7 +169,7 @@ class Session:
         if status:
             self.update_messages_status(status)
         else:
-            self.update_messages_status(len(messages) * [True]) #TODO: Need discussion
+            self.update_messages_status(len(messages) * [True])  # TODO: Need discussion
         self._date_modified = get_time_utc()
 
     def update_messages_status(self, status):

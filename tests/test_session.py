@@ -197,7 +197,8 @@ def test_render2():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
-    assert session.render(RenderFormat.OPENAI) == [{"role": "user", "content": "Hello, how are you?"}, {"role": "assistant", "content": "I am fine."}]
+    assert session.render(RenderFormat.OPENAI) == [{"role": "user", "content": "Hello, how are you?"}, {
+        "role": "assistant", "content": "I am fine."}]
 
 
 def test_render3():
