@@ -50,7 +50,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
 
-    def __eq__(self, other_session):
+    def __eq__(self, other_session): #TODO: Need discussion
         """
         Check sessions equality.
 
