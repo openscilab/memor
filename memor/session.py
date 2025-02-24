@@ -225,6 +225,7 @@ class Session:
             loaded_obj = json.loads(json_object)
         else:
             loaded_obj = json_object.copy()
+        self._title = loaded_obj["title"]
         self._messages_status = loaded_obj["messages_status"]
         messages = []
         for message in loaded_obj["messages"]:
