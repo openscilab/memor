@@ -2,8 +2,7 @@ import datetime
 import copy
 import pytest
 from memor import Session, Prompt, Response, Role
-from memor import PresetPromptTemplate, PromptTemplate
-from memor import RenderFormat, MemorValidationError, MemorRenderError
+from memor import RenderFormat, MemorValidationError
 
 TEST_CASE_NAME = "Session tests"
 
