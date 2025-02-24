@@ -34,6 +34,20 @@ def test_messages2():
     assert session.messages == [prompt, response, prompt, response]
 
 
+def test_messages3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    session = Session(messages=[prompt])
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `messages` must be a list of `Prompt` or `Response`."):
+        session.update_messages([prompt, "I am fine."])
+
+
+def test_messages4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    session = Session(messages=[prompt])
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `messages` must be a list of `Prompt` or `Response`."):
+        session.update_messages("I am fine.")
+
+
 def test_messages_status1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
@@ -47,6 +61,22 @@ def test_messages_status2():
     session = Session(messages=[prompt, response])
     session.update_messages_status([False, True])
     assert session.messages_status == [False, True]
+
+
+def test_messages_status3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `status` must be a list of booleans."):
+        session.update_messages_status(["False", True])
+
+
+def test_messages_status4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    with pytest.raises(MemorValidationError, match=r"Invalid prompt status length. It must be equal to the number of prompts."):
+        session.update_messages_status([False, True, True])
 
 
 def test_enable_message():
@@ -81,6 +111,14 @@ def test_add_message2():
     session = Session(messages=[prompt, response])
     session.add_message(message=Response("Good!"), status=False, index=0)
     assert session.messages[0] == Response("Good!") and session.messages_status[0] == False
+
+
+def test_add_message3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    with pytest.raises(MemorValidationError, match=r"Invalid message. It must be an instance of `Prompt` or `Response`."):
+        session.add_message(message="Good!", status=False, index=0)
 
 
 def test_remove_message():
@@ -174,6 +212,14 @@ def test_render4():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
     assert ("content", "Hello, how are you?\nI am fine.\n") in session.render(RenderFormat.ITEMS)
+
+
+def test_render5():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    with pytest.raises(MemorValidationError, match=r"Invalid render format. It must be an instance of RenderFormat enum."):
+        session.render("OPENAI")
 
 
 def test_equality1():
