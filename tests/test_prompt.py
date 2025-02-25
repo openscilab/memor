@@ -19,6 +19,12 @@ def test_message2():
     assert prompt.message == "What's Up?"
 
 
+def test_message3():
+    prompt = Prompt(message="Hello, how are you?")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `message` must be a string."):
+        prompt.update_message(22)
+
+
 def test_role1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     assert prompt.role == Role.USER

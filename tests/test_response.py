@@ -19,6 +19,12 @@ def test_message2():
     assert response.message == "OK!"
 
 
+def test_message3():
+    response = Response(message="I am fine.")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `message` must be a string."):
+        response.update_message(22)
+
+
 def test_score1():
     response = Response(message="I am fine.", score=0.9)
     assert response.score == 0.9
@@ -72,6 +78,12 @@ def test_model2():
     response = Response(message="I am fine.", model="GPT-4")
     response.update_model("GPT-4o")
     assert response.model == "GPT-4o"
+
+
+def test_model3():
+    response = Response(message="I am fine.", model="GPT-4")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `message` must be a string."):
+        response.update_model(4)
 
 
 def test_date1():

@@ -33,6 +33,16 @@ def test_title3():
     assert template.title is None
 
 
+def test_title4():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"},
+        title=None)
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `title` must be a string."):
+        template.update_title(25)
+
+
 def test_content1():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
@@ -48,6 +58,15 @@ def test_content2():
             "language": "Python"})
     template.update_content(content="Act as a {language} developer and respond to this query:\n{prompt_message}")
     assert template.content == "Act as a {language} developer and respond to this query:\n{prompt_message}"
+
+
+def test_content3():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"})
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `content` must be a string."):
+        template.update_content(content=22)
 
 
 def test_custom_map1():

@@ -18,6 +18,13 @@ def test_title2():
     assert session.title == "session2"
 
 
+def test_title3():
+    session = Session(title="session1")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `title` must be a string."):
+        session.update_title(2)
+
+
+
 def test_messages1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
