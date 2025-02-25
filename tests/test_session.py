@@ -158,7 +158,7 @@ def test_repr():
     assert repr(session) == "Session(title={title})".format(title=session.title)
 
 
-def test_json1():
+def test_json():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response], title="session1")
