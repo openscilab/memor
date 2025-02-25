@@ -50,7 +50,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
 
-    def __eq__(self, other_session):
+    def __eq__(self, other_session):  # TODO: Need discussion
         """
         Check sessions equality.
 
@@ -168,6 +168,8 @@ class Session:
         self._messages = messages
         if status:
             self.update_messages_status(status)
+        else:
+            self.update_messages_status(len(messages) * [True])  # TODO: Need discussion
         self._date_modified = get_time_utc()
 
     def update_messages_status(self, status):
@@ -225,6 +227,7 @@ class Session:
             loaded_obj = json.loads(json_object)
         else:
             loaded_obj = json_object.copy()
+        self._title = loaded_obj["title"]
         self._messages_status = loaded_obj["messages_status"]
         messages = []
         for message in loaded_obj["messages"]:
