@@ -3,6 +3,7 @@ import json
 import copy
 import pytest
 from memor import Response, Role, MemorValidationError
+from memor import RenderFormat
 
 TEST_CASE_NAME = "Response tests"
 
@@ -140,6 +141,31 @@ def test_repr():
     response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     assert repr(response) == "Response(message={message})".format(message=response.message)
 
+
+def test_render1():
+    response = Response(message="I am fine.")
+    assert response.render() == "I am fine."
+
+
+def test_render2():
+    response = Response(message="I am fine.")
+    assert response.render(RenderFormat.OPENAI) == {"role": "assistant", "content": "I am fine."}
+
+
+def test_render3():
+    response = Response(message="I am fine.")
+    assert response.render(RenderFormat.DICTIONARY) = response.to_dict()
+
+
+def test_render4():
+    response = Response(message="I am fine.")
+    assert response.render(RenderFormat.ITEMS) = response.to_dict().items()
+
+
+def test_render5():
+    response = Response(message="I am fine.")
+    with pytest.raises(MemorValidationError, match=r"Invalid render format. It must be an instance of RenderFormat enum."):
+        response.render("OPENAI")
 
 def test_equality1():
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
