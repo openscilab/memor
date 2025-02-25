@@ -165,7 +165,7 @@ def test_load2():
 
 
 def test_load3():
-    with pytest.raises(MemorValidationError, match=r"Path template_test10.json does not exist."):
+    with pytest.raises(FileNotFoundError, match=r"Path template_test10.json does not exist."):
         template = PromptTemplate(file_path="template_test10.json")
 
 

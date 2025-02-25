@@ -132,7 +132,7 @@ def test_add_message4():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
     with pytest.raises(MemorValidationError, match=r"Invalid value. `status` must be a boolean."):
-        session.add_message(message=[prompt, prompt], status="False", index=0)
+        session.add_message(message=prompt, status="False", index=0)
 
 
 def test_remove_message():
@@ -206,7 +206,7 @@ def test_load1():
 
 
 def test_load2():
-    with pytest.raises(MemorValidationError, match=r"Path session_test10.json does not exist."):
+    with pytest.raises(FileNotFoundError, match=r"Path session_test10.json does not exist."):
         session = Session(file_path="session_test10.json")
 
 

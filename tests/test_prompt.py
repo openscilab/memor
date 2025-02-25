@@ -275,8 +275,8 @@ def test_load1():
 
 
 def test_load2():
-    with pytest.raises(MemorValidationError, match=r"Path prompt_test10.json does not exist."):
-        prompt = Prompt("prompt_test10.json")
+    with pytest.raises(FileNotFoundError, match=r"Path prompt_test10.json does not exist."):
+        prompt = Prompt(file_path="prompt_test10.json")
 
 
 def test_save3():

@@ -94,7 +94,7 @@ def test_model2():
 
 def test_model3():
     response = Response(message="I am fine.", model="GPT-4")
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `message` must be a string."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `model` must be a string."):
         response.update_model(4)
 
 
@@ -155,7 +155,7 @@ def test_load2():
 
 
 def test_load3():
-    with pytest.raises(MemorValidationError, match=r"Path response_test10.json does not exist."):
+    with pytest.raises(FileNotFoundError, match=r"Path response_test10.json does not exist."):
         response = Response(file_path="response_test10.json")
 
 
@@ -193,12 +193,12 @@ def test_render2():
 
 def test_render3():
     response = Response(message="I am fine.")
-    assert response.render(RenderFormat.DICTIONARY) = response.to_dict()
+    assert response.render(RenderFormat.DICTIONARY) == response.to_dict()
 
 
 def test_render4():
     response = Response(message="I am fine.")
-    assert response.render(RenderFormat.ITEMS) = response.to_dict().items()
+    assert response.render(RenderFormat.ITEMS) == response.to_dict().items()
 
 
 def test_render5():
