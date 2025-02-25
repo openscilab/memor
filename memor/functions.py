@@ -119,6 +119,7 @@ def _validate_list_of(value, parameter_name, type_, type_name):
     return True
 
 
+# TODO: Need refactor (If the input date does not have a timezone, it cannot be converted to a string.)
 def _validate_date_time(date_time, parameter_name):
     """
     Validate date time.
@@ -142,7 +143,7 @@ def _validate_path(path):
     :type path: any
     :return: True if path is a string and exists
     """
-    if not isinstance(path, str):
+    if not isinstance(path, str):  # TODO: I believe we can remove this layer of validation (need discussion)
         raise MemorValidationError(INVALID_PATH_MESSAGE)
     if not os.path.exists(path):
         raise FileNotFoundError(PATH_DOES_NOT_EXIST_MESSAGE.format(path))
