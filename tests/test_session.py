@@ -24,7 +24,6 @@ def test_title3():
         session.update_title(2)
 
 
-
 def test_messages1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")

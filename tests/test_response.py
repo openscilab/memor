@@ -206,6 +206,7 @@ def test_render5():
     with pytest.raises(MemorValidationError, match=r"Invalid render format. It must be an instance of RenderFormat enum."):
         response.render("OPENAI")
 
+
 def test_equality1():
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = response1.copy()

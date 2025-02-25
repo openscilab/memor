@@ -95,7 +95,6 @@ def test_custom_map3():
         template.update_map(["C++"])
 
 
-
 def test_date_modified():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
