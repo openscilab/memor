@@ -36,6 +36,12 @@ def test_score2():
     assert response.score == 0.5
 
 
+def test_score3():
+    response = Response(message="I am fine.", score=0.9)
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `score` must be a value between 0 and 1."):
+        response.update_score(-2)
+
+
 def test_role1():
     response = Response(message="I am fine.", role=Role.ASSISTANT)
     assert response.role == Role.ASSISTANT
@@ -67,6 +73,12 @@ def test_temperature2():
     response = Response(message="I am fine.", temperature=0.2)
     response.update_temperature(0.7)
     assert response.temperature == 0.7
+
+
+def test_temperature3():
+    response = Response(message="I am fine.", temperature=0.2)
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `temperature` must be a positive float."):
+        response.update_temperature(-22)
 
 
 def test_model1():
