@@ -139,7 +139,7 @@ def test_save2():
     assert result["status"] == False
 
 
-def test_load():
+def test_load1():
     template1 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
@@ -147,6 +147,16 @@ def test_load():
     result = template1.save("template_test2.json")
     template2 = PromptTemplate(file_path="template_test2.json")
     assert result["status"] and template1 == template2
+
+
+def test_load2():
+    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+        template1 = PromptTemplate(file_path=22)
+
+
+def test_load3():
+    with pytest.raises(MemorValidationError, match=r"Path template_test10.json does not exist."):
+        template = PromptTemplate(file_path="template_test10.json")
 
 
 def test_copy1():

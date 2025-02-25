@@ -269,6 +269,16 @@ def test_save2():
     assert result["status"] and prompt1 == prompt2
 
 
+def test_load1():
+    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+        prompt = Prompt(file_path=22)
+
+
+def test_load2():
+    with pytest.raises(MemorValidationError, match=r"Path prompt_test10.json does not exist."):
+        prompt = Prompt("prompt_test10.json")
+
+
 def test_save3():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)

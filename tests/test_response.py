@@ -142,11 +142,21 @@ def test_save2():
     assert result["status"] == False
 
 
-def test_load():
+def test_load1():
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     result = response1.save("response_test2.json")
     response2 = Response(file_path="response_test2.json")
     assert result["status"] and response1 == response2
+
+
+def test_load2():
+    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+        response = Response(file_path=2)
+
+
+def test_load3():
+    with pytest.raises(MemorValidationError, match=r"Path response_test10.json does not exist."):
+        response = Response(file_path="response_test10.json")
 
 
 def test_copy1():

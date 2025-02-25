@@ -200,6 +200,16 @@ def test_save2():
     assert result["status"] and session1 == session2
 
 
+def test_load1():
+    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+        session = Session(file_path=22)
+
+
+def test_load2():
+    with pytest.raises(MemorValidationError, match=r"Path session_test10.json does not exist."):
+        session = Session(file_path="session_test10.json")
+
+
 def test_render1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
