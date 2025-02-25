@@ -86,6 +86,16 @@ def test_custom_map2():
     assert template.custom_map == {"language": "C++"}
 
 
+def test_custom_map3():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"})
+    with pytest.raises(MemorValidationError, match=r"Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."):
+        template.update_map(["C++"])
+
+
+
 def test_date_modified():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
