@@ -109,6 +109,11 @@ def test_date2():
     assert isinstance(response.date_created, datetime.datetime)
 
 
+def test_date3():
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `date` must be a datetime object."):
+        response = Response(message="I am fine.", date="2/25/2025")
+
+
 def test_json1():
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response1_json = response1.to_json()
