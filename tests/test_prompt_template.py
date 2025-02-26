@@ -33,6 +33,16 @@ def test_title3():
     assert template.title is None
 
 
+def test_title4():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"},
+        title=None)
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `title` must be a string."):
+        template.update_title(25)
+
+
 def test_content1():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
@@ -50,6 +60,15 @@ def test_content2():
     assert template.content == "Act as a {language} developer and respond to this query:\n{prompt_message}"
 
 
+def test_content3():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"})
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `content` must be a string."):
+        template.update_content(content=22)
+
+
 def test_custom_map1():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
@@ -65,6 +84,15 @@ def test_custom_map2():
             "language": "Python"})
     template.update_map({"language": "C++"})
     assert template.custom_map == {"language": "C++"}
+
+
+def test_custom_map3():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"})
+    with pytest.raises(MemorValidationError, match=r"Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."):
+        template.update_map(["C++"])
 
 
 def test_date_modified():
@@ -120,7 +148,7 @@ def test_save2():
     assert result["status"] == False
 
 
-def test_load():
+def test_load1():
     template1 = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
@@ -128,6 +156,16 @@ def test_load():
     result = template1.save("template_test2.json")
     template2 = PromptTemplate(file_path="template_test2.json")
     assert result["status"] and template1 == template2
+
+
+def test_load2():
+    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+        template1 = PromptTemplate(file_path=22)
+
+
+def test_load3():
+    with pytest.raises(FileNotFoundError, match=r"Path template_test10.json does not exist."):
+        template = PromptTemplate(file_path="template_test10.json")
 
 
 def test_copy1():

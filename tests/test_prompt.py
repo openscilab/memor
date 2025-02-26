@@ -19,6 +19,12 @@ def test_message2():
     assert prompt.message == "What's Up?"
 
 
+def test_message3():
+    prompt = Prompt(message="Hello, how are you?")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `message` must be a string."):
+        prompt.update_message(22)
+
+
 def test_role1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     assert prompt.role == Role.USER
@@ -261,6 +267,16 @@ def test_save2():
     result = prompt1.save("prompt_test1.json")
     prompt2 = Prompt(file_path="prompt_test1.json")
     assert result["status"] and prompt1 == prompt2
+
+
+def test_load1():
+    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+        prompt = Prompt(file_path=22)
+
+
+def test_load2():
+    with pytest.raises(FileNotFoundError, match=r"Path prompt_test10.json does not exist."):
+        prompt = Prompt(file_path="prompt_test10.json")
 
 
 def test_save3():

@@ -18,6 +18,12 @@ def test_title2():
     assert session.title == "session2"
 
 
+def test_title3():
+    session = Session(title="session1")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `title` must be a string."):
+        session.update_title(2)
+
+
 def test_messages1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
@@ -120,6 +126,14 @@ def test_add_message3():
         session.add_message(message="Good!", status=False, index=0)
 
 
+def test_add_message4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `status` must be a boolean."):
+        session.add_message(message=prompt, status="False", index=0)
+
+
 def test_remove_message():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
@@ -183,6 +197,16 @@ def test_save2():
     result = session1.save("session_test1.json")
     session2 = Session(file_path="session_test1.json")
     assert result["status"] and session1 == session2
+
+
+def test_load1():
+    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+        session = Session(file_path=22)
+
+
+def test_load2():
+    with pytest.raises(FileNotFoundError, match=r"Path session_test10.json does not exist."):
+        session = Session(file_path="session_test10.json")
 
 
 def test_render1():
