@@ -2,6 +2,7 @@
 """Memor functions."""
 import os
 import datetime
+from .params import DATE_TIME_FORMAT
 from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE
@@ -119,7 +120,6 @@ def _validate_list_of(value, parameter_name, type_, type_name):
     return True
 
 
-# TODO: Need refactor (If the input date does not have a timezone, it cannot be converted to a string.)
 def _validate_date_time(date_time, parameter_name):
     """
     Validate date time.
@@ -130,7 +130,7 @@ def _validate_date_time(date_time, parameter_name):
     :type parameter_name: str
     :return: True if date time is a datetime object
     """
-    if not isinstance(date_time, datetime.datetime):
+    if not isinstance(date_time, datetime.datetime) or date_time.tzinfo is None:
         raise MemorValidationError(INVALID_DATETIME_MESSAGE.format(parameter_name))
     return True
 

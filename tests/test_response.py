@@ -110,9 +110,13 @@ def test_date2():
 
 
 def test_date3():
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `date` must be a datetime object."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `date` must be a datetime object in format YEAR-MONTH-DAY HOUR:MINUTE:SECOND TIMEZONE."):
         response = Response(message="I am fine.", date="2/25/2025")
 
+
+def test_date4():
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `date` must be a datetime object in format YEAR-MONTH-DAY HOUR:MINUTE:SECOND TIMEZONE."):
+        response = Response(message="I am fine.", date=datetime.datetime.now())
 
 def test_json1():
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
