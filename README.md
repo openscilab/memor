@@ -86,16 +86,17 @@ You can create a session by combining multiple prompts and responses, gradually 
                     responses=[response],
                     role=Role.USER,
                     template=PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD)
->>> pre_prompt = Prompt(message="Here is my recent chat with ChatGPT", role=Role.USER)
->>> session = Session(messages=[pre_prompt, prompt])
+>>> system_prompt = Prompt(message="System Prompt:",
+                    role=Role.SYSTEM)
+>>> session = Session(messages=[system_prompt, prompt])
 >>> session.render(RenderFormat.OPENAI)
 ```
 
 The rendered output will be a list of messages formatted for compatibility with the OpenAI API.
 
 ```json
-[{"content": "Here is my recent chat with ChatGPT", "role": "user"},
- {"content": "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new  question.\n"
+[{"content": "System Prompt:", "role": "system"},
+ {"content": "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\n"
              "Prompt: Hello, how are you?\n"
              "Response: I am fine.",
   "role": "user"}]
