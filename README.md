@@ -76,17 +76,29 @@ By bridging the gap between isolated LLM instances, Memor revolutionizes the way
 
 ## Usage
 Define your prompt and the response(s) to that; Memor will wrap it into a object with a templated representation.
+You can create a session by combining multiple prompts and responses, gradually building it up:
 
 ```pycon
->>> from memor import Prompt, Response, Role
+>>> from memor import Session, Prompt, Response, Role
 >>> from memor import PresetPromptTemplate, RenderFormat
 >>> response = Response(message="I am fine.", role=Role.ASSISTANT, temperature=0.9, score=0.9)
 >>> prompt = Prompt(message="Hello, how are you?",
                     responses=[response],
                     role=Role.USER,
                     template=PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD)
->>> prompt.render(render_format=RenderFormat.OPENAI)
-{'role': 'user', 'content': "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\nPrompt: Hello, how are you?\nResponse: I am fine."}
+>>> pre_prompt = Prompt(message="Here is my recent chat with ChatGPT", role=Role.USER)
+>>> session = Session(messages=[pre_prompt, prompt])
+>>> session.render(RenderFormat.OPENAI)
+```
+
+The rendered output will be a list of messages formatted for compatibility with the OpenAI API.
+
+```json
+[{"content": "Here is my recent chat with ChatGPT", "role": "user"},
+ {"content": "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new  question.\n"
+             "Prompt: Hello, how are you?\n"
+             "Response: I am fine.",
+  "role": "user"}]
 ```
 
 ## Issues & bug reports
