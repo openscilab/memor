@@ -16,8 +16,7 @@ INVALID_DATETIME_MESSAGE = "Invalid value. `{0}` must be a datetime object in fo
 INVALID_TEMPLATE_MESSAGE = "Invalid template. It must be an instance of `PromptTemplate` or `PresetPromptTemplate`."
 INVALID_RESPONSE_MESSAGE = "Invalid response. It must be an instance of `Response`."
 INVALID_MESSAGE = "Invalid message. It must be an instance of `Prompt` or `Response`."
-# TODO: Need update (prompt --> message)
-INVALID_PROMPT_STATUS_LEN_MESSAGE = "Invalid prompt status length. It must be equal to the number of prompts."
+INVALID_MESSAGE_STATUS_LEN_MESSAGE = "Invalid message status length. It must be equal to the number of messages."
 INVALID_CUSTOM_MAP_MESSAGE = "Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."
 INVALID_ROLE_MESSAGE = "Invalid role. It must be an instance of Role enum."
 INVALID_TEMPLATE_STRUCTURE_MESSAGE = "Invalid template structure. It should be a JSON object with proper fields."

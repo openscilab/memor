@@ -6,7 +6,7 @@ from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
-from .params import INVALID_PROMPT_STATUS_LEN_MESSAGE
+from .params import INVALID_MESSAGE_STATUS_LEN_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import RenderFormat
 from .prompt import Prompt
@@ -182,7 +182,7 @@ class Session:
         """
         _validate_list_of(status, "status", bool, "booleans")
         if len(status) != len(self._messages):
-            raise MemorValidationError(INVALID_PROMPT_STATUS_LEN_MESSAGE)
+            raise MemorValidationError(INVALID_MESSAGE_STATUS_LEN_MESSAGE)
         self._messages_status = status
 
     def save(self, file_path):

@@ -80,7 +80,7 @@ def test_messages_status4():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
-    with pytest.raises(MemorValidationError, match=r"Invalid prompt status length. It must be equal to the number of prompts."):
+    with pytest.raises(MemorValidationError, match=r"Invalid message status length. It must be equal to the number of messages."):
         session.update_messages_status([False, True, True])
 
 
