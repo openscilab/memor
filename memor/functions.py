@@ -2,7 +2,6 @@
 """Memor functions."""
 import os
 import datetime
-from .params import DATE_TIME_FORMAT
 from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE
