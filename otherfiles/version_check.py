@@ -20,7 +20,7 @@ CHANGELOG_ITEMS = [
 PARAMS_ITEMS = ['MEMOR_VERSION = "{0}"']
 META_ITEMS = ['% set version = "{0}" %']
 ISSUE_TEMPLATE_ITEMS = ["- Memor {0}"]
-SECURITY_ITEMS = ["| {0}           | :white_check_mark: |"]
+SECURITY_ITEMS = ["| {0}           | :white_check_mark: |", "| < {0}         | :x:                |"]
 
 FILES = {
     os.path.join("otherfiles", "meta.yaml"): META_ITEMS,
