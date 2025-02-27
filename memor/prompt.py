@@ -388,7 +388,7 @@ class Prompt:
         """
         return self._selected_response
 
-    def render(self, render_format=RenderFormat.DEFAULT):  # TODO: update based on Response.render
+    def render(self, render_format=RenderFormat.DEFAULT):
         """
         Render method.
 

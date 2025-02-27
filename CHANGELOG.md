@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `Session` class
+### Changed
+- `Prompt` class modified
+- `Response` class modified
+- `PromptTemplate` class modified
+- `README.md` updated
+- Test system modified
 ## [0.1] - 2025-02-12
 ### Added
 - `Prompt` class

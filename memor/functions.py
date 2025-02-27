@@ -142,7 +142,7 @@ def _validate_path(path):
     :type path: any
     :return: True if path is a string and exists
     """
-    if not isinstance(path, str):  # TODO: I believe we can remove this layer of validation (need discussion)
+    if not isinstance(path, str):  # TODO: We should combine these two errors.
         raise MemorValidationError(INVALID_PATH_MESSAGE)
     if not os.path.exists(path):
         raise FileNotFoundError(PATH_DOES_NOT_EXIST_MESSAGE.format(path))
