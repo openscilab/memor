@@ -95,7 +95,7 @@ You can create a session by combining multiple prompts and responses, gradually 
 The rendered output will be a list of messages formatted for compatibility with the OpenAI API.
 
 ```json
-[{'content': 'You are a friendly and informative AI assistant designed to answer questions on a wide range of topics.', 'role': 'system'},
+[{"content": "You are a friendly and informative AI assistant designed to answer questions on a wide range of topics.", "role": "system"},
  {"content": "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\n"
              "Prompt: Hello, how are you?\n"
              "Response: I am fine.",
