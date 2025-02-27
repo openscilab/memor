@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.2] - 2025-03-01
 ### Added
 - `Session` class
 ### Changed
@@ -21,5 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `PresetPromptTemplate` class
 
 
-[Unreleased]: https://github.com/openscilab/memor/compare/v0.1...dev
+[Unreleased]: https://github.com/openscilab/memor/compare/v0.2...dev
+[0.2]: https://github.com/openscilab/memor/compare/v0.1...v0.2
 [0.1]: https://github.com/openscilab/memor/compare/6594313...v0.1
