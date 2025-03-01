@@ -70,9 +70,9 @@ class Session:
 
     def __len__(self):
         """
-        Return the length of the session.
+        Return the length of the Session object.
 
-        :return: length of the session
+        :return: length of the Session object
         """
         return len(self._messages)
 
