@@ -68,6 +68,14 @@ class Session:
         """Return string representation of Session."""
         return "Session(title={title})".format(title=self._title)
 
+    def __len__(self):
+        """
+        Return the length of the session.
+
+        :return: length of the session
+        """
+        return len(self._messages)
+
     def __copy__(self):
         """
         Return a copy of the Session object.
