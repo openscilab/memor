@@ -1,5 +1,5 @@
 {% set name = "memor" %}
-{% set version = "0.1" %}
+{% set version = "0.2" %}
 
 package:
     name: {{ name|lower }}
@@ -32,5 +32,4 @@ about:
 extra:
     recipe-maintainers:
         - sepandhaghighi
-        - AHReccese
         - sadrasabouri
