@@ -282,3 +282,10 @@ def test_date_created():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
     assert isinstance(session.date_created, datetime.datetime)
+
+
+def test_length():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    assert len(session) == len(session.messages) and len(session) == 2
