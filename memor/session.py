@@ -76,6 +76,14 @@ class Session:
         """
         return len(self._messages)
 
+    def __iter__(self):
+        """
+        Iterate through the Session object.
+
+        :return: message as Generator[Prompt/Response]
+        """
+        yield from self._messages
+
     def __copy__(self):
         """
         Return a copy of the Session object.

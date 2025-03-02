@@ -289,3 +289,13 @@ def test_length():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
     assert len(session) == len(session.messages) and len(session) == 2
+
+
+def test_iter():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response, prompt, response], title="session1")
+    messages = []
+    for message in session:
+        messages.append(message)
+    assert session.messages == messages
