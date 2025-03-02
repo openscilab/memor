@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `Session` class `__len__` method
+- `Session` class `__iter__` method
 ## [0.2] - 2025-03-01
 ### Added
 - `Session` class
