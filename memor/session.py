@@ -80,7 +80,7 @@ class Session:
         """
         Iterate through the Session object.
 
-        :return: message as Generator[str]
+        :return: message as Generator[Prompt/Response]
         """
         yield from self._messages
 
