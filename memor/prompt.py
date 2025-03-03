@@ -89,7 +89,8 @@ class Prompt:
         :type other_prompt: Prompt
         :return: result as bool
         """
-        return self._message == other_prompt._message and self._responses == other_prompt._responses and self._role == other_prompt._role and self._template == other_prompt._template
+        return self._message == other_prompt._message and self._responses == other_prompt._responses and self._role == other_prompt._role and self._template == other_prompt._template and \
+               self._tokens == other_prompt._tokens
 
     def __str__(self):
         """Return string representation of Prompt."""
