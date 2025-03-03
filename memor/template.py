@@ -274,7 +274,7 @@ BASIC_PROMPT_RESPONSE_FULL_CONTENT = """{instruction}
 Prompt:
     Message: {prompt[message]}
     Role: {prompt[role]}
-    Tokens: {prompt[token]}
+    Tokens: {prompt[tokens]}
     Date: {prompt[date]}
 Response:
     Message: {response[message]}
