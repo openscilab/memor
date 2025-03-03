@@ -27,7 +27,7 @@ def test_message3():
 
 def test_tokens1():
     response = Response(message="I am fine.")
-    assert response.tokens == None
+    assert response.tokens is None
 
 
 def test_tokens2():

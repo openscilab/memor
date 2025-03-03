@@ -90,7 +90,7 @@ class Prompt:
         :return: result as bool
         """
         return self._message == other_prompt._message and self._responses == other_prompt._responses and self._role == other_prompt._role and self._template == other_prompt._template and \
-               self._tokens == other_prompt._tokens
+            self._tokens == other_prompt._tokens
 
     def __str__(self):
         """Return string representation of Prompt."""
@@ -197,7 +197,6 @@ class Prompt:
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
         self._date_modified = get_time_utc()
-
 
     def update_tokens(self, tokens):
         """

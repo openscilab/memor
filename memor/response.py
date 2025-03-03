@@ -170,8 +170,7 @@ class Response:
         self._temperature = temperature
         self._date_modified = get_time_utc()
 
-
-    def update_tokens(self, tokens): #TODO: Need validation
+    def update_tokens(self, tokens):  # TODO: Need validation
         """
         Update the tokens.
 

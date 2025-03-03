@@ -27,7 +27,7 @@ def test_message3():
 
 def test_tokens1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
-    assert prompt.tokens == None
+    assert prompt.tokens is None
 
 
 def test_tokens2():
