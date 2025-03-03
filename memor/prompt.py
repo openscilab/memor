@@ -198,7 +198,7 @@ class Prompt:
         self._role = role
         self._date_modified = get_time_utc()
 
-    def update_tokens(self, tokens):
+    def update_tokens(self, tokens): #TODO: Need validation (positive int)
         """
         Update the tokens.
 
