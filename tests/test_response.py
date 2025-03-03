@@ -25,6 +25,22 @@ def test_message3():
         response.update_message(22)
 
 
+def test_tokens1():
+    response = Response(message="I am fine.")
+    assert response.tokens == None
+
+
+def test_tokens2():
+    response = Response(message="I am fine.", tokens=4)
+    assert response.tokens == 4
+
+
+def test_tokens3():
+    response = Response(message="I am fine.", tokens=4)
+    response.update_tokens(6)
+    assert response.tokens == 6
+
+
 def test_score1():
     response = Response(message="I am fine.", score=0.9)
     assert response.score == 0.9
