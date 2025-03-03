@@ -274,6 +274,7 @@ BASIC_PROMPT_RESPONSE_FULL_CONTENT = """{instruction}
 Prompt:
     Message: {prompt[message]}
     Role: {prompt[role]}
+    Tokens: {prompt[token]}
     Date: {prompt[date]}
 Response:
     Message: {response[message]}
@@ -281,6 +282,7 @@ Response:
     Temperature: {response[temperature]}
     Model: {response[model]}
     Score: {response[score]}
+    Tokens: {response[tokens]}
     Date: {response[date]}"""
 
 
