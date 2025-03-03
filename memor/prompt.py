@@ -374,6 +374,15 @@ class Prompt:
         return self._role
 
     @property
+    def tokens(self):
+        """
+        Get the prompt tokens.
+
+        :return: prompt tokens
+        """
+        return self._tokens
+
+    @property
     def date_created(self):
         """
         Get the prompt creation date.
