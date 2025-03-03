@@ -328,6 +328,15 @@ class Response:
         return self._temperature
 
     @property
+    def tokens(self):
+        """
+        Get the tokens.
+
+        :return: tokens
+        """
+        return self._tokens
+
+    @property
     def role(self):
         """
         Get the response role.
