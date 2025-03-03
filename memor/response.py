@@ -30,6 +30,7 @@ class Response:
             score=None,
             role=Role.ASSISTANT,
             temperature=None,
+            tokens=None,
             model=None,
             date=get_time_utc(),
             file_path=None):
@@ -44,6 +45,8 @@ class Response:
         :type role: Role object
         :param temperature: temperature
         :type temperature: float
+        :param tokens: tokens
+        :type tokens: int
         :param model: agent model
         :type model: str
         :param date: response date
@@ -56,6 +59,7 @@ class Response:
         self._score = None
         self._role = Role.ASSISTANT
         self._temperature = None
+        self._tokens = None
         self._model = None
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
@@ -73,6 +77,8 @@ class Response:
                 self.update_model(model)
             if temperature:
                 self.update_temperature(temperature)
+            if tokens:
+                self.update_tokens(tokens)
             if date:
                 _validate_date_time(date, "date")
                 self._date_created = date
@@ -164,6 +170,18 @@ class Response:
         self._temperature = temperature
         self._date_modified = get_time_utc()
 
+
+    def update_tokens(self, tokens): #TODO: Need validation
+        """
+        Update the tokens.
+
+        :param tokens: tokens
+        :type tokens: int
+        :return: None
+        """
+        self._tokens = tokens
+        self._date_modified = get_time_utc()
+
     def update_model(self, model):
         """
         Update the agent model.
@@ -221,6 +239,7 @@ class Response:
             self._message = loaded_obj["message"]
             self._score = loaded_obj["score"]
             self._temperature = loaded_obj["temperature"]
+            self._tokens = loaded_obj.get("tokens", None)
             self._model = loaded_obj["model"]
             self._role = Role(loaded_obj["role"])
             self._memor_version = loaded_obj["memor_version"]
@@ -252,6 +271,7 @@ class Response:
             "message": self._message,
             "score": self._score,
             "temperature": self._temperature,
+            "tokens": self._tokens,
             "role": self._role,
             "model": self._model,
             "memor_version": MEMOR_VERSION,
