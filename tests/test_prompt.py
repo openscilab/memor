@@ -25,6 +25,22 @@ def test_message3():
         prompt.update_message(22)
 
 
+def test_tokens1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    assert prompt.tokens is None
+
+
+def test_tokens2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, tokens=4)
+    assert prompt.tokens == 4
+
+
+def test_tokens3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, tokens=4)
+    prompt.update_tokens(7)
+    assert prompt.tokens == 7
+
+
 def test_role1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     assert prompt.role == Role.USER

@@ -36,6 +36,7 @@ class Prompt:
             message=None,
             responses=[],
             role=Role.DEFAULT,
+            tokens=None,
             template=PresetPromptTemplate.DEFAULT,
             file_path=None):
         """
@@ -47,6 +48,8 @@ class Prompt:
         :type responses: list
         :param role: prompt role
         :type role: Role object
+        :param tokens: tokens
+        :type tokens: int
         :param template: prompt template
         :type template: PromptTemplate/PresetPromptTemplate object
         :param file_path: prompt file path
@@ -54,6 +57,7 @@ class Prompt:
         :return: None
         """
         self._message = None
+        self._tokens = None
         self._role = Role.DEFAULT
         self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
@@ -69,6 +73,8 @@ class Prompt:
                 self.update_message(message)
             if role:
                 self.update_role(role)
+            if tokens:
+                self.update_tokens(tokens)
             if responses:
                 self.update_responses(responses)
             if template:
@@ -83,7 +89,9 @@ class Prompt:
         :type other_prompt: Prompt
         :return: result as bool
         """
-        return self._message == other_prompt._message and self._responses == other_prompt._responses and self._role == other_prompt._role and self._template == other_prompt._template
+        return self._message == other_prompt._message and self._responses == other_prompt._responses and \
+            self._role == other_prompt._role and self._template == other_prompt._template and \
+            self._tokens == other_prompt._tokens
 
     def __str__(self):
         """Return string representation of Prompt."""
@@ -191,6 +199,17 @@ class Prompt:
         self._role = role
         self._date_modified = get_time_utc()
 
+    def update_tokens(self, tokens):  # TODO: Need validation (positive int)
+        """
+        Update the tokens.
+
+        :param tokens: tokens
+        :type tokens: int
+        :return: None
+        """
+        self._tokens = tokens
+        self._date_modified = get_time_utc()
+
     def update_template(self, template):
         """
         Update the prompt template.
@@ -264,6 +283,7 @@ class Prompt:
             else:
                 loaded_obj = json_object.copy()
             self._message = loaded_obj["message"]
+            self._tokens = loaded_obj.get("tokens", None)
             responses = []
             for response in loaded_obj["responses"]:
                 response_obj = Response()
@@ -315,6 +335,7 @@ class Prompt:
             "message": self._message,
             "responses": self._responses.copy(),
             "selected_response_index": self._selected_response_index,
+            "tokens": self._tokens,
             "role": self._role,
             "template": self._template,
             "memor_version": MEMOR_VERSION,
@@ -351,6 +372,15 @@ class Prompt:
         :return: prompt role
         """
         return self._role
+
+    @property
+    def tokens(self):
+        """
+        Get the prompt tokens.
+
+        :return: prompt tokens
+        """
+        return self._tokens
 
     @property
     def date_created(self):
