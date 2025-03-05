@@ -50,7 +50,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
 
-    def __eq__(self, other_session):  # TODO: This method should return False for other_session != Session
+    def __eq__(self, other_session):
         """
         Check sessions equality.
 
@@ -58,7 +58,9 @@ class Session:
         :type other_session: Session
         :return: bool
         """
-        return self._title == other_session._title and self._messages == other_session._messages
+        if isinstance(other_session, Session):
+            return self._title == other_session._title and self._messages == other_session._messages
+        return False
 
     def __str__(self):
         """Return string representation of Session."""
