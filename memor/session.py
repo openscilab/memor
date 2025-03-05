@@ -50,7 +50,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
 
-    def __eq__(self, other_session):  #TODO: This method should return False for other_session != Session
+    def __eq__(self, other_session):  # TODO: This method should return False for other_session != Session
         """
         Check sessions equality.
 
@@ -84,7 +84,7 @@ class Session:
         """
         yield from self._messages
 
-    def __add__(self, other_object): #TODO: This method should raise a TypeError for other_object != (Response, Pormpt, Session)
+    def __add__(self, other_object):  # TODO: This method should raise a TypeError for other_object != (Response, Pormpt, Session)
         """
         Addition method.
 
@@ -99,7 +99,7 @@ class Session:
             new_messages = self._messages + other_object._messages
             return Session(messages=new_messages)
 
-    def __radd__(self, other_object): #TODO: This method should raise a TypeError for other_object != (Response, Pormpt)
+    def __radd__(self, other_object):  # TODO: This method should raise a TypeError for other_object != (Response, Pormpt)
         """
         Reverse addition method.
 

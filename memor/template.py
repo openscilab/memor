@@ -57,7 +57,7 @@ class PromptTemplate:
             if custom_map:
                 self.update_map(custom_map)
 
-    def __eq__(self, other_template): #TODO: This method should return False for other_template != PromptTemplate
+    def __eq__(self, other_template):  # TODO: This method should return False for other_template != PromptTemplate
         """
         Check templates equality.
 
