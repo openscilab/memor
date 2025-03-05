@@ -83,7 +83,7 @@ class Response:
                 _validate_date_time(date, "date")
                 self._date_created = date
 
-    def __eq__(self, other_response):  # TODO: This method should return False for other_reponse != Response
+    def __eq__(self, other_response):
         """
         Check responses equality.
 
@@ -91,8 +91,10 @@ class Response:
         :type other_response: Response
         :return: result as bool
         """
-        return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and self._temperature == other_response._temperature and \
-            self._model == other_response._model and self._tokens == other_response._tokens
+        if isinstance(other_response, Response):
+            return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and self._temperature == other_response._temperature and \
+                self._model == other_response._model and self._tokens == other_response._tokens
+        return False
 
     def __str__(self):
         """Return string representation of Response."""
