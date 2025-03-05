@@ -1,3 +1,4 @@
+import re
 import datetime
 import copy
 import pytest
@@ -362,7 +363,7 @@ def test_addition7():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response, prompt, response], title="session1")
-    with pytest.raises(TypeError, match=r"Unsupported operand type(s) for +: `Session` and `int`"):
+    with pytest.raises(TypeError, match=re.escape(r"Unsupported operand type(s) for +: `Session` and `int`")):
         _ = session1 + 2
 
 
@@ -370,5 +371,5 @@ def test_addition8():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response, prompt, response], title="session1")
-    with pytest.raises(TypeError, match=r"Unsupported operand type(s) for +: `Session` and `int`"):
+    with pytest.raises(TypeError, match=re.escape(r"Unsupported operand type(s) for +: `Session` and `int`")):
         _ = 2 + session1
