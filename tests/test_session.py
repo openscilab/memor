@@ -340,7 +340,7 @@ def test_addition5():
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response, prompt, response], title="session1")
     session2 = response + session1
-    assert session2.title == "session1" and session2.messages ==  [response] + session1.messages
+    assert session2.title == "session1" and session2.messages == [response] + session1.messages
 
 
 def test_addition6():
@@ -349,5 +349,3 @@ def test_addition6():
     session1 = Session(messages=[prompt, response, prompt, response], title="session1")
     session2 = prompt + session1
     assert session2.title == "session1" and session2.messages == [prompt] + session1.messages
-
-
