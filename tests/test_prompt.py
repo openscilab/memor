@@ -442,6 +442,20 @@ def test_equality3():
     assert prompt1 == prompt2
 
 
+def test_equality4():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    assert prompt != 2
+
+
 def test_date_modified():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)

@@ -270,6 +270,13 @@ def test_equality3():
     assert session1 == session2
 
 
+def test_equality4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    assert session != 2
+
+
 def test_date_modified():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")

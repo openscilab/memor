@@ -237,3 +237,12 @@ def test_equality3():
             "language": "Python"},
         title="template1")
     assert template1 == template2
+
+
+def test_equality4():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"},
+        title="template1")
+    assert template != 2
