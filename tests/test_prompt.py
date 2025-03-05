@@ -287,12 +287,12 @@ def test_save2():
 
 def test_load1():
     with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
-        prompt = Prompt(file_path=22)
+        _ = Prompt(file_path=22)
 
 
 def test_load2():
     with pytest.raises(FileNotFoundError, match=r"Path prompt_test10.json does not exist."):
-        prompt = Prompt(file_path="prompt_test10.json")
+        _ = Prompt(file_path="prompt_test10.json")
 
 
 def test_save3():

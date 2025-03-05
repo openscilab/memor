@@ -101,7 +101,7 @@ class Session:
         if isinstance(other_object, Session):
             new_messages = self._messages + other_object._messages
             return Session(messages=new_messages)
-         raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
+        raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
 
     def __radd__(self, other_object):
         """

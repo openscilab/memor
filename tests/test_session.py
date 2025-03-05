@@ -201,12 +201,12 @@ def test_save2():
 
 def test_load1():
     with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
-        session = Session(file_path=22)
+        _ = Session(file_path=22)
 
 
 def test_load2():
     with pytest.raises(FileNotFoundError, match=r"Path session_test10.json does not exist."):
-        session = Session(file_path="session_test10.json")
+        _ = Session(file_path="session_test10.json")
 
 
 def test_render1():
@@ -363,7 +363,7 @@ def test_addition7():
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response, prompt, response], title="session1")
     with pytest.raises(TypeError, match=r"Unsupported operand type(s) for +: `Session` and `int`"):
-        session2 = session1 + 2
+        _ = session1 + 2
 
 
 def test_addition8():
@@ -371,4 +371,4 @@ def test_addition8():
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response, prompt, response], title="session1")
     with pytest.raises(TypeError, match=r"Unsupported operand type(s) for +: `Session` and `int`"):
-        session2 = 2 + session1
+        _ = 2 + session1
