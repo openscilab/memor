@@ -299,3 +299,53 @@ def test_iter():
     for message in session:
         messages.append(message)
     assert session.messages == messages
+
+
+def test_addition1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session1 = Session(messages=[prompt, response, prompt, response], title="session1")
+    session2 = Session(messages=[prompt, prompt, response, response], title="session2")
+    session3 = session1 + session2
+    assert session3.title is None and session3.messages == session1.messages + session2.messages
+
+
+def test_addition2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session1 = Session(messages=[prompt, response, prompt, response], title="session1")
+    session2 = Session(messages=[prompt, prompt, response, response], title="session2")
+    session3 = session2 + session1
+    assert session3.title is None and session3.messages == session2.messages + session1.messages
+
+
+def test_addition3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session1 = Session(messages=[prompt, response, prompt, response], title="session1")
+    session2 = session1 + response
+    assert session2.title == "session1" and session2.messages == session1.messages + [response]
+
+
+def test_addition4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session1 = Session(messages=[prompt, response, prompt, response], title="session1")
+    session2 = session1 + prompt
+    assert session2.title == "session1" and session2.messages == session1.messages + [prompt]
+
+
+def test_addition5():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session1 = Session(messages=[prompt, response, prompt, response], title="session1")
+    session2 = response + session1
+    assert session2.title == "session1" and session2.messages == [response] + session1.messages
+
+
+def test_addition6():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session1 = Session(messages=[prompt, response, prompt, response], title="session1")
+    session2 = prompt + session1
+    assert session2.title == "session1" and session2.messages == [prompt] + session1.messages

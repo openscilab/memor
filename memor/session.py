@@ -50,7 +50,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
 
-    def __eq__(self, other_session):  # TODO: Need discussion
+    def __eq__(self, other_session):  # TODO: This method should return False for other_session != Session
         """
         Check sessions equality.
 
@@ -83,6 +83,33 @@ class Session:
         :return: message as Generator[Prompt/Response]
         """
         yield from self._messages
+
+    def __add__(self, other_object):  # TODO: This method should raise a TypeError for other_object != (Response, Pormpt, Session)
+        """
+        Addition method.
+
+        :param other_object: other object
+        :type other_object: any
+        :return: new Session
+        """
+        if isinstance(other_object, (Response, Prompt)):
+            new_messages = self._messages + [other_object]
+            return Session(title=self.title, messages=new_messages)
+        if isinstance(other_object, Session):
+            new_messages = self._messages + other_object._messages
+            return Session(messages=new_messages)
+
+    def __radd__(self, other_object):  # TODO: This method should raise a TypeError for other_object != (Response, Pormpt)
+        """
+        Reverse addition method.
+
+        :param other_object: other object
+        :type other_object: any
+        :return: new Session
+        """
+        if isinstance(other_object, (Response, Prompt)):
+            new_messages = [other_object] + self._messages
+            return Session(title=self.title, messages=new_messages)
 
     def __copy__(self):
         """

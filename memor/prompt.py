@@ -81,7 +81,7 @@ class Prompt:
                 self.update_template(template)
             self.select_response(index=self._selected_response_index)
 
-    def __eq__(self, other_prompt):
+    def __eq__(self, other_prompt):  # TODO: This method should return False for other_prompt != Prompt
         """
         Check prompts equality.
 

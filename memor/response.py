@@ -83,7 +83,7 @@ class Response:
                 _validate_date_time(date, "date")
                 self._date_created = date
 
-    def __eq__(self, other_response):
+    def __eq__(self, other_response):  # TODO: This method should return False for other_reponse != Response
         """
         Check responses equality.
 
