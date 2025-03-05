@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `Session` class `__len__` method
 - `Session` class `__iter__` method
+- `Session` class `__add__` and `__radd__` methods
 ### Changed
 - `tokens` parameter added to `Prompt` class
 - `tokens` parameter added to `Response` class
