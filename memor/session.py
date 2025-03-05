@@ -84,6 +84,22 @@ class Session:
         """
         yield from self._messages
 
+    def __add__(self, other_object):
+        """
+        Addition method.
+
+        :param other_object: other object
+        :type other_object: any
+        :return: new Session
+        """
+        if isinstance(other_object, (Response, Prompt)):
+            new_messages = self._messages + [other_object]
+            return Session(title=self.title, messages=new_messages)
+        if isinstance(other_object, Session):
+            new_messages = self._messages + other_object._messages
+            return Session(messages=new_messages)
+
+
     def __copy__(self):
         """
         Return a copy of the Session object.
