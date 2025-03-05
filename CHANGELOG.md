@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `tokens` parameter added to `Prompt` class
 - `tokens` parameter added to `Response` class
 - `tokens` parameter added to preset templates
+- `Prompt` class modified
+- `Response` class modified
+- `PromptTemplate` class modified
 ## [0.2] - 2025-03-01
 ### Added
 - `Session` class
