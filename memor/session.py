@@ -100,6 +100,22 @@ class Session:
             return Session(messages=new_messages)
 
 
+    def __radd__(self, other_object):
+        """
+        Reverse addition method.
+
+        :param other_object: other object
+        :type other_object: any
+        :return: new Session
+        """
+        if isinstance(other_object, (Response, Prompt)):
+            new_messages =  [other_object] + self._messages
+            return Session(title=self.title, messages=new_messages)
+        if isinstance(other_object, Session):
+            new_messages =  other_object._messages + self._messages
+            return Session(messages=new_messages)
+
+
     def __copy__(self):
         """
         Return a copy of the Session object.
