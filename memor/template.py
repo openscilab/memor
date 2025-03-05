@@ -57,7 +57,7 @@ class PromptTemplate:
             if custom_map:
                 self.update_map(custom_map)
 
-    def __eq__(self, other_template):  # TODO: This method should return False for other_template != PromptTemplate
+    def __eq__(self, other_template):
         """
         Check templates equality.
 
@@ -65,7 +65,9 @@ class PromptTemplate:
         :type other_template: PromptTemplate
         :return: result as bool
         """
-        return self._content == other_template._content and self._title == other_template._title and self._custom_map == other_template._custom_map
+        if isinstance(other_template, PromptTemplate):
+            return self._content == other_template._content and self._title == other_template._title and self._custom_map == other_template._custom_map
+        return False
 
     def __str__(self):
         """Return string representation of PromptTemplate."""
