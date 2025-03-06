@@ -10,7 +10,7 @@ from .params import INVALID_ROLE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
 from .params import Role, RenderFormat
 from .errors import MemorValidationError
 from .functions import get_time_utc
-from .functions import _validate_string, _validate_pos_float
+from .functions import _validate_string, _validate_pos_float, _validate_pos_int
 from .functions import _validate_date_time, _validate_probability, _validate_path
 
 
@@ -172,7 +172,7 @@ class Response:
         self._temperature = temperature
         self._date_modified = get_time_utc()
 
-    def update_tokens(self, tokens):  # TODO: Need validation (positive int)
+    def update_tokens(self, tokens):
         """
         Update the tokens.
 
@@ -180,6 +180,7 @@ class Response:
         :type tokens: int
         :return: None
         """
+        _validate_pos_int(tokens, "tokens")
         self._tokens = tokens
         self._date_modified = get_time_utc()
 
