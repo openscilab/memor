@@ -8,6 +8,7 @@ from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
 from .params import INVALID_MESSAGE_STATUS_LEN_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
+from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE
 from .params import RenderFormat
 from .prompt import Prompt
 from .response import Response
@@ -50,7 +51,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
 
-    def __eq__(self, other_session):  # TODO: This method should return False for other_session != Session
+    def __eq__(self, other_session):
         """
         Check sessions equality.
 
@@ -58,7 +59,9 @@ class Session:
         :type other_session: Session
         :return: bool
         """
-        return self._title == other_session._title and self._messages == other_session._messages
+        if isinstance(other_session, Session):
+            return self._title == other_session._title and self._messages == other_session._messages
+        return False
 
     def __str__(self):
         """Return string representation of Session."""
@@ -84,7 +87,7 @@ class Session:
         """
         yield from self._messages
 
-    def __add__(self, other_object):  # TODO: This method should raise a TypeError for other_object != (Response, Pormpt, Session)
+    def __add__(self, other_object):
         """
         Addition method.
 
@@ -98,8 +101,9 @@ class Session:
         if isinstance(other_object, Session):
             new_messages = self._messages + other_object._messages
             return Session(messages=new_messages)
+        raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
 
-    def __radd__(self, other_object):  # TODO: This method should raise a TypeError for other_object != (Response, Pormpt)
+    def __radd__(self, other_object):
         """
         Reverse addition method.
 
@@ -110,6 +114,7 @@ class Session:
         if isinstance(other_object, (Response, Prompt)):
             new_messages = [other_object] + self._messages
             return Session(title=self.title, messages=new_messages)
+        raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
 
     def __copy__(self):
         """

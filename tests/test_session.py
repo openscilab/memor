@@ -1,3 +1,4 @@
+import re
 import datetime
 import copy
 import pytest
@@ -201,12 +202,12 @@ def test_save2():
 
 def test_load1():
     with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
-        session = Session(file_path=22)
+        _ = Session(file_path=22)
 
 
 def test_load2():
     with pytest.raises(FileNotFoundError, match=r"Path session_test10.json does not exist."):
-        session = Session(file_path="session_test10.json")
+        _ = Session(file_path="session_test10.json")
 
 
 def test_render1():
@@ -268,6 +269,13 @@ def test_equality3():
     session1 = Session(messages=[prompt, response], title="session1")
     session2 = Session(messages=[prompt, response], title="session1")
     assert session1 == session2
+
+
+def test_equality4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    assert session != 2
 
 
 def test_date_modified():
@@ -349,3 +357,19 @@ def test_addition6():
     session1 = Session(messages=[prompt, response, prompt, response], title="session1")
     session2 = prompt + session1
     assert session2.title == "session1" and session2.messages == [prompt] + session1.messages
+
+
+def test_addition7():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session1 = Session(messages=[prompt, response, prompt, response], title="session1")
+    with pytest.raises(TypeError, match=re.escape(r"Unsupported operand type(s) for +: `Session` and `int`")):
+        _ = session1 + 2
+
+
+def test_addition8():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session1 = Session(messages=[prompt, response, prompt, response], title="session1")
+    with pytest.raises(TypeError, match=re.escape(r"Unsupported operand type(s) for +: `Session` and `int`")):
+        _ = 2 + session1

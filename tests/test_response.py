@@ -127,12 +127,12 @@ def test_date2():
 
 def test_date3():
     with pytest.raises(MemorValidationError, match=r"Invalid value. `date` must be a datetime object that includes timezone information."):
-        response = Response(message="I am fine.", date="2/25/2025")
+        _ = Response(message="I am fine.", date="2/25/2025")
 
 
 def test_date4():
     with pytest.raises(MemorValidationError, match=r"Invalid value. `date` must be a datetime object that includes timezone information."):
-        response = Response(message="I am fine.", date=datetime.datetime.now())
+        _ = Response(message="I am fine.", date=datetime.datetime.now())
 
 
 def test_json1():
@@ -244,6 +244,11 @@ def test_equality3():
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     assert response1 == response2
+
+
+def test_equality4():
+    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    assert response != 2
 
 
 def test_date_modified():

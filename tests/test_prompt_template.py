@@ -160,12 +160,12 @@ def test_load1():
 
 def test_load2():
     with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
-        template1 = PromptTemplate(file_path=22)
+        _ = PromptTemplate(file_path=22)
 
 
 def test_load3():
     with pytest.raises(FileNotFoundError, match=r"Path template_test10.json does not exist."):
-        template = PromptTemplate(file_path="template_test10.json")
+        _ = PromptTemplate(file_path="template_test10.json")
 
 
 def test_copy1():
@@ -237,3 +237,12 @@ def test_equality3():
             "language": "Python"},
         title="template1")
     assert template1 == template2
+
+
+def test_equality4():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"},
+        title="template1")
+    assert template != 2
