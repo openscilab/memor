@@ -6,6 +6,7 @@ from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE
 from .params import INVALID_POSFLOAT_VALUE_MESSAGE
+from .params import INVALID_INT_VALUE_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_BOOL_VALUE_MESSAGE
@@ -64,6 +65,21 @@ def _can_convert_to_string(value):
         str(value)
     except Exception:
         return False
+    return True
+
+
+def _validate_pos_int(value, parameter_name):
+    """
+    Validate positive integer.
+
+    :param value: value
+    :type value: any
+    :param parameter_name: parameter name
+    :type parameter_name: str
+    :return: True if value is a positive integer
+    """
+    if not isinstance(value, int) or value < 0:
+        raise MemorValidationError(INVALID_INT_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
