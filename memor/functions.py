@@ -6,7 +6,7 @@ from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE
 from .params import INVALID_POSFLOAT_VALUE_MESSAGE
-from .params import INVALID_INT_VALUE_MESSAGE
+from .params import INVALID_POSINT_VALUE_MESSAGE
 from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_BOOL_VALUE_MESSAGE
@@ -79,7 +79,7 @@ def _validate_pos_int(value, parameter_name):
     :return: True if value is a positive integer
     """
     if not isinstance(value, int) or value < 0:
-        raise MemorValidationError(INVALID_INT_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_POSINT_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
