@@ -41,6 +41,12 @@ def test_tokens3():
     assert response.tokens == 6
 
 
+def test_tokens4():
+    response = Response(message="I am fine.", tokens=4)
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a positive integer."):
+        response.update_tokens(-2)
+
+
 def test_score1():
     response = Response(message="I am fine.", score=0.9)
     assert response.score == 0.9
