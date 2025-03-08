@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- `inference_time` parameter added to `Response` class
 ## [0.3] - 2025-03-08
 ### Added
 - `Session` class `__len__` method
