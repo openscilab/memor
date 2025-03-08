@@ -190,7 +190,6 @@ class Response:
         self._tokens = tokens
         self._date_modified = get_time_utc()
 
-
     def update_inference_time(self, inference_time):
         """
         Update inference time.
@@ -262,6 +261,7 @@ class Response:
             self._score = loaded_obj["score"]
             self._temperature = loaded_obj["temperature"]
             self._tokens = loaded_obj.get("tokens", None)
+            self._inference_time = loaded_obj.get("inference_time", None)
             self._model = loaded_obj["model"]
             self._role = Role(loaded_obj["role"])
             self._memor_version = loaded_obj["memor_version"]
@@ -294,6 +294,7 @@ class Response:
             "score": self._score,
             "temperature": self._temperature,
             "tokens": self._tokens,
+            "inference_time": self._inference_time,
             "role": self._role,
             "model": self._model,
             "memor_version": MEMOR_VERSION,
@@ -357,6 +358,15 @@ class Response:
         :return: tokens
         """
         return self._tokens
+
+    @property
+    def inference_time(self):
+        """
+        Get inference time.
+
+        :return: inference time
+        """
+        return self._inference_time
 
     @property
     def role(self):
