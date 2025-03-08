@@ -31,6 +31,7 @@ class Response:
             role=Role.ASSISTANT,
             temperature=None,
             tokens=None,
+            inference_time=None,
             model=None,
             date=get_time_utc(),
             file_path=None):
@@ -47,6 +48,8 @@ class Response:
         :type temperature: float
         :param tokens: tokens
         :type tokens: int
+        :param inference_time: inference time
+        :type inference_time: float
         :param model: agent model
         :type model: str
         :param date: response date
@@ -60,6 +63,7 @@ class Response:
         self._role = Role.ASSISTANT
         self._temperature = None
         self._tokens = None
+        self._inference_time = None
         self._model = None
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
@@ -79,6 +83,8 @@ class Response:
                 self.update_temperature(temperature)
             if tokens:
                 self.update_tokens(tokens)
+            if inference_time:
+                self.inference_time_update(inference_time)
             if date:
                 _validate_date_time(date, "date")
                 self._date_created = date
