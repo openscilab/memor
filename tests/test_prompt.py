@@ -41,6 +41,12 @@ def test_tokens3():
     assert prompt.tokens == 7
 
 
+def test_tokens4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a positive integer."):
+        prompt.update_tokens("4")
+
+
 def test_role1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     assert prompt.role == Role.USER

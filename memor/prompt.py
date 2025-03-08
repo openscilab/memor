@@ -12,7 +12,8 @@ from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
-from .functions import _validate_string, _validate_list_of, _validate_path
+from .functions import _validate_string, _validate_pos_int, _validate_list_of
+from .functions import _validate_path
 from .template import PromptTemplate, PresetPromptTemplate
 from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
 from .response import Response
@@ -201,7 +202,7 @@ class Prompt:
         self._role = role
         self._date_modified = get_time_utc()
 
-    def update_tokens(self, tokens):  # TODO: Need validation (positive int)
+    def update_tokens(self, tokens):
         """
         Update the tokens.
 
@@ -209,6 +210,7 @@ class Prompt:
         :type tokens: int
         :return: None
         """
+        _validate_pos_int(tokens, "tokens")
         self._tokens = tokens
         self._date_modified = get_time_utc()
 
