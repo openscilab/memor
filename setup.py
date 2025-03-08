@@ -34,14 +34,14 @@ setup(
     name='memor',
     packages=[
         'memor', ],
-    version='0.2',
+    version='0.3',
     description='Memor: A Python Library for Managing and Transferring Conversational Memory Across LLMs',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='Memor Development Team',
     author_email='memor@openscilab.com',
     url='https://github.com/openscilab/memor',
-    download_url='https://github.com/openscilab/memor/tarball/v0.2',
+    download_url='https://github.com/openscilab/memor/tarball/v0.3',
     keywords="llm memory management conversational history ai agent",
     project_urls={
             'Source': 'https://github.com/openscilab/memor',
