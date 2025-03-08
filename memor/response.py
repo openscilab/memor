@@ -202,7 +202,6 @@ class Response:
         self._inference_time = inference_time
         self._date_modified = get_time_utc()
 
-
     def update_model(self, model):
         """
         Update the agent model.
