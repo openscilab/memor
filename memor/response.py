@@ -84,7 +84,7 @@ class Response:
             if tokens:
                 self.update_tokens(tokens)
             if inference_time:
-                self.inference_time_update(inference_time)
+                self.update_inference_time(inference_time)
             if date:
                 _validate_date_time(date, "date")
                 self._date_created = date
