@@ -114,8 +114,6 @@ You can also join our discord server
   <img src="https://img.shields.io/discord/1064533716615049236.svg?style=for-the-badge" alt="Discord Channel">
 </a>
 
-## References
-
 ## Show your support
 
 

@@ -31,6 +31,7 @@ class Response:
             role=Role.ASSISTANT,
             temperature=None,
             tokens=None,
+            inference_time=None,
             model=None,
             date=get_time_utc(),
             file_path=None):
@@ -47,6 +48,8 @@ class Response:
         :type temperature: float
         :param tokens: tokens
         :type tokens: int
+        :param inference_time: inference time
+        :type inference_time: float
         :param model: agent model
         :type model: str
         :param date: response date
@@ -60,6 +63,7 @@ class Response:
         self._role = Role.ASSISTANT
         self._temperature = None
         self._tokens = None
+        self._inference_time = None
         self._model = None
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
@@ -79,6 +83,8 @@ class Response:
                 self.update_temperature(temperature)
             if tokens:
                 self.update_tokens(tokens)
+            if inference_time:
+                self.update_inference_time(inference_time)
             if date:
                 _validate_date_time(date, "date")
                 self._date_created = date
@@ -93,7 +99,7 @@ class Response:
         """
         if isinstance(other_response, Response):
             return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and self._temperature == other_response._temperature and \
-                self._model == other_response._model and self._tokens == other_response._tokens
+                self._model == other_response._model and self._tokens == other_response._tokens and self._inference_time == other_response._inference_time
         return False
 
     def __str__(self):
@@ -184,6 +190,18 @@ class Response:
         self._tokens = tokens
         self._date_modified = get_time_utc()
 
+    def update_inference_time(self, inference_time):
+        """
+        Update inference time.
+
+        :param inference_time: inference time
+        :type inference_time: float
+        :return: None
+        """
+        _validate_pos_float(inference_time, "inference_time")
+        self._inference_time = inference_time
+        self._date_modified = get_time_utc()
+
     def update_model(self, model):
         """
         Update the agent model.
@@ -242,6 +260,7 @@ class Response:
             self._score = loaded_obj["score"]
             self._temperature = loaded_obj["temperature"]
             self._tokens = loaded_obj.get("tokens", None)
+            self._inference_time = loaded_obj.get("inference_time", None)
             self._model = loaded_obj["model"]
             self._role = Role(loaded_obj["role"])
             self._memor_version = loaded_obj["memor_version"]
@@ -274,6 +293,7 @@ class Response:
             "score": self._score,
             "temperature": self._temperature,
             "tokens": self._tokens,
+            "inference_time": self._inference_time,
             "role": self._role,
             "model": self._model,
             "memor_version": MEMOR_VERSION,
@@ -337,6 +357,15 @@ class Response:
         :return: tokens
         """
         return self._tokens
+
+    @property
+    def inference_time(self):
+        """
+        Get inference time.
+
+        :return: inference time
+        """
+        return self._inference_time
 
     @property
     def role(self):

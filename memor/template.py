@@ -285,6 +285,7 @@ Response:
     Model: {response[model]}
     Score: {response[score]}
     Tokens: {response[tokens]}
+    Inference Time: {response[inference_time]}
     Date: {response[date]}"""
 
 
