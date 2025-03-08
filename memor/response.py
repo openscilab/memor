@@ -99,7 +99,7 @@ class Response:
         """
         if isinstance(other_response, Response):
             return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and self._temperature == other_response._temperature and \
-                self._model == other_response._model and self._tokens == other_response._tokens
+                self._model == other_response._model and self._tokens == other_response._tokens and self._inference_time == other_response._inference_time
         return False
 
     def __str__(self):
@@ -189,6 +189,20 @@ class Response:
         _validate_pos_int(tokens, "tokens")
         self._tokens = tokens
         self._date_modified = get_time_utc()
+
+
+    def update_inference_time(self, inference_time):
+        """
+        Update inference time.
+
+        :param inference_time: inference time
+        :type inference_time: float
+        :return: None
+        """
+        _validate_pos_float(inference_time, "inference_time")
+        self._inference_time = inference_time
+        self._date_modified = get_time_utc()
+
 
     def update_model(self, model):
         """
