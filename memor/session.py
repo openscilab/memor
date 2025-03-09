@@ -116,6 +116,16 @@ class Session:
             return Session(title=self.title, messages=new_messages)
         raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
 
+    def __contains__(self, message):
+        """
+        Check if the Session contains the given message.
+
+        :param message: message
+        :type message: Response/Prompt
+        :return: bool
+        """
+        return message in self._messages
+
     def __copy__(self):
         """
         Return a copy of the Session object.
