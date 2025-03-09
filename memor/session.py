@@ -199,7 +199,7 @@ class Session:
         :return: None
         """
         self._messages_status[index] = False
-    
+
     def mask_message(self, index):
         """
         Mask a message.
