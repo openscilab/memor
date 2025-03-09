@@ -404,3 +404,12 @@ class Session:
         :return: session messages status
         """
         return self._messages_status
+    
+    @property
+    def masks(self):
+        """
+        Get the session masks.
+
+        :return: session masks
+        """
+        return [not x for x in self._messages_status]
