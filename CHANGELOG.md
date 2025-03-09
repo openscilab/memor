@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `Session` class `__contains__` method
+- `mask_message` method
+- `umask_message` method
+- `masks` attribute
 ### Changed
 - `inference_time` parameter added to `Response` class
 - `README.md` updated
