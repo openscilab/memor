@@ -387,12 +387,11 @@ def test_contains2():
     response1 = Response(message="I am fine.")
     response2 = Response(message="Good!")
     session = Session(messages=[prompt, response1], title="session")
-    assert not response2 in session
+    assert response2 not in session
 
 
 def test_contains3():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session")
-    assert not "I am fine." in session
-
+    assert "I am fine." not in session
