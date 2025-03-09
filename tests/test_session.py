@@ -373,3 +373,26 @@ def test_addition8():
     session1 = Session(messages=[prompt, response, prompt, response], title="session1")
     with pytest.raises(TypeError, match=re.escape(r"Unsupported operand type(s) for +: `Session` and `int`")):
         _ = 2 + session1
+
+
+def test_contains1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert prompt in session and response in session
+
+
+def test_contains2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response1 = Response(message="I am fine.")
+    response2 = Response(message="Good!")
+    session = Session(messages=[prompt, response1], title="session")
+    assert not response2 in session
+
+
+def test_contains3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert not "I am fine." in session
+
