@@ -209,7 +209,7 @@ class Session:
         :return: None
         """
         self.disable_message(index)
-    
+
     def unmask_message(self, index):
         """
         Unmask a message.
@@ -424,7 +424,7 @@ class Session:
         :return: session messages status
         """
         return self._messages_status
-    
+
     @property
     def masks(self):
         """
