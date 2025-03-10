@@ -126,6 +126,16 @@ class Session:
         """
         return message in self._messages
 
+    def __getitem__(self, index):
+        """
+        Return the Session message(s).
+
+        :param index: index
+        :type index: int
+        :return: message(s) as Response/Prompt
+        """
+        return self._messages[index]
+
     def __copy__(self):
         """
         Return a copy of the Session object.
