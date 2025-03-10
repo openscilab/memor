@@ -420,3 +420,11 @@ def test_contains3():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session")
     assert "I am fine." not in session
+
+
+def test_getitem():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session[0] == session.messages[0] and session[1] == session.messages[1]
+
