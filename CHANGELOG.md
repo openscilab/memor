@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `Session` class `__contains__` method
+- `Session` class `__getitem__` method
 - `Session` class `mask_message` method
 - `Session` class `unmask_message` method
 - `Session` class `masks` attribute
