@@ -103,6 +103,31 @@ def test_disable_message():
     assert session.messages_status == [False, True]
 
 
+def test_mask_message():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.mask_message(0)
+    assert session.messages_status == [False, True]
+
+
+def test_unmask_message():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.update_messages_status([False, False])
+    session.unmask_message(0)
+    assert session.messages_status == [True, False]
+
+
+def test_masks():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.update_messages_status([False, True])
+    assert session.masks == [True, False]
+
+
 def test_add_message1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")

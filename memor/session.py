@@ -200,6 +200,26 @@ class Session:
         """
         self._messages_status[index] = False
 
+    def mask_message(self, index):
+        """
+        Mask a message.
+
+        :param index: index
+        :type index: int
+        :return: None
+        """
+        self.disable_message(index)
+
+    def unmask_message(self, index):
+        """
+        Unmask a message.
+
+        :param index: index
+        :type index: int
+        :return: None
+        """
+        self.enable_message(index)
+
     def update_title(self, title):
         """
         Update the session title.
@@ -404,3 +424,12 @@ class Session:
         :return: session messages status
         """
         return self._messages_status
+
+    @property
+    def masks(self):
+        """
+        Get the session masks.
+
+        :return: session masks
+        """
+        return [not x for x in self._messages_status]
