@@ -132,7 +132,7 @@ class Session:
 
         :param index: index
         :type index: int
-        :return: message as Response/Prompt
+        :return: message(s) as Response/Prompt
         """
         return self._messages[index]
 
