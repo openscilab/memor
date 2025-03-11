@@ -279,6 +279,16 @@ def test_equality4():
     assert response != 2
 
 
+def test_length1():
+    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    assert len(response) == 10
+
+
+def test_length2():
+    response = Response()
+    assert len(response) == 0
+
+
 def test_date_modified():
     response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
     assert isinstance(response.date_modified, datetime.datetime)
