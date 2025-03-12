@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Template class."""
+from typing import Dict, Any
 import json
 import datetime
 from enum import Enum
@@ -24,10 +25,10 @@ class PromptTemplate:
 
     def __init__(
             self,
-            content=None,
-            file_path=None,
-            title=None,
-            custom_map=None):
+            content: str = None,
+            file_path: str = None,
+            title: str = None,
+            custom_map: Dict[str, str] = None) -> None:
         """
         Prompt template object initiator.
 
@@ -57,7 +58,7 @@ class PromptTemplate:
             if custom_map:
                 self.update_map(custom_map)
 
-    def __eq__(self, other_template):
+    def __eq__(self, other_template: Any) -> bool:
         """
         Check templates equality.
 
@@ -69,15 +70,15 @@ class PromptTemplate:
             return self._content == other_template._content and self._title == other_template._title and self._custom_map == other_template._custom_map
         return False
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return string representation of PromptTemplate."""
         return self._content
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return string representation of PromptTemplate."""
         return "PromptTemplate(content={content})".format(content=self._content)
 
-    def __copy__(self):
+    def __copy__(self) -> Any:
         """
         Return a copy of the PromptTemplate object.
 
@@ -88,7 +89,7 @@ class PromptTemplate:
         result.__dict__.update(self.__dict__)
         return result
 
-    def copy(self):
+    def copy(self) -> Any:
         """
         Return a copy of the PromptTemplate object.
 
@@ -96,7 +97,7 @@ class PromptTemplate:
         """
         return self.__copy__()
 
-    def update_title(self, title):
+    def update_title(self, title: str) -> None:
         """
         Update title.
 
@@ -108,7 +109,7 @@ class PromptTemplate:
         self._title = title
         self._date_modified = get_time_utc()
 
-    def update_content(self, content):
+    def update_content(self, content: str) -> None:
         """
         Update content.
 
@@ -120,7 +121,7 @@ class PromptTemplate:
         self._content = content
         self._date_modified = get_time_utc()
 
-    def update_map(self, custom_map):
+    def update_map(self, custom_map: Dict[str, str]) -> None:
         """
         Update custom map.
 
@@ -132,7 +133,7 @@ class PromptTemplate:
         self._custom_map = custom_map
         self._date_modified = get_time_utc()
 
-    def save(self, file_path):
+    def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
 
@@ -149,7 +150,7 @@ class PromptTemplate:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path):
+    def load(self, file_path: str) -> None:
         """
         Load method.
 
@@ -161,7 +162,7 @@ class PromptTemplate:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object):
+    def from_json(self, json_object: Any) -> None:
         """
         Load attributes from the JSON object.
 
@@ -183,7 +184,7 @@ class PromptTemplate:
         except Exception:
             raise MemorValidationError(INVALID_TEMPLATE_STRUCTURE_MESSAGE)
 
-    def to_json(self):
+    def to_json(self) -> Dict[str, Any]:
         """
         Convert PromptTemplate to json.
 
@@ -194,7 +195,7 @@ class PromptTemplate:
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         return data
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         """
         Convert PromptTemplate to dict.
 
@@ -210,7 +211,7 @@ class PromptTemplate:
         }
 
     @property
-    def content(self):
+    def content(self) -> str:
         """
         Get the PromptTemplate content.
 
@@ -219,7 +220,7 @@ class PromptTemplate:
         return self._content
 
     @property
-    def title(self):
+    def title(self) -> str:
         """
         Get the PromptTemplate title.
 
@@ -228,7 +229,7 @@ class PromptTemplate:
         return self._title
 
     @property
-    def date_created(self):
+    def date_created(self) -> datetime.datetime:
         """
         Get the PromptTemplate creation date.
 
@@ -237,7 +238,7 @@ class PromptTemplate:
         return self._date_created
 
     @property
-    def date_modified(self):
+    def date_modified(self) -> datetime.datetime:
         """
         Get the PromptTemplate modification date.
 
@@ -246,7 +247,7 @@ class PromptTemplate:
         return self._date_modified
 
     @property
-    def custom_map(self):
+    def custom_map(self) -> Dict[str, str]:
         """
         Get the PromptTemplate custom map.
 
