@@ -90,7 +90,7 @@ def _validate_probability(value: Any, parameter_name: str) -> bool:
     Validate probability (a float between 0 and 1).
 
     :param value: value
-    :param parameter_name: parameter name 
+    :param parameter_name: parameter name
     """
     if not isinstance(value, float) or value < 0 or value > 1:
         raise MemorValidationError(INVALID_PROB_VALUE_MESSAGE.format(parameter_name))

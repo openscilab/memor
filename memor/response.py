@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Response class."""
+from typing import Dict, Union, Tuple, Any
 import datetime
 import json
 from .params import MEMOR_VERSION
@@ -26,37 +27,27 @@ class Response:
 
     def __init__(
             self,
-            message=None,
-            score=None,
-            role=Role.ASSISTANT,
-            temperature=None,
-            tokens=None,
-            inference_time=None,
-            model=None,
-            date=get_time_utc(),
-            file_path=None):
+            message: str = None,
+            score: float = None,
+            role: Role = Role.ASSISTANT,
+            temperature: float = None,
+            tokens: int = None,
+            inference_time: float = None,
+            model: str = None,
+            date: datetime.datetime = get_time_utc(),
+            file_path: str = None) -> None:
         """
         Response object initiator.
 
         :param message: response message
-        :type message: str
         :param score: response score
-        :type score: float
         :param role: response role
-        :type role: Role object
         :param temperature: temperature
-        :type temperature: float
         :param tokens: tokens
-        :type tokens: int
         :param inference_time: inference time
-        :type inference_time: float
         :param model: agent model
-        :type model: str
         :param date: response date
-        :type date: datetime.datetime
         :param file_path: response file path
-        :type file_path: str
-        :return: None
         """
         self._message = None
         self._score = None
@@ -89,148 +80,124 @@ class Response:
                 _validate_date_time(date, "date")
                 self._date_created = date
 
-    def __eq__(self, other_response):
+    def __eq__(self, other_response: Any) -> bool:
         """
         Check responses equality.
 
         :param other_response: another response
-        :type other_response: Response
-        :return: result as bool
         """
         if isinstance(other_response, Response):
             return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and self._temperature == other_response._temperature and \
                 self._model == other_response._model and self._tokens == other_response._tokens and self._inference_time == other_response._inference_time
         return False
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return string representation of Response."""
         return self.render(render_format=RenderFormat.STRING)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return string representation of Response."""
         return "Response(message={message})".format(message=self._message)
 
-    def __len__(self):
+    def __len__(self) -> int:
         """
         Return the length of the Response object.
-
-        :return: length of the Response object
         """
         if self._message is None:
             return 0
         return len(self.render(render_format=RenderFormat.STRING))
 
-    def __copy__(self):
+    def __copy__(self) -> Any:
         """
         Return a copy of the Response object.
-
-        :return: a copy of Response object
         """
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
 
-    def copy(self):
+    def copy(self) -> Any:
         """
         Return a copy of the Response object.
-
-        :return: a copy of Response object
         """
         return self.__copy__()
 
-    def update_message(self, message):
+    def update_message(self, message: str) -> None:
         """
         Update the response message.
 
         :param message: message
-        :type message: str
-        :return: None
         """
         _validate_string(message, "message")
         self._message = message
         self._date_modified = get_time_utc()
 
-    def update_score(self, score):
+    def update_score(self, score: float) -> None:
         """
         Update the response score.
 
         :param score: score
-        :type score: float
-        :return: None
         """
         _validate_probability(score, "score")
         self._score = score
         self._date_modified = get_time_utc()
 
-    def update_role(self, role):
+    def update_role(self, role: Role) -> None:
         """
         Update the response role.
 
         :param role: role
-        :type role: Role object
-        :return: None
         """
         if not isinstance(role, Role):
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
         self._date_modified = get_time_utc()
 
-    def update_temperature(self, temperature):
+    def update_temperature(self, temperature: float) -> None:
         """
         Update the temperature.
 
         :param temperature: temperature
-        :type temperature: float
-        :return: None
         """
         _validate_pos_float(temperature, "temperature")
         self._temperature = temperature
         self._date_modified = get_time_utc()
 
-    def update_tokens(self, tokens):
+    def update_tokens(self, tokens: int) -> None:
         """
         Update the tokens.
 
         :param tokens: tokens
-        :type tokens: int
-        :return: None
         """
         _validate_pos_int(tokens, "tokens")
         self._tokens = tokens
         self._date_modified = get_time_utc()
 
-    def update_inference_time(self, inference_time):
+    def update_inference_time(self, inference_time: float) -> None:
         """
         Update inference time.
 
         :param inference_time: inference time
-        :type inference_time: float
-        :return: None
         """
         _validate_pos_float(inference_time, "inference_time")
         self._inference_time = inference_time
         self._date_modified = get_time_utc()
 
-    def update_model(self, model):
+    def update_model(self, model: str) -> None:
         """
         Update the agent model.
 
         :param model: model
-        :type model: str
-        :return: None
         """
         _validate_string(model, "model")
         self._model = model
         self._date_modified = get_time_utc()
 
-    def save(self, file_path):
+    def save(self, file_path: str) -> dict:
         """
         Save method.
 
         :param file_path: response file path
-        :type file_path: str
-        :return: result as dict
         """
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
@@ -241,25 +208,21 @@ class Response:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path):
+    def load(self, file_path: str) -> None:
         """
         Load method.
 
         :param file_path: response file path
-        :type file_path: str
-        :return: None
         """
         _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object):
+    def from_json(self, json_object: Union[str, dict]) -> None:
         """
         Load attributes from the JSON object.
 
         :param json_object: JSON object
-        :type json_object: str or dict
-        :return: None
         """
         try:
             if isinstance(json_object, str):
@@ -279,11 +242,9 @@ class Response:
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
 
-    def to_json(self):
+    def to_json(self) -> Dict[str, Any]:
         """
         Convert the response to a JSON object.
-
-        :return: JSON object as dict
         """
         data = self.to_dict().copy()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
@@ -291,11 +252,9 @@ class Response:
         data["role"] = data["role"].value
         return data
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         """
         Convert the response to a dictionary.
-
-        :return: dict
         """
         return {
             "type": "Response",
@@ -311,13 +270,14 @@ class Response:
             "date_modified": self._date_modified,
         }
 
-    def render(self, render_format=RenderFormat.DEFAULT):
+    def render(self,
+               render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
+                                                                            Dict[str, Any],
+                                                                            Tuple[str, Any]]:
         """
         Render the response.
 
         :param render_format: render format
-        :type render_format: RenderFormat
-        :return: rendered response
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
@@ -333,82 +293,64 @@ class Response:
         return self._message
 
     @property
-    def message(self):
+    def message(self) -> str:
         """
         Get the response message.
-
-        :return: response message
         """
         return self._message
 
     @property
-    def score(self):
+    def score(self) -> float:
         """
         Get the response score.
-
-        :return: response score
         """
         return self._score
 
     @property
-    def temperature(self):
+    def temperature(self) -> float:
         """
         Get the temperature.
-
-        :return: temperature
         """
         return self._temperature
 
     @property
-    def tokens(self):
+    def tokens(self) -> int:
         """
         Get the tokens.
-
-        :return: tokens
         """
         return self._tokens
 
     @property
-    def inference_time(self):
+    def inference_time(self) -> float:
         """
         Get inference time.
-
-        :return: inference time
         """
         return self._inference_time
 
     @property
-    def role(self):
+    def role(self) -> Role:
         """
         Get the response role.
-
-        :return: response role
         """
         return self._role
 
     @property
-    def model(self):
+    def model(self) -> str:
         """
         Get the agent model.
-
-        :return: agent model
         """
         return self._model
 
     @property
-    def date_created(self):
+    def date_created(self) -> datetime.datetime:
         """
         Get the response creation date.
-
-        :return: response creation date
         """
         return self._date_created
 
     @property
-    def date_modified(self):
+    def date_modified(self) -> datetime.datetime:
         """
         Get the response object modification date.
-
-        :return: response object modification date
         """
         return self._date_modified
