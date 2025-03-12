@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `inference_time` parameter added to `Response` class
 - `README.md` updated
 - Test system modified
+- Python typing features added to all modules
 ## [0.3] - 2025-03-08
 ### Added
 - `Session` class `__len__` method
