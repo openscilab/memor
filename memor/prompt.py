@@ -40,7 +40,7 @@ class Prompt:
             role: Role = Role.DEFAULT,
             tokens: int = None,
             template: Union[PresetPromptTemplate, PromptTemplate] = PresetPromptTemplate.DEFAULT,
-            file_path: str = None):
+            file_path: str = None) -> None:
         """
         Prompt object initiator.
 
