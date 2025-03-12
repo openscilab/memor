@@ -34,7 +34,7 @@ class Session:
         :param messages: messages
         :param file_path: file path
         """
-        self._title = None
+        self._title: str = None
         self._messages = []
         self._messages_status = []
         self._date_created = get_time_utc()

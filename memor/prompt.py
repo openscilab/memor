@@ -51,8 +51,8 @@ class Prompt:
         :param template: prompt template
         :param file_path: prompt file path
         """
-        self._message = None
-        self._tokens = None
+        self._message: str = None
+        self._tokens: int = None
         self._role = Role.DEFAULT
         self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
@@ -60,7 +60,7 @@ class Prompt:
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
         self._selected_response_index = 0
-        self._selected_response = None
+        self._selected_response: Response = None
         if file_path:
             self.load(file_path)
         else:
