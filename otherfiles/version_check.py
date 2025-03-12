@@ -40,8 +40,6 @@ def print_result(failed: bool = False) -> None:
     Print final result.
 
     :param failed: failed flag
-    :type failed: bool
-    :return: None
     """
     message = "Version tag tests "
     if not failed:

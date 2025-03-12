@@ -33,14 +33,9 @@ class PromptTemplate:
         Prompt template object initiator.
 
         :param content: template content
-        :type content: str
         :param file_path: template file path
-        :type file_path: str
         :param title: template title
-        :type title: str
         :param custom_map: custom map
-        :type custom_map: dict
-        :return: None
         """
         self._content = None
         self._title = None
@@ -63,8 +58,6 @@ class PromptTemplate:
         Check templates equality.
 
         :param other_template: another template
-        :type other_template: PromptTemplate
-        :return: result as bool
         """
         if isinstance(other_template, PromptTemplate):
             return self._content == other_template._content and self._title == other_template._title and self._custom_map == other_template._custom_map
@@ -81,8 +74,6 @@ class PromptTemplate:
     def __copy__(self) -> Any:
         """
         Return a copy of the PromptTemplate object.
-
-        :return: a copy of PromptTemplate object
         """
         _class = self.__class__
         result = _class.__new__(_class)
@@ -92,8 +83,6 @@ class PromptTemplate:
     def copy(self) -> Any:
         """
         Return a copy of the PromptTemplate object.
-
-        :return: a copy of PromptTemplate object
         """
         return self.__copy__()
 
@@ -102,8 +91,6 @@ class PromptTemplate:
         Update title.
 
         :param title: title
-        :type title: str
-        :return: None
         """
         _validate_string(title, "title")
         self._title = title
@@ -114,8 +101,6 @@ class PromptTemplate:
         Update content.
 
         :param content: content
-        :type content: str
-        :return: None
         """
         _validate_string(content, "content")
         self._content = content
@@ -126,8 +111,6 @@ class PromptTemplate:
         Update custom map.
 
         :param custom_map: custom map
-        :type custom_map: dict
-        :return: None
         """
         _validate_custom_map(custom_map)
         self._custom_map = custom_map
@@ -138,8 +121,6 @@ class PromptTemplate:
         Save method.
 
         :param file_path: template file path
-        :type file_path: str
-        :return: result as dict
         """
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
@@ -155,8 +136,6 @@ class PromptTemplate:
         Load method.
 
         :param file_path: template file path
-        :type file_path: str
-        :return: None
         """
         _validate_path(file_path)
         with open(file_path, "r") as file:
@@ -167,8 +146,6 @@ class PromptTemplate:
         Load attributes from the JSON object.
 
         :param json_object: JSON object
-        :type json_object: str or dict
-        :return: None
         """
         try:
             if isinstance(json_object, str):
@@ -187,8 +164,6 @@ class PromptTemplate:
     def to_json(self) -> Dict[str, Any]:
         """
         Convert PromptTemplate to json.
-
-        :return: JSON structure as dict
         """
         data = self.to_dict().copy()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
@@ -198,8 +173,6 @@ class PromptTemplate:
     def to_dict(self) -> Dict[str, Any]:
         """
         Convert PromptTemplate to dict.
-
-        :return: dict
         """
         return {
             "title": self._title,
@@ -214,8 +187,6 @@ class PromptTemplate:
     def content(self) -> str:
         """
         Get the PromptTemplate content.
-
-        :return: content
         """
         return self._content
 
@@ -223,8 +194,6 @@ class PromptTemplate:
     def title(self) -> str:
         """
         Get the PromptTemplate title.
-
-        :return: title
         """
         return self._title
 
@@ -232,8 +201,6 @@ class PromptTemplate:
     def date_created(self) -> datetime.datetime:
         """
         Get the PromptTemplate creation date.
-
-        :return: template creation date
         """
         return self._date_created
 
@@ -241,8 +208,6 @@ class PromptTemplate:
     def date_modified(self) -> datetime.datetime:
         """
         Get the PromptTemplate modification date.
-
-        :return: template modification date
         """
         return self._date_modified
 
@@ -250,8 +215,6 @@ class PromptTemplate:
     def custom_map(self) -> Dict[str, str]:
         """
         Get the PromptTemplate custom map.
-
-        :return: custom map
         """
         return self._custom_map
 
