@@ -37,12 +37,12 @@ class PromptTemplate:
         :param title: template title
         :param custom_map: custom map
         """
-        self._content: str = None
-        self._title: str = None
+        self._content = None
+        self._title = None
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
-        self._custom_map: Dict[str, str] = None
+        self._custom_map = None
         if file_path:
             self.load(file_path)
         else:

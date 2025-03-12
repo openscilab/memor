@@ -49,13 +49,13 @@ class Response:
         :param date: response date
         :param file_path: response file path
         """
-        self._message: str = None
-        self._score: float = None
+        self._message = None
+        self._score = None
         self._role = Role.ASSISTANT
-        self._temperature: float = None
-        self._tokens: int = None
-        self._inference_time: float = None
-        self._model: str = None
+        self._temperature = None
+        self._tokens = None
+        self._inference_time = None
+        self._model = None
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
