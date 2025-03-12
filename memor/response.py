@@ -80,7 +80,7 @@ class Response:
                 _validate_date_time(date, "date")
                 self._date_created = date
 
-    def __eq__(self, other_response: Any) -> bool:
+    def __eq__(self, other_response: "Response") -> bool:
         """
         Check responses equality.
 
@@ -105,14 +105,14 @@ class Response:
             return 0
         return len(self.render(render_format=RenderFormat.STRING))
 
-    def __copy__(self) -> Any:
+    def __copy__(self) -> "Response":
         """Return a copy of the Response object."""
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
 
-    def copy(self) -> Any:
+    def copy(self) -> "Response":
         """Return a copy of the Response object."""
         return self.__copy__()
 

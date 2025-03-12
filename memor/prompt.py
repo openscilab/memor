@@ -76,7 +76,7 @@ class Prompt:
                 self.update_template(template)
             self.select_response(index=self._selected_response_index)
 
-    def __eq__(self, other_prompt: Any) -> bool:
+    def __eq__(self, other_prompt: "Prompt") -> bool:
         """
         Check prompts equality.
 
@@ -96,7 +96,7 @@ class Prompt:
         """Return string representation of Prompt."""
         return "Prompt(message={message})".format(message=self._message)
 
-    def __copy__(self) -> Any:
+    def __copy__(self) -> "Prompt":
         """
         Return a copy of the Prompt object.
 
@@ -107,7 +107,7 @@ class Prompt:
         result.__dict__.update(self.__dict__)
         return result
 
-    def copy(self) -> Any:
+    def copy(self) -> "Prompt":
         """
         Return a copy of the Prompt object.
 

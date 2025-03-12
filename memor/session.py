@@ -48,7 +48,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
 
-    def __eq__(self, other_session: Any) -> bool:
+    def __eq__(self, other_session: "Session") -> bool:
         """
         Check sessions equality.
 
@@ -75,7 +75,7 @@ class Session:
         """Iterate through the Session object."""
         yield from self._messages
 
-    def __add__(self, other_object: Any) -> Any:
+    def __add__(self, other_object: Union["Session", Response, Prompt]) -> "Session":
         """
         Addition method.
 
@@ -89,7 +89,7 @@ class Session:
             return Session(messages=new_messages)
         raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
 
-    def __radd__(self, other_object: Any) -> Any:
+    def __radd__(self, other_object: Union["Session", Response, Prompt]) -> "Session":
         """
         Reverse addition method.
 
@@ -116,14 +116,14 @@ class Session:
         """
         return self._messages[index]
 
-    def __copy__(self) -> Any:
+    def __copy__(self) -> "Session":
         """Return a copy of the Session object."""
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
 
-    def copy(self) -> Any:
+    def copy(self) -> "Session":
         """Return a copy of the Session object."""
         return self.__copy__()
 

@@ -53,7 +53,7 @@ class PromptTemplate:
             if custom_map:
                 self.update_map(custom_map)
 
-    def __eq__(self, other_template: Any) -> bool:
+    def __eq__(self, other_template: "PromptTemplate") -> bool:
         """
         Check templates equality.
 
@@ -71,14 +71,14 @@ class PromptTemplate:
         """Return string representation of PromptTemplate."""
         return "PromptTemplate(content={content})".format(content=self._content)
 
-    def __copy__(self) -> Any:
+    def __copy__(self) -> "PromptTemplate":
         """Return a copy of the PromptTemplate object."""
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
 
-    def copy(self) -> Any:
+    def copy(self) -> "PromptTemplate":
         """Return a copy of the PromptTemplate object."""
         return self.__copy__()
 
