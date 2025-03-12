@@ -72,18 +72,14 @@ class PromptTemplate:
         return "PromptTemplate(content={content})".format(content=self._content)
 
     def __copy__(self) -> Any:
-        """
-        Return a copy of the PromptTemplate object.
-        """
+        """Return a copy of the PromptTemplate object."""
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
 
     def copy(self) -> Any:
-        """
-        Return a copy of the PromptTemplate object.
-        """
+        """Return a copy of the PromptTemplate object."""
         return self.__copy__()
 
     def update_title(self, title: str) -> None:
@@ -162,18 +158,14 @@ class PromptTemplate:
             raise MemorValidationError(INVALID_TEMPLATE_STRUCTURE_MESSAGE)
 
     def to_json(self) -> Dict[str, Any]:
-        """
-        Convert PromptTemplate to json.
-        """
+        """Convert PromptTemplate to json."""
         data = self.to_dict().copy()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         return data
 
     def to_dict(self) -> Dict[str, Any]:
-        """
-        Convert PromptTemplate to dict.
-        """
+        """Convert PromptTemplate to dict."""
         return {
             "title": self._title,
             "content": self._content,
@@ -185,37 +177,27 @@ class PromptTemplate:
 
     @property
     def content(self) -> str:
-        """
-        Get the PromptTemplate content.
-        """
+        """Get the PromptTemplate content."""
         return self._content
 
     @property
     def title(self) -> str:
-        """
-        Get the PromptTemplate title.
-        """
+        """Get the PromptTemplate title."""
         return self._title
 
     @property
     def date_created(self) -> datetime.datetime:
-        """
-        Get the PromptTemplate creation date.
-        """
+        """Get the PromptTemplate creation date."""
         return self._date_created
 
     @property
     def date_modified(self) -> datetime.datetime:
-        """
-        Get the PromptTemplate modification date.
-        """
+        """Get the PromptTemplate modification date."""
         return self._date_modified
 
     @property
     def custom_map(self) -> Dict[str, str]:
-        """
-        Get the PromptTemplate custom map.
-        """
+        """Get the PromptTemplate custom map."""
         return self._custom_map
 
 

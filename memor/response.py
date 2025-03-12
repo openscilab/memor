@@ -100,26 +100,20 @@ class Response:
         return "Response(message={message})".format(message=self._message)
 
     def __len__(self) -> int:
-        """
-        Return the length of the Response object.
-        """
+        """Return the length of the Response object."""
         if self._message is None:
             return 0
         return len(self.render(render_format=RenderFormat.STRING))
 
     def __copy__(self) -> Any:
-        """
-        Return a copy of the Response object.
-        """
+        """Return a copy of the Response object."""
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
 
     def copy(self) -> Any:
-        """
-        Return a copy of the Response object.
-        """
+        """Return a copy of the Response object."""
         return self.__copy__()
 
     def update_message(self, message: str) -> None:
@@ -243,9 +237,7 @@ class Response:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
 
     def to_json(self) -> Dict[str, Any]:
-        """
-        Convert the response to a JSON object.
-        """
+        """Convert the response to a JSON object."""
         data = self.to_dict().copy()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
@@ -253,9 +245,7 @@ class Response:
         return data
 
     def to_dict(self) -> Dict[str, Any]:
-        """
-        Convert the response to a dictionary.
-        """
+        """Convert the response to a dictionary."""
         return {
             "type": "Response",
             "message": self._message,
@@ -294,63 +284,45 @@ class Response:
 
     @property
     def message(self) -> str:
-        """
-        Get the response message.
-        """
+        """Get the response message."""
         return self._message
 
     @property
     def score(self) -> float:
-        """
-        Get the response score.
-        """
+        """Get the response score."""
         return self._score
 
     @property
     def temperature(self) -> float:
-        """
-        Get the temperature.
-        """
+        """Get the temperature."""
         return self._temperature
 
     @property
     def tokens(self) -> int:
-        """
-        Get the tokens.
-        """
+        """Get the tokens."""
         return self._tokens
 
     @property
     def inference_time(self) -> float:
-        """
-        Get inference time.
-        """
+        """Get inference time."""
         return self._inference_time
 
     @property
     def role(self) -> Role:
-        """
-        Get the response role.
-        """
+        """Get the response role."""
         return self._role
 
     @property
     def model(self) -> str:
-        """
-        Get the agent model.
-        """
+        """Get the agent model."""
         return self._model
 
     @property
     def date_created(self) -> datetime.datetime:
-        """
-        Get the response creation date.
-        """
+        """Get the response creation date."""
         return self._date_created
 
     @property
     def date_modified(self) -> datetime.datetime:
-        """
-        Get the response object modification date.
-        """
+        """Get the response object modification date."""
         return self._date_modified

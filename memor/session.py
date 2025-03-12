@@ -67,16 +67,12 @@ class Session:
         return "Session(title={title})".format(title=self._title)
 
     def __len__(self) -> int:
-        """
-        Return the length of the Session object.
-        """
+        """Return the length of the Session object."""
         return len(self._messages)
 
 
     def __iter__(self) -> Generator[Union[Prompt, Response], None, None]:
-        """
-        Iterate through the Session object.
-        """
+        """Iterate through the Session object."""
         yield from self._messages
 
     def __add__(self, other_object: Any) -> Any:
@@ -121,18 +117,14 @@ class Session:
         return self._messages[index]
 
     def __copy__(self) -> Any:
-        """
-        Return a copy of the Session object.
-        """
+        """Return a copy of the Session object."""
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
 
     def copy(self) -> Any:
-        """
-        Return a copy of the Session object.
-        """
+        """Return a copy of the Session object."""
         return self.__copy__()
 
     def add_message(self,
@@ -289,9 +281,7 @@ class Session:
         self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
 
     def to_json(self) -> Dict[str, Any]:
-        """
-        Convert the session to a JSON object.
-        """
+        """Convert the session to a JSON object."""
         data = self.to_dict().copy()
         for index, message in enumerate(data["messages"]):
             data["messages"][index] = message.to_json()
@@ -348,42 +338,30 @@ class Session:
 
     @property
     def date_created(self) -> datetime.datetime:
-        """
-        Get the session creation date.
-        """
+        """Get the session creation date."""
         return self._date_created
 
     @property
     def date_modified(self) -> datetime.datetime:
-        """
-        Get the session object modification date.
-        """
+        """Get the session object modification date."""
         return self._date_modified
 
     @property
     def title(self) -> str:
-        """
-        Get the session title.
-        """
+        """Get the session title."""
         return self._title
 
     @property
     def messages(self) -> List[Union[Prompt, Response]]:
-        """
-        Get the session messages.
-        """
+        """Get the session messages."""
         return self._messages
 
     @property
     def messages_status(self) -> List[bool]:
-        """
-        Get the session messages status.
-        """
+        """Get the session messages status."""
         return self._messages_status
 
     @property
     def masks(self) -> List[bool]:
-        """
-        Get the session masks.
-        """
+        """Get the session masks."""
         return [not x for x in self._messages_status]

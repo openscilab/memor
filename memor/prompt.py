@@ -316,58 +316,42 @@ class Prompt:
 
     @property
     def message(self) -> str:
-        """
-        Get the prompt message.
-        """
+        """Get the prompt message."""
         return self._message
 
     @property
     def responses(self) -> List[Response]:
-        """
-        Get the prompt responses.
-        """
+        """Get the prompt responses."""
         return self._responses
 
     @property
     def role(self) -> Role:
-        """
-        Get the prompt role.
-        """
+        """Get the prompt role."""
         return self._role
 
     @property
     def tokens(self) -> int:
-        """
-        Get the prompt tokens.
-        """
+        """Get the prompt tokens."""
         return self._tokens
 
     @property
     def date_created(self) -> datetime.datetime:
-        """
-        Get the prompt creation date.
-        """
+        """Get the prompt creation date."""
         return self._date_created
 
     @property
     def date_modified(self) -> datetime.datetime:
-        """
-        Get the prompt object modification date.
-        """
+        """Get the prompt object modification date."""
         return self._date_modified
 
     @property
     def template(self) -> Union[PresetPromptTemplate, PromptTemplate]:
-        """
-        Get the prompt template.
-        """
+        """Get the prompt template."""
         return self._template
 
     @property
     def selected_response(self) -> Response:
-        """
-        Get the prompt selected response.
-        """
+        """Get the prompt selected response."""
         return self._selected_response
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
