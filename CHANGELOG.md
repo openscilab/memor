@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Session` class `mask_message` method
 - `Session` class `unmask_message` method
 - `Session` class `masks` attribute
+- `Response` class `__len__` method
 ### Changed
 - `inference_time` parameter added to `Response` class
 - `README.md` updated

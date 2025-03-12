@@ -110,6 +110,16 @@ class Response:
         """Return string representation of Response."""
         return "Response(message={message})".format(message=self._message)
 
+    def __len__(self):
+        """
+        Return the length of the Response object.
+
+        :return: length of the Response object
+        """
+        if self._message is None:
+            return 0
+        return len(self.render(render_format=RenderFormat.STRING))
+
     def __copy__(self):
         """
         Return a copy of the Response object.
