@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Memor functions."""
+from typing import Any, Type
 import os
 import datetime
 from .params import INVALID_DATETIME_MESSAGE
@@ -14,7 +15,7 @@ from .params import INVALID_LIST_OF_X_MESSAGE
 from .errors import MemorValidationError
 
 
-def get_time_utc():
+def get_time_utc() -> datetime.datetime:
     """
     Get time in UTC format.
 
@@ -23,7 +24,7 @@ def get_time_utc():
     return datetime.datetime.now(datetime.timezone.utc)
 
 
-def _validate_string(value, parameter_name):
+def _validate_string(value: Any, parameter_name: str) -> bool:
     """
     Validate string.
 
@@ -38,7 +39,7 @@ def _validate_string(value, parameter_name):
     return True
 
 
-def _validate_bool(value, parameter_name):
+def _validate_bool(value: Any, parameter_name: str) -> bool:
     """
     Validate boolean.
 
@@ -53,7 +54,7 @@ def _validate_bool(value, parameter_name):
     return True
 
 
-def _can_convert_to_string(value):
+def _can_convert_to_string(value: Any) -> bool:
     """
     Check if value can be converted to string.
 
@@ -68,7 +69,7 @@ def _can_convert_to_string(value):
     return True
 
 
-def _validate_pos_int(value, parameter_name):
+def _validate_pos_int(value: Any, parameter_name: str) -> bool:
     """
     Validate positive integer.
 
@@ -83,7 +84,7 @@ def _validate_pos_int(value, parameter_name):
     return True
 
 
-def _validate_pos_float(value, parameter_name):
+def _validate_pos_float(value: Any, parameter_name: str) -> bool:
     """
     Validate positive float.
 
@@ -98,7 +99,7 @@ def _validate_pos_float(value, parameter_name):
     return True
 
 
-def _validate_probability(value, parameter_name):
+def _validate_probability(value: Any, parameter_name: str) -> bool:
     """
     Validate probability.
 
@@ -113,7 +114,7 @@ def _validate_probability(value, parameter_name):
     return True
 
 
-def _validate_list_of(value, parameter_name, type_, type_name):
+def _validate_list_of(value: Any, parameter_name: str, type_: Type, type_name: str) -> bool:
     """
     Validate list of values.
 
@@ -135,7 +136,7 @@ def _validate_list_of(value, parameter_name, type_, type_name):
     return True
 
 
-def _validate_date_time(date_time, parameter_name):
+def _validate_date_time(date_time: Any, parameter_name: str) -> bool:
     """
     Validate date time.
 
@@ -150,7 +151,7 @@ def _validate_date_time(date_time, parameter_name):
     return True
 
 
-def _validate_path(path):
+def _validate_path(path: Any) -> bool:
     """
     Validate path property.
 
@@ -165,7 +166,7 @@ def _validate_path(path):
     return True
 
 
-def _validate_custom_map(custom_map):
+def _validate_custom_map(custom_map: Any) -> bool:
     """
     Validate custom map property in PromptTemplate class.
 
