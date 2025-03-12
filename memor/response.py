@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Response class."""
-from typing import Dict, Union, Tuple, Any
+from typing import List, Dict, Union, Tuple, Any
 import datetime
 import json
 from .params import MEMOR_VERSION
@@ -273,7 +273,7 @@ class Response:
     def render(self,
                render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
                                                                             Dict[str, Any],
-                                                                            Tuple[str, Any]]:
+                                                                            List[Tuple[str, Any]]]:
         """
         Render the response.
 
