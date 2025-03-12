@@ -191,7 +191,7 @@ class Prompt:
         self._tokens = tokens
         self._date_modified = get_time_utc()
 
-    def update_template(self, template: Union[PresetPromptTemplate, PromptTemplate]) -> None:
+    def update_template(self, template: PromptTemplate) -> None:
         """
         Update the prompt template.
 
@@ -345,7 +345,7 @@ class Prompt:
         return self._date_modified
 
     @property
-    def template(self) -> Union[PresetPromptTemplate, PromptTemplate]:
+    def template(self) -> PromptTemplate:
         """Get the prompt template."""
         return self._template
 
