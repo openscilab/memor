@@ -187,7 +187,7 @@ class Response:
         self._model = model
         self._date_modified = get_time_utc()
 
-    def save(self, file_path: str) -> dict:
+    def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
 
@@ -212,7 +212,7 @@ class Response:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object: Union[str, dict]) -> None:
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
         Load attributes from the JSON object.
 

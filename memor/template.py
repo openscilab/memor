@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Template class."""
-from typing import Dict, Any
+from typing import Dict, Any, Union
 import json
 import datetime
 from enum import Enum
@@ -137,7 +137,7 @@ class PromptTemplate:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object: Any) -> None:
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
         Load attributes from the JSON object.
 
