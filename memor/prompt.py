@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Prompt class."""
+from typing import List, Dict, Union, Tuple, Any
 import datetime
 import json
 from .params import MEMOR_VERSION
@@ -34,28 +35,21 @@ class Prompt:
 
     def __init__(
             self,
-            message=None,
-            responses=[],
-            role=Role.DEFAULT,
-            tokens=None,
-            template=PresetPromptTemplate.DEFAULT,
-            file_path=None):
+            message: str = None,
+            responses: List[Response] = [],
+            role: Role = Role.DEFAULT,
+            tokens: int = None,
+            template: Union[PresetPromptTemplate, PromptTemplate] = PresetPromptTemplate.DEFAULT,
+            file_path: str = None) -> None:
         """
         Prompt object initiator.
 
         :param message: prompt message
-        :type message: str
         :param responses: prompt responses
-        :type responses: list
         :param role: prompt role
-        :type role: Role object
         :param tokens: tokens
-        :type tokens: int
         :param template: prompt template
-        :type template: PromptTemplate/PresetPromptTemplate object
         :param file_path: prompt file path
-        :type file_path: str
-        :return: None
         """
         self._message = None
         self._tokens = None
@@ -82,13 +76,11 @@ class Prompt:
                 self.update_template(template)
             self.select_response(index=self._selected_response_index)
 
-    def __eq__(self, other_prompt):
+    def __eq__(self, other_prompt: "Prompt") -> bool:
         """
         Check prompts equality.
 
         :param other_prompt: another prompt
-        :type other_prompt: Prompt
-        :return: result as bool
         """
         if isinstance(other_prompt, Prompt):
             return self._message == other_prompt._message and self._responses == other_prompt._responses and \
@@ -96,15 +88,15 @@ class Prompt:
                 self._tokens == other_prompt._tokens
         return False
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return string representation of Prompt."""
         return self.render(render_format=RenderFormat.STRING)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return string representation of Prompt."""
         return "Prompt(message={message})".format(message=self._message)
 
-    def __copy__(self):
+    def __copy__(self) -> "Prompt":
         """
         Return a copy of the Prompt object.
 
@@ -115,7 +107,7 @@ class Prompt:
         result.__dict__.update(self.__dict__)
         return result
 
-    def copy(self):
+    def copy(self) -> "Prompt":
         """
         Return a copy of the Prompt object.
 
@@ -123,15 +115,12 @@ class Prompt:
         """
         return self.__copy__()
 
-    def add_response(self, response, index=None):
+    def add_response(self, response: Response, index: int = None) -> None:
         """
         Add a response to the prompt object.
 
         :param response: response
-        :type response: str
         :param index: index
-        :type index: int
-        :return: None
         """
         if not isinstance(response, Response):
             raise MemorValidationError(INVALID_RESPONSE_MESSAGE)
@@ -141,86 +130,72 @@ class Prompt:
             self._responses.insert(index, response)
         self._date_modified = get_time_utc()
 
-    def remove_response(self, index):
+    def remove_response(self, index: int) -> None:
         """
         Remove a response from the prompt object.
 
         :param index: index
-        :type index: int
-        :return: None
         """
         self._responses.pop(index)
         self._date_modified = get_time_utc()
 
-    def select_response(self, index):
+    def select_response(self, index: int) -> None:
         """
         Select a response as selected response.
 
         :param index: index
-        :type index: int
-        :return: None
         """
         if len(self._responses) > 0:
             self._selected_response_index = index
             self._selected_response = self._responses[index]
             self._date_modified = get_time_utc()
 
-    def update_responses(self, responses):
+    def update_responses(self, responses: List[Response]) -> None:
         """
         Update the prompt responses.
 
         :param responses: responses
-        :type responses: list
-        :return: None
         """
         _validate_list_of(responses, "responses", Response, "`Response`")
         self._responses = responses
         self._date_modified = get_time_utc()
 
-    def update_message(self, message):
+    def update_message(self, message: str) -> None:
         """
         Update the prompt message.
 
         :param message: message
-        :type message: str
-        :return: None
         """
         _validate_string(message, "message")
         self._message = message
         self._date_modified = get_time_utc()
 
-    def update_role(self, role):
+    def update_role(self, role: Role) -> None:
         """
         Update the prompt role.
 
         :param role: role
-        :type role: Role object
-        :return: None
         """
         if not isinstance(role, Role):
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
         self._date_modified = get_time_utc()
 
-    def update_tokens(self, tokens):
+    def update_tokens(self, tokens: int) -> None:
         """
         Update the tokens.
 
         :param tokens: tokens
-        :type tokens: int
-        :return: None
         """
         _validate_pos_int(tokens, "tokens")
         self._tokens = tokens
         self._date_modified = get_time_utc()
 
-    def update_template(self, template):
+    def update_template(self, template: PromptTemplate) -> None:
         """
         Update the prompt template.
 
         :param template: template
-        :type template: PromptTemplate/PresetPromptTemplate object
-        :return: None
         """
         if not isinstance(
             template,
@@ -241,15 +216,12 @@ class Prompt:
             self._template = template.value
         self._date_modified = get_time_utc()
 
-    def save(self, file_path, save_template=True):
+    def save(self, file_path: str, save_template: bool = True) -> Dict[str, Any]:
         """
         Save method.
 
         :param file_path: prompt file path
-        :type file_path: str
         :param save_template: save template flag
-        :type save_template: bool
-        :return: result as dict
         """
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
@@ -261,25 +233,21 @@ class Prompt:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path):
+    def load(self, file_path: str) -> None:
         """
         Load method.
 
         :param file_path: prompt file path
-        :type file_path: str
-        :return: None
         """
         _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object):
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
         Load attributes from the JSON object.
 
         :param json_object: JSON object
-        :type json_object: str or dict
-        :return: None
         """
         try:
             if isinstance(json_object, str):
@@ -308,13 +276,11 @@ class Prompt:
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
 
-    def to_json(self, save_template=True):
+    def to_json(self, save_template: bool = True) -> Dict[str, Any]:
         """
         Convert the prompt to a JSON object.
 
         :param save_template: save template flag
-        :type save_template: bool
-        :return: JSON object as dict
         """
         data = self.to_dict(save_template=save_template).copy()
         for index, response in enumerate(data["responses"]):
@@ -326,13 +292,11 @@ class Prompt:
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         return data
 
-    def to_dict(self, save_template=True):
+    def to_dict(self, save_template: bool = True) -> Dict[str, Any]:
         """
         Convert the prompt to a dictionary.
 
         :param save_template: save template flag
-        :type save_template: bool
-        :return: dict
         """
         data = {
             "type": "Prompt",
@@ -351,84 +315,52 @@ class Prompt:
         return data
 
     @property
-    def message(self):
-        """
-        Get the prompt message.
-
-        :return: prompt message
-        """
+    def message(self) -> str:
+        """Get the prompt message."""
         return self._message
 
     @property
-    def responses(self):
-        """
-        Get the prompt responses.
-
-        :return: prompt responses
-        """
+    def responses(self) -> List[Response]:
+        """Get the prompt responses."""
         return self._responses
 
     @property
-    def role(self):
-        """
-        Get the prompt role.
-
-        :return: prompt role
-        """
+    def role(self) -> Role:
+        """Get the prompt role."""
         return self._role
 
     @property
-    def tokens(self):
-        """
-        Get the prompt tokens.
-
-        :return: prompt tokens
-        """
+    def tokens(self) -> int:
+        """Get the prompt tokens."""
         return self._tokens
 
     @property
-    def date_created(self):
-        """
-        Get the prompt creation date.
-
-        :return: prompt creation date
-        """
+    def date_created(self) -> datetime.datetime:
+        """Get the prompt creation date."""
         return self._date_created
 
     @property
-    def date_modified(self):
-        """
-        Get the prompt object modification date.
-
-        :return: prompt object modification date
-        """
+    def date_modified(self) -> datetime.datetime:
+        """Get the prompt object modification date."""
         return self._date_modified
 
     @property
-    def template(self):
-        """
-        Get the prompt template.
-
-        :return: prompt template
-        """
+    def template(self) -> PromptTemplate:
+        """Get the prompt template."""
         return self._template
 
     @property
-    def selected_response(self):
-        """
-        Get the prompt selected response.
-
-        :return: selected response as Response object
-        """
+    def selected_response(self) -> Response:
+        """Get the prompt selected response."""
         return self._selected_response
 
-    def render(self, render_format=RenderFormat.DEFAULT):
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
+                                                                                  Dict[str, Any],
+                                                                                  List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
-        :type render_format: RenderFormat object
-        :return: rendered prompt
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)

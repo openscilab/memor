@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Session class."""
+from typing import List, Dict, Tuple, Any, Union, Generator
 import datetime
 import json
 from .params import MEMOR_VERSION
@@ -23,19 +24,15 @@ class Session:
 
     def __init__(
             self,
-            title=None,
-            messages=[],
-            file_path=None):
+            title: str = None,
+            messages: List[Union[Prompt, Response]] = [],
+            file_path: str = None) -> None:
         """
         Session object initiator.
 
         :param title: title
-        :type title: str
         :param messages: messages
-        :type messages: list
         :param file_path: file path
-        :type file_path: str
-        :return: None
         """
         self._title = None
         self._messages = []
@@ -51,49 +48,38 @@ class Session:
             if messages:
                 self.update_messages(messages)
 
-    def __eq__(self, other_session):
+    def __eq__(self, other_session: "Session") -> bool:
         """
         Check sessions equality.
 
         :param other_session: other session
-        :type other_session: Session
-        :return: bool
         """
         if isinstance(other_session, Session):
             return self._title == other_session._title and self._messages == other_session._messages
         return False
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return string representation of Session."""
         return self.render(render_format=RenderFormat.STRING)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return string representation of Session."""
         return "Session(title={title})".format(title=self._title)
 
-    def __len__(self):
-        """
-        Return the length of the Session object.
-
-        :return: length of the Session object
-        """
+    def __len__(self) -> int:
+        """Return the length of the Session object."""
         return len(self._messages)
 
-    def __iter__(self):
-        """
-        Iterate through the Session object.
 
-        :return: message as Generator[Prompt/Response]
-        """
+    def __iter__(self) -> Generator[Union[Prompt, Response], None, None]:
+        """Iterate through the Session object."""
         yield from self._messages
 
-    def __add__(self, other_object):
+    def __add__(self, other_object: Union["Session", Response, Prompt]) -> "Session":
         """
         Addition method.
 
         :param other_object: other object
-        :type other_object: any
-        :return: new Session
         """
         if isinstance(other_object, (Response, Prompt)):
             new_messages = self._messages + [other_object]
@@ -103,69 +89,54 @@ class Session:
             return Session(messages=new_messages)
         raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
 
-    def __radd__(self, other_object):
+    def __radd__(self, other_object: Union["Session", Response, Prompt]) -> "Session":
         """
         Reverse addition method.
 
         :param other_object: other object
-        :type other_object: any
-        :return: new Session
         """
         if isinstance(other_object, (Response, Prompt)):
             new_messages = [other_object] + self._messages
             return Session(title=self.title, messages=new_messages)
         raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
 
-    def __contains__(self, message):
+    def __contains__(self, message: Union[Prompt, Response]) -> bool:
         """
         Check if the Session contains the given message.
 
         :param message: message
-        :type message: Response/Prompt
-        :return: bool
         """
         return message in self._messages
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> Union[Prompt, Response]:
         """
         Return the Session message(s).
 
         :param index: index
-        :type index: int
-        :return: message(s) as Response/Prompt
         """
         return self._messages[index]
 
-    def __copy__(self):
-        """
-        Return a copy of the Session object.
-
-        :return: a copy of Session object
-        """
+    def __copy__(self) -> "Session":
+        """Return a copy of the Session object."""
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
 
-    def copy(self):
-        """
-        Return a copy of the Session object.
-
-        :return: a copy of Session object
-        """
+    def copy(self) -> "Session":
+        """Return a copy of the Session object."""
         return self.__copy__()
 
-    def add_message(self, message, status=True, index=None):
+    def add_message(self,
+                    message: Union[Prompt, Response],
+                    status: bool = True,
+                    index: int = None) -> None:
         """
         Add a message to the session object.
 
         :param message: message
-        :type message: Prompt/Response
         :param status: status
-        :type status: bool
         :param index: index
-        :type index: int
-        :return: None
         """
         if not isinstance(message, (Prompt, Response)):
             raise MemorValidationError(INVALID_MESSAGE)
@@ -178,79 +149,66 @@ class Session:
             self._messages_status.insert(index, status)
         self._date_modified = get_time_utc()
 
-    def remove_message(self, index):
+    def remove_message(self, index: int) -> None:
         """
         Remove a message from the session object.
 
         :param index: index
-        :type index: int
-        :return: None
         """
         self._messages.pop(index)
         self._messages_status.pop(index)
         self._date_modified = get_time_utc()
 
-    def enable_message(self, index):
+    def enable_message(self, index: int) -> None:
         """
         Enable a message.
 
         :param index: index
-        :type index: int
-        :return: None
         """
         self._messages_status[index] = True
 
-    def disable_message(self, index):
+    def disable_message(self, index: int) -> None:
         """
         Disable a message.
 
         :param index: index
-        :type index: int
-        :return: None
         """
         self._messages_status[index] = False
 
-    def mask_message(self, index):
+    def mask_message(self, index: int) -> None:
         """
         Mask a message.
 
         :param index: index
-        :type index: int
-        :return: None
         """
         self.disable_message(index)
 
-    def unmask_message(self, index):
+    def unmask_message(self, index: int) -> None:
         """
         Unmask a message.
 
         :param index: index
-        :type index: int
-        :return: None
         """
         self.enable_message(index)
 
-    def update_title(self, title):
+    def update_title(self, title: str) -> None:
         """
         Update the session title.
 
         :param title: title
-        :type title: str
-        :return: None
         """
         _validate_string(title, "title")
         self._title = title
         self._date_modified = get_time_utc()
 
-    def update_messages(self, messages, status=None):
+    def update_messages(self,
+                        messages: List[Union[Prompt, Response]],
+                        status: List[bool] = None) -> None:
         """
         Update the session messages.
 
         :param messages: messages
-        :type messages: list
         :param status: status
-        :type status: list
-        :return: None
         """
         _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
         self._messages = messages
@@ -260,26 +218,22 @@ class Session:
             self.update_messages_status(len(messages) * [True])  # TODO: Need discussion
         self._date_modified = get_time_utc()
 
-    def update_messages_status(self, status):
+    def update_messages_status(self, status: List[bool]) -> None:
         """
         Update the session messages status.
 
         :param status: status
-        :type status: list
-        :return: None
         """
         _validate_list_of(status, "status", bool, "booleans")
         if len(status) != len(self._messages):
             raise MemorValidationError(INVALID_MESSAGE_STATUS_LEN_MESSAGE)
         self._messages_status = status
 
-    def save(self, file_path):
+    def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
 
         :param file_path: session file path
-        :type file_path: str
-        :return: result as dict
         """
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
@@ -291,25 +245,21 @@ class Session:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path):
+    def load(self, file_path: str) -> None:
         """
         Load method.
 
         :param file_path: session file path
-        :type file_path: str
-        :return: None
         """
         _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object):
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
         Load attributes from the JSON object.
 
         :param json_object: JSON object
-        :type json_object: str or dict
-        :return: None
         """
         if isinstance(json_object, str):
             loaded_obj = json.loads(json_object)
@@ -330,12 +280,8 @@ class Session:
         self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
         self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
 
-    def to_json(self):
-        """
-        Convert the session to a JSON object.
-
-        :return: JSON object as dict
-        """
+    def to_json(self) -> Dict[str, Any]:
+        """Convert the session to a JSON object."""
         data = self.to_dict().copy()
         for index, message in enumerate(data["messages"]):
             data["messages"][index] = message.to_json()
@@ -343,7 +289,7 @@ class Session:
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         return data
 
-    def to_dict(self):
+    def to_dict(self) -> Dict[str, Any]:
         """
         Convert the session to a dictionary.
 
@@ -360,13 +306,13 @@ class Session:
         }
         return data
 
-    def render(self, render_format=RenderFormat.DEFAULT):
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
+                                                                                  Dict[str, Any],
+                                                                                  List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
-        :type render_format: RenderFormat object
-        :return: rendered session
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
@@ -391,55 +337,31 @@ class Session:
             return list(session_dict.items())
 
     @property
-    def date_created(self):
-        """
-        Get the session creation date.
-
-        :return: session creation date
-        """
+    def date_created(self) -> datetime.datetime:
+        """Get the session creation date."""
         return self._date_created
 
     @property
-    def date_modified(self):
-        """
-        Get the session object modification date.
-
-        :return: session object modification date
-        """
+    def date_modified(self) -> datetime.datetime:
+        """Get the session object modification date."""
         return self._date_modified
 
     @property
-    def title(self):
-        """
-        Get the session title.
-
-        :return: session title
-        """
+    def title(self) -> str:
+        """Get the session title."""
         return self._title
 
     @property
-    def messages(self):
-        """
-        Get the session messages.
-
-        :return: session messages
-        """
+    def messages(self) -> List[Union[Prompt, Response]]:
+        """Get the session messages."""
         return self._messages
 
     @property
-    def messages_status(self):
-        """
-        Get the session messages status.
-
-        :return: session messages status
-        """
+    def messages_status(self) -> List[bool]:
+        """Get the session messages status."""
         return self._messages_status
 
     @property
-    def masks(self):
-        """
-        Get the session masks.
-
-        :return: session masks
-        """
+    def masks(self) -> List[bool]:
+        """Get the session masks."""
         return [not x for x in self._messages_status]

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Memor functions."""
+from typing import Any, Type
 import os
 import datetime
 from .params import INVALID_DATETIME_MESSAGE
@@ -14,7 +15,7 @@ from .params import INVALID_LIST_OF_X_MESSAGE
 from .errors import MemorValidationError
 
 
-def get_time_utc():
+def get_time_utc() -> datetime.datetime:
     """
     Get time in UTC format.
 
@@ -23,43 +24,35 @@ def get_time_utc():
     return datetime.datetime.now(datetime.timezone.utc)
 
 
-def _validate_string(value, parameter_name):
+def _validate_string(value: Any, parameter_name: str) -> bool:
     """
     Validate string.
 
     :param value: value
-    :type value: any
     :param parameter_name: parameter name
-    :type parameter_name: str
-    :return: True if value is a string
     """
     if not isinstance(value, str):
         raise MemorValidationError(INVALID_STR_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
-def _validate_bool(value, parameter_name):
+def _validate_bool(value: Any, parameter_name: str) -> bool:
     """
     Validate boolean.
 
     :param value: value
-    :type value: any
     :param parameter_name: parameter name
-    :type parameter_name: str
-    :return: True if value is a boolean
     """
     if not isinstance(value, bool):
         raise MemorValidationError(INVALID_BOOL_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
-def _can_convert_to_string(value):
+def _can_convert_to_string(value: Any) -> bool:
     """
     Check if value can be converted to string.
 
     :param value: value
-    :type value: any
-    :return: True if value can be converted to string
     """
     try:
         str(value)
@@ -68,64 +61,50 @@ def _can_convert_to_string(value):
     return True
 
 
-def _validate_pos_int(value, parameter_name):
+def _validate_pos_int(value: Any, parameter_name: str) -> bool:
     """
     Validate positive integer.
 
     :param value: value
-    :type value: any
     :param parameter_name: parameter name
-    :type parameter_name: str
-    :return: True if value is a positive integer
     """
     if not isinstance(value, int) or value < 0:
         raise MemorValidationError(INVALID_POSINT_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
-def _validate_pos_float(value, parameter_name):
+def _validate_pos_float(value: Any, parameter_name: str) -> bool:
     """
     Validate positive float.
 
     :param value: value
-    :type value: any
     :param parameter_name: parameter name
-    :type parameter_name: str
-    :return: True if value is a positive float
     """
     if not isinstance(value, float) or value < 0:
         raise MemorValidationError(INVALID_POSFLOAT_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
-def _validate_probability(value, parameter_name):
+def _validate_probability(value: Any, parameter_name: str) -> bool:
     """
-    Validate probability.
+    Validate probability (a float between 0 and 1).
 
     :param value: value
-    :type value: any
     :param parameter_name: parameter name
-    :type parameter_name: str
-    :return: True if value is a float between 0 and 1
     """
     if not isinstance(value, float) or value < 0 or value > 1:
         raise MemorValidationError(INVALID_PROB_VALUE_MESSAGE.format(parameter_name))
     return True
 
 
-def _validate_list_of(value, parameter_name, type_, type_name):
+def _validate_list_of(value: Any, parameter_name: str, type_: Type, type_name: str) -> bool:
     """
     Validate list of values.
 
     :param value: value
-    :type value: any
     :param parameter_name: parameter name
-    :type parameter_name: str
     :param type_: type
-    :type type_: type
     :param type_name: type name
-    :type type_name: str
-    :return: True if value is a list of type_
     """
     if not isinstance(value, list):
         raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name, type_name))
@@ -135,28 +114,23 @@ def _validate_list_of(value, parameter_name, type_, type_name):
     return True
 
 
-def _validate_date_time(date_time, parameter_name):
+def _validate_date_time(date_time: Any, parameter_name: str) -> bool:
     """
     Validate date time.
 
     :param date_time: date time
-    :type date_time: datetime.datetime
     :param parameter_name: parameter name
-    :type parameter_name: str
-    :return: True if date time is a datetime object
     """
     if not isinstance(date_time, datetime.datetime) or date_time.tzinfo is None:
         raise MemorValidationError(INVALID_DATETIME_MESSAGE.format(parameter_name))
     return True
 
 
-def _validate_path(path):
+def _validate_path(path: Any) -> bool:
     """
     Validate path property.
 
     :param path: path
-    :type path: any
-    :return: True if path is a string and exists
     """
     if not isinstance(path, str):  # TODO: We should combine these two errors.
         raise MemorValidationError(INVALID_PATH_MESSAGE)
@@ -165,13 +139,11 @@ def _validate_path(path):
     return True
 
 
-def _validate_custom_map(custom_map):
+def _validate_custom_map(custom_map: Any) -> bool:
     """
-    Validate custom map property in PromptTemplate class.
+    Validate custom map a dictionary with keys and values that can be converted to strings.
 
     :param custom_map: custom map
-    :type custom_map: any
-    :return: True if custom map is a dictionary with keys and values that can be converted to strings
     """
     if not isinstance(custom_map, dict):
         raise MemorValidationError(INVALID_CUSTOM_MAP_MESSAGE)

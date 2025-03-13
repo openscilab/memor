@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Template class."""
+from typing import Dict, Any, Union
 import json
 import datetime
 from enum import Enum
@@ -24,22 +25,17 @@ class PromptTemplate:
 
     def __init__(
             self,
-            content=None,
-            file_path=None,
-            title=None,
-            custom_map=None):
+            content: str = None,
+            file_path: str = None,
+            title: str = None,
+            custom_map: Dict[str, str] = None) -> None:
         """
         Prompt template object initiator.
 
         :param content: template content
-        :type content: str
         :param file_path: template file path
-        :type file_path: str
         :param title: template title
-        :type title: str
         :param custom_map: custom map
-        :type custom_map: dict
-        :return: None
         """
         self._content = None
         self._title = None
@@ -57,88 +53,70 @@ class PromptTemplate:
             if custom_map:
                 self.update_map(custom_map)
 
-    def __eq__(self, other_template):
+    def __eq__(self, other_template: "PromptTemplate") -> bool:
         """
         Check templates equality.
 
         :param other_template: another template
-        :type other_template: PromptTemplate
-        :return: result as bool
         """
         if isinstance(other_template, PromptTemplate):
             return self._content == other_template._content and self._title == other_template._title and self._custom_map == other_template._custom_map
         return False
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return string representation of PromptTemplate."""
         return self._content
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return string representation of PromptTemplate."""
         return "PromptTemplate(content={content})".format(content=self._content)
 
-    def __copy__(self):
-        """
-        Return a copy of the PromptTemplate object.
-
-        :return: a copy of PromptTemplate object
-        """
+    def __copy__(self) -> "PromptTemplate":
+        """Return a copy of the PromptTemplate object."""
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
         return result
 
-    def copy(self):
-        """
-        Return a copy of the PromptTemplate object.
-
-        :return: a copy of PromptTemplate object
-        """
+    def copy(self) -> "PromptTemplate":
+        """Return a copy of the PromptTemplate object."""
         return self.__copy__()
 
-    def update_title(self, title):
+    def update_title(self, title: str) -> None:
         """
         Update title.
 
         :param title: title
-        :type title: str
-        :return: None
         """
         _validate_string(title, "title")
         self._title = title
         self._date_modified = get_time_utc()
 
-    def update_content(self, content):
+    def update_content(self, content: str) -> None:
         """
         Update content.
 
         :param content: content
-        :type content: str
-        :return: None
         """
         _validate_string(content, "content")
         self._content = content
         self._date_modified = get_time_utc()
 
-    def update_map(self, custom_map):
+    def update_map(self, custom_map: Dict[str, str]) -> None:
         """
         Update custom map.
 
         :param custom_map: custom map
-        :type custom_map: dict
-        :return: None
         """
         _validate_custom_map(custom_map)
         self._custom_map = custom_map
         self._date_modified = get_time_utc()
 
-    def save(self, file_path):
+    def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
 
         :param file_path: template file path
-        :type file_path: str
-        :return: result as dict
         """
         result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
         try:
@@ -149,25 +127,21 @@ class PromptTemplate:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path):
+    def load(self, file_path: str) -> None:
         """
         Load method.
 
         :param file_path: template file path
-        :type file_path: str
-        :return: None
         """
         _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object):
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
         Load attributes from the JSON object.
 
         :param json_object: JSON object
-        :type json_object: str or dict
-        :return: None
         """
         try:
             if isinstance(json_object, str):
@@ -183,23 +157,15 @@ class PromptTemplate:
         except Exception:
             raise MemorValidationError(INVALID_TEMPLATE_STRUCTURE_MESSAGE)
 
-    def to_json(self):
-        """
-        Convert PromptTemplate to json.
-
-        :return: JSON structure as dict
-        """
+    def to_json(self) -> Dict[str, Any]:
+        """Convert PromptTemplate to json."""
         data = self.to_dict().copy()
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         return data
 
-    def to_dict(self):
-        """
-        Convert PromptTemplate to dict.
-
-        :return: dict
-        """
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert PromptTemplate to dict."""
         return {
             "title": self._title,
             "content": self._content,
@@ -210,48 +176,28 @@ class PromptTemplate:
         }
 
     @property
-    def content(self):
-        """
-        Get the PromptTemplate content.
-
-        :return: content
-        """
+    def content(self) -> str:
+        """Get the PromptTemplate content."""
         return self._content
 
     @property
-    def title(self):
-        """
-        Get the PromptTemplate title.
-
-        :return: title
-        """
+    def title(self) -> str:
+        """Get the PromptTemplate title."""
         return self._title
 
     @property
-    def date_created(self):
-        """
-        Get the PromptTemplate creation date.
-
-        :return: template creation date
-        """
+    def date_created(self) -> datetime.datetime:
+        """Get the PromptTemplate creation date."""
         return self._date_created
 
     @property
-    def date_modified(self):
-        """
-        Get the PromptTemplate modification date.
-
-        :return: template modification date
-        """
+    def date_modified(self) -> datetime.datetime:
+        """Get the PromptTemplate modification date."""
         return self._date_modified
 
     @property
-    def custom_map(self):
-        """
-        Get the PromptTemplate custom map.
-
-        :return: custom map
-        """
+    def custom_map(self) -> Dict[str, str]:
+        """Get the PromptTemplate custom map."""
         return self._custom_map
 
 
