@@ -476,7 +476,7 @@ def test_length2():
         responses=[response],
         role=Role.USER,
         template=template)
-    assert len(prompt) == None
+    assert len(prompt) is None
 
 
 def test_date_modified():
