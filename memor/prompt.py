@@ -101,7 +101,7 @@ class Prompt:
         try:
             return len(self.render(render_format=RenderFormat.STRING))
         except Exception:
-            return None
+            return 0
 
     def __copy__(self) -> "Prompt":
         """
