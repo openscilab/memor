@@ -35,7 +35,7 @@ class Prompt:
 
     def __init__(
             self,
-            message: str = None,
+            message: str = "",
             responses: List[Response] = [],
             role: Role = Role.DEFAULT,
             tokens: int = None,
@@ -51,7 +51,7 @@ class Prompt:
         :param template: prompt template
         :param file_path: prompt file path
         """
-        self._message = None
+        self._message = ""
         self._tokens = None
         self._role = Role.DEFAULT
         self._template = PresetPromptTemplate.DEFAULT.value
