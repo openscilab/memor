@@ -462,6 +462,23 @@ def test_equality4():
     assert prompt != 2
 
 
+def test_length1():
+    prompt = Prompt(message="Hello, how are you?")
+    assert len(prompt) == 19
+
+
+def test_length2():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{response[2][message]}")
+    prompt = Prompt(
+        message=message,
+        responses=[response],
+        role=Role.USER,
+        template=template)
+    assert len(prompt) == 0
+
+
 def test_date_modified():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)

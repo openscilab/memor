@@ -96,6 +96,13 @@ class Prompt:
         """Return string representation of Prompt."""
         return "Prompt(message={message})".format(message=self._message)
 
+    def __len__(self) -> int:
+        """Return the length of the Prompt object."""
+        try:
+            return len(self.render(render_format=RenderFormat.STRING))
+        except Exception:
+            return 0
+
     def __copy__(self) -> "Prompt":
         """
         Return a copy of the Prompt object.

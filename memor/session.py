@@ -70,7 +70,6 @@ class Session:
         """Return the length of the Session object."""
         return len(self._messages)
 
-
     def __iter__(self) -> Generator[Union[Prompt, Response], None, None]:
         """Iterate through the Session object."""
         yield from self._messages
