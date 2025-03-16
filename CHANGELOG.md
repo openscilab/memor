@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `README.md` updated
 - Test system modified
 - Python typing features added to all modules
+- `Prompt` class default values updated
+- `Response` class default values updated
 ## [0.3] - 2025-03-08
 ### Added
 - `Session` class `__len__` method

@@ -479,6 +479,11 @@ def test_length2():
     assert len(prompt) == 0
 
 
+def test_length3():
+    prompt = Prompt()
+    assert len(prompt) == 0
+
+
 def test_date_modified():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)

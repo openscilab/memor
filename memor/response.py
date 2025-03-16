@@ -27,7 +27,7 @@ class Response:
 
     def __init__(
             self,
-            message: str = None,
+            message: str = "",
             score: float = None,
             role: Role = Role.ASSISTANT,
             temperature: float = None,
@@ -49,7 +49,7 @@ class Response:
         :param date: response date
         :param file_path: response file path
         """
-        self._message = None
+        self._message = ""
         self._score = None
         self._role = Role.ASSISTANT
         self._temperature = None
@@ -101,8 +101,6 @@ class Response:
 
     def __len__(self) -> int:
         """Return the length of the Response object."""
-        if self._message is None:
-            return 0
         return len(self.render(render_format=RenderFormat.STRING))
 
     def __copy__(self) -> "Response":
