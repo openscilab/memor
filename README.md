@@ -60,7 +60,6 @@ By bridging the gap between isolated LLM instances, Memor revolutionizes the way
         <td align="center">Code Quality</td>
         <td align="center"><a href="https://www.codefactor.io/repository/github/openscilab/memor"><img src="https://www.codefactor.io/repository/github/openscilab/memor/badge" alt="CodeFactor"></a></td>
         <td align="center"><a href="https://app.codacy.com/gh/openscilab/memor/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/3758f5116c4347ce957997bb7f679cfa"/></a></td>
-        <td align="center"><a href="https://codebeat.co/projects/github-com-openscilab-memor-main"><img alt="codebeat badge" src="https://codebeat.co/badges/cd9a4239-280d-415d-95dd-faeea9270668"></a></td>
     </tr>
 </table>
 
