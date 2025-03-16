@@ -101,8 +101,6 @@ class Response:
 
     def __len__(self) -> int:
         """Return the length of the Response object."""
-        if self._message is None:
-            return 0
         return len(self.render(render_format=RenderFormat.STRING))
 
     def __copy__(self) -> "Response":
