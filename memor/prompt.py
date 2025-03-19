@@ -395,3 +395,11 @@ class Prompt:
                 return list(prompt_dict.items())
         except Exception:
             raise MemorRenderError(PROMPT_RENDER_ERROR_MESSAGE)
+
+    def check_render(self) -> bool:
+        """Check render."""
+        try:
+            _ = self.render()
+            return True
+        except Exception:
+            return False
