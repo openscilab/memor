@@ -272,6 +272,22 @@ def test_render5():
         session.render("OPENAI")
 
 
+def test_check_render1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    assert session.check_render()
+
+
+def test_check_render2():
+    template = PromptTemplate(content="{response[2][message]}")
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, template=template)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    assert not session.check_render()
+
+
+
 def test_equality1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
