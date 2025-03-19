@@ -335,7 +335,6 @@ class Session:
         if render_format == RenderFormat.ITEMS:
             return list(session_dict.items())
 
-
     def check_render(self) -> bool:
         """Check render."""
         try:

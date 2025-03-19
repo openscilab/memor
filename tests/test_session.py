@@ -287,7 +287,6 @@ def test_check_render2():
     assert not session.check_render()
 
 
-
 def test_equality1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
