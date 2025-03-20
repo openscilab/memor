@@ -174,7 +174,7 @@ def test_clear_messages():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
     assert len(session) == 2
-    session.clear_message()
+    session.clear_messages()
     assert len(session) == 0
 
 
