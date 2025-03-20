@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `Session` class `check_render` method
+- `Session` class `clear_messages` method
 - `Prompt` class `check_render` method
 ## [0.4] - 2025-03-17
 ### Added
