@@ -158,6 +158,12 @@ class Session:
         self._messages_status.pop(index)
         self._date_modified = get_time_utc()
 
+    def clear_messages(self) -> None:
+        """Remove all messages."""
+        self._messages = []
+        self._messages_status = []
+        self._date_modified = get_time_utc()
+
     def enable_message(self, index: int) -> None:
         """
         Enable a message.
