@@ -169,6 +169,15 @@ def test_remove_message():
     assert session.messages == [prompt] and session.messages_status == [True]
 
 
+def test_clear_messages():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    assert len(session) == 2
+    session.clear_message()
+    assert len(session) == 0
+
+
 def test_copy1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
