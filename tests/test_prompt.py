@@ -401,6 +401,33 @@ def test_render6():
         prompt.render()
 
 
+def test_check_render1():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{response[2][message]}")
+    prompt = Prompt(
+        message=message,
+        responses=[response],
+        role=Role.USER,
+        template=template)
+    assert not prompt.check_render()
+
+
+def test_check_render2():
+    message = "How are you?"
+    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=template)
+    assert prompt.check_render()
+
+
 def test_equality1():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)

@@ -3,6 +3,7 @@ import datetime
 import copy
 import pytest
 from memor import Session, Prompt, Response, Role
+from memor import PromptTemplate
 from memor import RenderFormat, MemorValidationError
 
 TEST_CASE_NAME = "Session tests"
@@ -270,6 +271,21 @@ def test_render5():
     session = Session(messages=[prompt, response], title="session1")
     with pytest.raises(MemorValidationError, match=r"Invalid render format. It must be an instance of RenderFormat enum."):
         session.render("OPENAI")
+
+
+def test_check_render1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    assert session.check_render()
+
+
+def test_check_render2():
+    template = PromptTemplate(content="{response[2][message]}")
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, template=template)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    assert not session.check_render()
 
 
 def test_equality1():

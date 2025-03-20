@@ -335,6 +335,14 @@ class Session:
         if render_format == RenderFormat.ITEMS:
             return list(session_dict.items())
 
+    def check_render(self) -> bool:
+        """Check render."""
+        try:
+            _ = self.render()
+            return True
+        except Exception:
+            return False
+
     @property
     def date_created(self) -> datetime.datetime:
         """Get the session creation date."""
