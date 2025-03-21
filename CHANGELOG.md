@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Session` class `check_render` method
 - `Session` class `clear_messages` method
 - `Prompt` class `check_render` method
+### Changed
+- `init_check` parameter added to `Prompt` class
+- `init_check` parameter added to `Session` class
 ## [0.4] - 2025-03-17
 ### Added
 - `Session` class `__contains__` method
