@@ -4,7 +4,8 @@ import copy
 import pytest
 from memor import Session, Prompt, Response, Role
 from memor import PromptTemplate
-from memor import RenderFormat, MemorValidationError
+from memor import RenderFormat
+from memor import MemorRenderError, MemorValidationError
 
 TEST_CASE_NAME = "Session tests"
 
