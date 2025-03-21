@@ -396,9 +396,19 @@ def test_render6():
         message=message,
         responses=[response],
         role=Role.USER,
-        template=template)
+        template=template,
+        init_check=False)
     with pytest.raises(MemorRenderError, match=r"Prompt template and properties are incompatible."):
         prompt.render()
+
+
+def test_init_check():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{response[2][message]}")
+    with pytest.raises(MemorRenderError, match=r"Prompt template and properties are incompatible."):
+        _ = prompt = Prompt(message=message, responses=[response], role=Role.USER, template=template)
+
 
 
 def test_check_render1():
