@@ -155,13 +155,13 @@ def test_select_response():
 
 def test_template1():
     message = "Hello, how are you?"
-    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD, init_check=False)
     assert prompt.template == PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD.value
 
 
 def test_template2():
     message = "Hello, how are you?"
-    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.RESPONSE)
+    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.RESPONSE, init_check=False)
     prompt.update_template(PresetPromptTemplate.INSTRUCTION1.PROMPT)
     assert prompt.template.content == PresetPromptTemplate.INSTRUCTION1.PROMPT.value.content
 
@@ -169,7 +169,7 @@ def test_template2():
 def test_template3():
     message = "Hello, how are you?"
     template = PromptTemplate(content="{message}-{response}")
-    prompt = Prompt(message=message, template=template)
+    prompt = Prompt(message=message, template=template, init_check=False)
     assert prompt.template.content == "{message}-{response}"
 
 
@@ -181,7 +181,7 @@ def test_template4():
 
 def test_template5():
     message = "Hello, how are you?"
-    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.RESPONSE)
+    prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.RESPONSE, init_check=False)
     with pytest.raises(MemorValidationError, match=r"Invalid template. It must be an instance of `PromptTemplate` or `PresetPromptTemplate`."):
         prompt.update_template("{prompt_message}")
 
@@ -512,7 +512,8 @@ def test_length2():
         message=message,
         responses=[response],
         role=Role.USER,
-        template=template)
+        template=template,
+        init_check=False)
     assert len(prompt) == 0
 
 
