@@ -26,13 +26,15 @@ class Session:
             self,
             title: str = None,
             messages: List[Union[Prompt, Response]] = [],
-            file_path: str = None) -> None:
+            file_path: str = None,
+            init_check: bool = True) -> None:
         """
         Session object initiator.
 
         :param title: title
         :param messages: messages
         :param file_path: file path
+        :param init_check: initial check flag
         """
         self._title = None
         self._messages = []
@@ -47,6 +49,8 @@ class Session:
                 self.update_title(title)
             if messages:
                 self.update_messages(messages)
+        if init_check:
+            _ = self.render()
 
     def __eq__(self, other_session: "Session") -> bool:
         """
