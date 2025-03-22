@@ -40,7 +40,8 @@ class Prompt:
             role: Role = Role.DEFAULT,
             tokens: int = None,
             template: Union[PresetPromptTemplate, PromptTemplate] = PresetPromptTemplate.DEFAULT,
-            file_path: str = None) -> None:
+            file_path: str = None,
+            init_check: bool = True) -> None:
         """
         Prompt object initiator.
 
@@ -50,6 +51,7 @@ class Prompt:
         :param tokens: tokens
         :param template: prompt template
         :param file_path: prompt file path
+        :param init_check: initial check flag
         """
         self._message = ""
         self._tokens = None
@@ -75,6 +77,8 @@ class Prompt:
             if template:
                 self.update_template(template)
             self.select_response(index=self._selected_response_index)
+        if init_check:
+            _ = self.render()
 
     def __eq__(self, other_prompt: "Prompt") -> bool:
         """

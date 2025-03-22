@@ -4,7 +4,8 @@ import copy
 import pytest
 from memor import Session, Prompt, Response, Role
 from memor import PromptTemplate
-from memor import RenderFormat, MemorValidationError
+from memor import RenderFormat
+from memor import MemorRenderError, MemorValidationError
 
 TEST_CASE_NAME = "Session tests"
 
@@ -291,10 +292,18 @@ def test_check_render1():
 
 def test_check_render2():
     template = PromptTemplate(content="{response[2][message]}")
-    prompt = Prompt(message="Hello, how are you?", role=Role.USER, template=template)
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, template=template, init_check=False)
     response = Response(message="I am fine.")
-    session = Session(messages=[prompt, response], title="session1")
+    session = Session(messages=[prompt, response], title="session1", init_check=False)
     assert not session.check_render()
+
+
+def test_init_check():
+    template = PromptTemplate(content="{response[2][message]}")
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, template=template, init_check=False)
+    response = Response(message="I am fine.")
+    with pytest.raises(MemorRenderError, match=r"Prompt template and properties are incompatible."):
+        _ = Session(messages=[prompt, response], title="session1")
 
 
 def test_equality1():
