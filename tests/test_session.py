@@ -6,6 +6,7 @@ from memor import Session, Prompt, Response, Role
 from memor import PromptTemplate
 from memor import RenderFormat
 from memor import MemorRenderError, MemorValidationError
+from memor import TokenEstimator
 
 TEST_CASE_NAME = "Session tests"
 
@@ -468,3 +469,15 @@ def test_getitem2():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response, response, response], title="session")
     assert session[:] == session.messages
+
+def test_estimated_tokens1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session.estimate_tokens(TokenEstimator.UNIVERSAL) == 12
+
+def test_estimated_tokens2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session.estimate_tokens(TokenEstimator.OPENAI) == 13
