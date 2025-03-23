@@ -414,4 +414,4 @@ class Prompt:
 
         :param method: token estimator method
         """
-        return method.value(self.render(render_format=RenderFormat.STRING))
+        return method(self.render(render_format=RenderFormat.STRING))

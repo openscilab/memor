@@ -286,7 +286,7 @@ class Response:
 
         :param method: token estimator method
         """
-        return method.value(self.render(render_format=RenderFormat.STRING))
+        return method(self.render(render_format=RenderFormat.STRING))
 
     @property
     def message(self) -> str:
