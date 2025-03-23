@@ -6,7 +6,7 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import RenderFormat, DATA_SAVE_SUCCESS_MESSAGE
-from .params import Role
+from .params import Role, TokenEstimator
 from .params import INVALID_PROMPT_STRUCTURE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RESPONSE_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE
@@ -407,3 +407,11 @@ class Prompt:
             return True
         except Exception:
             return False
+    
+    def estimate_tokens(self, method: TokenEstimator = TokenEstimator.DEFAULT) -> int:
+        """
+        Estimate the number of tokens in the response message.
+
+        :param method: token estimator method
+        """
+        return method.value(self.render(render_format=RenderFormat.STRING))

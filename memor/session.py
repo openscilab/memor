@@ -10,7 +10,7 @@ from .params import INVALID_MESSAGE
 from .params import INVALID_MESSAGE_STATUS_LEN_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE
-from .params import RenderFormat
+from .params import RenderFormat, TokenEstimator
 from .prompt import Prompt
 from .response import Response
 from .errors import MemorValidationError
@@ -352,6 +352,14 @@ class Session:
             return True
         except Exception:
             return False
+    
+    def estimate_tokens(self, method: TokenEstimator = TokenEstimator.DEFAULT) -> int:
+        """
+        Estimate the number of tokens in the session.
+
+        :param method: token estimator method
+        """
+        return method.value(self.render(render_format=RenderFormat.STRING))
 
     @property
     def date_created(self) -> datetime.datetime:
