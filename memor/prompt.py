@@ -407,7 +407,7 @@ class Prompt:
             return True
         except Exception:
             return False
-    
+
     def estimate_tokens(self, method: TokenEstimator = TokenEstimator.DEFAULT) -> int:
         """
         Estimate the number of tokens in the response message.

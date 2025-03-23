@@ -3,6 +3,7 @@
 
 import re
 
+
 def universal_token_estimator(message: str) -> int:
     """
     Estimate the number of tokens in a given text or code snippet.
@@ -14,7 +15,7 @@ def universal_token_estimator(message: str) -> int:
     if not is_code:
         message = re.sub(r"(?<=\w)'(?=\w)", " ", message)
     tokens = re.findall(r"[A-Za-z_][A-Za-z0-9_]*|[+\-*/=<>(){}[\],.:;]|\"[^\"]*\"|'[^']*'|\d+|\S", message)
-    
+
     common_keywords = {
         "if", "else", "elif", "while", "for", "def", "return", "import", "from", "class",
         "try", "except", "finally", "with", "as", "break", "continue", "pass", "lambda",
@@ -53,8 +54,10 @@ def universal_token_estimator(message: str) -> int:
                 token_count += max(1, len(token) // 4)
                 continue
 
-            prefix_count = sum(1 for prefix in common_prefixes if token.startswith(prefix) and len(token) > len(prefix) + 3)
-            suffix_count = sum(1 for suffix in common_suffixes if token.endswith(suffix) and len(token) > len(suffix) + 3)
+            prefix_count = sum(1 for prefix in common_prefixes if token.startswith(
+                prefix) and len(token) > len(prefix) + 3)
+            suffix_count = sum(1 for suffix in common_suffixes if token.endswith(
+                suffix) and len(token) > len(suffix) + 3)
             subword_count = max(1, len(re.findall(r"[aeiou]+|[^aeiou]+", token)) // 2)
 
             token_count += prefix_count + suffix_count + subword_count
@@ -82,21 +85,21 @@ def openai_token_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
     # 1. Spaces and punctuation often become separate tokens.
     space_count = text.count(" ")
     punctuation_count = sum(1 for char in text if char in ",.?!;:")
-    token_estimate += (space_count + punctuation_count) * 0.5 # account for some of these being their own tokens
+    token_estimate += (space_count + punctuation_count) * 0.5  # account for some of these being their own tokens
 
     # 2. Code and special characters may be tokenized differently.
     if "```" in text or "def" in text or "import" in text:
-        token_estimate *= 1.1 # add a 10% penalty for possible code.
+        token_estimate *= 1.1  # add a 10% penalty for possible code.
 
     # 3. Handle newlines
     newline_count = text.count("\n")
-    token_estimate += newline_count * 0.8 # newlines are often tokens
+    token_estimate += newline_count * 0.8  # newlines are often tokens
 
     # 4. Handle very long words or sequences of characters without spaces
     words = text.split()
     for word in words:
         if len(word) > 15:
-            token_estimate += len(word) / 10 # very long words could be split.
+            token_estimate += len(word) / 10  # very long words could be split.
 
     # 5. very very basic url handling.
     if "http" in text:
@@ -104,10 +107,10 @@ def openai_token_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
 
     # 6. Basic emoji handling.
     emoji_count = sum(1 for char in text if ord(char) > 10000)
-    token_estimate+= emoji_count *0.8
+    token_estimate += emoji_count * 0.8
 
     # 7. Model-specific adjustment (very rudimentary)
     if "gpt-4" in model.lower():
-        token_estimate *= 1.05 # GPT-4 sometimes uses more tokens.
+        token_estimate *= 1.05  # GPT-4 sometimes uses more tokens.
 
-    return int(max(1, token_estimate)) # Ensure at least 1 token
+    return int(max(1, token_estimate))  # Ensure at least 1 token
