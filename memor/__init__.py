@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Memor modules."""
-from .params import MEMOR_VERSION, RenderFormat, TokenEstimator
+from .params import MEMOR_VERSION, RenderFormat
+from .token_estimators import TokenEstimator
 from .template import PromptTemplate, PresetPromptTemplate
 from .prompt import Prompt, Role
 from .response import Response

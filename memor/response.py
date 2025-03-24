@@ -8,7 +8,8 @@ from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
-from .params import Role, RenderFormat, TokenEstimator
+from .params import Role, RenderFormat
+from .token_estimators import TokenEstimator
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_string, _validate_pos_float, _validate_pos_int

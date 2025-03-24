@@ -6,7 +6,8 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import RenderFormat, DATA_SAVE_SUCCESS_MESSAGE
-from .params import Role, TokenEstimator
+from .params import Role
+from .token_estimators import TokenEstimator
 from .params import INVALID_PROMPT_STRUCTURE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RESPONSE_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE

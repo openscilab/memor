@@ -10,7 +10,8 @@ from .params import INVALID_MESSAGE
 from .params import INVALID_MESSAGE_STATUS_LEN_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE
-from .params import RenderFormat, TokenEstimator
+from .params import RenderFormat
+from .token_estimators import TokenEstimator
 from .prompt import Prompt
 from .response import Response
 from .errors import MemorValidationError

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Memor parameters and constants."""
-from .token_estimators import universal_token_estimator, openai_token_estimator
 from enum import Enum
 MEMOR_VERSION = "0.4"
 
@@ -47,11 +46,3 @@ class RenderFormat(Enum):
     DICTIONARY = "DICTIONARY"
     ITEMS = "ITEMS"
     DEFAULT = STRING
-
-
-class TokenEstimator(Enum):
-    """Token estimator enum."""
-
-    UNIVERSAL = universal_token_estimator
-    OPENAI = openai_token_estimator
-    DEFAULT = UNIVERSAL

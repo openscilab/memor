@@ -2,7 +2,9 @@
 """Token estimators functions."""
 
 import re
+from enum import Enum
 from typing import Set, List
+
 
 def _is_code_snippet(message: str) -> bool:
     """Check if the message is a code snippet based on common coding symbols."""
@@ -89,3 +91,11 @@ def openai_token_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
         token_estimate *= 1.05
 
     return int(max(1, token_estimate))
+
+
+class TokenEstimator(Enum):
+    """Token estimator enum."""
+
+    UNIVERSAL = universal_token_estimator
+    OPENAI = openai_token_estimator
+    DEFAULT = UNIVERSAL
