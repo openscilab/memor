@@ -108,6 +108,26 @@ def test_estimated_tokens11():
     assert response.estimate_tokens(TokenEstimator.UNIVERSAL) == 3
 
 
+def test_estimated_tokens12():
+    response = Response(message="def add(a, b): return a + b")
+    assert response.estimate_tokens(TokenEstimator.OPENAI) == 11
+
+
+def test_estimated_tokens13():
+    response = Response(message="Visit https://openai.com for more info.")
+    assert response.estimate_tokens(TokenEstimator.OPENAI) == 16
+
+
+def test_estimated_tokens14():
+    response = Response(message="This is a verylongwordwithoutspaces and should be counted properly.")
+    assert response.estimate_tokens(TokenEstimator.OPENAI) == 23
+
+
+def test_estimated_tokens15():
+    response = Response(message="Line1\nLine2\nLine3\n")
+    assert response.estimate_tokens(TokenEstimator.OPENAI) == 6
+
+
 def test_tokens4():
     response = Response(message="I am fine.", tokens=4)
     with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a positive integer."):
