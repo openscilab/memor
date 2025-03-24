@@ -411,7 +411,7 @@ class Prompt:
 
     def estimate_tokens(self, method: TokenEstimator = TokenEstimator.DEFAULT) -> int:
         """
-        Estimate the number of tokens in the response message.
+        Estimate the number of tokens in the prompt message.
 
         :param method: token estimator method
         """
