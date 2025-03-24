@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Session` class `clear_messages` method
 - `Prompt` class `check_render` method
 - `Session` class `estimate_tokens` method
-- `Session` class `estimate_tokens` method
 - `Prompt` class `estimate_tokens` method
+- `Response` class `estimate_tokens` method
 - `universal_token_estimator` function
 - `openai_token_estimator` function
 ### Changed
