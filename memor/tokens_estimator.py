@@ -60,22 +60,24 @@ def _count_code_tokens(token: str, common_keywords: Set[str]) -> int:
     return 1
 
 
-def _count_text_tokens(token: str, common_prefixes: set, common_suffixes: Set[str]) -> int:
+def _count_text_tokens(token: str, prefixes: Set[str], suffixes: Set[str]) -> int:
     """
-    Count tokens in regular text considering prefixes, suffixes, and subwords.
+    Count tokens in text based on prefixes, suffixes, and subwords.
     
     :param token: The token to count.
-    :param common_prefixes: Set of common prefixes.
-    :param common_suffixes: Set of common suffixes.
-    :return: Count of tokens.
+    :param prefixes: Set of common prefixes.
+    :param suffixes: Set of common suffixes.
+    :return: Token count.
     """
     if len(token) == 1 and not token.isalnum():
         return 1
     if token.isdigit():
         return max(1, len(token) // 4)
-    prefix_count = sum(1 for prefix in common_prefixes if token.startswith(prefix) and len(token) > len(prefix) + 3)
-    suffix_count = sum(1 for suffix in common_suffixes if token.endswith(suffix) and len(token) > len(suffix) + 3)
-    subword_count = max(1, len(re.findall(r"[aeiou]+|[^aeiou]+", token)) // 2)
+    prefix_count = sum(token.startswith(p) for p in prefixes if len(token) > len(p) + 3)
+    suffix_count = sum(token.endswith(s) for s in suffixes if len(token) > len(s) + 3)
+    parts = re.findall(r"[aeiou]+|[^aeiou]+", token)
+    subword_count = max(1, len(parts) // 2)
+
     return prefix_count + suffix_count + subword_count
 
 
@@ -119,17 +121,27 @@ def openai_tokens_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
     char_count = len(text)
     token_estimate = char_count / 4
 
-    token_estimate += (text.count(" ") + sum(1 for char in text if char in ",.?!;:")) * 0.5
+    space_count = text.count(" ")
+    punctuation_count = sum(1 for char in text if char in ",.?!;:")
+    token_estimate += (space_count + punctuation_count) * 0.5
+
     if any(keyword in text for keyword in ["```", "def", "import"]):
         token_estimate *= 1.1
-    token_estimate += text.count("\n") * 0.8
-    token_estimate += sum(len(word) / 10 for word in text.split() if len(word) > 15)
+
+    newline_count = text.count("\n")
+    token_estimate += newline_count * 0.8
+
+    long_word_penalty = sum(len(word) / 10 for word in text.split() if len(word) > 15)
+    token_estimate += long_word_penalty
+
     if "http" in text:
         token_estimate *= 1.1
-    token_estimate += sum(1 for char in text if ord(char) > 10000) * 0.8
+
+    rare_char_count = sum(1 for char in text if ord(char) > 10000)
+    token_estimate += rare_char_count * 0.8
+
     if "gpt-4" in model.lower():
         token_estimate *= 1.05
-
     return int(max(1, token_estimate))
 
 
