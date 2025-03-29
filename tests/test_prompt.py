@@ -4,7 +4,7 @@ import pytest
 from memor import Prompt, Response, Role
 from memor import PresetPromptTemplate, PromptTemplate
 from memor import RenderFormat, MemorValidationError, MemorRenderError
-from memor import TokenEstimator
+from memor import TokensEstimator
 
 TEST_CASE_NAME = "Prompt tests"
 
@@ -50,12 +50,12 @@ def test_tokens4():
 
 def test_estimated_tokens1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
-    assert prompt.estimate_tokens(TokenEstimator.UNIVERSAL) == 7
+    assert prompt.estimate_tokens(TokensEstimator.UNIVERSAL) == 7
 
 
 def test_estimated_tokens2():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
-    assert prompt.estimate_tokens(TokenEstimator.OPENAI) == 7
+    assert prompt.estimate_tokens(TokensEstimator.OPENAI) == 7
 
 
 def test_role1():

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Token estimators functions."""
+"""Tokens estimator functions."""
 
 import re
 from enum import Enum
@@ -79,7 +79,7 @@ def _count_text_tokens(token: str, common_prefixes: set, common_suffixes: Set[st
     return prefix_count + suffix_count + subword_count
 
 
-def universal_token_estimator(message: str) -> int:
+def universal_tokens_estimator(message: str) -> int:
     """
     Estimate the number of tokens in a given text or code snippet.
     
@@ -105,7 +105,7 @@ def universal_token_estimator(message: str) -> int:
             common_suffixes) for token in tokens)
 
 
-def openai_token_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
+def openai_tokens_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
     """
     Estimate the number of tokens in a given text for a specified OpenAI model.
     
@@ -133,9 +133,9 @@ def openai_token_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
     return int(max(1, token_estimate))
 
 
-class TokenEstimator(Enum):
+class TokensEstimator(Enum):
     """Token estimator enum."""
 
-    UNIVERSAL = universal_token_estimator
-    OPENAI = openai_token_estimator
+    UNIVERSAL = universal_tokens_estimator
+    OPENAI = openai_tokens_estimator
     DEFAULT = UNIVERSAL

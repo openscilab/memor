@@ -12,8 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Session` class `estimate_tokens` method
 - `Prompt` class `estimate_tokens` method
 - `Response` class `estimate_tokens` method
-- `universal_token_estimator` function
-- `openai_token_estimator` function
+- `universal_tokens_estimator` function
+- `openai_tokens_estimator` function
 ### Changed
 - `init_check` parameter added to `Prompt` class
 - `init_check` parameter added to `Session` class
