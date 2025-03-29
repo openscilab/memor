@@ -9,6 +9,7 @@ from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
 from .params import Role, RenderFormat
+from .tokens_estimator import TokensEstimator
 from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_string, _validate_pos_float, _validate_pos_int
@@ -279,6 +280,14 @@ class Response:
         elif render_format == RenderFormat.ITEMS:
             return self.to_dict().items()
         return self._message
+
+    def estimate_tokens(self, method: TokensEstimator = TokensEstimator.DEFAULT) -> int:
+        """
+        Estimate the number of tokens in the response message.
+
+        :param method: token estimator method
+        """
+        return method(self.render(render_format=RenderFormat.STRING))
 
     @property
     def message(self) -> str:

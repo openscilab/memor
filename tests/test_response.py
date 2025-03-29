@@ -4,6 +4,7 @@ import copy
 import pytest
 from memor import Response, Role, MemorValidationError
 from memor import RenderFormat
+from memor import TokensEstimator
 
 TEST_CASE_NAME = "Response tests"
 
@@ -39,6 +40,16 @@ def test_tokens3():
     response = Response(message="I am fine.", tokens=4)
     response.update_tokens(6)
     assert response.tokens == 6
+
+
+def test_estimated_tokens1():
+    response = Response(message="I am fine.")
+    assert response.estimate_tokens(TokensEstimator.UNIVERSAL) == 5
+
+
+def test_estimated_tokens2():
+    response = Response(message="I am fine.")
+    assert response.estimate_tokens(TokensEstimator.OPENAI) == 4
 
 
 def test_tokens4():

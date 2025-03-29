@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Session` class `check_render` method
 - `Session` class `clear_messages` method
 - `Prompt` class `check_render` method
+- `Session` class `estimate_tokens` method
+- `Prompt` class `estimate_tokens` method
+- `Response` class `estimate_tokens` method
+- `universal_tokens_estimator` function
+- `openai_tokens_estimator` function
 ### Changed
 - `init_check` parameter added to `Prompt` class
 - `init_check` parameter added to `Session` class
