@@ -167,6 +167,20 @@ VB_KEYWORDS = {"If", "Then", "Else", "ElseIf", "End", "For", "Each", "While", "D
                "Public", "Private", "Protected", "Friend", "Shared", "Static", "Dim", "Const",
                "New", "Me", "MyBase", "MyClass", "Not", "And", "Or", "True", "False", "Nothing"}
 
+HTML_KEYWORDS = {"html", "head", "title", "meta", "link", "style", "script", "body", "div", "span",
+                 "h1", "h2", "h3", "h4", "h5", "h6", "p", "a", "img", "ul", "ol", "li", "table",
+                 "tr", "td", "th", "thead", "tbody", "tfoot", "form", "input", "button", "label",
+                 "select", "option", "textarea", "fieldset", "legend", "iframe", "nav", "section",
+                 "article", "aside", "header", "footer", "main", "blockquote", "cite", "code",
+                 "pre", "em", "strong", "b", "i", "u", "small", "br", "hr"}
+
+CSS_KEYWORDS = {"color", "background", "border", "margin", "padding", "width", "height", "font-size",
+                "font-family", "text-align", "display", "position", "top", "bottom", "left", "right",
+                "z-index", "visibility", "opacity", "overflow", "cursor", "flex", "grid", "align-items",
+                "justify-content", "box-shadow", "text-shadow", "animation", "transition", "transform",
+                "clip-path", "content", "filter", "outline", "max-width", "min-width", "max-height",
+                "min-height", "letter-spacing", "line-height", "white-space", "word-break"}
+
 
 PROGRAMMING_LANGUAGES = {
     "Python": PYTHON_KEYWORDS,
@@ -199,7 +213,9 @@ PROGRAMMING_LANGUAGES = {
     "Prolog": PROLOG_KEYWORDS,
     "Ada": ADA_KEYWORDS,
     "Delphi": DELPHI_KEYWORDS,
-    "Visual Basic": VB_KEYWORDS}
+    "Visual Basic": VB_KEYWORDS,
+    "HTML": HTML_KEYWORDS,
+    "CSS": CSS_KEYWORDS}
 
 PROGRAMMING_LANGUAGES_KEYWORDS = set()
 for language in PROGRAMMING_LANGUAGES:
