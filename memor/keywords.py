@@ -84,6 +84,90 @@ SQL_KEYWORDS = {"SELECT", "INSERT", "UPDATE", "DELETE", "FROM", "WHERE", "JOIN",
                 "RIGHT", "FULL", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT", "OFFSET", "AS",
                 "AND", "OR", "NOT", "NULL", "TRUE", "FALSE"}
 
+BASH_KEYWORDS = {"if", "else", "fi", "then", "elif", "case", "esac", "for", "while", "do", "done",
+                 "break", "continue", "return", "function", "export", "readonly", "local", "declare",
+                 "eval", "trap", "exec", "true", "false"}
+
+MATLAB_KEYWORDS = {"if", "else", "elseif", "end", "for", "while", "break", "continue", "return",
+                   "function", "global", "persistent", "switch", "case", "otherwise", "try", "catch",
+                   "true", "false"}
+
+R_KEYWORDS = {"if", "else", "repeat", "while", "for", "break", "next", "return", "function",
+              "TRUE", "FALSE", "NULL", "Inf", "NaN", "NA"}
+
+
+PERL_KEYWORDS = {"if", "else", "elsif", "unless", "while", "for", "foreach", "do", "last", "next",
+                 "redo", "goto", "return", "sub", "package", "use", "require", "my", "local", "our",
+                 "state", "BEGIN", "END", "true", "false"}
+
+LUA_KEYWORDS = {"if", "else", "elseif", "then", "for", "while", "repeat", "until", "break", "return",
+                "function", "end", "local", "do", "true", "false", "nil"}
+
+SCALA_KEYWORDS = {"if", "else", "match", "case", "for", "while", "do", "yield", "return",
+                  "def", "val", "var", "lazy", "class", "object", "trait", "extends",
+                  "with", "import", "package", "new", "this", "super", "implicit",
+                  "override", "abstract", "final", "sealed", "private", "protected",
+                  "public", "try", "catch", "finally", "throw", "true", "false", "null"}
+
+DART_KEYWORDS = {"if", "else", "switch", "case", "default", "for", "while", "do", "break",
+                 "continue", "return", "var", "final", "const", "dynamic", "void",
+                 "int", "double", "bool", "String", "class", "interface", "extends",
+                 "implements", "mixin", "import", "library", "part", "typedef",
+                 "this", "super", "as", "is", "new", "try", "catch", "finally", "throw",
+                 "async", "await", "true", "false", "null"}
+
+JULIA_KEYWORDS = {"if", "else", "elseif", "for", "while", "break", "continue", "return",
+                  "function", "macro", "module", "import", "using", "export", "struct",
+                  "mutable", "const", "begin", "end", "do", "try", "catch", "finally",
+                  "true", "false", "nothing"}
+
+HASKELL_KEYWORDS = {"if", "then", "else", "case", "of", "let", "in", "where", "do", "module",
+                    "import", "class", "instance", "data", "type", "newtype", "deriving",
+                    "default", "foreign", "safe", "unsafe", "qualified", "true", "false"}
+
+COBOL_KEYWORDS = {"ACCEPT", "ADD", "CALL", "CANCEL", "CLOSE", "COMPUTE", "CONTINUE", "DELETE",
+                  "DISPLAY", "DIVIDE", "EVALUATE", "EXIT", "GOBACK", "GO", "IF", "INITIALIZE",
+                  "INSPECT", "MERGE", "MOVE", "MULTIPLY", "OPEN", "PERFORM", "READ", "RETURN",
+                  "REWRITE", "SEARCH", "SET", "SORT", "START", "STOP", "STRING", "SUBTRACT",
+                  "UNSTRING", "WRITE", "END-IF", "END-PERFORM"}
+
+OBJECTIVEC_KEYWORDS = {"if", "else", "switch", "case", "default", "for", "while", "do", "break",
+                        "continue", "return", "void", "int", "float", "double", "char", "long", "short",
+                        "signed", "unsigned", "class", "interface", "protocol", "implementation",
+                        "try", "catch", "finally", "throw", "import", "self", "super", "atomic",
+                        "nonatomic", "strong", "weak", "retain", "copy", "assign", "true", "false", "nil"}
+
+FSHARP_KEYWORDS = {"if", "then", "else", "match", "with", "for", "while", "do", "done", "let",
+                   "rec", "in", "try", "finally", "raise", "exception", "function", "return",
+                   "type", "mutable", "namespace", "module", "open", "abstract", "override",
+                   "inherit", "base", "new", "true", "false", "null"}
+
+LISP_KEYWORDS = {"defun", "setq", "let", "lambda", "if", "cond", "loop", "dolist", "dotimes",
+                 "progn", "return", "function", "defmacro", "quote", "eval", "apply", "car",
+                 "cdr", "cons", "list", "mapcar", "format", "read", "print", "load", "t", "nil"}
+
+PROLOG_KEYWORDS = {"if", "else", "end", "fail", "true", "false", "not", "repeat", "is",
+                   "assert", "retract", "call", "findall", "bagof", "setof", "atom",
+                   "integer", "float", "char_code", "compound", "number", "var"}
+
+ADA_KEYWORDS = {"if", "then", "else", "elsif", "case", "when", "for", "while", "loop", "exit",
+                "return", "procedure", "function", "package", "use", "is", "begin", "end",
+                "record", "type", "constant", "exception", "raise", "declare", "private",
+                "null", "true", "false"}
+
+DELPHI_KEYWORDS = {"if", "then", "else", "case", "of", "for", "while", "repeat", "until", "break",
+                   "continue", "begin", "end", "procedure", "function", "var", "const", "type",
+                   "class", "record", "interface", "implementation", "unit", "uses", "inherited",
+                   "try", "except", "finally", "raise", "private", "public", "protected", "published",
+                   "true", "false", "nil"}
+
+VB_KEYWORDS = {"If", "Then", "Else", "ElseIf", "End", "For", "Each", "While", "Do", "Loop",
+               "Select", "Case", "Try", "Catch", "Finally", "Throw", "Return", "Function",
+               "Sub", "Class", "Module", "Namespace", "Imports", "Inherits", "Implements",
+               "Public", "Private", "Protected", "Friend", "Shared", "Static", "Dim", "Const",
+               "New", "Me", "MyBase", "MyClass", "Not", "And", "Or", "True", "False", "Nothing"}
+
+
 PROGRAMMING_LANGUAGES = {
     "Python": PYTHON_KEYWORDS,
     "JavaScript": JAVASCRIPT_KEYWORDS,
@@ -98,7 +182,24 @@ PROGRAMMING_LANGUAGES = {
     "TypeScript": TYPESCRIPT_KEYWORDS,
     "PHP": PHP_KEYWORDS,
     "Ruby": RUBY_KEYWORDS,
-    "SQL": SQL_KEYWORDS}
+    "SQL": SQL_KEYWORDS,
+    "Bash": BASH_KEYWORDS,
+    "MATLAB": MATLAB_KEYWORDS,
+    "R": R_KEYWORDS,
+    "Perl": PERL_KEYWORDS,
+    "Lua": LUA_KEYWORDS,
+    "Scala": SCALA_KEYWORDS,
+    "Dart": DART_KEYWORDS,
+    "Julia": JULIA_KEYWORDS,
+    "Haskell": HASKELL_KEYWORDS,
+    "COBOL": COBOL_KEYWORDS,
+    "Objective-C": OBJECTIVEC_KEYWORDS,
+    "F#": FSHARP_KEYWORDS,
+    "Lisp": LISP_KEYWORDS,
+    "Prolog": PROLOG_KEYWORDS,
+    "Ada": ADA_KEYWORDS,
+    "Delphi": DELPHI_KEYWORDS,
+    "Visual Basic": VB_KEYWORDS}
 
 PROGRAMMING_LANGUAGES_KEYWORDS = set()
 for language in PROGRAMMING_LANGUAGES:
