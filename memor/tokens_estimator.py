@@ -4,6 +4,7 @@
 import re
 from enum import Enum
 from typing import Set, List
+from .keywords import PROGRAMMING_LANGUAGES_KEYWORDS
 
 
 def _is_code_snippet(message: str) -> bool:
@@ -92,16 +93,13 @@ def universal_tokens_estimator(message: str) -> int:
     message = _preprocess_message(message, is_code)
     tokens = _tokenize_message(message)
 
-    common_keywords = {"if", "else", "elif", "while", "for", "def", "return", "import", "from", "class",
-                       "try", "except", "finally", "with", "as", "break", "continue", "pass", "lambda",
-                       "True", "False", "None", "and", "or", "not", "in", "is", "global", "nonlocal"}
     common_prefixes = {"un", "re", "in", "dis", "pre", "mis", "non", "over", "under", "sub", "trans"}
     common_suffixes = {"ing", "ed", "ly", "es", "s", "ment", "able", "ness", "tion", "ive", "ous"}
 
     return sum(
         _count_code_tokens(
             token,
-            common_keywords) if is_code else _count_text_tokens(
+            PROGRAMMING_LANGUAGES_KEYWORDS) if is_code else _count_text_tokens(
             token,
             common_prefixes,
             common_suffixes) for token in tokens)
