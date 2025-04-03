@@ -4,7 +4,8 @@
 import re
 from enum import Enum
 from typing import Set, List
-from .keywords import PROGRAMMING_LANGUAGES_KEYWORDS, COMMON_PREFIXES, COMMON_SUFFIXES
+from .keywords import PROGRAMMING_LANGUAGES_KEYWORDS
+from .keywords import COMMON_PREFIXES, COMMON_SUFFIXES
 
 
 def _is_code_snippet(message: str) -> bool:
