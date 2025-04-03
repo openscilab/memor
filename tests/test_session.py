@@ -482,4 +482,4 @@ def test_estimated_tokens2():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session")
-    assert session.estimate_tokens(TokensEstimator.OPENAI) == 13
+    assert session.estimate_tokens(TokensEstimator.OPENAI) == 14

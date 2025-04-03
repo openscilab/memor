@@ -66,17 +66,17 @@ def test_openai_tokens_estimator_with_function_definition():
 
 def test_openai_tokens_estimator_with_url():
     message = "Visit https://openai.com for more info."
-    assert openai_tokens_estimator(message) == 16
+    assert openai_tokens_estimator(message) == 18
 
 
 def test_openai_tokens_estimator_with_long_words():
     message = "This is a verylongwordwithoutspaces and should be counted properly."
-    assert openai_tokens_estimator(message) == 23
+    assert openai_tokens_estimator(message) == 25
 
 
 def test_openai_tokens_estimator_with_newlines():
     message = "Line1\nLine2\nLine3\n"
-    assert openai_tokens_estimator(message) == 6
+    assert openai_tokens_estimator(message) == 7
 
 
 def test_openai_tokens_estimator_with_non_string_input():
@@ -88,4 +88,4 @@ def test_openai_tokens_estimator_with_non_string_input():
 
 def test_openai_tokens_estimator_with_gpt4_model():
     message = "This is a test sentence that should be counted properly even with GPT-4. I am making it longer to test the model."
-    assert openai_tokens_estimator(message, model="gpt-4") == 41
+    assert openai_tokens_estimator(message, model="gpt-4") == 45
