@@ -6,8 +6,8 @@ COMMON_PREFIXES = {"un", "re", "in", "dis", "pre", "mis", "non", "over", "under"
 COMMON_SUFFIXES = {"ing", "ed", "ly", "es", "s", "ment", "able", "ness", "tion", "ive", "ous"}
 
 PYTHON_KEYWORDS = {"if", "else", "elif", "while", "for", "def", "return", "import", "from", "class",
-                       "try", "except", "finally", "with", "as", "break", "continue", "pass", "lambda",
-                       "True", "False", "None", "and", "or", "not", "in", "is", "global", "nonlocal"}
+                   "try", "except", "finally", "with", "as", "break", "continue", "pass", "lambda",
+                   "True", "False", "None", "and", "or", "not", "in", "is", "global", "nonlocal"}
 
 JAVASCRIPT_KEYWORDS = {"if", "else", "switch", "case", "default", "for", "while", "do", "break",
                        "continue", "function", "return", "var", "let", "const", "class", "extends",
@@ -49,7 +49,6 @@ GO_KEYWORDS = {"if", "else", "switch", "case", "default", "for", "break", "conti
                "import", "defer", "go", "select", "range", "fallthrough", "goto"}
 
 
-
 RUST_KEYWORDS = {"if", "else", "match", "loop", "for", "while", "break", "continue", "return",
                  "fn", "let", "const", "static", "struct", "enum", "trait", "impl", "mod",
                  "use", "crate", "super", "self", "as", "type", "where", "pub", "unsafe",
@@ -85,8 +84,21 @@ SQL_KEYWORDS = {"SELECT", "INSERT", "UPDATE", "DELETE", "FROM", "WHERE", "JOIN",
                 "RIGHT", "FULL", "ON", "GROUP BY", "HAVING", "ORDER BY", "LIMIT", "OFFSET", "AS",
                 "AND", "OR", "NOT", "NULL", "TRUE", "FALSE"}
 
-PROGRAMMING_LANGUAGES = {"Python": PYTHON_KEYWORDS, "JavaScript": JAVASCRIPT_KEYWORDS, "Java": JAVA_KEYWORDS, "C": C_KEYWORDS, "C++": CPP_KEYWORDS, "C#": CSHARP_KEYWORDS, "Go": GO_KEYWORDS,
-                         "Rust": RUST_KEYWORDS, "Swift": SWIFT_KEYWORDS, "Kotlin": KOTLIN_KEYWORDS, "TypeScript": TYPESCRIPT_KEYWORDS, "PHP": PHP_KEYWORDS, "Ruby": RUBY_KEYWORDS, "SQL": SQL_KEYWORDS}
+PROGRAMMING_LANGUAGES = {
+    "Python": PYTHON_KEYWORDS,
+    "JavaScript": JAVASCRIPT_KEYWORDS,
+    "Java": JAVA_KEYWORDS,
+    "C": C_KEYWORDS,
+    "C++": CPP_KEYWORDS,
+    "C#": CSHARP_KEYWORDS,
+    "Go": GO_KEYWORDS,
+    "Rust": RUST_KEYWORDS,
+    "Swift": SWIFT_KEYWORDS,
+    "Kotlin": KOTLIN_KEYWORDS,
+    "TypeScript": TYPESCRIPT_KEYWORDS,
+    "PHP": PHP_KEYWORDS,
+    "Ruby": RUBY_KEYWORDS,
+    "SQL": SQL_KEYWORDS}
 
 PROGRAMMING_LANGUAGES_KEYWORDS = set()
 for language in PROGRAMMING_LANGUAGES:
