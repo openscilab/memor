@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Keywords."""
+"""Tokens estimator keywords."""
 
 COMMON_PREFIXES = {"un", "re", "in", "dis", "pre", "mis", "non", "over", "under", "sub", "trans"}
 

@@ -120,7 +120,7 @@ def openai_tokens_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
     punctuation_count = sum(1 for char in text if char in ",.?!;:")
     token_estimate += (space_count + punctuation_count) * 0.5
 
-    if any(keyword in text for keyword in ["```", "def", "import"]):
+    if any(keyword in text for keyword in PROGRAMMING_LANGUAGES_KEYWORDS):
         token_estimate *= 1.1
 
     newline_count = text.count("\n")
