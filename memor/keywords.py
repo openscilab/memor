@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """Keywords."""
 
+COMMON_PREFIXES = {"un", "re", "in", "dis", "pre", "mis", "non", "over", "under", "sub", "trans"}
+
+COMMON_SUFFIXES = {"ing", "ed", "ly", "es", "s", "ment", "able", "ness", "tion", "ive", "ous"}
+
 PYTHON_KEYWORDS = {"if", "else", "elif", "while", "for", "def", "return", "import", "from", "class",
                        "try", "except", "finally", "with", "as", "break", "continue", "pass", "lambda",
                        "True", "False", "None", "and", "or", "not", "in", "is", "global", "nonlocal"}

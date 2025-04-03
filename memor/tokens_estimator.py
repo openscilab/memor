@@ -4,7 +4,7 @@
 import re
 from enum import Enum
 from typing import Set, List
-from .keywords import PROGRAMMING_LANGUAGES_KEYWORDS
+from .keywords import PROGRAMMING_LANGUAGES_KEYWORDS, COMMON_PREFIXES, COMMON_SUFFIXES
 
 
 def _is_code_snippet(message: str) -> bool:
@@ -93,16 +93,13 @@ def universal_tokens_estimator(message: str) -> int:
     message = _preprocess_message(message, is_code)
     tokens = _tokenize_message(message)
 
-    common_prefixes = {"un", "re", "in", "dis", "pre", "mis", "non", "over", "under", "sub", "trans"}
-    common_suffixes = {"ing", "ed", "ly", "es", "s", "ment", "able", "ness", "tion", "ive", "ous"}
-
     return sum(
         _count_code_tokens(
             token,
             PROGRAMMING_LANGUAGES_KEYWORDS) if is_code else _count_text_tokens(
             token,
-            common_prefixes,
-            common_suffixes) for token in tokens)
+            COMMON_PREFIXES,
+            COMMON_SUFFIXES) for token in tokens)
 
 
 def openai_tokens_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
