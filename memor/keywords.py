@@ -29,10 +29,7 @@ C_KEYWORDS = {"if", "else", "switch", "case", "default", "for", "while", "do", "
               "register", "static", "auto", "sizeof", "goto"}
 
 
-CPP_KEYWORDS = {"if", "else", "switch", "case", "default", "for", "while", "do", "break",
-                "continue", "return", "void", "char", "int", "float", "double", "short", "long",
-                "signed", "unsigned", "struct", "union", "typedef", "enum", "const", "volatile",
-                "extern", "register", "static", "auto", "sizeof", "goto", "new", "delete", "class",
+CPP_KEYWORDS = C_KEYWORDS | {"new", "delete", "class",
                 "public", "private", "protected", "namespace", "using", "template", "friend",
                 "virtual", "inline", "operator", "explicit", "this", "true", "false", "nullptr"}
 
