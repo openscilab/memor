@@ -4,12 +4,14 @@
 import re
 from enum import Enum
 from typing import Set, List
+from .keywords import PROGRAMMING_LANGUAGES_KEYWORDS
+from .keywords import COMMON_PREFIXES, COMMON_SUFFIXES
 
 
 def _is_code_snippet(message: str) -> bool:
     """
     Check if the message is a code snippet based on common coding symbols.
-    
+
     :param message: The input message to check.
     :return: Boolean indicating if the message is a code snippet.
     """
@@ -19,7 +21,7 @@ def _is_code_snippet(message: str) -> bool:
 def _preprocess_message(message: str, is_code: bool) -> str:
     """
     Preprocess message by replacing contractions in non-code text.
-    
+
     :param message: The input message to preprocess.
     :param is_code: Boolean indicating if the message is a code.
     :return: Preprocessed message.
@@ -32,7 +34,7 @@ def _preprocess_message(message: str, is_code: bool) -> str:
 def _tokenize_message(message: str) -> List[str]:
     """
     Tokenize the message based on words, symbols, and numbers.
-    
+
     :param message: The input message to tokenize.
     :return: List of tokens.
     """
@@ -42,7 +44,7 @@ def _tokenize_message(message: str) -> List[str]:
 def _count_code_tokens(token: str, common_keywords: Set[str]) -> int:
     """
     Count tokens in code snippets considering different token types.
-    
+
     :param token: The token to count.
     :param common_keywords: Set of common keywords in programming languages.
     :return: Count of tokens.
@@ -63,7 +65,7 @@ def _count_code_tokens(token: str, common_keywords: Set[str]) -> int:
 def _count_text_tokens(token: str, prefixes: Set[str], suffixes: Set[str]) -> int:
     """
     Count tokens in text based on prefixes, suffixes, and subwords.
-    
+
     :param token: The token to count.
     :param prefixes: Set of common prefixes.
     :param suffixes: Set of common suffixes.
@@ -84,7 +86,7 @@ def _count_text_tokens(token: str, prefixes: Set[str], suffixes: Set[str]) -> in
 def universal_tokens_estimator(message: str) -> int:
     """
     Estimate the number of tokens in a given text or code snippet.
-    
+
     :param message: The input text or code snippet to estimate tokens for.
     :return: Estimated number of tokens.
     """
@@ -92,25 +94,19 @@ def universal_tokens_estimator(message: str) -> int:
     message = _preprocess_message(message, is_code)
     tokens = _tokenize_message(message)
 
-    common_keywords = {"if", "else", "elif", "while", "for", "def", "return", "import", "from", "class",
-                       "try", "except", "finally", "with", "as", "break", "continue", "pass", "lambda",
-                       "True", "False", "None", "and", "or", "not", "in", "is", "global", "nonlocal"}
-    common_prefixes = {"un", "re", "in", "dis", "pre", "mis", "non", "over", "under", "sub", "trans"}
-    common_suffixes = {"ing", "ed", "ly", "es", "s", "ment", "able", "ness", "tion", "ive", "ous"}
-
     return sum(
         _count_code_tokens(
             token,
-            common_keywords) if is_code else _count_text_tokens(
+            PROGRAMMING_LANGUAGES_KEYWORDS) if is_code else _count_text_tokens(
             token,
-            common_prefixes,
-            common_suffixes) for token in tokens)
+            COMMON_PREFIXES,
+            COMMON_SUFFIXES) for token in tokens)
 
 
 def openai_tokens_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
     """
     Estimate the number of tokens in a given text for a specified OpenAI model.
-    
+
     :param text: The input text to estimate tokens for.
     :param model: The OpenAI model name (default is 'gpt-3.5-turbo').
     :return: Estimated number of tokens.
@@ -125,7 +121,7 @@ def openai_tokens_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
     punctuation_count = sum(1 for char in text if char in ",.?!;:")
     token_estimate += (space_count + punctuation_count) * 0.5
 
-    if any(keyword in text for keyword in ["```", "def", "import"]):
+    if any(keyword in text for keyword in PROGRAMMING_LANGUAGES_KEYWORDS):
         token_estimate *= 1.1
 
     newline_count = text.count("\n")
