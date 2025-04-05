@@ -135,7 +135,7 @@ def _openai_tokens_estimator(text: str) -> int:
     return token_estimate
 
 
-def openai_tokens_estimator_gpt35_turbo(text: str) -> int:
+def openai_tokens_estimator_gpt_3_5(text: str) -> int:
     """
     Estimate the number of tokens in a given text for OpenAI's GPT-3.5 Turbo model.
 
@@ -146,7 +146,7 @@ def openai_tokens_estimator_gpt35_turbo(text: str) -> int:
     return int(max(1, token_estimate))
 
 
-def openai_tokens_estimator_gpt4(text: str) -> int:
+def openai_tokens_estimator_gpt_4(text: str) -> int:
     """
     Estimate the number of tokens in a given text for OpenAI's GPT-4 model.
 
@@ -162,6 +162,6 @@ class TokensEstimator(Enum):
     """Token estimator enum."""
 
     UNIVERSAL = universal_tokens_estimator
-    OPENAI_GPT35_TURBO = openai_tokens_estimator_gpt35_turbo
-    OPENAI_GPT4 = openai_tokens_estimator_gpt4
+    OPENAI_GPT_3_5 = openai_tokens_estimator_gpt_3_5
+    OPENAI_GPT_4 = openai_tokens_estimator_gpt_4
     DEFAULT = UNIVERSAL
