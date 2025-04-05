@@ -110,9 +110,6 @@ def _openai_tokens_estimator(text: str) -> int:
     :param text: The input text to estimate tokens for.
     :return: Estimated number of tokens.
     """
-    if not isinstance(text, str):
-        return 0
-
     char_count = len(text)
     token_estimate = char_count / 4
 

@@ -79,13 +79,6 @@ def test_openai_tokens_estimator_with_newlines():
     assert openai_tokens_estimator_gpt35_turbo(message) == 7
 
 
-def test_openai_tokens_estimator_with_non_string_input():
-    assert openai_tokens_estimator_gpt35_turbo(12345) == 0
-    assert openai_tokens_estimator_gpt35_turbo(None) == 0
-    assert openai_tokens_estimator_gpt35_turbo([]) == 0
-    assert openai_tokens_estimator_gpt35_turbo({}) == 0
-
-
 def test_openai_tokens_estimator_with_gpt4_model():
     message = "This is a test sentence that should be counted properly even with GPT-4. I am making it longer to test the model."
     assert openai_tokens_estimator_gpt4(message) == 45
