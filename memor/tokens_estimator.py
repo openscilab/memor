@@ -103,12 +103,11 @@ def universal_tokens_estimator(message: str) -> int:
             COMMON_SUFFIXES) for token in tokens)
 
 
-def openai_tokens_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
+def _openai_tokens_estimator(text: str) -> int:
     """
-    Estimate the number of tokens in a given text for a specified OpenAI model.
+    Estimate the number of tokens in a given text for OpenAI's models.
 
     :param text: The input text to estimate tokens for.
-    :param model: The OpenAI model name (default is 'gpt-3.5-turbo').
     :return: Estimated number of tokens.
     """
     if not isinstance(text, str):
@@ -136,8 +135,29 @@ def openai_tokens_estimator(text: str, model: str = "gpt-3.5-turbo") -> int:
     rare_char_count = sum(1 for char in text if ord(char) > 10000)
     token_estimate += rare_char_count * 0.8
 
-    if "gpt-4" in model.lower():
-        token_estimate *= 1.05
+    return token_estimate
+
+
+def openai_tokens_estimator_gpt35_turbo(text: str) -> int:
+    """
+    Estimate the number of tokens in a given text for OpenAI's GPT-3.5 Turbo model.
+
+    :param text: The input text to estimate tokens for.
+    :return: Estimated number of tokens.
+    """
+    token_estimate = _openai_tokens_estimator(text)
+    return int(max(1, token_estimate))
+
+
+def openai_tokens_estimator_gpt4(text: str) -> int:
+    """
+    Estimate the number of tokens in a given text for OpenAI's GPT-4 model.
+
+    :param text: The input text to estimate tokens for.
+    :return: Estimated number of tokens.
+    """
+    token_estimate = _openai_tokens_estimator(text)
+    token_estimate *= 1.05 # Adjusting for GPT-4's tokenization
     return int(max(1, token_estimate))
 
 
@@ -145,5 +165,6 @@ class TokensEstimator(Enum):
     """Token estimator enum."""
 
     UNIVERSAL = universal_tokens_estimator
-    OPENAI = openai_tokens_estimator
+    OPENAI_GPT35_TURBO = openai_tokens_estimator_gpt35_turbo
+    OPENAI_GPT4 = openai_tokens_estimator_gpt4
     DEFAULT = UNIVERSAL

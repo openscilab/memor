@@ -482,4 +482,10 @@ def test_estimated_tokens2():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session")
-    assert session.estimate_tokens(TokensEstimator.OPENAI) == 14
+    assert session.estimate_tokens(TokensEstimator.OPENAI_GPT35_TURBO) == 14
+
+def test_estimated_tokens3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session.estimate_tokens(TokensEstimator.OPENAI_GPT4) == 15

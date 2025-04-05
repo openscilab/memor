@@ -49,7 +49,12 @@ def test_estimated_tokens1():
 
 def test_estimated_tokens2():
     response = Response(message="I am fine.")
-    assert response.estimate_tokens(TokensEstimator.OPENAI) == 4
+    assert response.estimate_tokens(TokensEstimator.OPENAI_GPT35_TURBO) == 4
+
+
+def test_estimated_tokens3():
+    response = Response(message="I am fine.")
+    assert response.estimate_tokens(TokensEstimator.OPENAI_GPT4) == 4
 
 
 def test_tokens4():

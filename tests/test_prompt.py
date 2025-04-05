@@ -55,7 +55,12 @@ def test_estimated_tokens1():
 
 def test_estimated_tokens2():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
-    assert prompt.estimate_tokens(TokensEstimator.OPENAI) == 7
+    assert prompt.estimate_tokens(TokensEstimator.OPENAI_GPT35_TURBO) == 7
+
+
+def test_estimated_tokens3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    assert prompt.estimate_tokens(TokensEstimator.OPENAI_GPT4) == 8
 
 
 def test_role1():

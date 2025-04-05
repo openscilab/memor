@@ -1,4 +1,4 @@
-from memor.tokens_estimator import openai_tokens_estimator, universal_tokens_estimator
+from memor.tokens_estimator import openai_tokens_estimator_gpt35_turbo, openai_tokens_estimator_gpt4, universal_tokens_estimator
 
 TEST_CASE_NAME = "Token Estimators tests"
 
@@ -61,31 +61,31 @@ def test_universal_tokens_estimator_with_print_statements():
 
 def test_openai_tokens_estimator_with_function_definition():
     message = "def add(a, b): return a + b"
-    assert openai_tokens_estimator(message) == 11
+    assert openai_tokens_estimator_gpt35_turbo(message) == 11
 
 
 def test_openai_tokens_estimator_with_url():
     message = "Visit https://openai.com for more info."
-    assert openai_tokens_estimator(message) == 18
+    assert openai_tokens_estimator_gpt35_turbo(message) == 18
 
 
 def test_openai_tokens_estimator_with_long_words():
     message = "This is a verylongwordwithoutspaces and should be counted properly."
-    assert openai_tokens_estimator(message) == 25
+    assert openai_tokens_estimator_gpt35_turbo(message) == 25
 
 
 def test_openai_tokens_estimator_with_newlines():
     message = "Line1\nLine2\nLine3\n"
-    assert openai_tokens_estimator(message) == 7
+    assert openai_tokens_estimator_gpt35_turbo(message) == 7
 
 
 def test_openai_tokens_estimator_with_non_string_input():
-    assert openai_tokens_estimator(12345) == 0
-    assert openai_tokens_estimator(None) == 0
-    assert openai_tokens_estimator([]) == 0
-    assert openai_tokens_estimator({}) == 0
+    assert openai_tokens_estimator_gpt35_turbo(12345) == 0
+    assert openai_tokens_estimator_gpt35_turbo(None) == 0
+    assert openai_tokens_estimator_gpt35_turbo([]) == 0
+    assert openai_tokens_estimator_gpt35_turbo({}) == 0
 
 
 def test_openai_tokens_estimator_with_gpt4_model():
     message = "This is a test sentence that should be counted properly even with GPT-4. I am making it longer to test the model."
-    assert openai_tokens_estimator(message, model="gpt-4") == 45
+    assert openai_tokens_estimator_gpt4(message) == 45
