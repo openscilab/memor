@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Prompt` class `estimate_tokens` method
 - `Response` class `estimate_tokens` method
 - `universal_tokens_estimator` function
-- `openai_tokens_estimator` function
+- `openai_tokens_estimator_gpt35_turbo` function
+- `openai_tokens_estimator_gpt35_turbo` function
 ### Changed
 - `init_check` parameter added to `Prompt` class
 - `init_check` parameter added to `Session` class
