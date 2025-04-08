@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - `init_check` parameter added to `Prompt` class
 - `init_check` parameter added to `Session` class
+- `README.md` updated
 ## [0.4] - 2025-03-17
 ### Added
 - `Session` class `__contains__` method
