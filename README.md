@@ -101,6 +101,36 @@ The rendered output will be a list of messages formatted for compatibility with 
   "role": "user"}]
 ```
 
+### Prompt Templates
+
+Memor provides a variety of pre-defined prompt templates to control how prompt-response are rendered.
+Each template is prefixed by an optional instruction string and includes variations for different formatting styles.
+Following are different variants of parameters:
+
+| **Instruction Name** | **Description** |
+|---------------|----------|
+| `INSTRUCTION1` | "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question." |
+| `INSTRUCTION2` | "Here is the context from a prior conversation. Please learn from this information and use it to provide a thoughtful and context-aware response to my next questions." |
+| `INSTRUCTION3` | "I am sharing a record of a previous discussion. Use this information to provide a consistent and relevant answer to my next query." |
+
+| **Template Title** | **Description** |
+|--------------|----------|
+| `PROMPT` | Only includes the prompt message. |
+| `RESPONSE` | Only includes the response message. |
+| `RESPONSE0`...`3` | Include specific responses from a list of multiple responses. |
+| `PROMPT_WITH_LABEL` | Prompt with a "Prompt: " prefix. |
+| `RESPONSE_WITH_LABEL` | Response with a "Response: " prefix. |
+| `RESPONSE0`...`3_WITH_LABEL` | Labeled response for the i-th response. |
+| `PROMPT_RESPONSE_STANDARD` | Includes both labeled prompt and response on a single line. |
+| `PROMPT_RESPONSE_FULL` | A detailed multi-line representation including role, date, model, etc. |
+
+You can access them like this:
+
+```pycon
+>>> from memor import PresetPromptTemplate
+>>> template = PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD
+```
+
 ## Issues & bug reports
 
 Just fill an issue and describe it. We'll check it ASAP! or send an email to [memor@openscilab.com](mailto:memor@openscilab.com "memor@openscilab.com"). 
