@@ -103,7 +103,7 @@ The rendered output will be a list of messages formatted for compatibility with 
 
 ### Prompt Templates
 
-Memor provides a variety of pre-defined prompt templates to control how prompt-response are rendered.
+Memor provides a variety of pre-defined prompt templates to control how prompts and responses are rendered.
 Each template is prefixed by an optional instruction string and includes variations for different formatting styles.
 Following are different variants of parameters:
 
@@ -117,10 +117,10 @@ Following are different variants of parameters:
 |--------------|----------|
 | `PROMPT` | Only includes the prompt message. |
 | `RESPONSE` | Only includes the response message. |
-| `RESPONSE0`...`3` | Include specific responses from a list of multiple responses. |
+| `RESPONSE0` to `RESPONSE3` | Include specific responses from a list of multiple responses. |
 | `PROMPT_WITH_LABEL` | Prompt with a "Prompt: " prefix. |
 | `RESPONSE_WITH_LABEL` | Response with a "Response: " prefix. |
-| `RESPONSE0`...`3_WITH_LABEL` | Labeled response for the i-th response. |
+| `RESPONSE0_WITH_LABEL` to `RESPONSE3_WITH_LABEL` | Labeled response for the i-th response. |
 | `PROMPT_RESPONSE_STANDARD` | Includes both labeled prompt and response on a single line. |
 | `PROMPT_RESPONSE_FULL` | A detailed multi-line representation including role, date, model, etc. |
 
