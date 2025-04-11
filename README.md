@@ -103,9 +103,9 @@ The rendered output will be a list of messages formatted for compatibility with 
 
 ### Prompt Templates
 
-Memor provides a variety of pre-defined prompt templates to control how prompts and responses are rendered.
-Each template is prefixed by an optional instruction string and includes variations for different formatting styles.
-Following are different variants of parameters:
+#### Preset Templates
+
+Memor provides a variety of pre-defined prompt templates to control how prompts and responses are rendered. Each template is prefixed by an optional instruction string and includes variations for different formatting styles. Following are different variants of parameters:
 
 | **Instruction Name** | **Description** |
 |---------------|----------|
@@ -130,6 +130,27 @@ You can access them like this:
 >>> from memor import PresetPromptTemplate
 >>> template = PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD
 ```
+
+#### Custom Templates
+
+You can define custom templates for your prompts using the `PromptTemplate` class. This class provides two key parameters that control its functionality:
+
++ `content`: A string that serves as the scaffold for the template, aligning with Python string formatting conventions. You can insert dynamic fields by using placeholders like `{field_name}`, which you can fill in later during inference.
+
++ `custom_map`: A dictionary that maps the placeholders in `content` to their actual values. When the template is rendered, each placeholder is replaced with the corresponding value from `custom_map`.
+
+##### Example
+
+Suppose you want to prepend an instruction to every prompt message. You can define and use a template as follows:
+
+```pycon
+>>> template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+>>> prompt = Prompt(message="How are you?", template=template)
+>>> prompt.render()
+Hi, How are you?
+```
+
+By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversation or instruction formats for your conversations with LLM.
 
 ## Issues & bug reports
 
