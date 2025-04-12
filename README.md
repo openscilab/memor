@@ -135,9 +135,19 @@ You can access them like this:
 
 You can define custom templates for your prompts using the `PromptTemplate` class. This class provides two key parameters that control its functionality:
 
-+ `content`: A string that serves as the scaffold for the template, aligning with Python string formatting conventions. You can insert dynamic fields by using placeholders like `{field_name}`, which you can fill in later during inference.
++ `content`: A string that defines the template structure, following Python string formatting conventions. You can include dynamic fields using placeholders like `{field_name}`, which will be automatically populated using attributes from the prompt object. Some common examples of auto-filled fields are shown below:
 
-+ `custom_map`: A dictionary that maps the placeholders in `content` to their actual values. When the template is rendered, each placeholder is replaced with the corresponding value from `custom_map`.
+| **Prompt Object Attribute**           | **Placeholder Syntax**             | **Description**                              |
+|--------------------------------------|------------------------------------|----------------------------------------------|
+| `prompt.message`                     | `{prompt[message]}`                | The main prompt message                       |
+| `prompt.selected_response`           | `{prompt[response]}`               | The selected response for the prompt          |
+| `prompt.date_modified`               | `{prompt[date_modified]}`          | Timestamp of the last modification            |
+| `prompt.responses[2].message`        | `{responses[2][message]}`          | Message from the response at index 2          |
+| `prompt.responses[0].inference_time` | `{responses[0][inference_time]}`   | Inference time for the response at index 0    |
+
+
++ `custom_map`: In addition to the attributes listed above, you can define and insert custom placeholders (e.g., `{field_name}`) and provide their values through a dictionary. When rendering the template, each placeholder will be replaced with its corresponding value from `custom_map`.
+
 
 ##### Example
 
