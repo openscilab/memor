@@ -158,7 +158,7 @@ Suppose you want to prepend an instruction to every prompt message. You can defi
 Hi, How are you?
 ```
 
-By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can create specific schemas for your conversational or instructional formats when interacting with LLM.
+By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversational or instructional formats when interacting with LLM.
 
 ## Issues & bug reports
 
