@@ -101,6 +101,67 @@ The rendered output will be a list of messages formatted for compatibility with 
   "role": "user"}]
 ```
 
+### Prompt Templates
+
+#### Preset Templates
+
+Memor provides a variety of pre-defined prompt templates to control how prompts and responses are rendered. Each template is prefixed by an optional instruction string and includes variations for different formatting styles. Following are different variants of parameters:
+
+| **Instruction Name** | **Description** |
+|---------------|----------|
+| `INSTRUCTION1` | "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question." |
+| `INSTRUCTION2` | "Here is the context from a prior conversation. Please learn from this information and use it to provide a thoughtful and context-aware response to my next questions." |
+| `INSTRUCTION3` | "I am sharing a record of a previous discussion. Use this information to provide a consistent and relevant answer to my next query." |
+
+| **Template Title** | **Description** |
+|--------------|----------|
+| `PROMPT` | Only includes the prompt message. |
+| `RESPONSE` | Only includes the response message. |
+| `RESPONSE0` to `RESPONSE3` | Include specific responses from a list of multiple responses. |
+| `PROMPT_WITH_LABEL` | Prompt with a "Prompt: " prefix. |
+| `RESPONSE_WITH_LABEL` | Response with a "Response: " prefix. |
+| `RESPONSE0_WITH_LABEL` to `RESPONSE3_WITH_LABEL` | Labeled response for the i-th response. |
+| `PROMPT_RESPONSE_STANDARD` | Includes both labeled prompt and response on a single line. |
+| `PROMPT_RESPONSE_FULL` | A detailed multi-line representation including role, date, model, etc. |
+
+You can access them like this:
+
+```pycon
+>>> from memor import PresetPromptTemplate
+>>> template = PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD
+```
+
+#### Custom Templates
+
+You can define custom templates for your prompts using the `PromptTemplate` class. This class provides two key parameters that control its functionality:
+
++ `content`: A string that defines the template structure, following Python string formatting conventions. You can include dynamic fields using placeholders like `{field_name}`, which will be automatically populated using attributes from the prompt object. Some common examples of auto-filled fields are shown below:
+
+| **Prompt Object Attribute**           | **Placeholder Syntax**             | **Description**                              |
+|--------------------------------------|------------------------------------|----------------------------------------------|
+| `prompt.message`                     | `{prompt[message]}`                | The main prompt message                       |
+| `prompt.selected_response`           | `{prompt[response]}`               | The selected response for the prompt          |
+| `prompt.date_modified`               | `{prompt[date_modified]}`          | Timestamp of the last modification            |
+| `prompt.responses[2].message`        | `{responses[2][message]}`          | Message from the response at index 2          |
+| `prompt.responses[0].inference_time` | `{responses[0][inference_time]}`   | Inference time for the response at index 0    |
+
+
++ `custom_map`: In addition to the attributes listed above, you can define and insert custom placeholders (e.g., `{field_name}`) and provide their values through a dictionary. When rendering the template, each placeholder will be replaced with its corresponding value from `custom_map`.
+
+
+##### Example
+
+Suppose you want to prepend an instruction to every prompt message. You can define and use a template as follows:
+
+```pycon
+>>> template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+>>> prompt = Prompt(message="How are you?", template=template)
+>>> prompt.render()
+Hi, How are you?
+```
+
+By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversation or instruction formats for your conversations with LLM.
+
 ## Issues & bug reports
 
 Just fill an issue and describe it. We'll check it ASAP! or send an email to [memor@openscilab.com](mailto:memor@openscilab.com "memor@openscilab.com"). 
