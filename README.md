@@ -149,8 +149,6 @@ You can define custom templates for your prompts using the `PromptTemplate` clas
 + `custom_map`: In addition to the attributes listed above, you can define and insert custom placeholders (e.g., `{field_name}`) and provide their values through a dictionary. When rendering the template, each placeholder will be replaced with its corresponding value from `custom_map`.
 
 
-##### Example
-
 Suppose you want to prepend an instruction to every prompt message. You can define and use a template as follows:
 
 ```pycon
@@ -160,7 +158,7 @@ Suppose you want to prepend an instruction to every prompt message. You can defi
 Hi, How are you?
 ```
 
-By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversation or instruction formats for your conversations with LLM.
+By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversational or instructional formats when interacting with LLM.
 
 ## Issues & bug reports
 
