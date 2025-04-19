@@ -319,16 +319,18 @@ class Session:
         }
         return data
 
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT, enable_counter: bool = True) -> Union[str,
                                                                                   Dict[str, Any],
                                                                                   List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
+        :param enable_counter: render counter flag
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
+        result = None
         if render_format == RenderFormat.OPENAI:
             result = []
             for message in self._messages:
@@ -336,18 +338,20 @@ class Session:
                     result.extend(message.render(render_format=RenderFormat.OPENAI))
                 else:
                     result.append(message.render(render_format=RenderFormat.OPENAI))
-            return result
         content = ""
         session_dict = self.to_dict()
         for message in self._messages:
             content += message.render(render_format=RenderFormat.STRING) + "\n"
         session_dict["content"] = content
         if render_format == RenderFormat.STRING:
-            return content
+            result = content
         if render_format == RenderFormat.DICTIONARY:
-            return session_dict
+            result = session_dict
         if render_format == RenderFormat.ITEMS:
-            return list(session_dict.items())
+            result = list(session_dict.items())
+        if enable_counter:
+            self._render_counter += 1
+        return result
 
     def check_render(self) -> bool:
         """Check render."""
