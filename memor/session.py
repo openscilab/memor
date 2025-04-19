@@ -319,9 +319,8 @@ class Session:
         }
         return data
 
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT, enable_counter: bool = True) -> Union[str,
-                                                                                  Dict[str, Any],
-                                                                                  List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
+               enable_counter: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render method.
 

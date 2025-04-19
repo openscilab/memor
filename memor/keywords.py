@@ -30,8 +30,8 @@ C_KEYWORDS = {"if", "else", "switch", "case", "default", "for", "while", "do", "
 
 
 CPP_KEYWORDS = C_KEYWORDS | {"new", "delete", "class",
-                "public", "private", "protected", "namespace", "using", "template", "friend",
-                "virtual", "inline", "operator", "explicit", "this", "true", "false", "nullptr"}
+                             "public", "private", "protected", "namespace", "using", "template", "friend",
+                             "virtual", "inline", "operator", "explicit", "this", "true", "false", "nullptr"}
 
 
 CSHARP_KEYWORDS = {"if", "else", "switch", "case", "default", "for", "while", "do", "break",
