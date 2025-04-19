@@ -350,6 +350,7 @@ class Session:
             result = list(session_dict.items())
         if enable_counter:
             self._render_counter += 1
+            self._date_modified = get_time_utc()
         return result
 
     def check_render(self) -> bool:
