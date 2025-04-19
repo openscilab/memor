@@ -232,9 +232,10 @@ def test_save2():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response], title="session1")
+    _ = session1.render()
     result = session1.save("session_test1.json")
     session2 = Session(file_path="session_test1.json")
-    assert result["status"] and session1 == session2
+    assert result["status"] and session1 == session2 and session2.render_counter == 1
 
 
 def test_load1():
