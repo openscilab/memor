@@ -52,7 +52,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
         if init_check:
-            _ = self.render()
+            _ = self.render(enable_counter=False)
 
     def __eq__(self, other_session: "Session") -> bool:
         """
@@ -66,7 +66,7 @@ class Session:
 
     def __str__(self) -> str:
         """Return string representation of Session."""
-        return self.render(render_format=RenderFormat.STRING)
+        return self.render(render_format=RenderFormat.STRING, enable_counter=False)
 
     def __repr__(self) -> str:
         """Return string representation of Session."""
@@ -356,7 +356,7 @@ class Session:
     def check_render(self) -> bool:
         """Check render."""
         try:
-            _ = self.render()
+            _ = self.render(enable_counter=False)
             return True
         except Exception:
             return False
@@ -367,7 +367,7 @@ class Session:
 
         :param method: token estimator method
         """
-        return method(self.render(render_format=RenderFormat.STRING))
+        return method(self.render(render_format=RenderFormat.STRING, enable_counter=False))
 
     @property
     def date_created(self) -> datetime.datetime:
