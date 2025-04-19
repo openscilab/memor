@@ -337,17 +337,18 @@ class Session:
                     result.extend(message.render(render_format=RenderFormat.OPENAI))
                 else:
                     result.append(message.render(render_format=RenderFormat.OPENAI))
-        content = ""
-        session_dict = self.to_dict()
-        for message in self._messages:
-            content += message.render(render_format=RenderFormat.STRING) + "\n"
-        session_dict["content"] = content
-        if render_format == RenderFormat.STRING:
-            result = content
-        if render_format == RenderFormat.DICTIONARY:
-            result = session_dict
-        if render_format == RenderFormat.ITEMS:
-            result = list(session_dict.items())
+        else:
+            content = ""
+            session_dict = self.to_dict()
+            for message in self._messages:
+                content += message.render(render_format=RenderFormat.STRING) + "\n"
+            session_dict["content"] = content
+            if render_format == RenderFormat.STRING:
+                result = content
+            if render_format == RenderFormat.DICTIONARY:
+                result = session_dict
+            if render_format == RenderFormat.ITEMS:
+                result = list(session_dict.items())
         if enable_counter:
             self._render_counter += 1
             self._date_modified = get_time_utc()
