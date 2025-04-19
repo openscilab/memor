@@ -38,6 +38,7 @@ class Session:
         :param init_check: initial check flag
         """
         self._title = None
+        self._render_counter = 0
         self._messages = []
         self._messages_status = []
         self._date_created = get_time_utc()
@@ -276,6 +277,7 @@ class Session:
         else:
             loaded_obj = json_object.copy()
         self._title = loaded_obj["title"]
+        self._render_counter = loaded_obj.get("render_counter", 0)
         self._messages_status = loaded_obj["messages_status"]
         messages = []
         for message in loaded_obj["messages"]:
@@ -308,6 +310,7 @@ class Session:
         data = {
             "type": "Session",
             "title": self._title,
+            "render_counter": self._render_counter,
             "messages": self._messages.copy(),
             "messages_status": self._messages_status.copy(),
             "memor_version": MEMOR_VERSION,
@@ -376,6 +379,11 @@ class Session:
     def title(self) -> str:
         """Get the session title."""
         return self._title
+
+    @property
+    def render_counter(self) -> int:
+        """Get the render counter."""
+        return self._render_counter
 
     @property
     def messages(self) -> List[Union[Prompt, Response]]:
