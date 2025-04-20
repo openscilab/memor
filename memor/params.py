@@ -72,8 +72,6 @@ class LLMModel(Enum):
     LLAMA3_70B = "llama3-70b"
     LLAMA3_8B = "llama3-8b"
     LLAMA_GUARD_3_8B = "llama-guard-3-8b"
-    LLAMA3_GROQ_70B = "llama3-groq-70b"
-    LLAMA3_GROQ_8B = "llama3-groq-8b"
     MIXTRAL_8X7B = "mixtral-8x7b"
 
     OPEN_MISTRAL_NEMO = "open-mistral-nemo"
