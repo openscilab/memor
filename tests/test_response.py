@@ -2,7 +2,7 @@ import datetime
 import json
 import copy
 import pytest
-from memor import Response, Role, LLM_MODEL, MemorValidationError
+from memor import Response, Role, LLMModel, MemorValidationError
 from memor import RenderFormat
 from memor import TokensEstimator
 
@@ -142,19 +142,19 @@ def test_temperature3():
 
 
 def test_model1():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4)
-    assert response.model == LLM_MODEL.GPT_4
+    response = Response(message="I am fine.", model=LLMModel.GPT_4)
+    assert response.model == LLMModel.GPT_4
 
 
 def test_model2():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4)
-    response.update_model(LLM_MODEL.GPT_4O)
-    assert response.model == LLM_MODEL.GPT_4O
+    response = Response(message="I am fine.", model=LLMModel.GPT_4)
+    response.update_model(LLMModel.GPT_4O)
+    assert response.model == LLMModel.GPT_4O
 
 
 def test_model3():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4)
-    with pytest.raises(MemorValidationError, match=r"Invalid model. It must be an instance of LLM_MODEL enum."):
+    response = Response(message="I am fine.", model=LLMModel.GPT_4)
+    with pytest.raises(MemorValidationError, match=r"Invalid model. It must be an instance of LLMModel enum."):
         response.update_model(4)
 
 
@@ -180,7 +180,7 @@ def test_date4():
 
 
 def test_json1():
-    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response1_json = response1.to_json()
     response2 = Response()
     response2.from_json(response1_json)
@@ -194,7 +194,7 @@ def test_json2():
 
 
 def test_save1():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     result = response.save("response_test1.json")
     with open("response_test1.json", "r") as file:
         saved_response = json.loads(file.read())
@@ -202,13 +202,13 @@ def test_save1():
 
 
 def test_save2():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     result = response.save("f:/")
     assert result["status"] == False
 
 
 def test_load1():
-    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     result = response1.save("response_test2.json")
     response2 = Response(file_path="response_test2.json")
     assert result["status"] and response1 == response2
@@ -225,24 +225,24 @@ def test_load3():
 
 
 def test_copy1():
-    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = copy.copy(response1)
     assert id(response1) != id(response2)
 
 
 def test_copy2():
-    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = response1.copy()
     assert id(response1) != id(response2)
 
 
 def test_str():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     assert str(response) == response.message
 
 
 def test_repr():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     assert repr(response) == "Response(message={message})".format(message=response.message)
 
 
@@ -273,30 +273,30 @@ def test_render5():
 
 
 def test_equality1():
-    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = response1.copy()
     assert response1 == response2
 
 
 def test_equality2():
-    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.6)
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.6)
     assert response1 != response2
 
 
 def test_equality3():
-    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     assert response1 == response2
 
 
 def test_equality4():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     assert response != 2
 
 
 def test_length1():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     assert len(response) == 10
 
 
@@ -306,10 +306,10 @@ def test_length2():
 
 
 def test_date_modified():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     assert isinstance(response.date_modified, datetime.datetime)
 
 
 def test_date_created():
-    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     assert isinstance(response.date_created, datetime.datetime)

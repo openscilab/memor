@@ -20,7 +20,7 @@ INVALID_MESSAGE = "Invalid message. It must be an instance of `Prompt` or `Respo
 INVALID_MESSAGE_STATUS_LEN_MESSAGE = "Invalid message status length. It must be equal to the number of messages."
 INVALID_CUSTOM_MAP_MESSAGE = "Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."
 INVALID_ROLE_MESSAGE = "Invalid role. It must be an instance of Role enum."
-INVALID_MODEL_MESSAGE = "Invalid model. It must be an instance of LLM_MODEL enum."
+INVALID_MODEL_MESSAGE = "Invalid model. It must be an instance of LLMModel enum."
 INVALID_TEMPLATE_STRUCTURE_MESSAGE = "Invalid template structure. It should be a JSON object with proper fields."
 INVALID_PROMPT_STRUCTURE_MESSAGE = "Invalid prompt structure. It should be a JSON object with proper fields."
 INVALID_RESPONSE_STRUCTURE_MESSAGE = "Invalid response structure. It should be a JSON object with proper fields."
@@ -49,7 +49,7 @@ class RenderFormat(Enum):
     DEFAULT = STRING
 
 
-class LLM_MODEL(Enum):
+class LLMModel(Enum):
     """LLM model enum."""
 
     GPT_O1 = "gpt-o1"
@@ -99,5 +99,6 @@ class LLM_MODEL(Enum):
 
     DEEPSEEK_V3 = "deepseek-v3"
     DEEPSEEK_R1 = "deepseek-r1"
+    DEEPSEEK_CODER = "deepseek-coder"
 
     DEFAULT = "unknown"
