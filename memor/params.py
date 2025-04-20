@@ -72,17 +72,16 @@ class LLMModel(Enum):
     LLAMA3_70B = "llama3-70b"
     LLAMA3_8B = "llama3-8b"
     LLAMA_GUARD_3_8B = "llama-guard-3-8b"
+    
+    MISTRAL_7B = "mistral-7b"
     MIXTRAL_8X7B = "mixtral-8x7b"
-
-    OPEN_MISTRAL_NEMO = "open-mistral-nemo"
-    CODESTRAL = "codestral"
-    OPEN_MISTRAL_7B = "open-mistral-7b"
-    OPEN_MIXTRAL_8X7B = "open-mixtral-8x7b"
-    OPEN_MIXTRAL_8X22B = "open-mixtral-8x22b"
+    MIXTRAL_8X22B = "mixtral-8x22b"
+    MISTRAL_NEMO = "mistral-nemo"
     MISTRAL_TINY = "mistral-tiny"
     MISTRAL_SMALL = "mistral-small"
     MISTRAL_MEDIUM = "mistral-medium"
     MISTRAL_LARGE = "mistral-large"
+    CODESTRAL = "codestral"
     PIXTRAL = "pixtral-12b"
 
     GEMMA_7B = "gemma-7b"
