@@ -1,7 +1,7 @@
 import datetime
 import copy
 import pytest
-from memor import Prompt, Response, Role
+from memor import Prompt, Response, Role, LLM_MODEL
 from memor import PresetPromptTemplate, PromptTemplate
 from memor import RenderFormat, MemorValidationError, MemorRenderError
 from memor import TokensEstimator
@@ -238,8 +238,8 @@ def test_repr():
 
 def test_json1():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -255,8 +255,8 @@ def test_json1():
 
 def test_json2():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -278,8 +278,8 @@ def test_json3():
 
 def test_save1():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt = Prompt(
         message=message,
         responses=[
@@ -293,8 +293,8 @@ def test_save1():
 
 def test_save2():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -319,8 +319,8 @@ def test_load2():
 
 def test_save3():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -335,8 +335,8 @@ def test_save3():
 
 def test_render1():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt = Prompt(
         message=message,
         responses=[
@@ -349,8 +349,8 @@ def test_render1():
 
 def test_render2():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt = Prompt(
         message=message,
         responses=[
@@ -363,8 +363,8 @@ def test_render2():
 
 def test_render3():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt = Prompt(
         message=message,
         responses=[
@@ -377,8 +377,8 @@ def test_render3():
 
 def test_render4():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt = Prompt(
         message=message,
         responses=[
@@ -391,8 +391,8 @@ def test_render4():
 
 def test_render5():
     message = "How are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
     prompt = Prompt(
         message=message,
@@ -406,7 +406,7 @@ def test_render5():
 
 def test_render6():
     message = "Hello, how are you?"
-    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     template = PromptTemplate(content="{response[2][message]}")
     prompt = Prompt(
         message=message,
@@ -420,7 +420,7 @@ def test_render6():
 
 def test_init_check():
     message = "Hello, how are you?"
-    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     template = PromptTemplate(content="{response[2][message]}")
     with pytest.raises(MemorRenderError, match=r"Prompt template and properties are incompatible."):
         _ = Prompt(message=message, responses=[response], role=Role.USER, template=template)
@@ -428,7 +428,7 @@ def test_init_check():
 
 def test_check_render1():
     message = "Hello, how are you?"
-    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     template = PromptTemplate(content="{response[2][message]}")
     prompt = Prompt(
         message=message,
@@ -441,8 +441,8 @@ def test_check_render1():
 
 def test_check_render2():
     message = "How are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
     prompt = Prompt(
         message=message,
@@ -456,8 +456,8 @@ def test_check_render2():
 
 def test_equality1():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -471,8 +471,8 @@ def test_equality1():
 
 def test_equality2():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt1 = Prompt(message=message, responses=[response1], role=Role.USER,
                      template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     prompt2 = Prompt(message=message, responses=[response2], role=Role.USER,
@@ -482,8 +482,8 @@ def test_equality2():
 
 def test_equality3():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -503,8 +503,8 @@ def test_equality3():
 
 def test_equality4():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt = Prompt(
         message=message,
         responses=[
@@ -522,7 +522,7 @@ def test_length1():
 
 def test_length2():
     message = "Hello, how are you?"
-    response = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     template = PromptTemplate(content="{response[2][message]}")
     prompt = Prompt(
         message=message,
@@ -540,8 +540,8 @@ def test_length3():
 
 def test_date_modified():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt = Prompt(
         message=message,
         responses=[
@@ -554,8 +554,8 @@ def test_date_modified():
 
 def test_date_created():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model="GPT-4", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLM_MODEL.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     prompt = Prompt(
         message=message,
         responses=[

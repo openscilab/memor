@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Response class."""
-from typing import List, Dict, Union, Tuple, Any, Optional
+from typing import List, Dict, Union, Tuple, Any
 import datetime
 import json
 from .params import MEMOR_VERSION
@@ -34,7 +34,7 @@ class Response:
             temperature: float = None,
             tokens: int = None,
             inference_time: float = None,
-            model: Optional[LLM_MODEL] = None,
+            model: LLM_MODEL = LLM_MODEL.DEFAULT,
             date: datetime.datetime = get_time_utc(),
             file_path: str = None) -> None:
         """
@@ -56,7 +56,7 @@ class Response:
         self._temperature = None
         self._tokens = None
         self._inference_time = None
-        self._model = None
+        self._model = LLM_MODEL.DEFAULT
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION

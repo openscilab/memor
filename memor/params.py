@@ -99,3 +99,5 @@ class LLM_MODEL(Enum):
 
     DEEPSEEK_V3 = "deepseek-v3"
     DEEPSEEK_R1 = "deepseek-r1"
+
+    DEFAULT = "unknown"

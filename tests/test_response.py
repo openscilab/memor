@@ -154,7 +154,7 @@ def test_model2():
 
 def test_model3():
     response = Response(message="I am fine.", model=LLM_MODEL.GPT_4)
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `model` must be a string."):
+    with pytest.raises(MemorValidationError, match=r"Invalid model. It must be an instance of LLM_MODEL enum."):
         response.update_model(4)
 
 
