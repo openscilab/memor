@@ -20,6 +20,7 @@ INVALID_MESSAGE = "Invalid message. It must be an instance of `Prompt` or `Respo
 INVALID_MESSAGE_STATUS_LEN_MESSAGE = "Invalid message status length. It must be equal to the number of messages."
 INVALID_CUSTOM_MAP_MESSAGE = "Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."
 INVALID_ROLE_MESSAGE = "Invalid role. It must be an instance of Role enum."
+INVALID_MODEL_MESSAGE = "Invalid model. It must be an instance of LLM_MODEL enum."
 INVALID_TEMPLATE_STRUCTURE_MESSAGE = "Invalid template structure. It should be a JSON object with proper fields."
 INVALID_PROMPT_STRUCTURE_MESSAGE = "Invalid prompt structure. It should be a JSON object with proper fields."
 INVALID_RESPONSE_STRUCTURE_MESSAGE = "Invalid response structure. It should be a JSON object with proper fields."
@@ -46,3 +47,55 @@ class RenderFormat(Enum):
     DICTIONARY = "DICTIONARY"
     ITEMS = "ITEMS"
     DEFAULT = STRING
+
+
+class LLM_MODEL(Enum):
+    """LLM model enum."""
+
+    GPT_O1 = "gpt-o1"
+    GPT_O1_MINI = "gpt-o1-mini"
+    GPT_4O = "gpt-4o"
+    GPT_4O_MINI = "gpt-4o-mini"
+    GPT_4_TURBO = "gpt-4-turbo"
+    GPT_4 = "gpt-4"
+    GPT_4_VISION = "gpt-4-vision"
+    GPT_3_5_TURBO = "gpt-3.5-turbo"
+    DAVINCI = "davinci"
+    BABBAGE = "babbage"
+
+    CLAUDE_3_5_SONNET = "claude-3.5-sonnet"
+    CLAUDE_3_OPUS = "claude-3-opus"
+    CLAUDE_3_HAIKU = "claude-3-haiku"
+    CLAUDE_2 = "claude-2"
+    CLAUDE_INSTANT = "claude-instant"
+
+    LLAMA3_70B = "llama3-70b"
+    LLAMA3_8B = "llama3-8b"
+    LLAMA_GUARD_3_8B = "llama-guard-3-8b"
+    LLAMA3_GROQ_70B = "llama3-groq-70b"
+    LLAMA3_GROQ_8B = "llama3-groq-8b"
+    MIXTRAL_8X7B = "mixtral-8x7b"
+
+    OPEN_MISTRAL_NEMO = "open-mistral-nemo"
+    CODESTRAL = "codestral"
+    OPEN_MISTRAL_7B = "open-mistral-7b"
+    OPEN_MIXTRAL_8X7B = "open-mixtral-8x7b"
+    OPEN_MIXTRAL_8X22B = "open-mixtral-8x22b"
+    MISTRAL_TINY = "mistral-tiny"
+    MISTRAL_SMALL = "mistral-small"
+    MISTRAL_MEDIUM = "mistral-medium"
+    MISTRAL_LARGE = "mistral-large"
+    PIXTRAL = "pixtral-12b"
+
+    GEMMA_7B = "gemma-7b"
+    GEMMA2_9B = "gemma2-9b"
+    GEMINI_1_PRO = "gemini-1-pro"
+    GEMINI_1_ULTRA = "gemini-1-ultra"
+    GEMINI_1_5_PRO = "gemini-1.5-pro"
+    GEMINI_1_5_ULTRA = "gemini-1.5-ultra"
+    GEMINI_1_5_FLASH = "gemini-1.5-flash"
+    GEMINI_2_FLASH = "gemini-2-flash"
+    GEMINI_2_PRO = "gemini-2-pro"
+
+    DEEPSEEK_V3 = "deepseek-v3"
+    DEEPSEEK_R1 = "deepseek-r1"
