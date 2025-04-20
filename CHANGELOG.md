@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `Session` class `render_counter` method
+- `LLM_MODEL` enum
 ## [0.5] - 2025-04-16
 ### Added
 - `Session` class `check_render` method
