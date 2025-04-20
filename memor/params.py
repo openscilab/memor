@@ -98,4 +98,16 @@ class LLMModel(Enum):
     DEEPSEEK_R1 = "deepseek-r1"
     DEEPSEEK_CODER = "deepseek-coder"
 
+    PHI_2 = "phi-2"
+    PHI_4 = "phi-4"
+
+    QWEN_1_8B = "qwen-1.8b"
+    QWEN_7B = "qwen-7b"
+    QWEN_14B = "qwen-14b"
+    QWEN_72B = "qwen-72b"
+
+    YI_6B = "yi-6b"
+    YI_9B = "yi-9b"
+    YI_34B = "yi-34b"
+
     DEFAULT = "unknown"
