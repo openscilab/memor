@@ -72,7 +72,7 @@ class LLMModel(Enum):
     LLAMA3_70B = "llama3-70b"
     LLAMA3_8B = "llama3-8b"
     LLAMA_GUARD_3_8B = "llama-guard-3-8b"
-    
+
     MISTRAL_7B = "mistral-7b"
     MIXTRAL_8X7B = "mixtral-8x7b"
     MIXTRAL_8X22B = "mixtral-8x22b"
