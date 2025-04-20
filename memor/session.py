@@ -38,6 +38,7 @@ class Session:
         :param init_check: initial check flag
         """
         self._title = None
+        self._render_counter = 0
         self._messages = []
         self._messages_status = []
         self._date_created = get_time_utc()
@@ -51,7 +52,7 @@ class Session:
             if messages:
                 self.update_messages(messages)
         if init_check:
-            _ = self.render()
+            _ = self.render(enable_counter=False)
 
     def __eq__(self, other_session: "Session") -> bool:
         """
@@ -65,7 +66,7 @@ class Session:
 
     def __str__(self) -> str:
         """Return string representation of Session."""
-        return self.render(render_format=RenderFormat.STRING)
+        return self.render(render_format=RenderFormat.STRING, enable_counter=False)
 
     def __repr__(self) -> str:
         """Return string representation of Session."""
@@ -276,6 +277,7 @@ class Session:
         else:
             loaded_obj = json_object.copy()
         self._title = loaded_obj["title"]
+        self._render_counter = loaded_obj.get("render_counter", 0)
         self._messages_status = loaded_obj["messages_status"]
         messages = []
         for message in loaded_obj["messages"]:
@@ -308,6 +310,7 @@ class Session:
         data = {
             "type": "Session",
             "title": self._title,
+            "render_counter": self._render_counter,
             "messages": self._messages.copy(),
             "messages_status": self._messages_status.copy(),
             "memor_version": MEMOR_VERSION,
@@ -316,16 +319,17 @@ class Session:
         }
         return data
 
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
-                                                                                  Dict[str, Any],
-                                                                                  List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
+               enable_counter: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
+        :param enable_counter: render counter flag
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
+        result = None
         if render_format == RenderFormat.OPENAI:
             result = []
             for message in self._messages:
@@ -333,23 +337,27 @@ class Session:
                     result.extend(message.render(render_format=RenderFormat.OPENAI))
                 else:
                     result.append(message.render(render_format=RenderFormat.OPENAI))
-            return result
-        content = ""
-        session_dict = self.to_dict()
-        for message in self._messages:
-            content += message.render(render_format=RenderFormat.STRING) + "\n"
-        session_dict["content"] = content
-        if render_format == RenderFormat.STRING:
-            return content
-        if render_format == RenderFormat.DICTIONARY:
-            return session_dict
-        if render_format == RenderFormat.ITEMS:
-            return list(session_dict.items())
+        else:
+            content = ""
+            session_dict = self.to_dict()
+            for message in self._messages:
+                content += message.render(render_format=RenderFormat.STRING) + "\n"
+            session_dict["content"] = content
+            if render_format == RenderFormat.STRING:
+                result = content
+            if render_format == RenderFormat.DICTIONARY:
+                result = session_dict
+            if render_format == RenderFormat.ITEMS:
+                result = list(session_dict.items())
+        if enable_counter:
+            self._render_counter += 1
+            self._date_modified = get_time_utc()
+        return result
 
     def check_render(self) -> bool:
         """Check render."""
         try:
-            _ = self.render()
+            _ = self.render(enable_counter=False)
             return True
         except Exception:
             return False
@@ -360,7 +368,7 @@ class Session:
 
         :param method: token estimator method
         """
-        return method(self.render(render_format=RenderFormat.STRING))
+        return method(self.render(render_format=RenderFormat.STRING, enable_counter=False))
 
     @property
     def date_created(self) -> datetime.datetime:
@@ -376,6 +384,11 @@ class Session:
     def title(self) -> str:
         """Get the session title."""
         return self._title
+
+    @property
+    def render_counter(self) -> int:
+        """Get the render counter."""
+        return self._render_counter
 
     @property
     def messages(self) -> List[Union[Prompt, Response]]:

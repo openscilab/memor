@@ -154,7 +154,7 @@ def openai_tokens_estimator_gpt_4(text: str) -> int:
     :return: Estimated number of tokens.
     """
     token_estimate = _openai_tokens_estimator(text)
-    token_estimate *= 1.05 # Adjusting for GPT-4's tokenization
+    token_estimate *= 1.05  # Adjusting for GPT-4's tokenization
     return int(max(1, token_estimate))
 
 

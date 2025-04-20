@@ -232,9 +232,10 @@ def test_save2():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response], title="session1")
+    _ = session1.render()
     result = session1.save("session_test1.json")
     session2 = Session(file_path="session_test1.json")
-    assert result["status"] and session1 == session2
+    assert result["status"] and session1 == session2 and session2.render_counter == 1
 
 
 def test_load1():
@@ -297,6 +298,38 @@ def test_check_render2():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1", init_check=False)
     assert not session.check_render()
+
+
+def test_render_counter1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    assert session.render_counter == 0
+    for _ in range(10):
+        __ = session.render()
+    assert session.render_counter == 10
+
+
+def test_render_counter2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    assert session.render_counter == 0
+    for _ in range(10):
+        __ = session.render()
+    for _ in range(2):
+        __ = session.render(enable_counter=False)
+    assert session.render_counter == 10
+
+
+def test_render_counter3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1", init_check=True)
+    _ = str(session)
+    _ = session.check_render()
+    _ = session.estimate_tokens()
+    assert session.render_counter == 0
 
 
 def test_init_check():
@@ -483,6 +516,7 @@ def test_estimated_tokens2():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session")
     assert session.estimate_tokens(TokensEstimator.OPENAI_GPT_3_5) == 14
+
 
 def test_estimated_tokens3():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
