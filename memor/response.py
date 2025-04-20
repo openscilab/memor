@@ -7,8 +7,8 @@ from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
-from .params import INVALID_ROLE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
-from .params import Role, RenderFormat
+from .params import INVALID_ROLE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE
+from .params import Role, RenderFormat, LLMModel
 from .tokens_estimator import TokensEstimator
 from .errors import MemorValidationError
 from .functions import get_time_utc
@@ -21,7 +21,7 @@ class Response:
     Response class.
 
     >>> from memor import Response, Role
-    >>> response = Response(message="Hello!", score=0.9, role=Role.ASSISTANT, temperature=0.5, model="gpt-3.5")
+    >>> response = Response(message="Hello!", score=0.9, role=Role.ASSISTANT, temperature=0.5, model=LLMModel.GPT_4)
     >>> response.message
     'Hello!'
     """
@@ -34,7 +34,7 @@ class Response:
             temperature: float = None,
             tokens: int = None,
             inference_time: float = None,
-            model: str = None,
+            model: LLMModel = LLMModel.DEFAULT,
             date: datetime.datetime = get_time_utc(),
             file_path: str = None) -> None:
         """
@@ -56,7 +56,7 @@ class Response:
         self._temperature = None
         self._tokens = None
         self._inference_time = None
-        self._model = None
+        self._model = LLMModel.DEFAULT
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
@@ -176,13 +176,14 @@ class Response:
         self._inference_time = inference_time
         self._date_modified = get_time_utc()
 
-    def update_model(self, model: str) -> None:
+    def update_model(self, model: LLMModel) -> None:
         """
         Update the agent model.
 
         :param model: model
         """
-        _validate_string(model, "model")
+        if not isinstance(model, LLMModel):
+            raise MemorValidationError(INVALID_MODEL_MESSAGE)
         self._model = model
         self._date_modified = get_time_utc()
 
@@ -227,7 +228,7 @@ class Response:
             self._temperature = loaded_obj["temperature"]
             self._tokens = loaded_obj.get("tokens", None)
             self._inference_time = loaded_obj.get("inference_time", None)
-            self._model = loaded_obj["model"]
+            self._model = LLMModel(loaded_obj["model"])
             self._role = Role(loaded_obj["role"])
             self._memor_version = loaded_obj["memor_version"]
             self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
@@ -241,6 +242,7 @@ class Response:
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         data["role"] = data["role"].value
+        data["model"] = data["model"].value
         return data
 
     def to_dict(self) -> Dict[str, Any]:
@@ -320,7 +322,7 @@ class Response:
         return self._role
 
     @property
-    def model(self) -> str:
+    def model(self) -> LLMModel:
         """Get the agent model."""
         return self._model
 
