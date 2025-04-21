@@ -154,6 +154,12 @@ def test_model2():
 
 def test_model3():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
+    response.update_model("my-trained-llm-instruct")
+    assert response.model == "my-trained-llm-instruct"
+
+
+def test_model4():
+    response = Response(message="I am fine.", model=LLMModel.GPT_4)
     with pytest.raises(MemorValidationError, match=r"Invalid model. It must be an instance of LLMModel enum."):
         response.update_model(4)
 
