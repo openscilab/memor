@@ -325,7 +325,7 @@ class Response:
         return self._role
 
     @property
-    def model(self) -> LLMModel:
+    def model(self) -> str:
         """Get the agent model."""
         return self._model
 
