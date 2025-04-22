@@ -34,7 +34,7 @@ class Response:
             temperature: float = None,
             tokens: int = None,
             inference_time: float = None,
-            model: Union[LLMModel, str] = LLMModel.DEFAULT.value,
+            model: Union[LLMModel, str] = LLMModel.DEFAULT,
             date: datetime.datetime = get_time_utc(),
             file_path: str = None) -> None:
         """
