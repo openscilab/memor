@@ -34,7 +34,7 @@ class Response:
             temperature: float = None,
             tokens: int = None,
             inference_time: float = None,
-            model: LLMModel = LLMModel.DEFAULT,
+            model: Union[LLMModel, str] = LLMModel.DEFAULT,
             date: datetime.datetime = get_time_utc(),
             file_path: str = None) -> None:
         """
@@ -56,7 +56,7 @@ class Response:
         self._temperature = None
         self._tokens = None
         self._inference_time = None
-        self._model = LLMModel.DEFAULT
+        self._model = LLMModel.DEFAULT.value
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
@@ -176,15 +176,18 @@ class Response:
         self._inference_time = inference_time
         self._date_modified = get_time_utc()
 
-    def update_model(self, model: LLMModel) -> None:
+    def update_model(self, model: Union[LLMModel, str]) -> None:
         """
         Update the agent model.
 
         :param model: model
         """
-        if not isinstance(model, LLMModel):
+        if isinstance(model, str):
+            self._model = model
+        elif isinstance(model, LLMModel):
+            self._model = model.value
+        else:
             raise MemorValidationError(INVALID_MODEL_MESSAGE)
-        self._model = model
         self._date_modified = get_time_utc()
 
     def save(self, file_path: str) -> Dict[str, Any]:
@@ -228,7 +231,7 @@ class Response:
             self._temperature = loaded_obj["temperature"]
             self._tokens = loaded_obj.get("tokens", None)
             self._inference_time = loaded_obj.get("inference_time", None)
-            self._model = LLMModel(loaded_obj["model"])
+            self._model = loaded_obj["model"]
             self._role = Role(loaded_obj["role"])
             self._memor_version = loaded_obj["memor_version"]
             self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
@@ -242,7 +245,7 @@ class Response:
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         data["role"] = data["role"].value
-        data["model"] = data["model"].value
+        data["model"] = data["model"]
         return data
 
     def to_dict(self) -> Dict[str, Any]:
@@ -322,7 +325,7 @@ class Response:
         return self._role
 
     @property
-    def model(self) -> LLMModel:
+    def model(self) -> str:
         """Get the agent model."""
         return self._model
 

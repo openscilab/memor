@@ -143,16 +143,22 @@ def test_temperature3():
 
 def test_model1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
-    assert response.model == LLMModel.GPT_4
+    assert response.model == LLMModel.GPT_4.value
 
 
 def test_model2():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
     response.update_model(LLMModel.GPT_4O)
-    assert response.model == LLMModel.GPT_4O
+    assert response.model == LLMModel.GPT_4O.value
 
 
 def test_model3():
+    response = Response(message="I am fine.", model=LLMModel.GPT_4)
+    response.update_model("my-trained-llm-instruct")
+    assert response.model == "my-trained-llm-instruct"
+
+
+def test_model4():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
     with pytest.raises(MemorValidationError, match=r"Invalid model. It must be an instance of LLMModel enum."):
         response.update_model(4)
