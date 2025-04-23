@@ -44,6 +44,7 @@ class RenderFormat(Enum):
 
     STRING = "STRING"
     OPENAI = "OPENAI"
+    AI_STUDIO = "AI STUDIO"
     DICTIONARY = "DICTIONARY"
     ITEMS = "ITEMS"
     DEFAULT = STRING
