@@ -289,7 +289,8 @@ def test_render6():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
-    assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'user', 'parts': [{'text': 'Hello, how are you?'}]}, {'role': 'assistant', 'parts': [{'text': 'I am fine.'}]}]
+    assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'user', 'parts': [{'text': 'Hello, how are you?'}]}, {
+        'role': 'assistant', 'parts': [{'text': 'I am fine.'}]}]
 
 
 def test_check_render1():
