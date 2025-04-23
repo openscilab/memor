@@ -330,13 +330,13 @@ class Session:
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         result = None
-        if render_format == RenderFormat.OPENAI:
+        if render_format in [RenderFormat.OPENAI, RenderFormat.AI_STUDIO]:
             result = []
             for message in self._messages:
                 if isinstance(message, Session):
-                    result.extend(message.render(render_format=RenderFormat.OPENAI))
+                    result.extend(message.render(render_format=render_format))
                 else:
-                    result.append(message.render(render_format=RenderFormat.OPENAI))
+                    result.append(message.render(render_format=render_format))
         else:
             content = ""
             session_dict = self.to_dict()
