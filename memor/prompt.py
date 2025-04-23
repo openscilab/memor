@@ -392,6 +392,8 @@ class Prompt:
             prompt_dict["content"] = content
             if render_format == RenderFormat.OPENAI:
                 return {"role": self._role.value, "content": content}
+            elif render_format == RenderFormat.AI_STUDIO:
+                return {"role": self._role.value, "parts": [{"text": content}]}
             if render_format == RenderFormat.STRING:
                 return content
             if render_format == RenderFormat.DICTIONARY:
