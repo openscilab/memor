@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `Session` class `render_counter` method
 - `LLMModel` enum
+- `AI_STUDIO` render format
 ## [0.5] - 2025-04-16
 ### Added
 - `Session` class `check_render` method
