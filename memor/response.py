@@ -11,7 +11,7 @@ from .params import INVALID_ROLE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE, INVALID
 from .params import Role, RenderFormat, LLMModel
 from .tokens_estimator import TokensEstimator
 from .errors import MemorValidationError
-from .functions import get_time_utc
+from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_float, _validate_pos_int
 from .functions import _validate_date_time, _validate_probability, _validate_path
 
@@ -60,6 +60,7 @@ class Response:
         self._date_created = get_time_utc()
         self._date_modified = get_time_utc()
         self._memor_version = MEMOR_VERSION
+        self._id = None
         if file_path:
             self.load(file_path)
         else:
@@ -80,6 +81,7 @@ class Response:
             if date:
                 _validate_date_time(date, "date")
                 self._date_created = date
+            self._id = generate_message_id()
 
     def __eq__(self, other_response: "Response") -> bool:
         """
@@ -234,6 +236,7 @@ class Response:
             self._model = loaded_obj["model"]
             self._role = Role(loaded_obj["role"])
             self._memor_version = loaded_obj["memor_version"]
+            self._id = loaded_obj.get("id", generate_message_id())
             self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
@@ -259,6 +262,7 @@ class Response:
             "inference_time": self._inference_time,
             "role": self._role,
             "model": self._model,
+            "id": self._id,
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
             "date_modified": self._date_modified,
@@ -331,6 +335,11 @@ class Response:
     def model(self) -> str:
         """Get the agent model."""
         return self._model
+
+    @property
+    def id(self) -> str:
+        """Get the response id."""
+        return self._id
 
     @property
     def date_created(self) -> datetime.datetime:
