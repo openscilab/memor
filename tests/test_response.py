@@ -173,7 +173,7 @@ def test_id1():
 def test_id2():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
     response._id = "123"
-    result = response.save("response_test3.json")
+    _ = response.save("response_test3.json")
     with pytest.raises(MemorValidationError, match=r"Invalid message ID. It must be a valid UUIDv4."):
         _ = Response(file_path="response_test3.json")
 
