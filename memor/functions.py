@@ -3,6 +3,7 @@
 from typing import Any, Type
 import os
 import datetime
+import uuid
 from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE
@@ -13,6 +14,11 @@ from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_BOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
 from .errors import MemorValidationError
+
+
+def generate_message_id() -> str:
+    """Generate message id."""
+    return uuid.uuid4()
 
 
 def get_time_utc() -> datetime.datetime:
