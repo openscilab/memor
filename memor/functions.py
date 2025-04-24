@@ -13,12 +13,26 @@ from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_BOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
+from .params import INVALID_ID_MESSAGE
 from .errors import MemorValidationError
 
 
 def generate_message_id() -> str:
-    """Generate message id."""
-    return uuid.uuid4()
+    """Generate message ID."""
+    return str(uuid.uuid4())
+
+
+def _validate_message_id(message_id: str) -> bool:
+    """
+    Validate message ID.
+
+    :param message_id: message ID
+    """
+    try:
+        _ = uuid.UUID(message_id, version=4)
+    except ValueError:
+        raise MemorValidationError(INVALID_ID_MESSAGE)
+    return True
 
 
 def get_time_utc() -> datetime.datetime:

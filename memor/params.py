@@ -20,6 +20,7 @@ INVALID_MESSAGE = "Invalid message. It must be an instance of `Prompt` or `Respo
 INVALID_MESSAGE_STATUS_LEN_MESSAGE = "Invalid message status length. It must be equal to the number of messages."
 INVALID_CUSTOM_MAP_MESSAGE = "Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."
 INVALID_ROLE_MESSAGE = "Invalid role. It must be an instance of Role enum."
+INVALID_ID_MESSAGE = "Invalid message ID. It must be a valid UUIDv4."
 INVALID_MODEL_MESSAGE = "Invalid model. It must be an instance of LLMModel enum or a string."
 INVALID_TEMPLATE_STRUCTURE_MESSAGE = "Invalid template structure. It should be a JSON object with proper fields."
 INVALID_PROMPT_STRUCTURE_MESSAGE = "Invalid prompt structure. It should be a JSON object with proper fields."

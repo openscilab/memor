@@ -12,7 +12,7 @@ from .params import Role, RenderFormat, LLMModel
 from .tokens_estimator import TokensEstimator
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
-from .functions import _validate_string, _validate_pos_float, _validate_pos_int
+from .functions import _validate_string, _validate_pos_float, _validate_pos_int, _validate_message_id
 from .functions import _validate_date_time, _validate_probability, _validate_path
 
 
@@ -82,6 +82,7 @@ class Response:
                 _validate_date_time(date, "date")
                 self._date_created = date
             self._id = generate_message_id()
+        _validate_message_id(self._id)
 
     def __eq__(self, other_response: "Response") -> bool:
         """
