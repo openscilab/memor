@@ -167,7 +167,7 @@ def test_model4():
 
 def test_id1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
-    assert uuid.UUID(response.id, version=4) ==  uuid.UUID(response._id, version=4)
+    assert uuid.UUID(response.id, version=4) == uuid.UUID(response._id, version=4)
 
 
 def test_id2():
