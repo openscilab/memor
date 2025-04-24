@@ -278,6 +278,11 @@ def test_render5():
         response.render("OPENAI")
 
 
+def test_render6():
+    response = Response(message="I am fine.")
+    assert response.render(RenderFormat.AI_STUDIO) == {'role': 'assistant', 'parts': [{'text': 'I am fine.'}]}
+
+
 def test_equality1():
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = response1.copy()

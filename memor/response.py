@@ -280,6 +280,9 @@ class Response:
         elif render_format == RenderFormat.OPENAI:
             return {"role": self._role.value,
                     "content": self._message}
+        elif render_format == RenderFormat.AI_STUDIO:
+            return {"role": self._role.value,
+                    "parts": [{"text": self._message}]}
         elif render_format == RenderFormat.DICTIONARY:
             return self.to_dict()
         elif render_format == RenderFormat.ITEMS:
