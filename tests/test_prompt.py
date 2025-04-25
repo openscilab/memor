@@ -1,4 +1,5 @@
 import datetime
+import uuid
 import copy
 import pytest
 from memor import Prompt, Response, Role, LLMModel
