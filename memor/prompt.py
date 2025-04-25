@@ -13,9 +13,9 @@ from .params import INVALID_ROLE_MESSAGE, INVALID_RESPONSE_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .errors import MemorValidationError, MemorRenderError
-from .functions import get_time_utc
+from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int, _validate_list_of
-from .functions import _validate_path
+from .functions import _validate_path, _validate_message_id
 from .template import PromptTemplate, PresetPromptTemplate
 from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
 from .response import Response
@@ -64,6 +64,7 @@ class Prompt:
         self._memor_version = MEMOR_VERSION
         self._selected_response_index = 0
         self._selected_response = None
+        self._id = None
         if file_path:
             self.load(file_path)
         else:
@@ -78,6 +79,8 @@ class Prompt:
             if template:
                 self.update_template(template)
             self.select_response(index=self._selected_response_index)
+            self._id = generate_message_id()
+        _validate_message_id(self._id)
         if init_check:
             _ = self.render()
 
@@ -268,6 +271,7 @@ class Prompt:
                 loaded_obj = json_object.copy()
             self._message = loaded_obj["message"]
             self._tokens = loaded_obj.get("tokens", None)
+            self._id = loaded_obj.get("id", generate_message_id())
             responses = []
             for response in loaded_obj["responses"]:
                 response_obj = Response()
@@ -317,6 +321,7 @@ class Prompt:
             "selected_response_index": self._selected_response_index,
             "tokens": self._tokens,
             "role": self._role,
+            "id": self._id,
             "template": self._template,
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
@@ -360,6 +365,11 @@ class Prompt:
     def template(self) -> PromptTemplate:
         """Get the prompt template."""
         return self._template
+
+    @property
+    def id(self) -> str:
+        """Get the prompt ID."""
+        return self._id
 
     @property
     def selected_response(self) -> Response:
