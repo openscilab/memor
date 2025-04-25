@@ -1,4 +1,5 @@
 import datetime
+import uuid
 import json
 import copy
 import pytest
@@ -162,6 +163,19 @@ def test_model4():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
     with pytest.raises(MemorValidationError, match=r"Invalid model. It must be an instance of LLMModel enum."):
         response.update_model(4)
+
+
+def test_id1():
+    response = Response(message="I am fine.", model=LLMModel.GPT_4)
+    assert uuid.UUID(response.id, version=4) == uuid.UUID(response._id, version=4)
+
+
+def test_id2():
+    response = Response(message="I am fine.", model=LLMModel.GPT_4)
+    response._id = "123"
+    _ = response.save("response_test3.json")
+    with pytest.raises(MemorValidationError, match=r"Invalid message ID. It must be a valid UUIDv4."):
+        _ = Response(file_path="response_test3.json")
 
 
 def test_date1():
