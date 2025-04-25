@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `Response` class `id` property
+- `Prompt` class `id` property
 - `Session` class `render_counter` method
 - `LLMModel` enum
 - `AI_STUDIO` render format
