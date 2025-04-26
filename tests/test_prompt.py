@@ -1,4 +1,5 @@
 import datetime
+import uuid
 import copy
 import pytest
 from memor import Prompt, Response, Role, LLMModel
@@ -83,6 +84,19 @@ def test_role4():
     prompt = Prompt(message="Hello, how are you?", role=None)
     with pytest.raises(MemorValidationError, match=r"Invalid role. It must be an instance of Role enum."):
         prompt.update_role(2)
+
+
+def test_id1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    assert uuid.UUID(prompt.id, version=4) == uuid.UUID(prompt._id, version=4)
+
+
+def test_id2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    prompt._id = "123"
+    _ = prompt.save("prompt_test3.json")
+    with pytest.raises(MemorValidationError, match=r"Invalid message ID. It must be a valid UUIDv4."):
+        _ = Prompt(file_path="prompt_test3.json")
 
 
 def test_responses1():

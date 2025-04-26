@@ -339,7 +339,7 @@ class Response:
 
     @property
     def id(self) -> str:
-        """Get the response id."""
+        """Get the response ID."""
         return self._id
 
     @property
