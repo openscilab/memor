@@ -113,7 +113,7 @@ class Session:
         """
         return message in self._messages
 
-    def __getitem__(self, identifier: Uninon[int, str]) -> Union[Prompt, Response]:
+    def __getitem__(self, identifier: Union[int, str]) -> Union[Prompt, Response]:
         """
         Get a message from the session object.
 
@@ -172,7 +172,7 @@ class Session:
             if message.id == message_id:
                 return self.get_message_by_index(index=index)
 
-    def get_message(self, identifier: Uninon[int, str]) -> Union[Prompt, Response]:
+    def get_message(self, identifier: Union[int, str]) -> Union[Prompt, Response]:
         """
         Get a message from the session object.
 
@@ -204,7 +204,7 @@ class Session:
                 self.remove_message_by_index(index=index)
                 break
 
-    def remove_message(self, identifier: Uninon[int, str]) -> None:
+    def remove_message(self, identifier: Union[int, str]) -> None:
         """
         Remove a message from the session object.
 
