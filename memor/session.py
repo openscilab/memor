@@ -154,6 +154,17 @@ class Session:
             self._messages_status.insert(index, status)
         self._date_modified = get_time_utc()
 
+
+    def remove_message_by_index(self, index: int) -> None:
+        """
+        Remove a message from the session object by index.
+
+        :param index: index
+        """
+        self._messages.pop(index)
+        self._messages_status.pop(index)
+        self._date_modified = get_time_utc()
+
     def remove_message(self, index: int) -> None:
         """
         Remove a message from the session object.
