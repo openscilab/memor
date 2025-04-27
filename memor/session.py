@@ -113,13 +113,13 @@ class Session:
         """
         return message in self._messages
 
-    def __getitem__(self, index: int) -> Union[Prompt, Response]:
+    def __getitem__(self, identifier: Uninon[int, str]) -> Union[Prompt, Response]:
         """
-        Return the Session message(s).
+        Get a message from the session object.
 
-        :param index: index
+        :param identifier: message identifier (index or id)
         """
-        return self._messages[index]
+        return self.get_message(identifier=identifier)
 
     def __copy__(self) -> "Session":
         """Return a copy of the Session object."""
@@ -155,7 +155,7 @@ class Session:
         self._date_modified = get_time_utc()
 
 
-    def get_message_by_index(self, index: int) -> None:
+    def get_message_by_index(self, index: int) -> Union[Prompt, Response]:
         """
         Get a message from the session object by index.
 
@@ -164,7 +164,7 @@ class Session:
         return self._messages[index]
 
 
-    def get_message_by_id(self, message_id: str) -> None:
+    def get_message_by_id(self, message_id: str) -> Union[Prompt, Response]:
         """
         Get a message from the session object by message id.
 
@@ -175,7 +175,7 @@ class Session:
                 return self.get_message_by_index(index=index)
 
 
-    def get_message(self, identifier: Uninon[int, str]) -> None:
+    def get_message(self, identifier: Uninon[int, str]) -> Union[Prompt, Response]:
         """
         Get a message from the session object.
 
