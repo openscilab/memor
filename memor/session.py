@@ -176,17 +176,18 @@ class Session:
             if message.id == message_id:
                 self.remove_message_by_index(index=index)
                 break
-    
 
-    def remove_message(self, index: int) -> None:
+
+    def remove_message(self, identifier: Uninon[int, str]) -> None:
         """
         Remove a message from the session object.
 
-        :param index: index
+        :param identifier: message identifier (index or id)
         """
-        self._messages.pop(index)
-        self._messages_status.pop(index)
-        self._date_modified = get_time_utc()
+        if isinstance(identifier, int):
+            self.remove_message_by_index(index=identifier)
+        if isinstance(identifier, str):
+            self.remove_message_by_id(message_id=identifier)
 
     def clear_messages(self) -> None:
         """Remove all messages."""
