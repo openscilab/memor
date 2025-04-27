@@ -165,6 +165,19 @@ class Session:
         self._messages_status.pop(index)
         self._date_modified = get_time_utc()
 
+
+    def remove_message_by_id(self, message_id: str) -> None:
+        """
+        Remove a message from the session object by message id.
+
+        :param message_id: message id
+        """
+        for index, message in enumerate(self._messages):
+            if message.id == message_id:
+                self.remove_message_by_index(index=index)
+                break
+    
+
     def remove_message(self, index: int) -> None:
         """
         Remove a message from the session object.
