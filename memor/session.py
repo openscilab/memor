@@ -155,6 +155,38 @@ class Session:
         self._date_modified = get_time_utc()
 
 
+    def get_message_by_index(self, index: int) -> None:
+        """
+        Get a message from the session object by index.
+
+        :param index: index
+        """
+        return self._messages[index]
+
+
+    def get_message_by_id(self, message_id: str) -> None:
+        """
+        Get a message from the session object by message id.
+
+        :param message_id: message id
+        """
+        for index, message in enumerate(self._messages):
+            if message.id == message_id:
+                return self.get_message_by_index(index=index)
+
+
+    def get_message(self, identifier: Uninon[int, str]) -> None:
+        """
+        Get a message from the session object.
+
+        :param identifier: message identifier (index or id)
+        """
+        if isinstance(identifier, int):
+            return self.get_message_by_index(index=identifier)
+        if isinstance(identifier, str):
+            return self.get_message_by_id(message_id=identifier)
+
+
     def remove_message_by_index(self, index: int) -> None:
         """
         Remove a message from the session object by index.
