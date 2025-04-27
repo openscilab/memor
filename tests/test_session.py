@@ -163,11 +163,35 @@ def test_add_message4():
         session.add_message(message=prompt, status="False", index=0)
 
 
-def test_remove_message():
+def test_remove_message1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
     session.remove_message(1)
+    assert session.messages == [prompt] and session.messages_status == [True]
+
+
+def test_remove_message2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.remove_message_by_index(1)
+    assert session.messages == [prompt] and session.messages_status == [True]
+
+
+def test_remove_message3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.remove_message_by_id(response.id)
+    assert session.messages == [prompt] and session.messages_status == [True]
+
+
+def test_remove_message4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.remove_message(response.id)
     assert session.messages == [prompt] and session.messages_status == [True]
 
 
