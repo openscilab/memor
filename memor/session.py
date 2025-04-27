@@ -113,7 +113,7 @@ class Session:
         """
         return message in self._messages
 
-    def __getitem__(self, identifier: Union[int, str]) -> Union[Prompt, Response]:
+    def __getitem__(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]:
         """
         Get a message from the session object.
 
@@ -154,7 +154,7 @@ class Session:
             self._messages_status.insert(index, status)
         self._date_modified = get_time_utc()
 
-    def get_message_by_index(self, index: int) -> Union[Prompt, Response]:
+    def get_message_by_index(self, index: Union[int, slice]) -> Union[Prompt, Response]:
         """
         Get a message from the session object by index.
 
@@ -172,13 +172,13 @@ class Session:
             if message.id == message_id:
                 return self.get_message_by_index(index=index)
 
-    def get_message(self, identifier: Union[int, str]) -> Union[Prompt, Response]:
+    def get_message(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]:
         """
         Get a message from the session object.
 
         :param identifier: message identifier (index or id)
         """
-        if isinstance(identifier, int):
+        if isinstance(identifier, (int, slice)):
             return self.get_message_by_index(index=identifier)
         if isinstance(identifier, str):
             return self.get_message_by_id(message_id=identifier)
