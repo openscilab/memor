@@ -9,8 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Response` class `id` property
 - `Prompt` class `id` property
 - `Session` class `render_counter` method
+- `Session` class `remove_message_by_index` and `remove_message_by_id` methods
+- `Session` class `get_message_by_index`, `get_message_by_id` and `get_message` methods
 - `LLMModel` enum
 - `AI_STUDIO` render format
+### Changed
+- Test system modified
+- `Session` class `remove_message` method modified
 ## [0.5] - 2025-04-16
 ### Added
 - `Session` class `check_render` method
