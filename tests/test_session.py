@@ -536,6 +536,34 @@ def test_getitem2():
     assert session[:] == session.messages
 
 
+def test_getitem3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session[0] == session.get_message_by_index(0) and session[1] == session.get_message_by_index(1)
+
+
+def test_getitem4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session[0] == session.get_message(0) and session[1] == session.get_message(1)
+
+
+def test_getitem5():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session[0] == session.get_message_by_id(prompt.id) and session[1] == session.get_message_by_id(response.id)
+
+
+def test_getitem6():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session[0] == session.get_message(prompt.id) and session[1] == session.get_message(response.id)
+
+
 def test_estimated_tokens1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
