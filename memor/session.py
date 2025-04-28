@@ -117,7 +117,7 @@ class Session:
         """
         Get a message from the session object.
 
-        :param identifier: message identifier (index or id)
+        :param identifier: message identifier (index/slice or id)
         """
         return self.get_message(identifier=identifier)
 
@@ -156,7 +156,7 @@ class Session:
 
     def get_message_by_index(self, index: Union[int, slice]) -> Union[Prompt, Response]:
         """
-        Get a message from the session object by index.
+        Get a message from the session object by index/slice.
 
         :param index: index
         """
@@ -176,7 +176,7 @@ class Session:
         """
         Get a message from the session object.
 
-        :param identifier: message identifier (index or id)
+        :param identifier: message identifier (index/slice or id)
         """
         if isinstance(identifier, (int, slice)):
             return self.get_message_by_index(index=identifier)
