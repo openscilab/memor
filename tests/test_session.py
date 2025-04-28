@@ -163,11 +163,35 @@ def test_add_message4():
         session.add_message(message=prompt, status="False", index=0)
 
 
-def test_remove_message():
+def test_remove_message1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
     session.remove_message(1)
+    assert session.messages == [prompt] and session.messages_status == [True]
+
+
+def test_remove_message2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.remove_message_by_index(1)
+    assert session.messages == [prompt] and session.messages_status == [True]
+
+
+def test_remove_message3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.remove_message_by_id(response.id)
+    assert session.messages == [prompt] and session.messages_status == [True]
+
+
+def test_remove_message4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.remove_message(response.id)
     assert session.messages == [prompt] and session.messages_status == [True]
 
 
@@ -510,6 +534,34 @@ def test_getitem2():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response, response, response], title="session")
     assert session[:] == session.messages
+
+
+def test_getitem3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session[0] == session.get_message_by_index(0) and session[1] == session.get_message_by_index(1)
+
+
+def test_getitem4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session[0] == session.get_message(0) and session[1] == session.get_message(1)
+
+
+def test_getitem5():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session[0] == session.get_message_by_id(prompt.id) and session[1] == session.get_message_by_id(response.id)
+
+
+def test_getitem6():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session[0] == session.get_message(prompt.id) and session[1] == session.get_message(response.id)
 
 
 def test_estimated_tokens1():

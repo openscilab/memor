@@ -113,13 +113,13 @@ class Session:
         """
         return message in self._messages
 
-    def __getitem__(self, index: int) -> Union[Prompt, Response]:
+    def __getitem__(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]:
         """
-        Return the Session message(s).
+        Get a message from the session object.
 
-        :param index: index
+        :param identifier: message identifier (index/slice or id)
         """
-        return self._messages[index]
+        return self.get_message(identifier=identifier)
 
     def __copy__(self) -> "Session":
         """Return a copy of the Session object."""
@@ -154,15 +154,66 @@ class Session:
             self._messages_status.insert(index, status)
         self._date_modified = get_time_utc()
 
-    def remove_message(self, index: int) -> None:
+    def get_message_by_index(self, index: Union[int, slice]) -> Union[Prompt, Response]:
         """
-        Remove a message from the session object.
+        Get a message from the session object by index/slice.
+
+        :param index: index
+        """
+        return self._messages[index]
+
+    def get_message_by_id(self, message_id: str) -> Union[Prompt, Response]:
+        """
+        Get a message from the session object by message id.
+
+        :param message_id: message id
+        """
+        for index, message in enumerate(self._messages):
+            if message.id == message_id:
+                return self.get_message_by_index(index=index)
+
+    def get_message(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]: #TODO: Need validation on `identifier` type
+        """
+        Get a message from the session object.
+
+        :param identifier: message identifier (index/slice or id)
+        """
+        if isinstance(identifier, (int, slice)):
+            return self.get_message_by_index(index=identifier)
+        if isinstance(identifier, str):
+            return self.get_message_by_id(message_id=identifier)
+
+    def remove_message_by_index(self, index: int) -> None:
+        """
+        Remove a message from the session object by index.
 
         :param index: index
         """
         self._messages.pop(index)
         self._messages_status.pop(index)
         self._date_modified = get_time_utc()
+
+    def remove_message_by_id(self, message_id: str) -> None:
+        """
+        Remove a message from the session object by message id.
+
+        :param message_id: message id
+        """
+        for index, message in enumerate(self._messages):
+            if message.id == message_id:
+                self.remove_message_by_index(index=index)
+                break
+
+    def remove_message(self, identifier: Union[int, str]) -> None: #TODO: Need validation on `identifier` type
+        """
+        Remove a message from the session object.
+
+        :param identifier: message identifier (index or id)
+        """
+        if isinstance(identifier, int):
+            self.remove_message_by_index(index=identifier)
+        if isinstance(identifier, str):
+            self.remove_message_by_id(message_id=identifier)
 
     def clear_messages(self) -> None:
         """Remove all messages."""
