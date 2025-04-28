@@ -172,7 +172,7 @@ class Session:
             if message.id == message_id:
                 return self.get_message_by_index(index=index)
 
-    def get_message(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]:
+    def get_message(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]: #TODO: Need validation on `identifier` type
         """
         Get a message from the session object.
 
@@ -204,7 +204,7 @@ class Session:
                 self.remove_message_by_index(index=index)
                 break
 
-    def remove_message(self, identifier: Union[int, str]) -> None:
+    def remove_message(self, identifier: Union[int, str]) -> None: #TODO: Need validation on `identifier` type
         """
         Remove a message from the session object.
 
