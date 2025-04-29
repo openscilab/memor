@@ -120,6 +120,7 @@ class Prompt:
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
+        result.regenerate_id()
         return result
 
     def copy(self) -> "Prompt":
