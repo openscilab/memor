@@ -247,13 +247,13 @@ def test_load3():
 def test_copy1():
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = copy.copy(response1)
-    assert id(response1) != id(response2)
+    assert id(response1) != id(response2) and response1.id != response2.id
 
 
 def test_copy2():
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = response1.copy()
-    assert id(response1) != id(response2)
+    assert id(response1) != id(response2) and response1.id != response2.id
 
 
 def test_str():
