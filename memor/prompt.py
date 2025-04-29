@@ -331,6 +331,13 @@ class Prompt:
             del data["template"]
         return data
 
+    def regenerate_id(self) -> None:
+        """Regenerate ID."""
+        new_id = self._id
+        while new_id == self.id:
+            new_id = generate_message_id()
+        self._id = new_id
+
     @property
     def message(self) -> str:
         """Get the prompt message."""
