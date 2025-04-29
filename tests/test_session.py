@@ -195,6 +195,14 @@ def test_remove_message4():
     assert session.messages == [prompt] and session.messages_status == [True]
 
 
+def test_remove_message5():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `identifier` must be an integer or a string."):
+        session.remove_message(3.5)
+
+
 def test_clear_messages():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
@@ -562,6 +570,22 @@ def test_getitem6():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session")
     assert session[0] == session.get_message(prompt.id) and session[1] == session.get_message(response.id)
+
+
+def test_getitem7():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `identifier` must be an integer, string or a slice."):
+        _ = session[3.5]
+
+
+def test_getitem8():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `identifier` must be an integer, string or a slice."):
+        _ = session.get_message(3.5)
 
 
 def test_estimated_tokens1():
