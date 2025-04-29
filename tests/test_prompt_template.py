@@ -159,12 +159,12 @@ def test_load1():
 
 
 def test_load2():
-    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+    with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: 22"):
         _ = PromptTemplate(file_path=22)
 
 
 def test_load3():
-    with pytest.raises(FileNotFoundError, match=r"Path template_test10.json does not exist."):
+    with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: template_test10.json"):
         _ = PromptTemplate(file_path="template_test10.json")
 
 

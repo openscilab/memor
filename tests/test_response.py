@@ -235,12 +235,12 @@ def test_load1():
 
 
 def test_load2():
-    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+    with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: 2"):
         response = Response(file_path=2)
 
 
 def test_load3():
-    with pytest.raises(FileNotFoundError, match=r"Path response_test10.json does not exist."):
+    with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: response_test10.json"):
         response = Response(file_path="response_test10.json")
 
 

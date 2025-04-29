@@ -4,11 +4,10 @@ from typing import List, Dict, Tuple, Any, Union, Generator
 import datetime
 import json
 from .params import MEMOR_VERSION
-from .params import DATE_TIME_FORMAT
-from .params import DATA_SAVE_SUCCESS_MESSAGE
+from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
-from .params import INVALID_MESSAGE_STATUS_LEN_MESSAGE
-from .params import INVALID_RENDER_FORMAT_MESSAGE
+from .params import INVALID_MESSAGE_STATUS_LEN_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
+from .params import INVALID_INT_OR_STR_MESSAGE, INVALID_INT_OR_STR_SLICE_MESSAGE
 from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE
 from .params import RenderFormat
 from .tokens_estimator import TokensEstimator
@@ -172,7 +171,7 @@ class Session:
             if message.id == message_id:
                 return self.get_message_by_index(index=index)
 
-    def get_message(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]: #TODO: Need validation on `identifier` type
+    def get_message(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]:
         """
         Get a message from the session object.
 
@@ -180,8 +179,10 @@ class Session:
         """
         if isinstance(identifier, (int, slice)):
             return self.get_message_by_index(index=identifier)
-        if isinstance(identifier, str):
+        elif isinstance(identifier, str):
             return self.get_message_by_id(message_id=identifier)
+        else:
+            raise MemorValidationError(INVALID_INT_OR_STR_SLICE_MESSAGE.format("identifier"))
 
     def remove_message_by_index(self, index: int) -> None:
         """
@@ -204,7 +205,7 @@ class Session:
                 self.remove_message_by_index(index=index)
                 break
 
-    def remove_message(self, identifier: Union[int, str]) -> None: #TODO: Need validation on `identifier` type
+    def remove_message(self, identifier: Union[int, str]) -> None:
         """
         Remove a message from the session object.
 
@@ -212,8 +213,10 @@ class Session:
         """
         if isinstance(identifier, int):
             self.remove_message_by_index(index=identifier)
-        if isinstance(identifier, str):
+        elif isinstance(identifier, str):
             self.remove_message_by_id(message_id=identifier)
+        else:
+            raise MemorValidationError(INVALID_INT_OR_STR_MESSAGE.format("identifier"))
 
     def clear_messages(self) -> None:
         """Remove all messages."""
@@ -277,7 +280,7 @@ class Session:
         if status:
             self.update_messages_status(status)
         else:
-            self.update_messages_status(len(messages) * [True])  # TODO: Need discussion
+            self.update_messages_status(len(messages) * [True])
         self._date_modified = get_time_utc()
 
     def update_messages_status(self, status: List[bool]) -> None:

@@ -195,6 +195,14 @@ def test_remove_message4():
     assert session.messages == [prompt] and session.messages_status == [True]
 
 
+def test_remove_message5():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `identifier` must be an integer or a string."):
+        session.remove_message(3.5)
+
+
 def test_clear_messages():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
@@ -263,12 +271,12 @@ def test_save2():
 
 
 def test_load1():
-    with pytest.raises(MemorValidationError, match=r"Invalid path. Path must be a string."):
+    with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: 22"):
         _ = Session(file_path=22)
 
 
 def test_load2():
-    with pytest.raises(FileNotFoundError, match=r"Path session_test10.json does not exist."):
+    with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: session_test10.json"):
         _ = Session(file_path="session_test10.json")
 
 
@@ -562,6 +570,22 @@ def test_getitem6():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session")
     assert session[0] == session.get_message(prompt.id) and session[1] == session.get_message(response.id)
+
+
+def test_getitem7():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `identifier` must be an integer, string or a slice."):
+        _ = session[3.5]
+
+
+def test_getitem8():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `identifier` must be an integer, string or a slice."):
+        _ = session.get_message(3.5)
 
 
 def test_estimated_tokens1():
