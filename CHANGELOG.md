@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `Response` class `id` property
 - `Prompt` class `id` property
+- `Response` class `regenerate_id` method
+- `Prompt` class `regenerate_id` method
 - `Session` class `render_counter` method
 - `Session` class `remove_message_by_index` and `remove_message_by_id` methods
 - `Session` class `get_message_by_index`, `get_message_by_id` and `get_message` methods
