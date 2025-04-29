@@ -9,7 +9,6 @@ from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE
 from .params import INVALID_POSFLOAT_VALUE_MESSAGE
 from .params import INVALID_POSINT_VALUE_MESSAGE
-from .params import PATH_DOES_NOT_EXIST_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_BOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
@@ -152,10 +151,8 @@ def _validate_path(path: Any) -> bool:
 
     :param path: path
     """
-    if not isinstance(path, str):  # TODO: We should combine these two errors.
-        raise MemorValidationError(INVALID_PATH_MESSAGE)
-    if not os.path.exists(path):
-        raise FileNotFoundError(PATH_DOES_NOT_EXIST_MESSAGE.format(path))
+    if not isinstance(path, str) or not os.path.exists(path):
+        raise FileNotFoundError(INVALID_PATH_MESSAGE.format(path))
     return True
 
 
