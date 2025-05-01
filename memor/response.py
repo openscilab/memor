@@ -84,7 +84,6 @@ class Response:
             self._id = generate_message_id()
         _validate_message_id(self._id)
 
-
     def _mark_modified(self) -> None:
         """Mark modification."""
         self._date_modified = get_time_utc()

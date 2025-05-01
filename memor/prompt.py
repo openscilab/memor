@@ -88,7 +88,6 @@ class Prompt:
         """Mark modification."""
         self._date_modified = get_time_utc()
 
-
     def __eq__(self, other_prompt: "Prompt") -> bool:
         """
         Check prompts equality.

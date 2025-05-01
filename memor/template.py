@@ -53,7 +53,6 @@ class PromptTemplate:
             if custom_map:
                 self.update_map(custom_map)
 
-
     def _mark_modified(self) -> None:
         """Mark modification."""
         self._date_modified = get_time_utc()
