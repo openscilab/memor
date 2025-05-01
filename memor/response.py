@@ -58,7 +58,7 @@ class Response:
         self._inference_time = None
         self._model = LLMModel.DEFAULT.value
         self._date_created = get_time_utc()
-        self._date_modified = get_time_utc()
+        self._mark_modified()
         self._memor_version = MEMOR_VERSION
         self._id = None
         if file_path:
@@ -83,6 +83,11 @@ class Response:
                 self._date_created = date
             self._id = generate_message_id()
         _validate_message_id(self._id)
+
+
+    def _mark_modified(self) -> None:
+        """Mark modification."""
+        self._date_modified = get_time_utc()
 
     def __eq__(self, other_response: "Response") -> bool:
         """
@@ -127,7 +132,7 @@ class Response:
         """
         _validate_string(message, "message")
         self._message = message
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_score(self, score: float) -> None:
         """
@@ -137,7 +142,7 @@ class Response:
         """
         _validate_probability(score, "score")
         self._score = score
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_role(self, role: Role) -> None:
         """
@@ -148,7 +153,7 @@ class Response:
         if not isinstance(role, Role):
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_temperature(self, temperature: float) -> None:
         """
@@ -158,7 +163,7 @@ class Response:
         """
         _validate_pos_float(temperature, "temperature")
         self._temperature = temperature
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_tokens(self, tokens: int) -> None:
         """
@@ -168,7 +173,7 @@ class Response:
         """
         _validate_pos_int(tokens, "tokens")
         self._tokens = tokens
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_inference_time(self, inference_time: float) -> None:
         """
@@ -178,7 +183,7 @@ class Response:
         """
         _validate_pos_float(inference_time, "inference_time")
         self._inference_time = inference_time
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_model(self, model: Union[LLMModel, str]) -> None:
         """
@@ -192,7 +197,7 @@ class Response:
             self._model = model.value
         else:
             raise MemorValidationError(INVALID_MODEL_MESSAGE)
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def save(self, file_path: str) -> Dict[str, Any]:
         """
