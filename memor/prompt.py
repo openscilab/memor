@@ -120,6 +120,7 @@ class Prompt:
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
+        result.regenerate_id()
         return result
 
     def copy(self) -> "Prompt":
@@ -330,6 +331,13 @@ class Prompt:
         if not save_template:
             del data["template"]
         return data
+
+    def regenerate_id(self) -> None:
+        """Regenerate ID."""
+        new_id = self._id
+        while new_id == self.id:
+            new_id = generate_message_id()
+        self._id = new_id
 
     @property
     def message(self) -> str:

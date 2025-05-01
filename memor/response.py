@@ -112,6 +112,7 @@ class Response:
         _class = self.__class__
         result = _class.__new__(_class)
         result.__dict__.update(self.__dict__)
+        result.regenerate_id()
         return result
 
     def copy(self) -> "Response":
@@ -301,6 +302,13 @@ class Response:
         :param method: token estimator method
         """
         return method(self.render(render_format=RenderFormat.STRING))
+
+    def regenerate_id(self) -> None:
+        """Regenerate ID."""
+        new_id = self._id
+        while new_id == self.id:
+            new_id = generate_message_id()
+        self._id = new_id
 
     @property
     def message(self) -> str:

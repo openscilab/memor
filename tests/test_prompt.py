@@ -222,7 +222,7 @@ def test_copy1():
     prompt1 = Prompt(message=message, responses=[response], role=Role.USER,
                      template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     prompt2 = copy.copy(prompt1)
-    assert id(prompt1) != id(prompt2)
+    assert id(prompt1) != id(prompt2) and prompt1.id != prompt2.id
 
 
 def test_copy2():
@@ -231,7 +231,7 @@ def test_copy2():
     prompt1 = Prompt(message=message, responses=[response], role=Role.USER,
                      template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     prompt2 = prompt1.copy()
-    assert id(prompt1) != id(prompt2)
+    assert id(prompt1) != id(prompt2) and prompt1.id != prompt2.id
 
 
 def test_str():
