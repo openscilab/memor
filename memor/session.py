@@ -41,7 +41,7 @@ class Session:
         self._messages = []
         self._messages_status = []
         self._date_created = get_time_utc()
-        self._date_modified = get_time_utc()
+        self._mark_modified()
         self._memor_version = MEMOR_VERSION
         if file_path:
             self.load(file_path)
@@ -52,6 +52,10 @@ class Session:
                 self.update_messages(messages)
         if init_check:
             _ = self.render(enable_counter=False)
+
+    def _mark_modified(self) -> None:
+        """Mark modification."""
+        self._date_modified = get_time_utc()
 
     def __eq__(self, other_session: "Session") -> bool:
         """
@@ -151,7 +155,7 @@ class Session:
         else:
             self._messages.insert(index, message)
             self._messages_status.insert(index, status)
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def get_message_by_index(self, index: Union[int, slice]) -> Union[Prompt, Response]:
         """
@@ -192,7 +196,7 @@ class Session:
         """
         self._messages.pop(index)
         self._messages_status.pop(index)
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def remove_message_by_id(self, message_id: str) -> None:
         """
@@ -222,7 +226,7 @@ class Session:
         """Remove all messages."""
         self._messages = []
         self._messages_status = []
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def enable_message(self, index: int) -> None:
         """
@@ -264,7 +268,7 @@ class Session:
         """
         _validate_string(title, "title")
         self._title = title
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_messages(self,
                         messages: List[Union[Prompt, Response]],
@@ -281,7 +285,7 @@ class Session:
             self.update_messages_status(status)
         else:
             self.update_messages_status(len(messages) * [True])
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_messages_status(self, status: List[bool]) -> None:
         """
@@ -405,7 +409,7 @@ class Session:
                 result = list(session_dict.items())
         if enable_counter:
             self._render_counter += 1
-            self._date_modified = get_time_utc()
+            self._mark_modified()
         return result
 
     def check_render(self) -> bool:

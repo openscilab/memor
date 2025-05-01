@@ -40,7 +40,7 @@ class PromptTemplate:
         self._content = None
         self._title = None
         self._date_created = get_time_utc()
-        self._date_modified = get_time_utc()
+        self._mark_modified()
         self._memor_version = MEMOR_VERSION
         self._custom_map = None
         if file_path:
@@ -52,6 +52,10 @@ class PromptTemplate:
                 self.update_content(content)
             if custom_map:
                 self.update_map(custom_map)
+
+    def _mark_modified(self) -> None:
+        """Mark modification."""
+        self._date_modified = get_time_utc()
 
     def __eq__(self, other_template: "PromptTemplate") -> bool:
         """
@@ -90,7 +94,7 @@ class PromptTemplate:
         """
         _validate_string(title, "title")
         self._title = title
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_content(self, content: str) -> None:
         """
@@ -100,7 +104,7 @@ class PromptTemplate:
         """
         _validate_string(content, "content")
         self._content = content
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_map(self, custom_map: Dict[str, str]) -> None:
         """
@@ -110,7 +114,7 @@ class PromptTemplate:
         """
         _validate_custom_map(custom_map)
         self._custom_map = custom_map
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def save(self, file_path: str) -> Dict[str, Any]:
         """
