@@ -60,7 +60,7 @@ class Prompt:
         self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
         self._date_created = get_time_utc()
-        self._date_modified = get_time_utc()
+        self._mark_modified()
         self._memor_version = MEMOR_VERSION
         self._selected_response_index = 0
         self._selected_response = None
@@ -83,6 +83,11 @@ class Prompt:
         _validate_message_id(self._id)
         if init_check:
             _ = self.render()
+
+    def _mark_modified(self) -> None:
+        """Mark modification."""
+        self._date_modified = get_time_utc()
+
 
     def __eq__(self, other_prompt: "Prompt") -> bool:
         """
@@ -144,7 +149,7 @@ class Prompt:
             self._responses.append(response)
         else:
             self._responses.insert(index, response)
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def remove_response(self, index: int) -> None:
         """
@@ -153,7 +158,7 @@ class Prompt:
         :param index: index
         """
         self._responses.pop(index)
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def select_response(self, index: int) -> None:
         """
@@ -164,7 +169,7 @@ class Prompt:
         if len(self._responses) > 0:
             self._selected_response_index = index
             self._selected_response = self._responses[index]
-            self._date_modified = get_time_utc()
+            self._mark_modified()
 
     def update_responses(self, responses: List[Response]) -> None:
         """
@@ -174,7 +179,7 @@ class Prompt:
         """
         _validate_list_of(responses, "responses", Response, "`Response`")
         self._responses = responses
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_message(self, message: str) -> None:
         """
@@ -184,7 +189,7 @@ class Prompt:
         """
         _validate_string(message, "message")
         self._message = message
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_role(self, role: Role) -> None:
         """
@@ -195,7 +200,7 @@ class Prompt:
         if not isinstance(role, Role):
             raise MemorValidationError(INVALID_ROLE_MESSAGE)
         self._role = role
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_tokens(self, tokens: int) -> None:
         """
@@ -205,7 +210,7 @@ class Prompt:
         """
         _validate_pos_int(tokens, "tokens")
         self._tokens = tokens
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def update_template(self, template: PromptTemplate) -> None:
         """
@@ -230,7 +235,7 @@ class Prompt:
              _Instruction2PresetPromptTemplate,
              _Instruction3PresetPromptTemplate)):
             self._template = template.value
-        self._date_modified = get_time_utc()
+        self._mark_modified()
 
     def save(self, file_path: str, save_template: bool = True) -> Dict[str, Any]:
         """
