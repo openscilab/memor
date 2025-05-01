@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `AI_STUDIO` render format
 ### Changed
 - Test system modified
+- Modification handling centralized via `_mark_modified` method
 - `Session` class `remove_message` method modified
 ## [0.5] - 2025-04-16
 ### Added
