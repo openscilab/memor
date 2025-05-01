@@ -254,7 +254,6 @@ class Response:
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         data["role"] = data["role"].value
-        data["model"] = data["model"]
         return data
 
     def to_dict(self) -> Dict[str, Any]:
