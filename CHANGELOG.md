@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.6] - 2025-05-05
 ### Added
 - `Response` class `id` property
 - `Prompt` class `id` property
@@ -81,7 +82,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `PresetPromptTemplate` class
 
 
-[Unreleased]: https://github.com/openscilab/memor/compare/v0.5...dev
+[Unreleased]: https://github.com/openscilab/memor/compare/v0.6...dev
+[0.6]: https://github.com/openscilab/memor/compare/v0.5...v0.6
 [0.5]: https://github.com/openscilab/memor/compare/v0.4...v0.5
 [0.4]: https://github.com/openscilab/memor/compare/v0.3...v0.4
 [0.3]: https://github.com/openscilab/memor/compare/v0.2...v0.3
