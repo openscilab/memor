@@ -95,7 +95,11 @@ class Session:
         if isinstance(other_object, Session):
             new_messages = self._messages + other_object._messages
             return Session(messages=new_messages)
-        raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
+        raise TypeError(
+            UNSUPPORTED_OPERAND_ERROR_MESSAGE.format(
+                operator="+",
+                operand1="Session",
+                operand2=type(other_object).__name__))
 
     def __radd__(self, other_object: Union["Session", Response, Prompt]) -> "Session":
         """
@@ -106,7 +110,11 @@ class Session:
         if isinstance(other_object, (Response, Prompt)):
             new_messages = [other_object] + self._messages
             return Session(title=self.title, messages=new_messages)
-        raise TypeError(UNSUPPORTED_OPERAND_ERROR_MESSAGE.format("+", "Session", type(other_object).__name__))
+        raise TypeError(
+            UNSUPPORTED_OPERAND_ERROR_MESSAGE.format(
+                operator="+",
+                operand1="Session",
+                operand2=type(other_object).__name__))
 
     def __contains__(self, message: Union[Prompt, Response]) -> bool:
         """
@@ -186,7 +194,7 @@ class Session:
         elif isinstance(identifier, str):
             return self.get_message_by_id(message_id=identifier)
         else:
-            raise MemorValidationError(INVALID_INT_OR_STR_SLICE_MESSAGE.format("identifier"))
+            raise MemorValidationError(INVALID_INT_OR_STR_SLICE_MESSAGE.format(parameter_name="identifier"))
 
     def remove_message_by_index(self, index: int) -> None:
         """
@@ -220,7 +228,7 @@ class Session:
         elif isinstance(identifier, str):
             self.remove_message_by_id(message_id=identifier)
         else:
-            raise MemorValidationError(INVALID_INT_OR_STR_MESSAGE.format("identifier"))
+            raise MemorValidationError(INVALID_INT_OR_STR_MESSAGE.format(parameter_name="identifier"))
 
     def clear_messages(self) -> None:
         """Remove all messages."""

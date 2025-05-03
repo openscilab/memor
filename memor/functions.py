@@ -51,7 +51,7 @@ def _validate_string(value: Any, parameter_name: str) -> bool:
     :param parameter_name: parameter name
     """
     if not isinstance(value, str):
-        raise MemorValidationError(INVALID_STR_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_STR_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
 
@@ -63,7 +63,7 @@ def _validate_bool(value: Any, parameter_name: str) -> bool:
     :param parameter_name: parameter name
     """
     if not isinstance(value, bool):
-        raise MemorValidationError(INVALID_BOOL_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_BOOL_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
 
@@ -88,7 +88,7 @@ def _validate_pos_int(value: Any, parameter_name: str) -> bool:
     :param parameter_name: parameter name
     """
     if not isinstance(value, int) or value < 0:
-        raise MemorValidationError(INVALID_POSINT_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_POSINT_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
 
@@ -100,7 +100,7 @@ def _validate_pos_float(value: Any, parameter_name: str) -> bool:
     :param parameter_name: parameter name
     """
     if not isinstance(value, float) or value < 0:
-        raise MemorValidationError(INVALID_POSFLOAT_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_POSFLOAT_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
 
@@ -112,7 +112,7 @@ def _validate_probability(value: Any, parameter_name: str) -> bool:
     :param parameter_name: parameter name
     """
     if not isinstance(value, float) or value < 0 or value > 1:
-        raise MemorValidationError(INVALID_PROB_VALUE_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_PROB_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
 
@@ -126,10 +126,10 @@ def _validate_list_of(value: Any, parameter_name: str, type_: Type, type_name: s
     :param type_name: type name
     """
     if not isinstance(value, list):
-        raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name, type_name))
+        raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name=parameter_name, type_name=type_name))
 
     if not all(isinstance(x, type_) for x in value):
-        raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name, type_name))
+        raise MemorValidationError(INVALID_LIST_OF_X_MESSAGE.format(parameter_name=parameter_name, type_name=type_name))
     return True
 
 
@@ -141,7 +141,7 @@ def _validate_date_time(date_time: Any, parameter_name: str) -> bool:
     :param parameter_name: parameter name
     """
     if not isinstance(date_time, datetime.datetime) or date_time.tzinfo is None:
-        raise MemorValidationError(INVALID_DATETIME_MESSAGE.format(parameter_name))
+        raise MemorValidationError(INVALID_DATETIME_MESSAGE.format(parameter_name=parameter_name))
     return True
 
 
@@ -152,7 +152,7 @@ def _validate_path(path: Any) -> bool:
     :param path: path
     """
     if not isinstance(path, str) or not os.path.exists(path):
-        raise FileNotFoundError(INVALID_PATH_MESSAGE.format(path))
+        raise FileNotFoundError(INVALID_PATH_MESSAGE.format(path=path))
     return True
 
 
