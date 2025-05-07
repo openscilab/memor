@@ -293,7 +293,7 @@ def test_load2():
 def test_load3():
     session = Session()
     with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: session_test10.json"):
-        _ = session.load("session_test10.json")
+        session.load("session_test10.json")
     assert session.messages == [] and session.title is None
     assert session.render_counter == 0
     assert session.messages_status == []
