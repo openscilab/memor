@@ -152,14 +152,20 @@ class PromptTemplate:
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            self._content = loaded_obj["content"]
-            self._title = loaded_obj["title"]
-            self._memor_version = loaded_obj["memor_version"]
-            self._custom_map = loaded_obj["custom_map"]
-            self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-            self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+            content = loaded_obj["content"]
+            title = loaded_obj["title"]
+            memor_version = loaded_obj["memor_version"]
+            custom_map = loaded_obj["custom_map"]
+            date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_TEMPLATE_STRUCTURE_MESSAGE)
+        self._content = content
+        self._title = title
+        self._memor_version = memor_version
+        self._custom_map = custom_map
+        self._date_created = date_created
+        self._date_modified = date_modified
 
     def to_json(self) -> Dict[str, Any]:
         """Convert PromptTemplate to json."""
