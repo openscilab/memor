@@ -88,6 +88,16 @@ def test_messages_status4():
         session.update_messages_status([False, True, True])
 
 
+def test_messages_status5():
+    s = Session()
+    p1 = Prompt("Prompt1")
+    p2 = Prompt("Prompt2")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `status` must be a list of booleans."):
+        s.update_messages(messages=[p1, p2], status="status")
+    assert s.messages == []
+    assert s.messages_status == []
+
+
 def test_enable_message():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
@@ -278,6 +288,15 @@ def test_load1():
 def test_load2():
     with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: session_test10.json"):
         _ = Session(file_path="session_test10.json")
+
+
+def test_load3():
+    session = Session()
+    with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: session_test10.json"):
+        _ = session.load("session_test10.json")
+    assert session.messages == [] and session.title is None
+    assert session.render_counter == 0
+    assert session.messages_status == []
 
 
 def test_render1():

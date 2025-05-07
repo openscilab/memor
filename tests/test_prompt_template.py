@@ -126,6 +126,9 @@ def test_json2():
     template = PromptTemplate()
     with pytest.raises(MemorValidationError, match=r"Invalid template structure. It should be a JSON object with proper fields."):
         template.from_json("{}")
+    assert template.content is None
+    assert template.custom_map is None
+    assert template.title is None
 
 
 def test_save1():
