@@ -274,28 +274,37 @@ class Prompt:
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            self._message = loaded_obj["message"]
-            self._tokens = loaded_obj.get("tokens", None)
-            self._id = loaded_obj.get("id", generate_message_id())
+            message = loaded_obj["message"]
+            tokens = loaded_obj.get("tokens", None)
+            id = loaded_obj.get("id", generate_message_id())
             responses = []
             for response in loaded_obj["responses"]:
                 response_obj = Response()
                 response_obj.from_json(response)
                 responses.append(response_obj)
-            self._responses = responses
-            self._role = Role(loaded_obj["role"])
-            self._template = PresetPromptTemplate.DEFAULT.value
+            role = Role(loaded_obj["role"])
+            template = PresetPromptTemplate.DEFAULT.value
             if "template" in loaded_obj:
                 template_obj = PromptTemplate()
                 template_obj.from_json(loaded_obj["template"])
-                self._template = template_obj
-            self._memor_version = loaded_obj["memor_version"]
-            self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-            self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
-            self._selected_response_index = loaded_obj["selected_response_index"]
-            self.select_response(index=self._selected_response_index)
+                template = template_obj
+            memor_version = loaded_obj["memor_version"]
+            date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+            selected_response_index = loaded_obj["selected_response_index"]
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
+        self._message = message
+        self._tokens = tokens
+        self._id = id
+        self._responses = responses
+        self._role = role
+        self._template = template
+        self._memor_version = memor_version
+        self._date_created = date_created
+        self._date_modified = date_modified
+        self._selected_response_index = selected_response_index
+        self.select_response(index=self._selected_response_index)
 
     def to_json(self, save_template: bool = True) -> Dict[str, Any]:
         """
