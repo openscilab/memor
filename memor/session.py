@@ -302,9 +302,7 @@ class Session:
 
         :param status: status
         """
-        _validate_list_of(status, "status", bool, "booleans")
-        if len(status) != len(self._messages):
-            raise MemorValidationError(INVALID_MESSAGE_STATUS_LEN_MESSAGE)
+        _validate_status(status, self._messages)
         self._messages_status = status
 
     def save(self, file_path: str) -> Dict[str, Any]:
