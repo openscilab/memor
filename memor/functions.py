@@ -6,7 +6,7 @@ import datetime
 import uuid
 from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
-from .params import INVALID_PROB_VALUE_MESSAGE
+from .params import INVALID_PROB_VALUE_MESSAGE, INVALID_MESSAGE_STATUS_LEN_MESSAGE
 from .params import INVALID_POSFLOAT_VALUE_MESSAGE
 from .params import INVALID_POSINT_VALUE_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
