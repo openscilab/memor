@@ -288,9 +288,9 @@ def test_json3():
     prompt = Prompt()
     with pytest.raises(MemorValidationError, match=r"Invalid prompt structure. It should be a JSON object with proper fields."):
         prompt.from_json("{}")
-    assert prompt.message is ''
+    assert prompt.message == ''
     assert prompt.responses == []
-    assert prompt.role is Role.USER
+    assert prompt.role == Role.USER
 
 
 def test_save1():

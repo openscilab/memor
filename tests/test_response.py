@@ -211,10 +211,10 @@ def test_json2():
     response = Response()
     with pytest.raises(MemorValidationError, match=r"Invalid response structure. It should be a JSON object with proper fields."):
         response.from_json("{}")
-    assert response.message is ''
-    assert response.model is 'unknown'
+    assert response.message == ''
+    assert response.model == 'unknown'
     assert response.temperature is None
-    assert response.role is Role.ASSISTANT
+    assert response.role == Role.ASSISTANT
     assert response.score is None
     assert response.inference_time is None
     assert response.tokens is None
