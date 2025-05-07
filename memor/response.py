@@ -242,7 +242,7 @@ class Response:
             model = loaded_obj["model"]
             role = Role(loaded_obj["role"])
             memor_version = loaded_obj["memor_version"]
-            id = loaded_obj.get("id", generate_message_id())
+            _id = loaded_obj.get("id", generate_message_id())
             date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
@@ -255,7 +255,7 @@ class Response:
         self._model = model
         self._role = role
         self._memor_version = memor_version
-        self._id = id
+        self._id = _id
         self._date_created = date_created
         self._date_modified = date_modified
 

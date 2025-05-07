@@ -276,7 +276,7 @@ class Prompt:
                 loaded_obj = json_object.copy()
             message = loaded_obj["message"]
             tokens = loaded_obj.get("tokens", None)
-            id = loaded_obj.get("id", generate_message_id())
+            _id = loaded_obj.get("id", generate_message_id())
             responses = []
             for response in loaded_obj["responses"]:
                 response_obj = Response()
@@ -296,7 +296,7 @@ class Prompt:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
         self._message = message
         self._tokens = tokens
-        self._id = id
+        self._id = _id
         self._responses = responses
         self._role = role
         self._template = template
