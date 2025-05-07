@@ -17,6 +17,7 @@ from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
+from .functions import _validate_status
 
 
 class Session:

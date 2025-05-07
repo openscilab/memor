@@ -145,6 +145,19 @@ def _validate_date_time(date_time: Any, parameter_name: str) -> bool:
     return True
 
 
+def _validate_status(status: Any, messages: Any) -> bool:
+    """
+    Validate status.
+
+    :param status: status
+    :param messages: messages
+    """
+    _validate_list_of(status, "status", bool, "booleans")
+    if len(status) != len(messages):
+        raise MemorValidationError(INVALID_MESSAGE_STATUS_LEN_MESSAGE)
+    return True
+
+
 def _validate_path(path: Any) -> bool:
     """
     Validate path property.
