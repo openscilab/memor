@@ -342,9 +342,9 @@ class Session:
             loaded_obj = json.loads(json_object)
         else:
             loaded_obj = json_object.copy()
-        self._title = loaded_obj["title"]
-        self._render_counter = loaded_obj.get("render_counter", 0)
-        self._messages_status = loaded_obj["messages_status"]
+        title = loaded_obj["title"]
+        render_counter = loaded_obj.get("render_counter", 0)
+        messages_status = loaded_obj["messages_status"]
         messages = []
         for message in loaded_obj["messages"]:
             if message["type"] == "Prompt":
@@ -353,10 +353,17 @@ class Session:
                 message_obj = Response()
             message_obj.from_json(message)
             messages.append(message_obj)
+        messages = messages
+        memor_version = loaded_obj["memor_version"]
+        date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+        date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+        self._title = title
+        self._render_counter = render_counter
         self._messages = messages
-        self._memor_version = loaded_obj["memor_version"]
-        self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-        self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+        self._messages_status = messages_status
+        self._memor_version = memor_version
+        self._date_created = date_created
+        self._date_modified = date_modified
 
     def to_json(self) -> Dict[str, Any]:
         """Convert the session to a JSON object."""
