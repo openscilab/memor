@@ -6,7 +6,7 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
-from .params import INVALID_MESSAGE_STATUS_LEN_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
+from .params import INVALID_SESSION_STRUCTURE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
 from .params import INVALID_INT_OR_STR_MESSAGE, INVALID_INT_OR_STR_SLICE_MESSAGE
 from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE
 from .params import RenderFormat
@@ -343,16 +343,19 @@ class Session:
         else:
             loaded_obj = json_object.copy()
         title = loaded_obj["title"]
-        render_counter = loaded_obj.get("render_counter", 0)
-        messages_status = loaded_obj["messages_status"]
-        messages = []
-        for message in loaded_obj["messages"]:
-            if message["type"] == "Prompt":
-                message_obj = Prompt()
-            elif message["type"] == "Response":
-                message_obj = Response()
-            message_obj.from_json(message)
-            messages.append(message_obj)
+        try:
+            render_counter = loaded_obj.get("render_counter", 0)
+            messages_status = loaded_obj["messages_status"]
+            messages = []
+            for message in loaded_obj["messages"]:
+                if message["type"] == "Prompt":
+                    message_obj = Prompt()
+                elif message["type"] == "Response":
+                    message_obj = Response()
+                message_obj.from_json(message)
+                messages.append(message_obj)
+        except Exception:
+            raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
         messages = messages
         memor_version = loaded_obj["memor_version"]
         date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
