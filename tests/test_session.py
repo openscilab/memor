@@ -292,8 +292,16 @@ def test_load2():
 
 def test_load3():
     session = Session()
-    with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: session_test10.json"):
-        session.load("session_test10.json")
+    with pytest.raises(MemorValidationError, match=r"Invalid session structure. It should be a JSON object with proper fields."):
+        # an corrupted JSON string without `messages_status` field
+        session.from_json(r"""{
+                          "type": "Session",
+                          "title": "session1",
+                          "render_counter": 1, 
+                          "messages": [{"type": "Prompt", "message": "Hello, how are you?", "responses": [], "selected_response_index": 0, "tokens": null, "role": "user", "id": "465a5bc3-2ede-46b5-af47-294637e44407", "template": {"title": "Basic/Prompt", "content": "{instruction}{prompt[message]}", "memor_version": "0.6", "custom_map": {"instruction": ""}, "date_created": "2025-05-07 21:57:05 +0000", "date_modified": "2025-05-07 21:57:05 +0000"}, "memor_version": "0.6", "date_created": "2025-05-07 21:57:05 +0000", "date_modified": "2025-05-07 21:57:05 +0000"}, {"type": "Response", "message": "I am fine.", "score": null, "temperature": null, "tokens": null, "inference_time": null, "role": "assistant", "model": "unknown", "id": "8a2a32b8-d828-4309-9583-2185fba9e3bb", "memor_version": "0.6", "date_created": "2025-05-07 21:57:05 +0000", "date_modified": "2025-05-07 21:57:05 +0000"}],
+                          "memor_version": "0.6",
+                          "date_created": "2025-05-07 21:57:05 +0000",
+                          "date_modified": "2025-05-07 21:57:05 +0000"}""")
     assert session.messages == [] and session.title is None
     assert session.render_counter == 0
     assert session.messages_status == []

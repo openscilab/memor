@@ -287,7 +287,18 @@ def test_json2():
 def test_json3():
     prompt = Prompt()
     with pytest.raises(MemorValidationError, match=r"Invalid prompt structure. It should be a JSON object with proper fields."):
-        prompt.from_json("{}")
+        # an corrupted JSON string without `responses` field
+        prompt.from_json(r"""{
+                         "type": "Prompt",
+                         "message": "Hello, how are you?",
+                         "selected_response_index": 0,
+                         "tokens": null,
+                         "role": "user",
+                         "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
+                         "template": {"title": "Basic/Prompt-Response Standard", "content": "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}","memor_version": "0.6", "custom_map": {"instruction": ""}, "date_created": "2025-05-07 21:49:23 +0000", "date_modified": "2025-05-07 21:49:23 +0000"},
+                         "memor_version": "0.6",
+                         "date_created": "2025-05-07 21:49:23 +0000",
+                         "date_modified": "2025-05-07 21:49:23 +0000"}""")
     assert prompt.message == ''
     assert prompt.responses == []
     assert prompt.role == Role.USER
