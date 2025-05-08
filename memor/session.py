@@ -294,7 +294,7 @@ class Session:
         else:
             status = len(messages) * [True]
         self._messages = messages
-        self._messages_status = status
+        self.update_messages_status(status)
         self._mark_modified()
 
     def update_messages_status(self, status: List[bool]) -> None:
