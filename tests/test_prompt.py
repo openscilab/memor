@@ -295,7 +295,12 @@ def test_json3():
                          "tokens": null,
                          "role": "user",
                          "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
-                         "template": {"title": "Basic/Prompt-Response Standard", "content": "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}","memor_version": "0.6", "custom_map": {"instruction": ""}, "date_created": "2025-05-07 21:49:23 +0000", "date_modified": "2025-05-07 21:49:23 +0000"},
+                         "template": {
+                            "title": "Basic/Prompt-Response Standard",
+                            "content": "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}",
+                            "memor_version": "0.6", "custom_map": {"instruction": ""},
+                            "date_created": "2025-05-07 21:49:23 +0000",
+                            "date_modified": "2025-05-07 21:49:23 +0000"},
                          "memor_version": "0.6",
                          "date_created": "2025-05-07 21:49:23 +0000",
                          "date_modified": "2025-05-07 21:49:23 +0000"}""")
