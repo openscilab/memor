@@ -166,8 +166,8 @@ class Prompt:
         :param index: index
         """
         if len(self._responses) > 0:
-            self._selected_response_index = index
             self._selected_response = self._responses[index]
+            self._selected_response_index = index
             self._mark_modified()
 
     def update_responses(self, responses: List[Response]) -> None:

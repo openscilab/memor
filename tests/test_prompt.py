@@ -183,6 +183,17 @@ def test_select_response():
     assert prompt.selected_response == response1
 
 
+def test_select_response2():
+    prompt = Prompt("Hello, how are you?")
+    response0 = Response("I am fine.")
+    response1 = Response("Great!")
+    prompt.update_responses([response0, response1])
+    with pytest.raises(IndexError, match=r"list index out of range"):
+        prompt.select_response(20)
+    assert prompt._selected_response_index == 0
+    assert prompt._selected_response == None
+
+
 def test_template1():
     message = "Hello, how are you?"
     prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD, init_check=False)
