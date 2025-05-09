@@ -294,6 +294,7 @@ class Prompt:
             selected_response_index = loaded_obj["selected_response_index"]
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
+        self.select_response(index=self._selected_response_index)
         self._message = message
         self._tokens = tokens
         self._id = _id
@@ -304,7 +305,6 @@ class Prompt:
         self._date_created = date_created
         self._date_modified = date_modified
         self._selected_response_index = selected_response_index
-        self.select_response(index=self._selected_response_index)
 
     def to_json(self, save_template: bool = True) -> Dict[str, Any]:
         """
