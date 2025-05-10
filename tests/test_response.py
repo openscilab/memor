@@ -210,7 +210,26 @@ def test_json1():
 def test_json2():
     response = Response()
     with pytest.raises(MemorValidationError, match=r"Invalid response structure. It should be a JSON object with proper fields."):
-        response.from_json("{}")
+        # an corrupted JSON string without `message` field
+        response.from_json(r"""{
+                           "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
+                           "tokens": null,
+                           "inference_time": null,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.role == Role.ASSISTANT
+    assert response.score is None
+    assert response.inference_time is None
+    assert response.tokens is None
 
 
 def test_save1():

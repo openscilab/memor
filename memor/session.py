@@ -6,7 +6,7 @@ import json
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
-from .params import INVALID_MESSAGE_STATUS_LEN_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
+from .params import INVALID_SESSION_STRUCTURE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
 from .params import INVALID_INT_OR_STR_MESSAGE, INVALID_INT_OR_STR_SLICE_MESSAGE
 from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE
 from .params import RenderFormat
@@ -17,6 +17,7 @@ from .errors import MemorValidationError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
+from .functions import _validate_status
 
 
 class Session:
@@ -288,11 +289,12 @@ class Session:
         :param status: status
         """
         _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
-        self._messages = messages
         if status:
-            self.update_messages_status(status)
+            _validate_status(status, messages)
         else:
-            self.update_messages_status(len(messages) * [True])
+            status = len(messages) * [True]
+        self._messages = messages
+        self.update_messages_status(status)
         self._mark_modified()
 
     def update_messages_status(self, status: List[bool]) -> None:
@@ -301,9 +303,7 @@ class Session:
 
         :param status: status
         """
-        _validate_list_of(status, "status", bool, "booleans")
-        if len(status) != len(self._messages):
-            raise MemorValidationError(INVALID_MESSAGE_STATUS_LEN_MESSAGE)
+        _validate_status(status, self._messages)
         self._messages_status = status
 
     def save(self, file_path: str) -> Dict[str, Any]:
@@ -342,21 +342,31 @@ class Session:
             loaded_obj = json.loads(json_object)
         else:
             loaded_obj = json_object.copy()
-        self._title = loaded_obj["title"]
-        self._render_counter = loaded_obj.get("render_counter", 0)
-        self._messages_status = loaded_obj["messages_status"]
-        messages = []
-        for message in loaded_obj["messages"]:
-            if message["type"] == "Prompt":
-                message_obj = Prompt()
-            elif message["type"] == "Response":
-                message_obj = Response()
-            message_obj.from_json(message)
-            messages.append(message_obj)
+        title = loaded_obj["title"]
+        try:
+            render_counter = loaded_obj.get("render_counter", 0)
+            messages_status = loaded_obj["messages_status"]
+            messages = []
+            for message in loaded_obj["messages"]:
+                if message["type"] == "Prompt":
+                    message_obj = Prompt()
+                elif message["type"] == "Response":
+                    message_obj = Response()
+                message_obj.from_json(message)
+                messages.append(message_obj)
+        except Exception:
+            raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
+        messages = messages
+        memor_version = loaded_obj["memor_version"]
+        date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+        date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+        self._title = title
+        self._render_counter = render_counter
         self._messages = messages
-        self._memor_version = loaded_obj["memor_version"]
-        self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-        self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+        self._messages_status = messages_status
+        self._memor_version = memor_version
+        self._date_created = date_created
+        self._date_modified = date_modified
 
     def to_json(self) -> Dict[str, Any]:
         """Convert the session to a JSON object."""

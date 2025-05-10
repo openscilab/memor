@@ -6,7 +6,7 @@ import datetime
 import uuid
 from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
-from .params import INVALID_PROB_VALUE_MESSAGE
+from .params import INVALID_PROB_VALUE_MESSAGE, INVALID_MESSAGE_STATUS_LEN_MESSAGE
 from .params import INVALID_POSFLOAT_VALUE_MESSAGE
 from .params import INVALID_POSINT_VALUE_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
@@ -142,6 +142,19 @@ def _validate_date_time(date_time: Any, parameter_name: str) -> bool:
     """
     if not isinstance(date_time, datetime.datetime) or date_time.tzinfo is None:
         raise MemorValidationError(INVALID_DATETIME_MESSAGE.format(parameter_name=parameter_name))
+    return True
+
+
+def _validate_status(status: Any, messages: Any) -> bool:
+    """
+    Validate status.
+
+    :param status: status
+    :param messages: messages
+    """
+    _validate_list_of(status, "status", bool, "booleans")
+    if len(status) != len(messages):
+        raise MemorValidationError(INVALID_MESSAGE_STATUS_LEN_MESSAGE)
     return True
 
 

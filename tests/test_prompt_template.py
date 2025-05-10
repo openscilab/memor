@@ -125,7 +125,16 @@ def test_json1():
 def test_json2():
     template = PromptTemplate()
     with pytest.raises(MemorValidationError, match=r"Invalid template structure. It should be a JSON object with proper fields."):
-        template.from_json("{}")
+        # an corrupted JSON string without `content` field
+        template.from_json(r"""{
+                           "title": null,
+                           "memor_version": "0.6",
+                           "custom_map": {"language": "Python"},
+                           "date_created": "2025-05-07 21:52:33 +0000",
+                           "date_modified": "2025-05-07 21:52:33 +0000"}""")
+    assert template.content is None
+    assert template.custom_map is None
+    assert template.title is None
 
 
 def test_save1():

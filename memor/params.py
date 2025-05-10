@@ -26,6 +26,7 @@ INVALID_MODEL_MESSAGE = "Invalid model. It must be an instance of LLMModel enum 
 INVALID_TEMPLATE_STRUCTURE_MESSAGE = "Invalid template structure. It should be a JSON object with proper fields."
 INVALID_PROMPT_STRUCTURE_MESSAGE = "Invalid prompt structure. It should be a JSON object with proper fields."
 INVALID_RESPONSE_STRUCTURE_MESSAGE = "Invalid response structure. It should be a JSON object with proper fields."
+INVALID_SESSION_STRUCTURE_MESSAGE = "Invalid session structure. It should be a JSON object with proper fields."
 INVALID_RENDER_FORMAT_MESSAGE = "Invalid render format. It must be an instance of RenderFormat enum."
 PROMPT_RENDER_ERROR_MESSAGE = "Prompt template and properties are incompatible."
 UNSUPPORTED_OPERAND_ERROR_MESSAGE = "Unsupported operand type(s) for {operator}: `{operand1}` and `{operand2}`"

@@ -234,19 +234,30 @@ class Response:
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            self._message = loaded_obj["message"]
-            self._score = loaded_obj["score"]
-            self._temperature = loaded_obj["temperature"]
-            self._tokens = loaded_obj.get("tokens", None)
-            self._inference_time = loaded_obj.get("inference_time", None)
-            self._model = loaded_obj["model"]
-            self._role = Role(loaded_obj["role"])
-            self._memor_version = loaded_obj["memor_version"]
-            self._id = loaded_obj.get("id", generate_message_id())
-            self._date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-            self._date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+            message = loaded_obj["message"]
+            score = loaded_obj["score"]
+            temperature = loaded_obj["temperature"]
+            tokens = loaded_obj.get("tokens", None)
+            inference_time = loaded_obj.get("inference_time", None)
+            model = loaded_obj["model"]
+            role = Role(loaded_obj["role"])
+            memor_version = loaded_obj["memor_version"]
+            _id = loaded_obj.get("id", generate_message_id())
+            date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
+        self._message = message
+        self._score = score
+        self._temperature = temperature
+        self._tokens = tokens
+        self._inference_time = inference_time
+        self._model = model
+        self._role = role
+        self._memor_version = memor_version
+        self._id = _id
+        self._date_created = date_created
+        self._date_modified = date_modified
 
     def to_json(self) -> Dict[str, Any]:
         """Convert the response to a JSON object."""
