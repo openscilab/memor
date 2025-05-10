@@ -3,6 +3,7 @@
 from typing import List, Dict, Tuple, Any, Union, Generator
 import datetime
 import json
+import re
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
@@ -143,6 +144,28 @@ class Session:
     def copy(self) -> "Session":
         """Return a copy of the Session object."""
         return self.__copy__()
+
+    def search(self, query: str, use_regex: bool = False, case_sensitive: bool = False) -> List[int]:
+        """
+        Search for a keyword or regex pattern in messages.
+
+        :param query: input query
+        :param use_regex: regex flag
+        :param case_sensitive: case sensitivity flag
+        """
+        flags = 0 if case_sensitive else re.IGNORECASE
+        if not use_regex:
+            query = re.escape(query)
+        pattern = re.compile(query, flags)
+        result = []
+        for index, message in enumerate(self.messages):
+            if isinstance(message, (Prompt, Response)) and message.check_render():
+                searchable_str = message.render(render_format=RenderFormat.STRING)
+                if isinstance(message.title, str):
+                    searchable_str += " " + message.title
+                if pattern.search(searchable_str):
+                    result.append(index)
+        return result
 
     def add_message(self,
                     message: Union[Prompt, Response],
