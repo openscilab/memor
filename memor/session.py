@@ -14,7 +14,7 @@ from .params import RenderFormat
 from .tokens_estimator import TokensEstimator
 from .prompt import Prompt
 from .response import Response
-from .errors import MemorValidationError
+from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
@@ -159,12 +159,13 @@ class Session:
         pattern = re.compile(query, flags)
         result = []
         for index, message in enumerate(self.messages):
-            if isinstance(message, (Prompt, Response)) and message.check_render():
-                searchable_str = message.render(render_format=RenderFormat.STRING)
-                if isinstance(message.title, str):
-                    searchable_str += " " + message.title
-                if pattern.search(searchable_str):
-                    result.append(index)
+            if isinstance(message, (Prompt, Response)):
+                try:
+                    searchable_str = message.render(render_format=RenderFormat.STRING)
+                    if pattern.search(searchable_str):
+                        result.append(index)
+                except MemorRenderError:
+                    continue
         return result
 
     def add_message(self,
