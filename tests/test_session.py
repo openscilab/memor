@@ -666,3 +666,40 @@ def test_estimated_tokens3():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session")
     assert session.estimate_tokens(TokensEstimator.OPENAI_GPT_4) == 15
+
+
+def test_search1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session.search(query="hello") == [0]
+
+
+def test_search2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session.search(query="hello", case_sensitive=True) == []
+
+
+def test_search3():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session.search(query="^hello", use_regex=True) == [1]
+
+
+def test_search4():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    assert session.search(query="a") == [0, 1]
+
+
+def test_search5():
+    template = PromptTemplate(content="{response[2][message]}")
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, template=template, init_check=False)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session", init_check=False)
+    assert session.search(query="a") == [1]
+
