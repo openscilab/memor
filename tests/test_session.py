@@ -686,7 +686,7 @@ def test_search3():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session")
-    assert session.search(query="^hello", use_regex=True) == [1]
+    assert session.search(query="^hello", use_regex=True) == [0]
 
 
 def test_search4():
