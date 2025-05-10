@@ -147,7 +147,7 @@ class Session:
 
     def search(self, query: str, use_regex: bool = False, case_sensitive: bool = False) -> List[int]:
         """
-        Search for a keyword or regex pattern in messages.
+        Search messages for a keyword or regex pattern, returning indices.
 
         :param query: input query
         :param use_regex: regex flag
