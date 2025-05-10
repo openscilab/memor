@@ -297,7 +297,7 @@ def test_load3():
         session.from_json(r"""{
                           "type": "Session",
                           "title": "session1",
-                          "render_counter": 1, 
+                          "render_counter": 1,
                           "messages": [
                           {
                             "type": "Prompt",
@@ -702,4 +702,3 @@ def test_search5():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session", init_check=False)
     assert session.search(query="a") == [1]
-
