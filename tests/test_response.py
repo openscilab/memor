@@ -318,7 +318,7 @@ def test_render6():
 
 def test_render7():
     response = Response(message="I am fine.", role=Role.SYSTEM)
-    with pytest.warns(UserWarning):
+    with pytest.warns(UserWarning, match="Google AI Studio models may not support content with a system role."):
         _ = response.render(RenderFormat.AI_STUDIO)
 
 
