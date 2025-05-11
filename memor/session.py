@@ -3,6 +3,7 @@
 from typing import List, Dict, Tuple, Any, Union, Generator
 import datetime
 import json
+import re
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
@@ -13,7 +14,7 @@ from .params import RenderFormat
 from .tokens_estimator import TokensEstimator
 from .prompt import Prompt
 from .response import Response
-from .errors import MemorValidationError
+from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
@@ -143,6 +144,29 @@ class Session:
     def copy(self) -> "Session":
         """Return a copy of the Session object."""
         return self.__copy__()
+
+    def search(self, query: str, use_regex: bool = False, case_sensitive: bool = False) -> List[int]:
+        """
+        Search messages for a keyword or regex pattern, returning indices.
+
+        :param query: input query
+        :param use_regex: regex flag
+        :param case_sensitive: case sensitivity flag
+        """
+        flags = 0 if case_sensitive else re.IGNORECASE
+        if not use_regex:
+            query = re.escape(query)
+        pattern = re.compile(query, flags)
+        result = []
+        for index, message in enumerate(self.messages):
+            if isinstance(message, (Prompt, Response)):
+                try:
+                    searchable_str = message.render(render_format=RenderFormat.STRING)
+                    if pattern.search(searchable_str):
+                        result.append(index)
+                except MemorRenderError:
+                    continue
+        return result
 
     def add_message(self,
                     message: Union[Prompt, Response],

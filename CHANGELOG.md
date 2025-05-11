@@ -5,9 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `Session` class `search` method
 ### Changed
-- validation bug fixed in `update_messages` in `Session` class
-- validation bug fixed in `from_json` in `PromptTemplate`, `Response`, `Prompt`, and `Session` classes 
+- Validation bug fixed in `update_messages` method in `Session` class
+- Validation bug fixed in `from_json` method in `PromptTemplate`, `Response`, `Prompt`, and `Session` classes 
 ## [0.6] - 2025-05-05
 ### Added
 - `Response` class `id` property
