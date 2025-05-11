@@ -316,6 +316,12 @@ def test_render6():
     assert response.render(RenderFormat.AI_STUDIO) == {'role': 'assistant', 'parts': [{'text': 'I am fine.'}]}
 
 
+def test_render7():
+    response = Response(message="I am fine.", role=Role.SYSTEM)
+    with pytest.warns(UserWarning, match="Google AI Studio models may not support content with a system role."):
+        _ = response.render(RenderFormat.AI_STUDIO)
+
+
 def test_equality1():
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = response1.copy()

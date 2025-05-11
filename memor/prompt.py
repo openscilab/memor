@@ -3,6 +3,7 @@
 from typing import List, Dict, Union, Tuple, Any
 import datetime
 import json
+import warnings
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import RenderFormat, DATA_SAVE_SUCCESS_MESSAGE
@@ -12,6 +13,7 @@ from .params import INVALID_PROMPT_STRUCTURE_MESSAGE, INVALID_TEMPLATE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RESPONSE_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
+from .params import AI_STUDIO_SYSTEM_WARNING
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int, _validate_list_of
@@ -428,6 +430,8 @@ class Prompt:
             if render_format == RenderFormat.OPENAI:
                 return {"role": self._role.value, "content": content}
             if render_format == RenderFormat.AI_STUDIO:
+                if self._role == Role.SYSTEM:
+                    warnings.warn(AI_STUDIO_SYSTEM_WARNING, UserWarning)
                 return {"role": self._role.value, "parts": [{"text": content}]}
             if render_format == RenderFormat.STRING:
                 return content

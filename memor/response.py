@@ -3,11 +3,13 @@
 from typing import List, Dict, Union, Tuple, Any
 import datetime
 import json
+import warnings
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
 from .params import INVALID_ROLE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE
+from .params import AI_STUDIO_SYSTEM_WARNING
 from .params import Role, RenderFormat, LLMModel
 from .tokens_estimator import TokensEstimator
 from .errors import MemorValidationError
@@ -301,6 +303,8 @@ class Response:
             return {"role": self._role.value,
                     "content": self._message}
         elif render_format == RenderFormat.AI_STUDIO:
+            if self._role == Role.SYSTEM:
+                warnings.warn(AI_STUDIO_SYSTEM_WARNING, UserWarning)
             return {"role": self._role.value,
                     "parts": [{"text": self._message}]}
         elif render_format == RenderFormat.DICTIONARY:
