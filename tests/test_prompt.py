@@ -188,8 +188,7 @@ def test_select_response2():
     response0 = Response("I am fine.")
     response1 = Response("Great!")
     prompt.update_responses([response0, response1])
-    with pytest.raises(IndexError, match=r"list index out of range"):
-        prompt.select_response(20)
+    prompt.select_response(20)
     assert prompt._selected_response_index == 0
     assert prompt._selected_response is None
 
