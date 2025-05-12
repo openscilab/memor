@@ -65,7 +65,6 @@ class Prompt:
         self._mark_modified()
         self._memor_version = MEMOR_VERSION
         self._selected_response_index = 0
-        self._selected_response = None
         self._id = None
         if file_path:
             self.load(file_path)
@@ -80,7 +79,6 @@ class Prompt:
                 self.update_responses(responses)
             if template:
                 self.update_template(template)
-            self.select_response(index=self._selected_response_index)
             self._id = generate_message_id()
         _validate_message_id(self._id)
         if init_check:
@@ -167,10 +165,11 @@ class Prompt:
 
         :param index: index
         """
-        if 0 <= index < len(self._responses):
-            self._selected_response = self._responses[index]
-            self._selected_response_index = index
-            self._mark_modified()
+        _validate_pos_int(index, "index")
+        self._selected_response_index = index
+        self._mark_modified()
+        if index < len(self._responses):
+            return self._responses[index]
 
     def update_responses(self, responses: List[Response]) -> None:
         """
@@ -296,12 +295,7 @@ class Prompt:
             selected_response_index = loaded_obj["selected_response_index"]
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
-        if len(responses) > 0:
-            self._selected_response = responses[selected_response_index]
-            self._selected_response_index = selected_response_index
-        else:
-            self._selected_response = None
-            self._selected_response_index = 0
+        self.select_response(selected_response_index)
         self._message = message
         self._tokens = tokens
         self._id = _id
@@ -401,7 +395,9 @@ class Prompt:
     @property
     def selected_response(self) -> Response:
         """Get the prompt selected response."""
-        return self._selected_response
+        if 0 <= self._selected_response_index < len(self._responses):
+            return self._responses[self._selected_response_index]
+        return None
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
                                                                                   Dict[str, Any],
@@ -415,8 +411,8 @@ class Prompt:
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
             format_kwargs = {"prompt": self.to_json(save_template=False)}
-            if isinstance(self._selected_response, Response):
-                format_kwargs.update({"response": self._selected_response.to_json()})
+            if isinstance(self.selected_response, Response):
+                format_kwargs.update({"response": self.selected_response.to_json()})
             responses_dicts = []
             for _, response in enumerate(self._responses):
                 responses_dicts.append(response.to_json())
