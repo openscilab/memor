@@ -303,7 +303,7 @@ def test_json3():
                          "message": "Hello, how are you?",
                          "selected_response_index": 0,
                          "tokens": null,
-                         "role": "user",
+                         "role": "assistant",
                          "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
                          "template": {
                             "title": "Basic/Prompt-Response Standard",

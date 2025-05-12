@@ -127,7 +127,7 @@ def test_json2():
     with pytest.raises(MemorValidationError, match=r"Invalid template structure. It should be a JSON object with proper fields."):
         # an corrupted JSON string without `content` field
         template.from_json(r"""{
-                           "title": null,
+                           "title": "template1",
                            "memor_version": "0.6",
                            "custom_map": {"language": "Python"},
                            "date_created": "2025-05-07 21:52:33 +0000",
