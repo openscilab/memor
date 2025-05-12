@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Prompt class."""
-from typing import List, Dict, Union, Tuple, Any
+from typing import List, Dict, Union, Tuple, Any, Optional
 import datetime
 import json
 import warnings
@@ -159,7 +159,7 @@ class Prompt:
         self._responses.pop(index)
         self._mark_modified()
 
-    def select_response(self, index: int) -> Response:
+    def select_response(self, index: int) -> Optional[Response]:
         """
         Select a response as selected response.
 
