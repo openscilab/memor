@@ -167,7 +167,7 @@ class Prompt:
 
         :param index: index
         """
-        if len(self._responses) > 0:
+        if 0 <= index < len(self._responses):
             self._selected_response = self._responses[index]
             self._selected_response_index = index
             self._mark_modified()
