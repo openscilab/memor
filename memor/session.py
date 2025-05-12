@@ -362,12 +362,12 @@ class Session:
 
         :param json_object: JSON object
         """
-        if isinstance(json_object, str):
-            loaded_obj = json.loads(json_object)
-        else:
-            loaded_obj = json_object.copy()
-        title = loaded_obj["title"]
         try:
+            if isinstance(json_object, str):
+                loaded_obj = json.loads(json_object)
+            else:
+                loaded_obj = json_object.copy()
+            title = loaded_obj["title"]
             render_counter = loaded_obj.get("render_counter", 0)
             messages_status = loaded_obj["messages_status"]
             messages = []
@@ -378,12 +378,11 @@ class Session:
                     message_obj = Response()
                 message_obj.from_json(message)
                 messages.append(message_obj)
+            memor_version = loaded_obj["memor_version"]
+            date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
-        messages = messages
-        memor_version = loaded_obj["memor_version"]
-        date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-        date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         self._title = title
         self._render_counter = render_counter
         self._messages = messages
