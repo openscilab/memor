@@ -384,7 +384,6 @@ class Session:
             raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
         _validate_string(title, "title")
         _validate_pos_int(render_counter, "render_counter")
-        _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
         _validate_status(messages_status, messages)
         _validate_string(memor_version, "memor_version")
         return title, render_counter, messages, messages_status, memor_version, date_created, date_modified

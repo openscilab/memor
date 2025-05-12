@@ -162,6 +162,7 @@ class PromptTemplate:
         except Exception:
             raise MemorValidationError(INVALID_TEMPLATE_STRUCTURE_MESSAGE)
         _validate_string(content, "content")
+        _validate_string(title, "title") if title else None
         _validate_custom_map(custom_map)
         _validate_string(memor_version, "memor_version")
         return content, title, memor_version, custom_map, date_created, date_modified
