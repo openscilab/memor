@@ -296,9 +296,8 @@ class Prompt:
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
         _validate_string(message, "message")
-        _validate_pos_int(tokens, "tokens")
         _validate_list_of(responses, "responses", Response, "`Response`")
-        _validate_message_id(_id, "id")
+        _validate_message_id(_id)
         _validate_string(memor_version, "memor_version")
         return message, tokens, _id, responses, role, template, memor_version, date_created, date_modified, selected_response_index
 

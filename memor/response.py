@@ -253,8 +253,6 @@ class Response:
         _validate_string(message, "message")
         _validate_probability(score, "score")
         _validate_pos_float(temperature, "temperature")
-        _validate_pos_int(tokens, "tokens")
-        _validate_pos_float(inference_time, "inference_time")
         _validate_string(model, "model")
         _validate_message_id(_id)
         _validate_string(memor_version, "memor_version")
