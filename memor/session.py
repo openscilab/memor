@@ -18,7 +18,7 @@ from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
-from .functions import _validate_status
+from .functions import _validate_status, _validate_pos_int
 
 
 class Session:
@@ -354,9 +354,10 @@ class Session:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+    @staticmethod
+    def validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> None:
         """
-        Load attributes from the JSON object.
+        Validate and extract JSON object.
 
         :param json_object: JSON object
         """
@@ -381,6 +382,21 @@ class Session:
             date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
+        _validate_string(title, "title")
+        _validate_pos_int(render_counter, "render_counter")
+        _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
+        _validate_status(messages_status, messages)
+        _validate_string(memor_version, "memor_version")
+        return title, render_counter, messages, messages_status, memor_version, date_created, date_modified
+
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+        """
+        Load attributes from the JSON object.
+
+        :param json_object: JSON object
+        """
+        title, render_counter, messages, messages_status, memor_version, date_created, date_modified = self.validate_extract_json(
+            json_object=json_object)
         self._title = title
         self._render_counter = render_counter
         self._messages = messages

@@ -264,9 +264,10 @@ class Prompt:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+    @staticmethod
+    def validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> None:
         """
-        Load attributes from the JSON object.
+        Validate and extract JSON object.
 
         :param json_object: JSON object
         """
@@ -286,16 +287,29 @@ class Prompt:
             role = Role(loaded_obj["role"])
             template = PresetPromptTemplate.DEFAULT.value
             if "template" in loaded_obj:
-                template_obj = PromptTemplate()
-                template_obj.from_json(loaded_obj["template"])
-                template = template_obj
+                template = PromptTemplate()
+                template.from_json(loaded_obj["template"])
             memor_version = loaded_obj["memor_version"]
             date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             selected_response_index = loaded_obj["selected_response_index"]
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
-        self.select_response(selected_response_index)
+        _validate_string(message, "message")
+        _validate_pos_int(tokens, "tokens")
+        _validate_list_of(responses, "responses", Response, "`Response`")
+        _validate_message_id(_id, "id")
+        _validate_string(memor_version, "memor_version")
+        return message, tokens, _id, responses, role, template, memor_version, date_created, date_modified, selected_response_index
+
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+        """
+        Load attributes from the JSON object.
+
+        :param json_object: JSON object
+        """
+        message, tokens, _id, responses, role, template, memor_version, date_created, date_modified, selected_response_index = self.validate_extract_json(
+            json_object)
         self._message = message
         self._tokens = tokens
         self._id = _id
@@ -305,6 +319,7 @@ class Prompt:
         self._memor_version = memor_version
         self._date_created = date_created
         self._date_modified = date_modified
+        self.select_response(selected_response_index)
 
     def to_json(self, save_template: bool = True) -> Dict[str, Any]:
         """

@@ -225,9 +225,10 @@ class Response:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+    @staticmethod
+    def validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> None:
         """
-        Load attributes from the JSON object.
+        Validate and extract JSON object.
 
         :param json_object: JSON object
         """
@@ -249,6 +250,24 @@ class Response:
             date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
+        _validate_string(message, "message")
+        _validate_probability(score, "score")
+        _validate_pos_float(temperature, "temperature")
+        _validate_pos_int(tokens, "tokens")
+        _validate_pos_float(inference_time, "inference_time")
+        _validate_string(model, "model")
+        _validate_message_id(_id)
+        _validate_string(memor_version, "memor_version")
+        return message, score, temperature, tokens, inference_time, model, role, memor_version, _id, date_created, date_modified
+
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+        """
+        Load attributes from the JSON object.
+
+        :param json_object: JSON object
+        """
+        message, score, temperature, tokens, inference_time, model, role, memor_version, _id, date_created, date_modified = self.validate_extract_json(
+            json_object)
         self._message = message
         self._score = score
         self._temperature = temperature

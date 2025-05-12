@@ -141,9 +141,10 @@ class PromptTemplate:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+    @staticmethod
+    def validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> None:
         """
-        Load attributes from the JSON object.
+        Validate and extract JSON object.
 
         :param json_object: JSON object
         """
@@ -154,12 +155,25 @@ class PromptTemplate:
                 loaded_obj = json_object.copy()
             content = loaded_obj["content"]
             title = loaded_obj["title"]
-            memor_version = loaded_obj["memor_version"]
             custom_map = loaded_obj["custom_map"]
+            memor_version = loaded_obj["memor_version"]
             date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_TEMPLATE_STRUCTURE_MESSAGE)
+        _validate_string(content, "content")
+        _validate_string(title, "title")
+        _validate_custom_map(custom_map)
+        _validate_string(memor_version, "memor_version")
+        return content, title, memor_version, custom_map, date_created, date_modified
+
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+        """
+        Load attributes from the JSON object.
+
+        :param json_object: JSON object
+        """
+        content, title, memor_version, custom_map, date_created, date_modified = self.validate_extract_json(json_object)
         self._content = content
         self._title = title
         self._memor_version = memor_version
