@@ -159,7 +159,7 @@ class Prompt:
         self._responses.pop(index)
         self._mark_modified()
 
-    def select_response(self, index: int) -> None:
+    def select_response(self, index: int) -> Response:
         """
         Select a response as selected response.
 
