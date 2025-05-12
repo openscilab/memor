@@ -251,8 +251,6 @@ class Response:
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
         _validate_string(message, "message")
-        _validate_probability(score, "score")
-        _validate_pos_float(temperature, "temperature")
         _validate_string(model, "model")
         _validate_message_id(_id)
         _validate_string(memor_version, "memor_version")
