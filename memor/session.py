@@ -313,12 +313,11 @@ class Session:
         :param status: status
         """
         _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
-        if status:
-            _validate_status(status, messages)
-        else:
+        if not status:
             status = len(messages) * [True]
+        _validate_status(status, messages)
+        self._messages_status = status
         self._messages = messages
-        self.update_messages_status(status)
         self._mark_modified()
 
     def update_messages_status(self, status: List[bool]) -> None:
@@ -327,8 +326,7 @@ class Session:
 
         :param status: status
         """
-        _validate_status(status, self._messages)
-        self._messages_status = status
+        self.update_messages(messages=self._messages, status=status)
 
     def save(self, file_path: str) -> Dict[str, Any]:
         """
