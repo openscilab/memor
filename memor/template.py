@@ -165,7 +165,14 @@ class PromptTemplate:
             _validate_string(title, "title")
         _validate_custom_map(custom_map)
         _validate_string(memor_version, "memor_version")
-        return content, title, memor_version, custom_map, date_created, date_modified
+        return {
+            "content": content,
+            "title": title,
+            "memor_version": memor_version,
+            "custom_map": custom_map,
+            "date_created": date_created,
+            "date_modified": date_modified,
+        }
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
@@ -173,13 +180,13 @@ class PromptTemplate:
 
         :param json_object: JSON object
         """
-        content, title, memor_version, custom_map, date_created, date_modified = self._validate_extract_json(json_object)
-        self._content = content
-        self._title = title
-        self._memor_version = memor_version
-        self._custom_map = custom_map
-        self._date_created = date_created
-        self._date_modified = date_modified
+        data = self._validate_extract_json(json_object)
+        self._content = data["content"]
+        self._title = data["title"]
+        self._memor_version = data["memor_version"]
+        self._custom_map = data["custom_map"]
+        self._date_created = data["date_created"]
+        self._date_modified = data["date_modified"]
 
     def to_json(self) -> Dict[str, Any]:
         """Convert PromptTemplate to json."""

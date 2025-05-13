@@ -299,7 +299,18 @@ class Prompt:
             _validate_pos_int(tokens, "tokens")
         _validate_message_id(_id)
         _validate_string(memor_version, "memor_version")
-        return message, tokens, _id, responses, role, template, memor_version, date_created, date_modified, selected_response_index
+        return {
+            "id": _id,
+            "message": message,
+            "tokens": tokens,
+            "responses": responses,
+            "role": role,
+            "template": template,
+            "selected_response_index": selected_response_index,
+            "memor_version": memor_version,
+            "date_created": date_created,
+            "date_modified": date_modified,
+        }
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
@@ -307,18 +318,17 @@ class Prompt:
 
         :param json_object: JSON object
         """
-        message, tokens, _id, responses, role, template, memor_version, date_created, date_modified, selected_response_index = self._validate_extract_json(
-            json_object)
-        self._message = message
-        self._tokens = tokens
-        self._id = _id
-        self._responses = responses
-        self._role = role
-        self._template = template
-        self._memor_version = memor_version
-        self._date_created = date_created
-        self._date_modified = date_modified
-        self.select_response(selected_response_index)
+        data = self._validate_extract_json(json_object)
+        self._message = data["message"]
+        self._tokens = data["tokens"]
+        self._id = data["id"]
+        self._responses = data["responses"]
+        self._role = data["role"]
+        self._template = data["template"]
+        self._memor_version = data["memor_version"]
+        self._date_created = data["date_created"]
+        self._date_modified = data["date_modified"]
+        self.select_response(data["selected_response_index"])
 
     def to_json(self, save_template: bool = True) -> Dict[str, Any]:
         """

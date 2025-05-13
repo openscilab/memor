@@ -385,7 +385,15 @@ class Session:
         _validate_pos_int(render_counter, "render_counter")
         _validate_status(messages_status, messages)
         _validate_string(memor_version, "memor_version")
-        return title, render_counter, messages, messages_status, memor_version, date_created, date_modified
+        return {
+            "title": title,
+            "messages": messages,
+            "messages_status": messages_status,
+            "render_counter": render_counter,
+            "memor_version": memor_version,
+            "date_created": date_created,
+            "date_modified": date_modified
+        }
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
@@ -393,15 +401,14 @@ class Session:
 
         :param json_object: JSON object
         """
-        title, render_counter, messages, messages_status, memor_version, date_created, date_modified = self._validate_extract_json(
-            json_object=json_object)
-        self._title = title
-        self._render_counter = render_counter
-        self._messages = messages
-        self._messages_status = messages_status
-        self._memor_version = memor_version
-        self._date_created = date_created
-        self._date_modified = date_modified
+        data = self._validate_extract_json(json_object=json_object)
+        self._title = data["title"]
+        self._render_counter = data["render_counter"]
+        self._messages = data["messages"]
+        self._messages_status = data["messages_status"]
+        self._memor_version = data["memor_version"]
+        self._date_created = data["date_created"]
+        self._date_modified = data["date_modified"]
 
     def to_json(self) -> Dict[str, Any]:
         """Convert the session to a JSON object."""
