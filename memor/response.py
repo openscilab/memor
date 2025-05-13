@@ -225,8 +225,7 @@ class Response:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    @staticmethod
-    def validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> None:
+    def _validate_extract_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
         Validate and extract JSON object.
 
@@ -270,7 +269,7 @@ class Response:
 
         :param json_object: JSON object
         """
-        message, score, temperature, tokens, inference_time, model, role, memor_version, _id, date_created, date_modified = self.validate_extract_json(
+        message, score, temperature, tokens, inference_time, model, role, memor_version, _id, date_created, date_modified = self._validate_extract_json(
             json_object)
         self._message = message
         self._score = score

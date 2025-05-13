@@ -141,8 +141,7 @@ class PromptTemplate:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    @staticmethod
-    def validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> None:
+    def _validate_extract_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
         Validate and extract JSON object.
 
@@ -174,7 +173,7 @@ class PromptTemplate:
 
         :param json_object: JSON object
         """
-        content, title, memor_version, custom_map, date_created, date_modified = self.validate_extract_json(json_object)
+        content, title, memor_version, custom_map, date_created, date_modified = self._validate_extract_json(json_object)
         self._content = content
         self._title = title
         self._memor_version = memor_version

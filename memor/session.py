@@ -354,8 +354,7 @@ class Session:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    @staticmethod
-    def validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> None:
+    def _validate_extract_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
         Validate and extract JSON object.
 
@@ -394,7 +393,7 @@ class Session:
 
         :param json_object: JSON object
         """
-        title, render_counter, messages, messages_status, memor_version, date_created, date_modified = self.validate_extract_json(
+        title, render_counter, messages, messages_status, memor_version, date_created, date_modified = self._validate_extract_json(
             json_object=json_object)
         self._title = title
         self._render_counter = render_counter
