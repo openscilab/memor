@@ -6,10 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- `Session` class `validate_extract_json` method
-- `Response` class `validate_extract_json` method
-- `Prompt` class `validate_extract_json` method
-- `PromptTemplate` class `validate_extract_json` method
+- `Session` class `_validate_extract_json` method
+- `Response` class `_validate_extract_json` method
+- `Prompt` class `_validate_extract_json` method
+- `PromptTemplate` class `_validate_extract_json` method
 - `Session` class `search` method
 ### Changed
 - Validation bug fixed in `update_messages` method in `Session` class
