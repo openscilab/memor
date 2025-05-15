@@ -299,6 +299,7 @@ class Prompt:
             _validate_pos_int(tokens, "tokens")
         _validate_message_id(_id)
         _validate_string(memor_version, "memor_version")
+        _validate_pos_int(selected_response_index, "selected_response_index")
         return {
             "id": _id,
             "message": message,
