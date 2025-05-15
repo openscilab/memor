@@ -354,7 +354,8 @@ class Session:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def _validate_extract_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+    @staticmethod
+    def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
         Validate and extract JSON object.
 
