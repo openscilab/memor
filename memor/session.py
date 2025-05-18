@@ -362,39 +362,32 @@ class Session:
         :param json_object: JSON object
         """
         try:
+            result = dict()
             if isinstance(json_object, str):
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            title = loaded_obj["title"]
-            render_counter = loaded_obj.get("render_counter", 0)
-            messages_status = loaded_obj["messages_status"]
-            messages = []
+            result["title"] = loaded_obj["title"]
+            result["render_counter"] = loaded_obj.get("render_counter", 0)
+            result["messages_status"] = loaded_obj["messages_status"]
+            result["messages"] = []
             for message in loaded_obj["messages"]:
                 if message["type"] == "Prompt":
                     message_obj = Prompt()
                 elif message["type"] == "Response":
                     message_obj = Response()
                 message_obj.from_json(message)
-                messages.append(message_obj)
-            memor_version = loaded_obj["memor_version"]
-            date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-            date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+                result["messages"].append(message_obj)
+            result["memor_version"] = loaded_obj["memor_version"]
+            result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
-        _validate_string(title, "title")
-        _validate_pos_int(render_counter, "render_counter")
-        _validate_status(messages_status, messages)
-        _validate_string(memor_version, "memor_version")
-        return {
-            "title": title,
-            "messages": messages,
-            "messages_status": messages_status,
-            "render_counter": render_counter,
-            "memor_version": memor_version,
-            "date_created": date_created,
-            "date_modified": date_modified
-        }
+        _validate_string(result["title"], "title")
+        _validate_pos_int(result["render_counter"], "render_counter")
+        _validate_status(result["messages_status"], messages)
+        _validate_string(result["memor_version"], "memor_version")
+        return result
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
