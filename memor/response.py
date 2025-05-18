@@ -233,48 +233,37 @@ class Response:
         :param json_object: JSON object
         """
         try:
+            result = dict()
             if isinstance(json_object, str):
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            message = loaded_obj["message"]
-            score = loaded_obj["score"]
-            temperature = loaded_obj["temperature"]
-            tokens = loaded_obj.get("tokens", None)
-            inference_time = loaded_obj.get("inference_time", None)
-            model = loaded_obj["model"]
-            role = Role(loaded_obj["role"])
-            memor_version = loaded_obj["memor_version"]
-            _id = loaded_obj.get("id", generate_message_id())
-            date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-            date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+            result["message"] = loaded_obj["message"]
+            result["score"] = loaded_obj["score"]
+            result["temperature"] = loaded_obj["temperature"]
+            result["tokens"] = loaded_obj.get("tokens", None)
+            result["inference_time"] = loaded_obj.get("inference_time", None)
+            result["model"] = loaded_obj["model"]
+            result["role"] = Role(loaded_obj["role"])
+            result["memor_version"] = loaded_obj["memor_version"]
+            result["id"] = loaded_obj.get("id", generate_message_id())
+            result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
-        _validate_string(message, "message")
+        _validate_string(result["message"], "message")
         if score:
-            _validate_probability(score, "score")
+            _validate_probability(result["score"], "score")
         if temperature:
-            _validate_pos_float(temperature, "temperature")
+            _validate_pos_float(result["temperature"], "temperature")
         if tokens:
-            _validate_pos_int(tokens, "tokens")
+            _validate_pos_int(result["tokens"], "tokens")
         if inference_time:
-            _validate_pos_float(inference_time, "inference_time")
-        _validate_string(model, "model")
-        _validate_message_id(_id)
-        _validate_string(memor_version, "memor_version")
-        return {
-            "id": _id,
-            "message": message,
-            "score": score,
-            "temperature": temperature,
-            "tokens": tokens,
-            "inference_time": inference_time,
-            "model": model,
-            "role": role,
-            "memor_version": memor_version,
-            "date_created": date_created,
-            "date_modified": date_modified
-        }
+            _validate_pos_float(result["inference_time"], "inference_time")
+        _validate_string(result["model"], "model")
+        _validate_message_id(result["id"])
+        _validate_string(result["memor_version"], "memor_version")
+        return result
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
