@@ -179,8 +179,9 @@ def test_select_response():
     prompt = Prompt(message=message, responses=[response0])
     response1 = Response(message="Great!")
     prompt.add_response(response1)
-    prompt.select_response(index=1)
+    selected_response = prompt.select_response(index=1)
     assert prompt.selected_response == response1
+    assert selected_response == response1
 
 
 def test_select_response2():
@@ -188,10 +189,10 @@ def test_select_response2():
     response0 = Response("I am fine.")
     response1 = Response("Great!")
     prompt.update_responses([response0, response1])
-    with pytest.raises(IndexError, match=r"list index out of range"):
-        prompt.select_response(20)
-    assert prompt._selected_response_index == 0
-    assert prompt._selected_response is None
+    selected_response = prompt.select_response(20)
+    assert prompt._selected_response_index == 20
+    assert prompt.selected_response is None
+    assert selected_response is None
 
 
 def test_template1():
@@ -304,7 +305,7 @@ def test_json3():
                          "message": "Hello, how are you?",
                          "selected_response_index": 0,
                          "tokens": null,
-                         "role": "user",
+                         "role": "assistant",
                          "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
                          "template": {
                             "title": "Basic/Prompt-Response Standard",

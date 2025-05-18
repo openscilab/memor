@@ -225,9 +225,10 @@ class Response:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+    @staticmethod
+    def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
-        Load attributes from the JSON object.
+        Validate and extract JSON object.
 
         :param json_object: JSON object
         """
@@ -249,17 +250,50 @@ class Response:
             date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
-        self._message = message
-        self._score = score
-        self._temperature = temperature
-        self._tokens = tokens
-        self._inference_time = inference_time
-        self._model = model
-        self._role = role
-        self._memor_version = memor_version
-        self._id = _id
-        self._date_created = date_created
-        self._date_modified = date_modified
+        _validate_string(message, "message")
+        if score:
+            _validate_probability(score, "score")
+        if temperature:
+            _validate_pos_float(temperature, "temperature")
+        if tokens:
+            _validate_pos_int(tokens, "tokens")
+        if inference_time:
+            _validate_pos_float(inference_time, "inference_time")
+        _validate_string(model, "model")
+        _validate_message_id(_id)
+        _validate_string(memor_version, "memor_version")
+        return {
+            "id": _id,
+            "message": message,
+            "score": score,
+            "temperature": temperature,
+            "tokens": tokens,
+            "inference_time": inference_time,
+            "model": model,
+            "role": role,
+            "memor_version": memor_version,
+            "date_created": date_created,
+            "date_modified": date_modified
+        }
+
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+        """
+        Load attributes from the JSON object.
+
+        :param json_object: JSON object
+        """
+        data = self._validate_extract_json(json_object)
+        self._message = data["message"]
+        self._score = data["score"]
+        self._temperature = data["temperature"]
+        self._tokens = data["tokens"]
+        self._inference_time = data["inference_time"]
+        self._model = data["model"]
+        self._role = data["role"]
+        self._memor_version = data["memor_version"]
+        self._id = data["id"]
+        self._date_created = data["date_created"]
+        self._date_modified = data["date_modified"]
 
     def to_json(self) -> Dict[str, Any]:
         """Convert the response to a JSON object."""

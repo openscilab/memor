@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Prompt class."""
-from typing import List, Dict, Union, Tuple, Any
+from typing import List, Dict, Union, Tuple, Any, Optional
 import datetime
 import json
 import warnings
@@ -65,7 +65,6 @@ class Prompt:
         self._mark_modified()
         self._memor_version = MEMOR_VERSION
         self._selected_response_index = 0
-        self._selected_response = None
         self._id = None
         if file_path:
             self.load(file_path)
@@ -80,7 +79,6 @@ class Prompt:
                 self.update_responses(responses)
             if template:
                 self.update_template(template)
-            self.select_response(index=self._selected_response_index)
             self._id = generate_message_id()
         _validate_message_id(self._id)
         if init_check:
@@ -161,16 +159,17 @@ class Prompt:
         self._responses.pop(index)
         self._mark_modified()
 
-    def select_response(self, index: int) -> None:
+    def select_response(self, index: int) -> Optional[Response]:
         """
         Select a response as selected response.
 
         :param index: index
         """
-        if len(self._responses) > 0:
-            self._selected_response = self._responses[index]
-            self._selected_response_index = index
-            self._mark_modified()
+        _validate_pos_int(index, "index")
+        self._selected_response_index = index
+        self._mark_modified()
+        if index < len(self._responses):
+            return self._responses[index]
 
     def update_responses(self, responses: List[Response]) -> None:
         """
@@ -265,9 +264,10 @@ class Prompt:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+    @staticmethod
+    def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
-        Load attributes from the JSON object.
+        Validate and extract JSON object.
 
         :param json_object: JSON object
         """
@@ -287,30 +287,50 @@ class Prompt:
             role = Role(loaded_obj["role"])
             template = PresetPromptTemplate.DEFAULT.value
             if "template" in loaded_obj:
-                template_obj = PromptTemplate()
-                template_obj.from_json(loaded_obj["template"])
-                template = template_obj
+                template = PromptTemplate()
+                template.from_json(loaded_obj["template"])
             memor_version = loaded_obj["memor_version"]
             date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             selected_response_index = loaded_obj["selected_response_index"]
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
-        if len(responses) > 0:
-            self._selected_response = responses[selected_response_index]
-            self._selected_response_index = selected_response_index
-        else:
-            self._selected_response = None
-            self._selected_response_index = 0
-        self._message = message
-        self._tokens = tokens
-        self._id = _id
-        self._responses = responses
-        self._role = role
-        self._template = template
-        self._memor_version = memor_version
-        self._date_created = date_created
-        self._date_modified = date_modified
+        _validate_string(message, "message")
+        if tokens:
+            _validate_pos_int(tokens, "tokens")
+        _validate_message_id(_id)
+        _validate_string(memor_version, "memor_version")
+        _validate_pos_int(selected_response_index, "selected_response_index")
+        return {
+            "id": _id,
+            "message": message,
+            "tokens": tokens,
+            "responses": responses,
+            "role": role,
+            "template": template,
+            "selected_response_index": selected_response_index,
+            "memor_version": memor_version,
+            "date_created": date_created,
+            "date_modified": date_modified,
+        }
+
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+        """
+        Load attributes from the JSON object.
+
+        :param json_object: JSON object
+        """
+        data = self._validate_extract_json(json_object)
+        self._message = data["message"]
+        self._tokens = data["tokens"]
+        self._id = data["id"]
+        self._responses = data["responses"]
+        self._role = data["role"]
+        self._template = data["template"]
+        self._memor_version = data["memor_version"]
+        self._date_created = data["date_created"]
+        self._date_modified = data["date_modified"]
+        self.select_response(data["selected_response_index"])
 
     def to_json(self, save_template: bool = True) -> Dict[str, Any]:
         """
@@ -401,7 +421,9 @@ class Prompt:
     @property
     def selected_response(self) -> Response:
         """Get the prompt selected response."""
-        return self._selected_response
+        if 0 <= self._selected_response_index < len(self._responses):
+            return self._responses[self._selected_response_index]
+        return None
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
                                                                                   Dict[str, Any],
@@ -415,8 +437,8 @@ class Prompt:
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
         try:
             format_kwargs = {"prompt": self.to_json(save_template=False)}
-            if isinstance(self._selected_response, Response):
-                format_kwargs.update({"response": self._selected_response.to_json()})
+            if isinstance(self.selected_response, Response):
+                format_kwargs.update({"response": self.selected_response.to_json()})
             responses_dicts = []
             for _, response in enumerate(self._responses):
                 responses_dicts.append(response.to_json())

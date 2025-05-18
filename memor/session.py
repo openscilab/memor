@@ -18,7 +18,7 @@ from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
-from .functions import _validate_status
+from .functions import _validate_status, _validate_pos_int
 
 
 class Session:
@@ -313,12 +313,11 @@ class Session:
         :param status: status
         """
         _validate_list_of(messages, "messages", (Prompt, Response), "`Prompt` or `Response`")
-        if status:
-            _validate_status(status, messages)
-        else:
+        if not status:
             status = len(messages) * [True]
+        _validate_status(status, messages)
+        self._messages_status = status
         self._messages = messages
-        self.update_messages_status(status)
         self._mark_modified()
 
     def update_messages_status(self, status: List[bool]) -> None:
@@ -327,8 +326,7 @@ class Session:
 
         :param status: status
         """
-        _validate_status(status, self._messages)
-        self._messages_status = status
+        self.update_messages(messages=self._messages, status=status)
 
     def save(self, file_path: str) -> Dict[str, Any]:
         """
@@ -356,18 +354,19 @@ class Session:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+    @staticmethod
+    def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
-        Load attributes from the JSON object.
+        Validate and extract JSON object.
 
         :param json_object: JSON object
         """
-        if isinstance(json_object, str):
-            loaded_obj = json.loads(json_object)
-        else:
-            loaded_obj = json_object.copy()
-        title = loaded_obj["title"]
         try:
+            if isinstance(json_object, str):
+                loaded_obj = json.loads(json_object)
+            else:
+                loaded_obj = json_object.copy()
+            title = loaded_obj["title"]
             render_counter = loaded_obj.get("render_counter", 0)
             messages_status = loaded_obj["messages_status"]
             messages = []
@@ -378,19 +377,39 @@ class Session:
                     message_obj = Response()
                 message_obj.from_json(message)
                 messages.append(message_obj)
+            memor_version = loaded_obj["memor_version"]
+            date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
-        messages = messages
-        memor_version = loaded_obj["memor_version"]
-        date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-        date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
-        self._title = title
-        self._render_counter = render_counter
-        self._messages = messages
-        self._messages_status = messages_status
-        self._memor_version = memor_version
-        self._date_created = date_created
-        self._date_modified = date_modified
+        _validate_string(title, "title")
+        _validate_pos_int(render_counter, "render_counter")
+        _validate_status(messages_status, messages)
+        _validate_string(memor_version, "memor_version")
+        return {
+            "title": title,
+            "messages": messages,
+            "messages_status": messages_status,
+            "render_counter": render_counter,
+            "memor_version": memor_version,
+            "date_created": date_created,
+            "date_modified": date_modified
+        }
+
+    def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
+        """
+        Load attributes from the JSON object.
+
+        :param json_object: JSON object
+        """
+        data = self._validate_extract_json(json_object=json_object)
+        self._title = data["title"]
+        self._render_counter = data["render_counter"]
+        self._messages = data["messages"]
+        self._messages_status = data["messages_status"]
+        self._memor_version = data["memor_version"]
+        self._date_created = data["date_created"]
+        self._date_modified = data["date_modified"]
 
     def to_json(self) -> Dict[str, Any]:
         """Convert the session to a JSON object."""
