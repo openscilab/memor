@@ -298,7 +298,7 @@ class Prompt:
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
-        if tokens:
+        if result["tokens"]:
             _validate_pos_int(result["tokens"], "tokens")
         _validate_message_id(result["id"])
         _validate_string(result["memor_version"], "memor_version")

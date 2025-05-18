@@ -252,13 +252,13 @@ class Response:
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
-        if score:
+        if result["score"]:
             _validate_probability(result["score"], "score")
-        if temperature:
+        if result["temperature"]:
             _validate_pos_float(result["temperature"], "temperature")
-        if tokens:
+        if result["tokens"]:
             _validate_pos_int(result["tokens"], "tokens")
-        if inference_time:
+        if result["inference_time"]:
             _validate_pos_float(result["inference_time"], "inference_time")
         _validate_string(result["model"], "model")
         _validate_message_id(result["id"])
