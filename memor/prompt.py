@@ -272,47 +272,38 @@ class Prompt:
         :param json_object: JSON object
         """
         try:
+            result = dict()
             if isinstance(json_object, str):
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            message = loaded_obj["message"]
-            tokens = loaded_obj.get("tokens", None)
-            _id = loaded_obj.get("id", generate_message_id())
-            responses = []
+            result["message"] = loaded_obj["message"]
+            result["tokens"] = loaded_obj.get("tokens", None)
+            result["id"] = loaded_obj.get("id", generate_message_id())
+            result["responses"] = []
             for response in loaded_obj["responses"]:
                 response_obj = Response()
                 response_obj.from_json(response)
-                responses.append(response_obj)
-            role = Role(loaded_obj["role"])
-            template = PresetPromptTemplate.DEFAULT.value
+                result["responses"].append(response_obj)
+            result["role"] = Role(loaded_obj["role"])
+            result["template"] = PresetPromptTemplate.DEFAULT.value
             if "template" in loaded_obj:
                 template = PromptTemplate()
                 template.from_json(loaded_obj["template"])
-            memor_version = loaded_obj["memor_version"]
-            date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-            date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
-            selected_response_index = loaded_obj["selected_response_index"]
+                result["template"] = template
+            result["memor_version"] = loaded_obj["memor_version"]
+            result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+            result["selected_response_index"] = loaded_obj["selected_response_index"]
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
-        _validate_string(message, "message")
-        if tokens:
-            _validate_pos_int(tokens, "tokens")
-        _validate_message_id(_id)
-        _validate_string(memor_version, "memor_version")
-        _validate_pos_int(selected_response_index, "selected_response_index")
-        return {
-            "id": _id,
-            "message": message,
-            "tokens": tokens,
-            "responses": responses,
-            "role": role,
-            "template": template,
-            "selected_response_index": selected_response_index,
-            "memor_version": memor_version,
-            "date_created": date_created,
-            "date_modified": date_modified,
-        }
+        _validate_string(result["message"], "message")
+        if result["tokens"]:
+            _validate_pos_int(result["tokens"], "tokens")
+        _validate_message_id(result["id"])
+        _validate_string(result["memor_version"], "memor_version")
+        _validate_pos_int(result["selected_response_index"], "selected_response_index")
+        return result
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """

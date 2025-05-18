@@ -149,31 +149,25 @@ class PromptTemplate:
         :param json_object: JSON object
         """
         try:
+            result = dict()
             if isinstance(json_object, str):
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            content = loaded_obj["content"]
-            title = loaded_obj["title"]
-            custom_map = loaded_obj["custom_map"]
-            memor_version = loaded_obj["memor_version"]
-            date_created = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
-            date_modified = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+            result["content"] = loaded_obj["content"]
+            result["title"] = loaded_obj["title"]
+            result["custom_map"] = loaded_obj["custom_map"]
+            result["memor_version"] = loaded_obj["memor_version"]
+            result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
+            result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_TEMPLATE_STRUCTURE_MESSAGE)
-        _validate_string(content, "content")
-        if title:
-            _validate_string(title, "title")
-        _validate_custom_map(custom_map)
-        _validate_string(memor_version, "memor_version")
-        return {
-            "content": content,
-            "title": title,
-            "memor_version": memor_version,
-            "custom_map": custom_map,
-            "date_created": date_created,
-            "date_modified": date_modified,
-        }
+        _validate_string(result["content"], "content")
+        if result["title"]:
+            _validate_string(result["title"], "title")
+        _validate_custom_map(result["custom_map"])
+        _validate_string(result["memor_version"], "memor_version")
+        return result
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
