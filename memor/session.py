@@ -444,16 +444,18 @@ class Session:
         result = None
         if render_format in [RenderFormat.OPENAI, RenderFormat.AI_STUDIO]:
             result = []
-            for message in self._messages:
-                if isinstance(message, Session):
-                    result.extend(message.render(render_format=render_format))
-                else:
-                    result.append(message.render(render_format=render_format))
+            for index, message in enumerate(self._messages):
+                if self.messages_status[index]:
+                    if isinstance(message, Session):
+                        result.extend(message.render(render_format=render_format))
+                    else:
+                        result.append(message.render(render_format=render_format))
         else:
             content = ""
             session_dict = self.to_dict()
-            for message in self._messages:
-                content += message.render(render_format=RenderFormat.STRING) + "\n"
+            for index, message in enumerate(self._messages):
+                if self.messages_status[index]:
+                    content += message.render(render_format=RenderFormat.STRING) + "\n"
             session_dict["content"] = content
             if render_format == RenderFormat.STRING:
                 result = content
