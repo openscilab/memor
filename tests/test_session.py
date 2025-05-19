@@ -398,6 +398,7 @@ def test_render7():
     assert session.render(RenderFormat.OPENAI) == [{'content': 'Hello, how are you?', 'role': 'user'}]
     assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'user', 'parts': [{'text': 'Hello, how are you?'}]}]
 
+
 def test_check_render1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
