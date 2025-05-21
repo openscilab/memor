@@ -210,7 +210,7 @@ def test_json1():
 def test_json2():
     response = Response()
     with pytest.raises(MemorValidationError, match=r"Invalid response structure. It should be a JSON object with proper fields."):
-        # a corrupted JSON string without `message` field
+        # an corrupted JSON string without `message` field
         response.from_json(r"""{
                            "type": "Response",
                            "score": 0.8,
@@ -235,49 +235,93 @@ def test_json2():
 def test_json3():
     response = Response()
     with pytest.raises(MemorValidationError, match=r"Invalid value. `score` must be a value between 0 and 1."):
-        # a corrupted JSON string with invalid `score` field
+        # an corrupted JSON string with invalid `score` field
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
                            "score": "invalid",
+                           "temperature": 0.5,
+                           "tokens": null,
+                           "inference_time": null,
+                           "role": "user",
+                           "model": "gpt-4",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
                            "date_modified": "2025-05-07 21:54:48 +0000"}""")
-    assert response.message == '' and response.model == 'unknown' and response.temperature is None
-    assert response.role == Role.ASSISTANT and response.score is None and response.inference_time is None
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.role == Role.ASSISTANT
+    assert response.score is None
+    assert response.inference_time is None
+    assert response.tokens is None
+
+
+def test_json4():
+    response = Response()
     with pytest.raises(MemorValidationError, match="Invalid value. `temperature` must be a positive float."):
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
+                           "score": 0.8,
                            "temperature": -0.5,
+                           "tokens": null,
+                           "inference_time": null,
+                           "role": "user",
+                           "model": "gpt-4",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
                            "date_modified": "2025-05-07 21:54:48 +0000"}""")
-    assert response.message == '' and response.model == 'unknown' and response.temperature is None
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
+
+
+def test_json5():
+    response = Response()
     with pytest.raises(MemorValidationError, match="Invalid value. `tokens` must be a positive int."):
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
                            "tokens": -1,
+                           "inference_time": null,
+                           "role": "user",
+                           "model": "gpt-4",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
                            "date_modified": "2025-05-07 21:54:48 +0000"}""")
-    assert response.message == '' and response.model == 'unknown' and response.temperature is None
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
     assert response.tokens is None
+
+
+def test_json6():
+    response = Response()
     with pytest.raises(MemorValidationError, match="Invalid value. `inference_time` must be a positive float."):
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
+                           "tokens": null,
                            "inference_time": -1,
+                           "role": "user",
+                           "model": "gpt-4",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
                            "date_modified": "2025-05-07 21:54:48 +0000"}""")
-    assert response.message == '' and response.model == 'unknown' and response.temperature is None
-    assert response.tokens is None and response.inference_time is None
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.tokens is None
+    assert response.inference_time is None
 
 
 def test_save1():

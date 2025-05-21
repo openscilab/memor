@@ -152,6 +152,10 @@ def test_json3():
     assert template.content is None
     assert template.custom_map is None
     assert template.title is None
+
+
+def test_json4():
+    template = PromptTemplate()
     with pytest.raises(MemorValidationError, match=r"Invalid value. `title` must be a string."):
         # a corrupted JSON string with wrong `title` field
         template.from_json(r"""{
@@ -164,6 +168,10 @@ def test_json3():
     assert template.content is None
     assert template.custom_map is None
     assert template.title is None
+
+
+def test_json5():
+    template = PromptTemplate()
     with pytest.raises(MemorValidationError, match=r"Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."):
         # a corrupted JSON string with wrong `custom_map` field
         template.from_json(r"""{
@@ -176,6 +184,10 @@ def test_json3():
     assert template.content is None
     assert template.custom_map is None
     assert template.title is None
+
+
+def test_json6():
+    template = PromptTemplate()
     with pytest.raises(MemorValidationError, match=r"Invalid value. `memor_version` must be a string."):
         # a corrupted JSON string with wrong `memor_version` field
         template.from_json(r"""{
