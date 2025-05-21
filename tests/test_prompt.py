@@ -334,12 +334,16 @@ def test_json4():
                             {
                                 "type": "Response",
                                 "message": "I am fine.",
+                                "score": 0.8,
+                                "temperature": 0.5,
+                                "tokens": null,
+                                "inference_time": null,
                                 "role": "user",
                                 "model": "gpt-4",
-                                "id": "c249fb19-2265-4369-8d35-16f060d3ef34",
+                                "id": "8eb35f46-b660-4e28-92df-487211f7357e",
                                 "memor_version": "0.6",
-                                "date_created": "2025-05-21 07:20:44 +0000",
-                                "date_modified": "2025-05-21 07:20:44 +0000"
+                                "date_created": "2025-05-21 17:21:21 +0000",
+                                "date_modified": "2025-05-21 17:21:21 +0000"
                             }],
                          "role": "assistant",
                          "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
