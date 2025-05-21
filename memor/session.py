@@ -367,7 +367,7 @@ class Session:
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            result["title"] = loaded_obj["title"]
+            result["title"] = loaded_obj.get("title", None)
             result["render_counter"] = loaded_obj.get("render_counter", 0)
             result["messages_status"] = loaded_obj["messages_status"]
             result["messages"] = []
@@ -383,7 +383,7 @@ class Session:
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
-        _validate_string(result["title"], "title")
+        if result["title"] is not None: _validate_string(result["title"], "title")
         _validate_pos_int(result["render_counter"], "render_counter")
         _validate_status(result["messages_status"], result["messages"])
         _validate_string(result["memor_version"], "memor_version")
