@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Validation bug fixed in `update_messages` method in `Session` class
 - Validation bug fixed in `from_json` method in `PromptTemplate`, `Response`, `Prompt`, and `Session` classes
 - `AI_STUDIO` render format modified
+- `Session` class messages status bug fixed
 - Test system modified
 ## [0.6] - 2025-05-05
 ### Added
