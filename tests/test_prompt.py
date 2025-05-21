@@ -330,11 +330,16 @@ def test_json4():
                          "message": "Hello, how are you?",
                          "selected_response_index": 0,
                          "tokens": "invalid",
-                        "responses": [
+                         "responses": [
                             {
+                                "type": "Response",
                                 "message": "I am fine.",
-                                "model": "gpt-4",
                                 "role": "user",
+                                "model": "gpt-4",
+                                "id": "c249fb19-2265-4369-8d35-16f060d3ef34",
+                                "memor_version": "0.6",
+                                "date_created": "2025-05-21 07:20:44 +0000",
+                                "date_modified": "2025-05-21 07:20:44 +0000"
                             }],
                          "role": "assistant",
                          "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
