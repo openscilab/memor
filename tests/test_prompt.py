@@ -299,7 +299,7 @@ def test_json2():
 def test_json3():
     prompt = Prompt()
     with pytest.raises(MemorValidationError, match=r"Invalid prompt structure. It should be a JSON object with proper fields."):
-        # an corrupted JSON string without `responses` field
+        # a corrupted JSON string without `responses` field
         prompt.from_json(r"""{
                          "type": "Prompt",
                          "message": "Hello, how are you?",
@@ -324,7 +324,7 @@ def test_json3():
 def test_json4():
     prompt = Prompt()
     with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a positive integer."):
-        # an corrupted JSON string with invalid `tokens` field
+        # a corrupted JSON string with invalid `tokens` field
         prompt.from_json(r"""{
                          "type": "Prompt",
                          "message": "Hello, how are you?",

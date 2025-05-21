@@ -293,7 +293,7 @@ def test_load2():
 def test_load3():
     session = Session()
     with pytest.raises(MemorValidationError, match=r"Invalid session structure. It should be a JSON object with proper fields."):
-        # an corrupted JSON string without `messages_status` field
+        # a corrupted JSON string without `messages_status` field
         session.from_json(r"""{
                           "type": "Session",
                           "title": "session1",
@@ -342,7 +342,7 @@ def test_load3():
 def test_load4():
     session = Session()
     with pytest.raises(MemorValidationError, match=r"Invalid value. `title` must be a string."):
-        # an corrupted JSON string with invalid `title` field
+        # a corrupted JSON string with invalid `title` field
         session.from_json(r"""{
                           "type": "Session",
                           "title": 0,

@@ -125,7 +125,7 @@ def test_json1():
 def test_json2():
     template = PromptTemplate()
     with pytest.raises(MemorValidationError, match=r"Invalid template structure. It should be a JSON object with proper fields."):
-        # an corrupted JSON string corrupted `content` field
+        # a corrupted JSON string with an invalid `content` field
         template.from_json(r"""{
                             "content": invalid,
                             "title": "template1",
@@ -141,7 +141,7 @@ def test_json2():
 def test_json3():
     template = PromptTemplate()
     with pytest.raises(MemorValidationError, match=r"Invalid value. `content` must be a string."):
-        # an corrupted JSON string with wrong `content` field
+        # a corrupted JSON string with wrong `content` field
         template.from_json(r"""{
                             "content": 0,
                             "title": "template1",
@@ -153,7 +153,7 @@ def test_json3():
     assert template.custom_map is None
     assert template.title is None
     with pytest.raises(MemorValidationError, match=r"Invalid value. `title` must be a string."):
-        # an corrupted JSON string with wrong `title` field
+        # a corrupted JSON string with wrong `title` field
         template.from_json(r"""{
                             "title": 0,
                             "content": "Act as a {language} developer and respond to this question:\n{prompt_message}",
@@ -161,11 +161,11 @@ def test_json3():
                             "custom_map": {"language": "Python"},
                             "date_created": "2025-05-07 21:52:33 +0000",
                             "date_modified": "2025-05-07 21:52:33 +0000"}""")
-    assert template.content == None
-    assert template.custom_map == None
-    assert template.title == None
+    assert template.content is None
+    assert template.custom_map is None
+    assert template.title is None
     with pytest.raises(MemorValidationError, match=r"Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."):
-        # an corrupted JSON string with wrong `custom_map` field
+        # a corrupted JSON string with wrong `custom_map` field
         template.from_json(r"""{
                             "title": "template1",
                             "content": "Act as a {language} developer and respond to this question:\n{prompt_message}",
@@ -173,11 +173,11 @@ def test_json3():
                             "custom_map": 0,
                             "date_created": "2025-05-07 21:52:33 +0000",
                             "date_modified": "2025-05-07 21:52:33 +0000"}""")
-    assert template.content == None
-    assert template.custom_map == None
-    assert template.title == None
+    assert template.content is None
+    assert template.custom_map is None
+    assert template.title is None
     with pytest.raises(MemorValidationError, match=r"Invalid value. `memor_version` must be a string."):
-        # an corrupted JSON string with wrong `memor_version` field
+        # a corrupted JSON string with wrong `memor_version` field
         template.from_json(r"""{
                             "title": "template1",
                             "content": "Act as a {language} developer and respond to this question:\n{prompt_message}",
@@ -185,9 +185,9 @@ def test_json3():
                             "custom_map": {"language": "Python"},
                             "date_created": "2025-05-07 21:52:33 +0000",
                             "date_modified": "2025-05-07 21:52:33 +0000"}""")
-    assert template.content == None
-    assert template.custom_map == None
-    assert template.title == None
+    assert template.content is None
+    assert template.custom_map is None
+    assert template.title is None
 
 
 def test_save1():

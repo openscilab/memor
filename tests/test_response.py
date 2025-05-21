@@ -210,7 +210,7 @@ def test_json1():
 def test_json2():
     response = Response()
     with pytest.raises(MemorValidationError, match=r"Invalid response structure. It should be a JSON object with proper fields."):
-        # an corrupted JSON string without `message` field
+        # a corrupted JSON string without `message` field
         response.from_json(r"""{
                            "type": "Response",
                            "score": 0.8,
@@ -235,7 +235,7 @@ def test_json2():
 def test_json3():
     response = Response()
     with pytest.raises(MemorValidationError, match=r"Invalid value. `score` must be a value between 0 and 1."):
-        # an corrupted JSON string with invalid `score` field
+        # a corrupted JSON string with invalid `score` field
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
