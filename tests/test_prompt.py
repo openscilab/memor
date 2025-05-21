@@ -321,6 +321,38 @@ def test_json3():
     assert prompt.role == Role.USER
 
 
+def test_json4():
+    prompt = Prompt()
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a positive integer."):
+        # an corrupted JSON string with invalid `tokens` field
+        prompt.from_json(r"""{
+                         "type": "Prompt",
+                         "message": "Hello, how are you?",
+                         "selected_response_index": 0,
+                         "tokens": "invalid",
+                        "responses": [
+                            {
+                                "message": "I am fine.",
+                                "model": "gpt-4",
+                                "role": "user",
+                            }],
+                         "role": "assistant",
+                         "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
+                         "template": {
+                            "title": "Basic/Prompt-Response Standard",
+                            "content": "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}",
+                            "memor_version": "0.6", "custom_map": {"instruction": ""},
+                            "date_created": "2025-05-07 21:49:23 +0000",
+                            "date_modified": "2025-05-07 21:49:23 +0000"},
+                         "memor_version": "0.6",
+                         "date_created": "2025-05-07 21:49:23 +0000",
+                         "date_modified": "2025-05-07 21:49:23 +0000"}""")
+    assert prompt.message == ''
+    assert prompt.responses == []
+    assert prompt.role == Role.USER
+    assert prompt.tokens is None
+
+
 def test_save1():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
