@@ -367,7 +367,7 @@ class Session:
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            result["title"] = loaded_obj.get("title", None)
+            result["title"] = loaded_obj["title"]
             result["render_counter"] = loaded_obj.get("render_counter", 0)
             result["messages_status"] = loaded_obj["messages_status"]
             result["messages"] = []

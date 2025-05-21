@@ -239,8 +239,8 @@ class Response:
             else:
                 loaded_obj = json_object.copy()
             result["message"] = loaded_obj["message"]
-            result["score"] = loaded_obj.get("score", None)
-            result["temperature"] = loaded_obj.get("temperature", None)
+            result["score"] = loaded_obj["score"]
+            result["temperature"] = loaded_obj["temperature"]
             result["tokens"] = loaded_obj.get("tokens", None)
             result["inference_time"] = loaded_obj.get("inference_time", None)
             result["model"] = loaded_obj["model"]
