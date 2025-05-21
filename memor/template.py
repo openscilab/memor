@@ -154,9 +154,9 @@ class PromptTemplate:
                 loaded_obj = json.loads(json_object)
             else:
                 loaded_obj = json_object.copy()
-            result["content"] = loaded_obj["content"]
-            result["title"] = loaded_obj["title"]
-            result["custom_map"] = loaded_obj["custom_map"]
+            result["content"] = loaded_obj.get("content", None)
+            result["title"] = loaded_obj.get("title", None)
+            result["custom_map"] = loaded_obj.get("custom_map", None)
             result["memor_version"] = loaded_obj["memor_version"]
             result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
