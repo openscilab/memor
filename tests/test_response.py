@@ -232,6 +232,87 @@ def test_json2():
     assert response.tokens is None
 
 
+def test_json3():
+    response = Response()
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `score` must be a value between 0 and 1."):
+        # an corrupted JSON string with invalid `score` field
+        response.from_json(r"""{
+                           "message": "I am fine.",
+                           "type": "Response",
+                           "score": "invalid",
+                           "temperature": 0.5,
+                           "tokens": null,
+                           "inference_time": null,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.role == Role.ASSISTANT
+    assert response.score is None
+    assert response.inference_time is None
+    assert response.tokens is None
+    with pytest.raises(MemorValidationError, match="Invalid value. `temperature` must be a positive float."):
+        response.from_json(r"""{
+                           "message": "I am fine.",
+                           "type": "Response",
+                           "score": 0.8,
+                           "temperature": -0.5,
+                           "tokens": null,
+                           "inference_time": null,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    with pytest.raises(MemorValidationError, match="Invalid value. `tokens` must be a positive int."):
+        response.from_json(r"""{
+                           "message": "I am fine.",
+                           "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
+                           "tokens": -1,
+                           "inference_time": null,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.tokens is None
+    with pytest.raises(MemorValidationError, match="Invalid value. `inference_time` must be a positive float."):
+        response.from_json(r"""{
+                           "message": "I am fine.",
+                           "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
+                           "tokens": null,
+                           "inference_time": -1,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.tokens is None
+    assert response.inference_time is None
+
+
+
 def test_save1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     result = response.save("response_test1.json")

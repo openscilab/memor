@@ -239,8 +239,8 @@ class Response:
             else:
                 loaded_obj = json_object.copy()
             result["message"] = loaded_obj["message"]
-            result["score"] = loaded_obj["score"]
-            result["temperature"] = loaded_obj["temperature"]
+            result["score"] = loaded_obj.get("score", None)
+            result["temperature"] = loaded_obj.get("temperature", None)
             result["tokens"] = loaded_obj.get("tokens", None)
             result["inference_time"] = loaded_obj.get("inference_time", None)
             result["model"] = loaded_obj["model"]
@@ -252,14 +252,10 @@ class Response:
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
-        if result["score"]:
-            _validate_probability(result["score"], "score")
-        if result["temperature"]:
-            _validate_pos_float(result["temperature"], "temperature")
-        if result["tokens"]:
-            _validate_pos_int(result["tokens"], "tokens")
-        if result["inference_time"]:
-            _validate_pos_float(result["inference_time"], "inference_time")
+        if result["score"] is not None: _validate_probability(result["score"], "score")
+        if result["temperature"] is not None: _validate_pos_float(result["temperature"], "temperature")
+        if result["tokens"] is not None: _validate_pos_int(result["tokens"], "tokens")
+        if result["inference_time"] is not None: _validate_pos_float(result["inference_time"], "inference_time")
         _validate_string(result["model"], "model")
         _validate_message_id(result["id"])
         _validate_string(result["memor_version"], "memor_version")
