@@ -299,7 +299,7 @@ def test_json2():
 def test_json3():
     prompt = Prompt()
     with pytest.raises(MemorValidationError, match=r"Invalid prompt structure. It should be a JSON object with proper fields."):
-        # an corrupted JSON string without `responses` field
+        # a corrupted JSON string without `responses` field
         prompt.from_json(r"""{
                          "type": "Prompt",
                          "message": "Hello, how are you?",
@@ -319,6 +319,47 @@ def test_json3():
     assert prompt.message == ''
     assert prompt.responses == []
     assert prompt.role == Role.USER
+
+
+def test_json4():
+    prompt = Prompt()
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a positive integer."):
+        # a corrupted JSON string with invalid `tokens` field
+        prompt.from_json(r"""{
+                         "type": "Prompt",
+                         "message": "Hello, how are you?",
+                         "selected_response_index": 0,
+                         "tokens": "invalid",
+                         "responses": [
+                            {
+                                "type": "Response",
+                                "message": "I am fine.",
+                                "score": 0.8,
+                                "temperature": 0.5,
+                                "tokens": null,
+                                "inference_time": null,
+                                "role": "user",
+                                "model": "gpt-4",
+                                "id": "8eb35f46-b660-4e28-92df-487211f7357e",
+                                "memor_version": "0.6",
+                                "date_created": "2025-05-21 17:21:21 +0000",
+                                "date_modified": "2025-05-21 17:21:21 +0000"
+                            }],
+                         "role": "assistant",
+                         "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
+                         "template": {
+                            "title": "Basic/Prompt-Response Standard",
+                            "content": "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}",
+                            "memor_version": "0.6", "custom_map": {"instruction": ""},
+                            "date_created": "2025-05-07 21:49:23 +0000",
+                            "date_modified": "2025-05-07 21:49:23 +0000"},
+                         "memor_version": "0.6",
+                         "date_created": "2025-05-07 21:49:23 +0000",
+                         "date_modified": "2025-05-07 21:49:23 +0000"}""")
+    assert prompt.message == ''
+    assert prompt.responses == []
+    assert prompt.role == Role.USER
+    assert prompt.tokens is None
 
 
 def test_save1():
