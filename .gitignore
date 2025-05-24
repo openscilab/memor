@@ -101,12 +101,7 @@ gen
 
 # Outputs
 
-prompt_test1.json
-prompt_test2.json
-prompt_test3.json
-response_test1.json
-response_test2.json
-response_test3.json
-session_test1.json
-template_test1.json
-template_test2.json
+prompt_test*.json
+response_test*.json
+session_test*.json
+template_test*.json
