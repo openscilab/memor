@@ -361,6 +361,11 @@ class Prompt:
             del data["template"]
         return data
 
+    def get_size(self) -> int:
+        """Get the size of the prompt in bytes."""
+        json_str = json.dumps(self.to_json())
+        return len(json_str.encode())
+
     def regenerate_id(self) -> None:
         """Regenerate ID."""
         new_id = self._id
@@ -414,6 +419,11 @@ class Prompt:
         if 0 <= self._selected_response_index < len(self._responses):
             return self._responses[self._selected_response_index]
         return None
+
+    @property
+    def size(self) -> int:
+        """Get the size of the prompt in bytes."""
+        return self.get_size()
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
                                                                                   Dict[str, Any],

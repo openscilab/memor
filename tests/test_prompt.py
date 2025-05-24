@@ -1,3 +1,4 @@
+import os
 import datetime
 import uuid
 import copy
@@ -681,3 +682,19 @@ def test_date_created():
         role=Role.USER,
         template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     assert isinstance(prompt.date_created, datetime.datetime)
+
+
+def test_size():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt.save("prompt_test4.json")
+    assert os.path.getsize("prompt_test4.json") == prompt.size
+    assert prompt.size == prompt.get_size()
