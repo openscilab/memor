@@ -305,6 +305,11 @@ class Response:
             "date_modified": self._date_modified,
         }
 
+    def get_size(self) -> int:
+        """Get the size of the response in bytes."""
+        json_str = json.dumps(self.to_json())
+        return len(json_str.encode())
+
     def render(self,
                render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
                                                                             Dict[str, Any],
@@ -396,3 +401,8 @@ class Response:
     def date_modified(self) -> datetime.datetime:
         """Get the response object modification date."""
         return self._date_modified
+    
+    @property
+    def size(self) -> int:
+        """Get the size of the response in bytes."""
+        return self.get_size()

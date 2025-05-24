@@ -1,3 +1,4 @@
+import os
 import datetime
 import uuid
 import json
@@ -455,3 +456,11 @@ def test_date_modified():
 def test_date_created():
     response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     assert isinstance(response.date_created, datetime.datetime)
+
+
+def test_size():
+    response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response.save("response_test3.json")
+
+    assert os.path.getsize("response_test3.json") == response.size
+    assert response.size == response.get_size()
