@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Template class."""
+import sys
 from typing import Dict, Any, Union
 import json
 import datetime
@@ -200,6 +201,11 @@ class PromptTemplate:
             "date_modified": self._date_modified,
         }
 
+    def get_size(self) -> int:
+        """Get the size of the PromptTemplate in bytes."""
+        json_str = json.dumps(self.to_json())
+        return len(json_str.encode())
+
     @property
     def content(self) -> str:
         """Get the PromptTemplate content."""
@@ -224,6 +230,11 @@ class PromptTemplate:
     def custom_map(self) -> Dict[str, str]:
         """Get the PromptTemplate custom map."""
         return self._custom_map
+    
+    @property
+    def size(self) -> int:
+        """Get the size of the PromptTemplate in bytes."""
+        return self.get_size()
 
 
 PROMPT_INSTRUCTION1 = "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\n"
