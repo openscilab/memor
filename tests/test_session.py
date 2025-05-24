@@ -1,3 +1,4 @@
+import os
 import re
 import datetime
 import copy
@@ -767,3 +768,12 @@ def test_search5():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session", init_check=False)
     assert session.search(query="a") == [1]
+
+
+def test_size():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session")
+    session.save("session_test2.json")
+    assert os.path.getsize("session_test2.json") == session.size
+    assert session.size == session.get_size()

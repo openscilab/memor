@@ -431,6 +431,11 @@ class Session:
         }
         return data
 
+    def get_size(self) -> int:
+        """Get the size of the session in bytes."""
+        json_str = json.dumps(self.to_json())
+        return len(json_str.encode())
+
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
                enable_counter: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
@@ -518,3 +523,8 @@ class Session:
     def masks(self) -> List[bool]:
         """Get the session masks."""
         return [not x for x in self._messages_status]
+
+    @property
+    def size(self) -> int:
+        """Get the session size in bytes."""
+        return self.get_size()
