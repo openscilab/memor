@@ -401,7 +401,7 @@ class Response:
     def date_modified(self) -> datetime.datetime:
         """Get the response object modification date."""
         return self._date_modified
-    
+
     @property
     def size(self) -> int:
         """Get the size of the response in bytes."""
