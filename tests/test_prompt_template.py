@@ -1,3 +1,4 @@
+import os
 import datetime
 import json
 import copy
@@ -320,3 +321,13 @@ def test_equality4():
             "language": "Python"},
         title="template1")
     assert template != 2
+
+
+def test_size():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"})
+    template.save("template_test3.json")
+    assert os.path.getsize("template_test3.json") == template.size
+    assert template.size == template.get_size()

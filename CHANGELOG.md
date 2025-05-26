@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Prompt` class `_validate_extract_json` method
 - `PromptTemplate` class `_validate_extract_json` method
 - `Session` class `search` method
+- `Session` class `get_size` method
+- `Response` class `get_size` method
+- `Prompt` class `get_size` method
+- `PromptTemplate` class `get_size` method
+- `Session` class `size` attribute
+- `Response` class `size` attribute
+- `Prompt` class `size` attribute
+- `PromptTemplate` class `size` attribute
 ### Changed
 - Validation bug fixed in `update_messages` method in `Session` class
 - Validation bug fixed in `from_json` method in `PromptTemplate`, `Response`, `Prompt`, and `Session` classes
