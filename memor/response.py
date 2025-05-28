@@ -4,6 +4,7 @@ from typing import List, Dict, Union, Tuple, Any
 import datetime
 import json
 import warnings
+from .message import Message
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
@@ -18,7 +19,7 @@ from .functions import _validate_string, _validate_pos_float, _validate_pos_int,
 from .functions import _validate_date_time, _validate_probability, _validate_path
 
 
-class Response:
+class Response(Message):
     """
     Response class.
 
@@ -52,17 +53,12 @@ class Response:
         :param date: response date
         :param file_path: response file path
         """
-        self._message = ""
+        super().__init__()
         self._score = None
         self._role = Role.ASSISTANT
         self._temperature = None
-        self._tokens = None
         self._inference_time = None
         self._model = LLMModel.DEFAULT.value
-        self._date_created = get_time_utc()
-        self._mark_modified()
-        self._memor_version = MEMOR_VERSION
-        self._id = None
         if file_path:
             self.load(file_path)
         else:
@@ -86,10 +82,6 @@ class Response:
             self._id = generate_message_id()
         _validate_message_id(self._id)
 
-    def _mark_modified(self) -> None:
-        """Mark modification."""
-        self._date_modified = get_time_utc()
-
     def __eq__(self, other_response: "Response") -> bool:
         """
         Check responses equality.
@@ -101,39 +93,11 @@ class Response:
                 self._model == other_response._model and self._tokens == other_response._tokens and self._inference_time == other_response._inference_time
         return False
 
-    def __str__(self) -> str:
-        """Return string representation of Response."""
-        return self.render(render_format=RenderFormat.STRING)
 
     def __repr__(self) -> str:
         """Return string representation of Response."""
         return "Response(message={message})".format(message=self._message)
 
-    def __len__(self) -> int:
-        """Return the length of the Response object."""
-        return len(self.render(render_format=RenderFormat.STRING))
-
-    def __copy__(self) -> "Response":
-        """Return a copy of the Response object."""
-        _class = self.__class__
-        result = _class.__new__(_class)
-        result.__dict__.update(self.__dict__)
-        result.regenerate_id()
-        return result
-
-    def copy(self) -> "Response":
-        """Return a copy of the Response object."""
-        return self.__copy__()
-
-    def update_message(self, message: str) -> None:
-        """
-        Update the response message.
-
-        :param message: message
-        """
-        _validate_string(message, "message")
-        self._message = message
-        self._mark_modified()
 
     def update_score(self, score: float) -> None:
         """
@@ -145,16 +109,7 @@ class Response:
         self._score = score
         self._mark_modified()
 
-    def update_role(self, role: Role) -> None:
-        """
-        Update the response role.
 
-        :param role: role
-        """
-        if not isinstance(role, Role):
-            raise MemorValidationError(INVALID_ROLE_MESSAGE)
-        self._role = role
-        self._mark_modified()
 
     def update_temperature(self, temperature: float) -> None:
         """
@@ -166,15 +121,6 @@ class Response:
         self._temperature = temperature
         self._mark_modified()
 
-    def update_tokens(self, tokens: int) -> None:
-        """
-        Update the tokens.
-
-        :param tokens: tokens
-        """
-        _validate_pos_int(tokens, "tokens")
-        self._tokens = tokens
-        self._mark_modified()
 
     def update_inference_time(self, inference_time: float) -> None:
         """
@@ -215,15 +161,6 @@ class Response:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path: str) -> None:
-        """
-        Load method.
-
-        :param file_path: response file path
-        """
-        _validate_path(file_path)
-        with open(file_path, "r") as file:
-            self.from_json(file.read())
 
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
@@ -305,10 +242,6 @@ class Response:
             "date_modified": self._date_modified,
         }
 
-    def get_size(self) -> int:
-        """Get the size of the response in bytes."""
-        json_str = json.dumps(self.to_json())
-        return len(json_str.encode())
 
     def render(self,
                render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
@@ -337,25 +270,7 @@ class Response:
             return self.to_dict().items()
         return self._message
 
-    def estimate_tokens(self, method: TokensEstimator = TokensEstimator.DEFAULT) -> int:
-        """
-        Estimate the number of tokens in the response message.
 
-        :param method: token estimator method
-        """
-        return method(self.render(render_format=RenderFormat.STRING))
-
-    def regenerate_id(self) -> None:
-        """Regenerate ID."""
-        new_id = self._id
-        while new_id == self.id:
-            new_id = generate_message_id()
-        self._id = new_id
-
-    @property
-    def message(self) -> str:
-        """Get the response message."""
-        return self._message
 
     @property
     def score(self) -> float:
@@ -367,42 +282,15 @@ class Response:
         """Get the temperature."""
         return self._temperature
 
-    @property
-    def tokens(self) -> int:
-        """Get the tokens."""
-        return self._tokens
 
     @property
     def inference_time(self) -> float:
         """Get inference time."""
         return self._inference_time
 
-    @property
-    def role(self) -> Role:
-        """Get the response role."""
-        return self._role
 
     @property
     def model(self) -> str:
         """Get the agent model."""
         return self._model
 
-    @property
-    def id(self) -> str:
-        """Get the response ID."""
-        return self._id
-
-    @property
-    def date_created(self) -> datetime.datetime:
-        """Get the response creation date."""
-        return self._date_created
-
-    @property
-    def date_modified(self) -> datetime.datetime:
-        """Get the response object modification date."""
-        return self._date_modified
-
-    @property
-    def size(self) -> int:
-        """Get the size of the response in bytes."""
-        return self.get_size()
