@@ -80,7 +80,6 @@ class Prompt(Message):
         if init_check:
             _ = self.render()
 
-
     def __eq__(self, other_prompt: "Prompt") -> bool:
         """
         Check prompts equality.
@@ -93,11 +92,9 @@ class Prompt(Message):
                 self._tokens == other_prompt._tokens
         return False
 
-
     def __repr__(self) -> str:
         """Return string representation of Prompt."""
         return "Prompt(message={message})".format(message=self._message)
-
 
     def add_response(self, response: Response, index: int = None) -> None:
         """
@@ -145,11 +142,6 @@ class Prompt(Message):
         self._responses = responses
         self._mark_modified()
 
-
-
-
-
-
     def update_template(self, template: PromptTemplate) -> None:
         """
         Update the prompt template.
@@ -192,7 +184,6 @@ class Prompt(Message):
             result["message"] = str(e)
         return result
 
-
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
@@ -227,7 +218,8 @@ class Prompt(Message):
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
-        if result["tokens"] is not None: _validate_pos_int(result["tokens"], "tokens")
+        if result["tokens"] is not None:
+            _validate_pos_int(result["tokens"], "tokens")
         _validate_message_id(result["id"])
         _validate_string(result["memor_version"], "memor_version")
         _validate_pos_int(result["selected_response_index"], "selected_response_index")
@@ -290,23 +282,15 @@ class Prompt(Message):
             del data["template"]
         return data
 
-
-
-
-
     @property
     def responses(self) -> List[Response]:
         """Get the prompt responses."""
         return self._responses
 
-
-
-
     @property
     def template(self) -> PromptTemplate:
         """Get the prompt template."""
         return self._template
-
 
     @property
     def selected_response(self) -> Response:
@@ -314,7 +298,6 @@ class Prompt(Message):
         if 0 <= self._selected_response_index < len(self._responses):
             return self._responses[self._selected_response_index]
         return None
-
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
                                                                                   Dict[str, Any],

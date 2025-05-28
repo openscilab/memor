@@ -28,16 +28,13 @@ class Message(ABC):
         self._memor_version = MEMOR_VERSION
         self._id = None
 
-
     def _mark_modified(self) -> None:
         """Mark modification."""
         self._date_modified = get_time_utc()
 
-
     def __str__(self) -> str:
         """Return string representation of Message."""
         return self.render(render_format=RenderFormat.STRING)
-
 
     def __len__(self) -> int:
         """Return the length of the Message."""
@@ -65,8 +62,6 @@ class Message(ABC):
         :return: a copy of Message
         """
         return self.__copy__()
-
-
 
     def update_message(self, message: str) -> None:
         """
@@ -184,12 +179,10 @@ class Message(ABC):
         """Get the message object modification date."""
         return self._date_modified
 
-
     @property
     def id(self) -> str:
         """Get the message ID."""
         return self._id
-
 
     @property
     def size(self) -> int:

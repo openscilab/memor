@@ -162,9 +162,12 @@ class PromptTemplate:
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_TEMPLATE_STRUCTURE_MESSAGE)
-        if result["content"] is not None: _validate_string(result["content"], "content")
-        if result["title"] is not None: _validate_string(result["title"], "title")
-        if result["custom_map"] is not None: _validate_custom_map(result["custom_map"])
+        if result["content"] is not None:
+            _validate_string(result["content"], "content")
+        if result["title"] is not None:
+            _validate_string(result["title"], "title")
+        if result["custom_map"] is not None:
+            _validate_custom_map(result["custom_map"])
         _validate_string(result["memor_version"], "memor_version")
         return result
 

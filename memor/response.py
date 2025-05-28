@@ -93,11 +93,9 @@ class Response(Message):
                 self._model == other_response._model and self._tokens == other_response._tokens and self._inference_time == other_response._inference_time
         return False
 
-
     def __repr__(self) -> str:
         """Return string representation of Response."""
         return "Response(message={message})".format(message=self._message)
-
 
     def update_score(self, score: float) -> None:
         """
@@ -109,8 +107,6 @@ class Response(Message):
         self._score = score
         self._mark_modified()
 
-
-
     def update_temperature(self, temperature: float) -> None:
         """
         Update the temperature.
@@ -120,7 +116,6 @@ class Response(Message):
         _validate_pos_float(temperature, "temperature")
         self._temperature = temperature
         self._mark_modified()
-
 
     def update_inference_time(self, inference_time: float) -> None:
         """
@@ -161,7 +156,6 @@ class Response(Message):
             result["message"] = str(e)
         return result
 
-
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
@@ -189,10 +183,14 @@ class Response(Message):
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
-        if result["score"] is not None: _validate_probability(result["score"], "score")
-        if result["temperature"] is not None: _validate_pos_float(result["temperature"], "temperature")
-        if result["tokens"] is not None: _validate_pos_int(result["tokens"], "tokens")
-        if result["inference_time"] is not None: _validate_pos_float(result["inference_time"], "inference_time")
+        if result["score"] is not None:
+            _validate_probability(result["score"], "score")
+        if result["temperature"] is not None:
+            _validate_pos_float(result["temperature"], "temperature")
+        if result["tokens"] is not None:
+            _validate_pos_int(result["tokens"], "tokens")
+        if result["inference_time"] is not None:
+            _validate_pos_float(result["inference_time"], "inference_time")
         _validate_string(result["model"], "model")
         _validate_message_id(result["id"])
         _validate_string(result["memor_version"], "memor_version")
@@ -242,7 +240,6 @@ class Response(Message):
             "date_modified": self._date_modified,
         }
 
-
     def render(self,
                render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
                                                                             Dict[str, Any],
@@ -270,8 +267,6 @@ class Response(Message):
             return self.to_dict().items()
         return self._message
 
-
-
     @property
     def score(self) -> float:
         """Get the response score."""
@@ -282,15 +277,12 @@ class Response(Message):
         """Get the temperature."""
         return self._temperature
 
-
     @property
     def inference_time(self) -> float:
         """Get inference time."""
         return self._inference_time
 
-
     @property
     def model(self) -> str:
         """Get the agent model."""
         return self._model
-

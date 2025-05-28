@@ -383,7 +383,8 @@ class Session:
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
-        if result["title"] is not None: _validate_string(result["title"], "title")
+        if result["title"] is not None:
+            _validate_string(result["title"], "title")
         _validate_pos_int(result["render_counter"], "render_counter")
         _validate_status(result["messages_status"], result["messages"])
         _validate_string(result["memor_version"], "memor_version")
