@@ -4,6 +4,7 @@ from typing import List, Dict, Union, Tuple, Any, Optional
 import datetime
 import json
 import warnings
+from .message import Message
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import RenderFormat, DATA_SAVE_SUCCESS_MESSAGE
@@ -23,7 +24,7 @@ from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTempl
 from .response import Response
 
 
-class Prompt:
+class Prompt(Message):
     """
     Prompt class.
 
@@ -56,16 +57,11 @@ class Prompt:
         :param file_path: prompt file path
         :param init_check: initial check flag
         """
-        self._message = ""
-        self._tokens = None
-        self._role = Role.DEFAULT
+        super().__init__()
+        self._role = Role.USER
         self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
-        self._date_created = get_time_utc()
-        self._mark_modified()
-        self._memor_version = MEMOR_VERSION
         self._selected_response_index = 0
-        self._id = None
         if file_path:
             self.load(file_path)
         else:
@@ -84,9 +80,6 @@ class Prompt:
         if init_check:
             _ = self.render()
 
-    def _mark_modified(self) -> None:
-        """Mark modification."""
-        self._date_modified = get_time_utc()
 
     def __eq__(self, other_prompt: "Prompt") -> bool:
         """
@@ -100,40 +93,11 @@ class Prompt:
                 self._tokens == other_prompt._tokens
         return False
 
-    def __str__(self) -> str:
-        """Return string representation of Prompt."""
-        return self.render(render_format=RenderFormat.STRING)
 
     def __repr__(self) -> str:
         """Return string representation of Prompt."""
         return "Prompt(message={message})".format(message=self._message)
 
-    def __len__(self) -> int:
-        """Return the length of the Prompt object."""
-        try:
-            return len(self.render(render_format=RenderFormat.STRING))
-        except Exception:
-            return 0
-
-    def __copy__(self) -> "Prompt":
-        """
-        Return a copy of the Prompt object.
-
-        :return: a copy of Prompt object
-        """
-        _class = self.__class__
-        result = _class.__new__(_class)
-        result.__dict__.update(self.__dict__)
-        result.regenerate_id()
-        return result
-
-    def copy(self) -> "Prompt":
-        """
-        Return a copy of the Prompt object.
-
-        :return: a copy of Prompt object
-        """
-        return self.__copy__()
 
     def add_response(self, response: Response, index: int = None) -> None:
         """
@@ -181,36 +145,10 @@ class Prompt:
         self._responses = responses
         self._mark_modified()
 
-    def update_message(self, message: str) -> None:
-        """
-        Update the prompt message.
 
-        :param message: message
-        """
-        _validate_string(message, "message")
-        self._message = message
-        self._mark_modified()
 
-    def update_role(self, role: Role) -> None:
-        """
-        Update the prompt role.
 
-        :param role: role
-        """
-        if not isinstance(role, Role):
-            raise MemorValidationError(INVALID_ROLE_MESSAGE)
-        self._role = role
-        self._mark_modified()
 
-    def update_tokens(self, tokens: int) -> None:
-        """
-        Update the tokens.
-
-        :param tokens: tokens
-        """
-        _validate_pos_int(tokens, "tokens")
-        self._tokens = tokens
-        self._mark_modified()
 
     def update_template(self, template: PromptTemplate) -> None:
         """
@@ -254,15 +192,6 @@ class Prompt:
             result["message"] = str(e)
         return result
 
-    def load(self, file_path: str) -> None:
-        """
-        Load method.
-
-        :param file_path: prompt file path
-        """
-        _validate_path(file_path)
-        with open(file_path, "r") as file:
-            self.from_json(file.read())
 
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
@@ -361,57 +290,23 @@ class Prompt:
             del data["template"]
         return data
 
-    def get_size(self) -> int:
-        """Get the size of the prompt in bytes."""
-        json_str = json.dumps(self.to_json())
-        return len(json_str.encode())
 
-    def regenerate_id(self) -> None:
-        """Regenerate ID."""
-        new_id = self._id
-        while new_id == self.id:
-            new_id = generate_message_id()
-        self._id = new_id
 
-    @property
-    def message(self) -> str:
-        """Get the prompt message."""
-        return self._message
+
 
     @property
     def responses(self) -> List[Response]:
         """Get the prompt responses."""
         return self._responses
 
-    @property
-    def role(self) -> Role:
-        """Get the prompt role."""
-        return self._role
 
-    @property
-    def tokens(self) -> int:
-        """Get the prompt tokens."""
-        return self._tokens
 
-    @property
-    def date_created(self) -> datetime.datetime:
-        """Get the prompt creation date."""
-        return self._date_created
-
-    @property
-    def date_modified(self) -> datetime.datetime:
-        """Get the prompt object modification date."""
-        return self._date_modified
 
     @property
     def template(self) -> PromptTemplate:
         """Get the prompt template."""
         return self._template
 
-    @property
-    def id(self) -> str:
-        """Get the prompt ID."""
-        return self._id
 
     @property
     def selected_response(self) -> Response:
@@ -420,10 +315,6 @@ class Prompt:
             return self._responses[self._selected_response_index]
         return None
 
-    @property
-    def size(self) -> int:
-        """Get the size of the prompt in bytes."""
-        return self.get_size()
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
                                                                                   Dict[str, Any],
@@ -463,19 +354,3 @@ class Prompt:
                 return list(prompt_dict.items())
         except Exception:
             raise MemorRenderError(PROMPT_RENDER_ERROR_MESSAGE)
-
-    def check_render(self) -> bool:
-        """Check render."""
-        try:
-            _ = self.render()
-            return True
-        except Exception:
-            return False
-
-    def estimate_tokens(self, method: TokensEstimator = TokensEstimator.DEFAULT) -> int:
-        """
-        Estimate the number of tokens in the prompt message.
-
-        :param method: token estimator method
-        """
-        return method(self.render(render_format=RenderFormat.STRING))
