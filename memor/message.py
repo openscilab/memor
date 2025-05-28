@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Message class."""
 from abc import ABC, abstractmethod
-from typing import List, Dict, Union, Tuple, Any, Optional
+from typing import List, Dict, Union, Tuple, Any
 import datetime
 import json
 from .params import MEMOR_VERSION
