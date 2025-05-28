@@ -101,7 +101,7 @@ class Message(ABC):
 
         :param file_path: message file path
         """
-        pass
+        pass #pragma: no cover
 
     def load(self, file_path: str) -> None:
         """
@@ -121,7 +121,7 @@ class Message(ABC):
 
         :param json_object: JSON object
         """
-        pass
+        pass #pragma: no cover
 
     @abstractmethod
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
@@ -130,17 +130,17 @@ class Message(ABC):
 
         :param json_object: JSON object
         """
-        pass
+        pass #pragma: no cover
 
     @abstractmethod
     def to_json(self) -> Dict[str, Any]:
         """Convert the message to a JSON object."""
-        pass
+        pass #pragma: no cover
 
     @abstractmethod
     def to_dict(self) -> Dict[str, Any]:
         """Convert the message to a dictionary."""
-        pass
+        pass #pragma: no cover
 
     def get_size(self) -> int:
         """Get the size of the message in bytes."""
@@ -198,7 +198,7 @@ class Message(ABC):
 
         :param render_format: render format
         """
-        pass
+        pass #pragma: no cover
 
     def check_render(self) -> bool:
         """Check render."""
