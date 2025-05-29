@@ -536,6 +536,22 @@ def test_render8():
         _ = prompt.render(RenderFormat.AI_STUDIO)
 
 
+def test_render9():
+    message = "How are you?"
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=template)
+    with pytest.raises(MemorValidationError, match=r"Invalid render format. It must be an instance of RenderFormat enum."):
+        _ = prompt.render(render_format="invalid_format")
+
+
 def test_init_check():
     message = "Hello, how are you?"
     response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
