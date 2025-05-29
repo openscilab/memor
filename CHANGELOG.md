@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `Message` abstract class
 - `Session` class `_validate_extract_json` method
 - `Response` class `_validate_extract_json` method
 - `Prompt` class `_validate_extract_json` method
