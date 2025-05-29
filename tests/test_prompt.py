@@ -3,7 +3,6 @@ import datetime
 import uuid
 import copy
 import pytest
-from memor import MEMOR_VERSION
 from memor import Prompt, Response, Role, LLMModel
 from memor import PresetPromptTemplate, PromptTemplate
 from memor import RenderFormat, MemorValidationError, MemorRenderError
