@@ -3,6 +3,7 @@ import datetime
 import uuid
 import copy
 import pytest
+from memor import MEMOR_VERSION
 from memor import Prompt, Response, Role, LLMModel
 from memor import PresetPromptTemplate, PromptTemplate
 from memor import RenderFormat, MemorValidationError, MemorRenderError
@@ -534,6 +535,40 @@ def test_render8():
         template=template)
     with pytest.warns(UserWarning, match="Google AI Studio models may not support content with a system role."):
         _ = prompt.render(RenderFormat.AI_STUDIO)
+
+
+def test_render9():
+    prompt = Prompt(
+        message="How are you?",
+        role=Role.USER)
+    itemized_render = prompt.render(RenderFormat.ITEMS)
+    assert itemized_render[0] == ("type", "Prompt")
+    assert itemized_render[1] == ("message", "How are you?")
+    assert itemized_render[2] == ("responses", [])
+    assert itemized_render[3] == ("selected_response_index", 0)
+    assert itemized_render[4] == ("tokens", None)
+    assert itemized_render[5] == ("role", Role.USER)
+    assert itemized_render[6] == ("id", prompt.id)
+    assert itemized_render[7] == ("template", PresetPromptTemplate.DEFAULT.value)
+    assert itemized_render[8] == ("memor_version", MEMOR_VERSION)
+    assert itemized_render[9] == ("date_created", prompt.date_created)
+    assert itemized_render[10] == ("date_modified", prompt.date_modified)
+
+
+def test_render10():
+    message = "How are you?"
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=template)
+    with pytest.raises(MemorValidationError, match=r"Invalid render format. It must be an instance of RenderFormat enum."):
+        _ = prompt.render(render_format="invalid_format")
 
 
 def test_init_check():
