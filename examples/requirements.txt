@@ -1,0 +1,3 @@
+python-dotenv
+google-genai
+mistralai
