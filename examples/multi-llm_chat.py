@@ -23,11 +23,8 @@ prompt = Prompt(
     role=Role.USER,
 )
 
-# Setting up Mistral client
 MISTRAL_API_KEY = "YOUR_MISTRAL_API_KEY"
-if not MISTRAL_API_KEY:
-    raise ValueError("Please set the MISTRAL_API_KEY environment variable.")
-MISTRAL_MODEL = os.environ.get("MISTRAL_MODEL", "mistral-large-latest")
+MISTRAL_MODEL = "mistral-large-latest"
 mistral_client = Mistral(api_key=MISTRAL_API_KEY)
 
 ethical_idealist_template = PromptTemplate(
@@ -64,9 +61,7 @@ session.add_message(prompt)
 
 # Setting up Google AI Studio client
 GOOGLE_AI_STUDIO_API_KEY = "YOUR_GOOGLE_AI_STUDIO_API_KEY"
-if not GOOGLE_AI_STUDIO_API_KEY:
-    raise ValueError("Please set the GOOGLE_AI_STUDIO_API_KEY environment variable.")
-GOOGLE_AI_STUDIO_MODEL = os.environ.get("GOOGLE_AI_STUDIO_MODEL", "gemini-2.0-flash")
+GOOGLE_AI_STUDIO_MODEL = "gemini-2.0-flash"
 gemini_client = genai.Client(api_key=GOOGLE_AI_STUDIO_API_KEY)
 
 machiavellian_strategist_template = PromptTemplate(
