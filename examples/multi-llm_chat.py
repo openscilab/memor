@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Simple chat example
+"""Multi LLM chat example
 
 In this example, we're using one of the most controversial questions in human history: "Do the ends ever justify the means?"
 This question sits at the heart of countless ethical, political, philosophical debates, and modern policymaking.
 To explore the contrast in worldviews, we present two opposing perspectives (taken role by two LLMs).
 1. The first is an ethical idealist, who argues that the process matters just as much as — if not more than — the outcome, and that compromising principles undermines the integrity of any goal. We give this role to Mistral.
 2. The second is from a Machiavellian strategist, who believes that achieving a desirable outcome can legitimize morally ambiguous actions, prioritizing results over the path taken. We give this role to Google AI Studio.
-These dialogues illustrate the deep philosophical divide between consequentialism and deontological ethics. Therefore that makes a great example for a simple chat application using two different LLMs: Mistral and Google AI Studio.
+These dialogues illustrate the deep philosophical divide between consequentialism and deontological ethics. Therefore that makes a great example for a multi agent chat application using two different LLMs: Mistral and Google AI Studio.
 """
 import os
 from mistralai import Mistral
