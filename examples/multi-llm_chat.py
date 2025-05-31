@@ -8,7 +8,6 @@ To explore the contrast in worldviews, we present two opposing perspectives (tak
 2. The second is from a Machiavellian strategist, who believes that achieving a desirable outcome can legitimize morally ambiguous actions, prioritizing results over the path taken. We give this role to Google AI Studio.
 These dialogues illustrate the deep philosophical divide between consequentialism and deontological ethics. Therefore that makes a great example for a multi agent chat application using two different LLMs: Mistral and Google AI Studio.
 """
-import os
 from mistralai import Mistral
 from google import genai
 
