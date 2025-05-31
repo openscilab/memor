@@ -9,7 +9,6 @@ To explore the contrast in worldviews, we present two opposing perspectives (tak
 These dialogues illustrate the deep philosophical divide between consequentialism and deontological ethics. Therefore that makes a great example for a simple chat application using two different LLMs: Mistral and Google AI Studio.
 """
 import os
-from dotenv import load_dotenv
 from mistralai import Mistral
 from google import genai
 
@@ -18,8 +17,6 @@ from memor import Prompt, Response
 from memor import Session
 from memor import Role, RenderFormat, LLMModel
 
-load_dotenv()
-
 session = Session(title="Ethical Debate") # Create a new session for the chat
 prompt = Prompt(
     message="Do the ends ever justify the means?",
@@ -27,7 +24,7 @@ prompt = Prompt(
 )
 
 # Setting up Mistral client
-MISTRAL_API_KEY = os.environ.get("MISTRAL_API_KEY", "YOUR_API_KEY")
+MISTRAL_API_KEY = "YOUR_MISTRAL_API_KEY"
 if not MISTRAL_API_KEY:
     raise ValueError("Please set the MISTRAL_API_KEY environment variable.")
 MISTRAL_MODEL = os.environ.get("MISTRAL_MODEL", "mistral-large-latest")
@@ -66,7 +63,7 @@ session.add_message(prompt)
 
 
 # Setting up Google AI Studio client
-GOOGLE_AI_STUDIO_API_KEY = os.environ.get("GOOGLE_AI_STUDIO_API_KEY", "YOUR_API_KEY")
+GOOGLE_AI_STUDIO_API_KEY = "YOUR_GOOGLE_AI_STUDIO_API_KEY"
 if not GOOGLE_AI_STUDIO_API_KEY:
     raise ValueError("Please set the GOOGLE_AI_STUDIO_API_KEY environment variable.")
 GOOGLE_AI_STUDIO_MODEL = os.environ.get("GOOGLE_AI_STUDIO_MODEL", "gemini-2.0-flash")
