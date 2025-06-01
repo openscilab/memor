@@ -29,7 +29,7 @@ mistral_client = Mistral(api_key=MISTRAL_API_KEY)
 ethical_idealist_template = PromptTemplate(
     content="{instruction}\n\n{prompt[message]}",
     custom_map={
-        "instruction": "You are an ethical idealist who believes that how we act matters just as much — if not more — than what we achieve."
+        "instruction": "You are an ethical idealist who believes that how we act matters just as much — if not more — than what we achieve. "
             "You value principles like honesty, justice, and human dignity, even when they complicate the path to success."})
 
 prompt.update_template(ethical_idealist_template)
@@ -66,8 +66,8 @@ gemini_client = genai.Client(api_key=GOOGLE_AI_STUDIO_API_KEY)
 machiavellian_strategist_template = PromptTemplate(
     content="{instruction}\n\n{prompt[message]}",
     custom_map={
-        "instruction": "You are a pragmatic strategist inspired by Niccolò Machiavelli."
-            "You believe power, stability, and success often require morally ambiguous choices."
+        "instruction": "You are a pragmatic strategist inspired by Niccolò Machiavelli. "
+            "You believe power, stability, and success often require morally ambiguous choices. "
             "You prioritize results over intentions and see ethical rules as tools, not absolutes."})
 
 prompt.update_template(machiavellian_strategist_template)
