@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Simple Chat Example with Mistral and Memor
+Simple Chat Example with Mistral and Memor.
 
 This script demonstrates a simple chat loop using the Mistral LLM and the Memor session/history system.
 It maintains chat history and renders it in OpenAI-compatible format.

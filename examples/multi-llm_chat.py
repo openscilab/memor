@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Multi LLM chat example
+"""Multi LLM chat example.
 
 In this example, we're using one of the most controversial questions in human history: "Do the ends ever justify the means?"
 This question sits at the heart of countless ethical, political, philosophical debates, and modern policymaking.
