@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Response` class `size` attribute
 - `Prompt` class `size` attribute
 - `PromptTemplate` class `size` attribute
-- `examples/` directory
+- `examples` directory
 ### Changed
 - Validation bug fixed in `update_messages` method in `Session` class
 - Validation bug fixed in `from_json` method in `PromptTemplate`, `Response`, `Prompt`, and `Session` classes
