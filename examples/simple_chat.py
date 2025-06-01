@@ -6,7 +6,6 @@ This script demonstrates a simple chat loop using the Mistral LLM and the Memor 
 It maintains chat history and renders it in OpenAI-compatible format.
 """
 
-import os
 from pprint import pprint
 from mistralai import Mistral
 from memor import Prompt, Response, Session, Role, RenderFormat
