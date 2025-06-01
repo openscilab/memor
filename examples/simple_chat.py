@@ -42,4 +42,5 @@ while True:
     session.add_message(response)
 
 # you can now access the session history
+print()
 pprint(session.render(RenderFormat.OPENAI))
