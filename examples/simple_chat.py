@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
-"""Simple chat example
-In this example, we demonstrate a simple chat application which uses history of the chat session.
-In this example we use Mistral LLM to generate responses which is the same as OpenAI API LLM families."""
+"""
+Simple Chat Example with Mistral and Memor
+
+This script demonstrates a simple chat loop using the Mistral LLM and the Memor session/history system.
+It maintains chat history and renders it in OpenAI-compatible format.
+"""
+
+import os
 from pprint import pprint
 from mistralai import Mistral
-
 from memor import Prompt, Response, Session, Role, RenderFormat
+
 
 MISTRAL_API_KEY = "YOUR_MISTRAL_API_KEY"  # Replace with your Mistral API key
 MISTRAL_MODEL = "mistral-large-latest"
