@@ -1,5 +1,5 @@
 # Memor Examples
-This repository contains examples demonstrating how to use the Memor library with various LLMs.
+This folder contains examples demonstrating how to use the Memor library with various LLMs.
 
 You should install the packages in the `requirements.txt` first by running `pip install -r requirements.txt`.
 Following we provide a short description for each example.
