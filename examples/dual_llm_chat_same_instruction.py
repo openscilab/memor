@@ -69,7 +69,7 @@ while True:
     response_gemini = Response(
         message=response_content_gemini.text,
         role=Role.ASSISTANT,
-        tokens=response_content_gemini.usage.total_tokens,
+        tokens=response_content_gemini.usage_metadata.total_token_count,
         model=LLMModel.GEMINI_2_FLASH,
     )
 
