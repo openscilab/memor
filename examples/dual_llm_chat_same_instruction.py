@@ -62,7 +62,8 @@ while True:
 
     response_content_gemini = gemini_client.models.generate_content(
         model=GOOGLE_AI_STUDIO_MODEL,
-        config=types.GenerateContentConfig(system_instruction=system_prompt.render(RenderFormat.STRING)), # Google AI Studio models receive the system prompt as a separate parameter
+        # Google AI Studio models receive the system prompt as a separate parameter
+        config=types.GenerateContentConfig(system_instruction=system_prompt.render(RenderFormat.STRING)),
         contents=session_gemini.render(RenderFormat.AI_STUDIO)
     )
 
