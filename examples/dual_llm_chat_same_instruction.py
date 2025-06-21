@@ -4,7 +4,7 @@ Dual-LLM Chat Example with Mistral and Gemini.
 
 This script creates a dual-LLM chat application, enabling simultaneous interaction with both Mistral and Google's Gemini models.
 It leverages the Memor library to independently manage conversation history for each model and applies
-a "chain of thought" system prompt to encourage structured reasoning from both AIs.
+a "chain of thought" system prompt to encourage structured reasoning from both AI models.
 """
 from mistralai import Mistral
 from google import genai
