@@ -160,7 +160,7 @@ Hi, How are you?
 
 By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversational or instructional formats when interacting with LLM.
 
-#### Examples
+## Examples
 You can explore real-world usage of Memor in the [`examples`](https://github.com/openscilab/memor/tree/main/examples) directory.
 This directory includes concise and practical Python scripts that demonstrate key features of Memor library.
 
