@@ -326,9 +326,12 @@ class Prompt(Message):
             if render_format == RenderFormat.OPENAI:
                 return {"role": self._role.value, "content": content}
             if render_format == RenderFormat.AI_STUDIO:
+                role_str = self._role.value
                 if self._role == Role.SYSTEM:
                     warnings.warn(AI_STUDIO_SYSTEM_WARNING, UserWarning)
-                return {"role": self._role.value, "parts": [{"text": content}]}
+                if self._role == Role.ASSISTANT:
+                    role_str = "model"
+                return {"role": role_str, "parts": [{"text": content}]}
             if render_format == RenderFormat.STRING:
                 return content
             if render_format == RenderFormat.DICTIONARY:
