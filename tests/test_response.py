@@ -406,7 +406,7 @@ def test_render5():
 
 def test_render6():
     response = Response(message="I am fine.")
-    assert response.render(RenderFormat.AI_STUDIO) == {'role': 'assistant', 'parts': [{'text': 'I am fine.'}]}
+    assert response.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'I am fine.'}]}
 
 
 def test_render7():

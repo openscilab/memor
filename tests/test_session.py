@@ -432,7 +432,7 @@ def test_render6():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
     assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'user', 'parts': [{'text': 'Hello, how are you?'}]}, {
-        'role': 'assistant', 'parts': [{'text': 'I am fine.'}]}]
+        'role': 'model', 'parts': [{'text': 'I am fine.'}]}]
 
 
 def test_render7():
@@ -442,7 +442,7 @@ def test_render7():
     session.disable_message(0)
     assert session.render() == 'I am fine.\n'
     assert session.render(RenderFormat.OPENAI) == [{'content': 'I am fine.', 'role': 'assistant'}]
-    assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'assistant', 'parts': [{'text': 'I am fine.'}]}]
+    assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'model', 'parts': [{'text': 'I am fine.'}]}]
     session.enable_message(0)
     session.disable_message(1)
     assert session.render() == 'Hello, how are you?\n'
