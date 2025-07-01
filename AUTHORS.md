@@ -7,5 +7,6 @@
 
 # Other Contributors
 ----------
-- Amir Boreshnavard ([Telegram](https://t.me/ABoreshnavard))
+- [@boreshnavard](https://github.com/boreshnavard) ++
 
+++ Graphic designer

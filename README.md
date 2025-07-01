@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/openscilab/nava/raw/main/otherfiles/logo.png" alt="Memor Logo" width="424" height="300">
+    <img src="https://github.com/openscilab/memor/raw/main/otherfiles/logo.png" alt="Memor Logo" width="424">
     <h1>Memor: A Python Library for Managing and Transferring Conversational Memory Across LLMs</h1>
     <br/>
     <a href="https://codecov.io/gh/openscilab/memor"><img src="https://codecov.io/gh/openscilab/memor/branch/dev/graph/badge.svg?token=TS5IAEXX7O"></a>
