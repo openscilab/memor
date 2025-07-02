@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Logo
+- `Response` class `top_k` property
 ### Changed
 - `AI_STUDIO` render format modified
 - Test system modified
