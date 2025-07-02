@@ -35,6 +35,7 @@ class Response(Message):
             score: float = None,
             role: Role = Role.ASSISTANT,
             temperature: float = None,
+            top_k: int = None,
             tokens: int = None,
             inference_time: float = None,
             model: Union[LLMModel, str] = LLMModel.DEFAULT,
@@ -47,6 +48,7 @@ class Response(Message):
         :param score: response score
         :param role: response role
         :param temperature: temperature
+        :param top_k: top-k
         :param tokens: tokens
         :param inference_time: inference time
         :param model: agent model
@@ -57,6 +59,7 @@ class Response(Message):
         self._score = None
         self._role = Role.ASSISTANT
         self._temperature = None
+        self._top_k = None
         self._inference_time = None
         self._model = LLMModel.DEFAULT.value
         if file_path:
@@ -72,6 +75,8 @@ class Response(Message):
                 self.update_model(model)
             if temperature:
                 self.update_temperature(temperature)
+            if top_k:
+                self.update_top_k(top_k)
             if tokens:
                 self.update_tokens(tokens)
             if inference_time:
