@@ -301,7 +301,7 @@ class Response(Message):
         return self._temperature
 
     @property
-    def top_k(self) -> float:
+    def top_k(self) -> int:
         """Get the top-k."""
         return self._top_k
 
