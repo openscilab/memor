@@ -122,6 +122,17 @@ class Response(Message):
         self._temperature = temperature
         self._mark_modified()
 
+
+    def update_top_k(self, top_k: int) -> None:
+        """
+        Update the top-k.
+
+        :param top_k: top-k
+        """
+        _validate_pos_int(top_k, "top-k")
+        self._top_k = top_k
+        self._mark_modified()
+
     def update_inference_time(self, inference_time: float) -> None:
         """
         Update inference time.
