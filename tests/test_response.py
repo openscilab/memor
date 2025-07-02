@@ -218,7 +218,13 @@ def test_date4():
 
 
 def test_json1():
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8, top_k=6)
+    response1 = Response(
+        message="I am fine.",
+        model=LLMModel.GPT_4,
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8,
+        top_k=6)
     response1_json = response1.to_json()
     response2 = Response()
     response2.from_json(response1_json)
