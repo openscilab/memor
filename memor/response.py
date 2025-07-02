@@ -122,7 +122,6 @@ class Response(Message):
         self._temperature = temperature
         self._mark_modified()
 
-
     def update_top_k(self, top_k: int) -> None:
         """
         Update the top-k.
