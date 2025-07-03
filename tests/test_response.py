@@ -143,6 +143,23 @@ def test_temperature3():
         response.update_temperature(-22)
 
 
+def test_top_k1():
+    response = Response(message="I am fine.", top_k=5)
+    assert response.top_k == 5
+
+
+def test_top_k2():
+    response = Response(message="I am fine.", top_k=5)
+    response.update_top_k(10)
+    assert response.top_k == 10
+
+
+def test_top_k3():
+    response = Response(message="I am fine.", top_k=5)
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `top_k` must be a positive integer."):
+        response.update_top_k(-22)
+
+
 def test_model1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
     assert response.model == LLMModel.GPT_4.value
@@ -201,7 +218,13 @@ def test_date4():
 
 
 def test_json1():
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(
+        message="I am fine.",
+        model=LLMModel.GPT_4,
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8,
+        top_k=6)
     response1_json = response1.to_json()
     response2 = Response()
     response2.from_json(response1_json)
@@ -216,6 +239,7 @@ def test_json2():
                            "type": "Response",
                            "score": 0.8,
                            "temperature": 0.5,
+                           "top_k": 5,
                            "tokens": null,
                            "inference_time": null,
                            "role": "user",
@@ -227,6 +251,7 @@ def test_json2():
     assert response.message == ''
     assert response.model == 'unknown'
     assert response.temperature is None
+    assert response.top_k is None
     assert response.role == Role.ASSISTANT
     assert response.score is None
     assert response.inference_time is None
@@ -242,6 +267,7 @@ def test_json3():
                            "type": "Response",
                            "score": "invalid",
                            "temperature": 0.5,
+                           "top_k": 5,
                            "tokens": null,
                            "inference_time": null,
                            "role": "user",
@@ -253,6 +279,7 @@ def test_json3():
     assert response.message == ''
     assert response.model == 'unknown'
     assert response.temperature is None
+    assert response.top_k is None
     assert response.role == Role.ASSISTANT
     assert response.score is None
     assert response.inference_time is None
@@ -321,6 +348,31 @@ def test_json6():
     assert response.message == ''
     assert response.model == 'unknown'
     assert response.temperature is None
+    assert response.tokens is None
+    assert response.inference_time is None
+
+
+def test_json7():
+    response = Response()
+    with pytest.raises(MemorValidationError, match="Invalid value. `top_k` must be a positive integer."):
+        response.from_json(r"""{
+                           "message": "I am fine.",
+                           "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
+                           "top_k": -2,
+                           "tokens": null,
+                           "inference_time": 5,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.top_k is None
     assert response.tokens is None
     assert response.inference_time is None
 

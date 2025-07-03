@@ -35,6 +35,7 @@ class Response(Message):
             score: float = None,
             role: Role = Role.ASSISTANT,
             temperature: float = None,
+            top_k: int = None,
             tokens: int = None,
             inference_time: float = None,
             model: Union[LLMModel, str] = LLMModel.DEFAULT,
@@ -47,6 +48,7 @@ class Response(Message):
         :param score: response score
         :param role: response role
         :param temperature: temperature
+        :param top_k: top-k
         :param tokens: tokens
         :param inference_time: inference time
         :param model: agent model
@@ -57,6 +59,7 @@ class Response(Message):
         self._score = None
         self._role = Role.ASSISTANT
         self._temperature = None
+        self._top_k = None
         self._inference_time = None
         self._model = LLMModel.DEFAULT.value
         if file_path:
@@ -72,6 +75,8 @@ class Response(Message):
                 self.update_model(model)
             if temperature:
                 self.update_temperature(temperature)
+            if top_k:
+                self.update_top_k(top_k)
             if tokens:
                 self.update_tokens(tokens)
             if inference_time:
@@ -90,7 +95,7 @@ class Response(Message):
         """
         if isinstance(other_response, Response):
             return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and self._temperature == other_response._temperature and \
-                self._model == other_response._model and self._tokens == other_response._tokens and self._inference_time == other_response._inference_time
+                self._model == other_response._model and self._tokens == other_response._tokens and self._inference_time == other_response._inference_time and self._top_k == other_response._top_k
         return False
 
     def __repr__(self) -> str:
@@ -115,6 +120,16 @@ class Response(Message):
         """
         _validate_pos_float(temperature, "temperature")
         self._temperature = temperature
+        self._mark_modified()
+
+    def update_top_k(self, top_k: int) -> None:
+        """
+        Update the top-k.
+
+        :param top_k: top-k
+        """
+        _validate_pos_int(top_k, "top_k")
+        self._top_k = top_k
         self._mark_modified()
 
     def update_inference_time(self, inference_time: float) -> None:
@@ -172,6 +187,7 @@ class Response(Message):
             result["message"] = loaded_obj["message"]
             result["score"] = loaded_obj["score"]
             result["temperature"] = loaded_obj["temperature"]
+            result["top_k"] = loaded_obj.get("top_k", None)
             result["tokens"] = loaded_obj.get("tokens", None)
             result["inference_time"] = loaded_obj.get("inference_time", None)
             result["model"] = loaded_obj["model"]
@@ -187,6 +203,8 @@ class Response(Message):
             _validate_probability(result["score"], "score")
         if result["temperature"] is not None:
             _validate_pos_float(result["temperature"], "temperature")
+        if result["top_k"] is not None:
+            _validate_pos_int(result["top_k"], "top_k")
         if result["tokens"] is not None:
             _validate_pos_int(result["tokens"], "tokens")
         if result["inference_time"] is not None:
@@ -206,6 +224,7 @@ class Response(Message):
         self._message = data["message"]
         self._score = data["score"]
         self._temperature = data["temperature"]
+        self._top_k = data["top_k"]
         self._tokens = data["tokens"]
         self._inference_time = data["inference_time"]
         self._model = data["model"]
@@ -230,6 +249,7 @@ class Response(Message):
             "message": self._message,
             "score": self._score,
             "temperature": self._temperature,
+            "top_k": self._top_k,
             "tokens": self._tokens,
             "inference_time": self._inference_time,
             "role": self._role,
@@ -279,6 +299,11 @@ class Response(Message):
     def temperature(self) -> float:
         """Get the temperature."""
         return self._temperature
+
+    @property
+    def top_k(self) -> int:
+        """Get the top-k."""
+        return self._top_k
 
     @property
     def inference_time(self) -> float:
