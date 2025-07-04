@@ -99,9 +99,9 @@ class Response(Message):
         :param other_response: another response
         """
         if isinstance(other_response, Response):
-            return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and self._temperature == other_response._temperature and \
-                self._model == other_response._model and self._tokens == other_response._tokens and self._inference_time == other_response._inference_time and self._top_k == other_response._top_k and \
-                self._top_p == other_response._top_p
+            return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and \
+                self._temperature == other_response._temperature and self._model == other_response._model and self._tokens == other_response._tokens and \
+                self._inference_time == other_response._inference_time and self._top_k == other_response._top_k and self._top_p == other_response._top_p
         return False
 
     def __repr__(self) -> str:
