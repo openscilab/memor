@@ -144,8 +144,7 @@ class Response(Message):
 
         :param top_p: top-p
         """
-        if top_p is not None:
-            _validate_probability(top_p, "top_p")
+        _validate_probability(top_p, "top_p")
         self._top_p = top_p
         self._mark_modified()
 
