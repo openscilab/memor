@@ -176,7 +176,7 @@ class Response(Message):
         else:
             raise MemorValidationError(INVALID_MODEL_MESSAGE)
         self._mark_modified()
-    
+
     def update_gpu(self, gpu: Union[GPUFamily, str]) -> None:
         """
         Update the GPU family.
