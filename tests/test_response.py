@@ -4,7 +4,7 @@ import uuid
 import json
 import copy
 import pytest
-from memor import Response, Role, LLMModel, MemorValidationError
+from memor import Response, Role, LLMModel, MemorValidationError, GPUFamily
 from memor import RenderFormat
 from memor import TokensEstimator
 
@@ -199,6 +199,29 @@ def test_model4():
         response.update_model(4)
 
 
+def test_gpu1():
+    response = Response(message="I am fine.", gpu=GPUFamily.NVIDIA_ADA)
+    assert response.gpu == GPUFamily.NVIDIA_ADA.value
+
+
+def test_gpu2():
+    response = Response(message="I am fine.", gpu=GPUFamily.NVIDIA_ADA)
+    response.update_gpu(GPUFamily.APPLE_M3)
+    assert response.gpu == GPUFamily.APPLE_M3.value
+
+
+def test_gpu3():
+    response = Response(message="I am fine.", gpu=GPUFamily.NVIDIA_ADA)
+    response.update_gpu("my special GPU")
+    assert response.gpu == "my special GPU"
+
+
+def test_gpu4():
+    response = Response(message="I am fine.", gpu=GPUFamily.NVIDIA_ADA)
+    with pytest.raises(MemorValidationError, match=r"Invalid GPU. It must be an instance of GPUFamily enum."):
+        response.update_gpu(4)
+
+
 def test_id1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
     assert uuid.UUID(response.id, version=4) == uuid.UUID(response._id, version=4)
@@ -292,6 +315,7 @@ def test_json3():
                            "inference_time": null,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Ada Lovelace",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -319,6 +343,7 @@ def test_json4():
                            "inference_time": null,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Ada Lovelace",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -340,6 +365,7 @@ def test_json5():
                            "inference_time": null,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Ada Lovelace",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -362,6 +388,7 @@ def test_json6():
                            "inference_time": -1,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Ada Lovelace",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -386,6 +413,7 @@ def test_json7():
                            "inference_time": 5,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Ada Lovelace",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -412,6 +440,7 @@ def test_json8():
                            "inference_time": 5,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Ada Lovelace",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
