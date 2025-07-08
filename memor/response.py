@@ -362,7 +362,7 @@ class Response(Message):
     def model(self) -> str:
         """Get the agent model."""
         return self._model
-    
+
     @property
     def gpu(self) -> str:
         """Get the GPU family."""
