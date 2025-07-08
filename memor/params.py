@@ -120,6 +120,8 @@ class LLMModel(Enum):
 
 
 class GPUFamily(Enum):
+    """GPU family enum."""
+
     NVIDIA_KEPLER = "Nvidia Kepler"
     NVIDIA_MAXWELL = "Nvidia Maxwell"
     NVIDIA_PASCAL = "Nvidia Pascal"
