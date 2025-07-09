@@ -23,7 +23,6 @@ INVALID_CUSTOM_MAP_MESSAGE = "Invalid custom map: it must be a dictionary with k
 INVALID_ROLE_MESSAGE = "Invalid role. It must be an instance of Role enum."
 INVALID_ID_MESSAGE = "Invalid message ID. It must be a valid UUIDv4."
 INVALID_MODEL_MESSAGE = "Invalid model. It must be an instance of LLMModel enum or a string."
-INVALID_GPU_MESSAGE = "Invalid GPU. It must be an instance of GPUFamily enum or a string."
 INVALID_TEMPLATE_STRUCTURE_MESSAGE = "Invalid template structure. It should be a JSON object with proper fields."
 INVALID_PROMPT_STRUCTURE_MESSAGE = "Invalid prompt structure. It should be a JSON object with proper fields."
 INVALID_RESPONSE_STRUCTURE_MESSAGE = "Invalid response structure. It should be a JSON object with proper fields."
@@ -117,34 +116,3 @@ class LLMModel(Enum):
     YI_34B = "yi-34b"
 
     DEFAULT = "unknown"
-
-
-class GPUFamily(Enum):
-    """GPU family enum."""
-
-    NVIDIA_KEPLER = "Nvidia Kepler"
-    NVIDIA_MAXWELL = "Nvidia Maxwell"
-    NVIDIA_PASCAL = "Nvidia Pascal"
-    NVIDIA_VOLTA = "Nvidia Volta"
-    NVIDIA_TURING = "Nvidia Turing"
-    NVIDIA_AMPERE = "Nvidia Ampere"
-    NVIDIA_ADA = "Nvidia Ada Lovelace"
-
-    AMD_GCN1 = "AMD GCN 1st Gen"
-    AMD_GCN2 = "AMD GCN 2nd Gen"
-    AMD_GCN3 = "AMD GCN 3rd Gen"
-    AMD_GCN4 = "AMD GCN 4th Gen"
-    AMD_RDNA1 = "AMD RDNA 1"
-    AMD_RDNA2 = "AMD RDNA 2"
-    AMD_RDNA3 = "AMD RDNA 3"
-
-    INTEL_IRIS = "Intel Iris (Gen9)"
-    INTEL_XE_LP = "Intel Xe-LP"
-    INTEL_XE_HP = "Intel Xe-HP"
-    INTEL_XE_HPG = "Intel Xe-HPG"
-
-    APPLE_M1 = "Apple M1"
-    APPLE_M2 = "Apple M2"
-    APPLE_M3 = "Apple M3"
-
-    DEFAULT = "Unknown"

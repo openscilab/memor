@@ -11,7 +11,7 @@ from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE, INVALID_GPU_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
-from .params import Role, RenderFormat, LLMModel, GPUFamily
+from .params import Role, RenderFormat, LLMModel
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_float, _validate_pos_int, _validate_message_id
@@ -39,7 +39,7 @@ class Response(Message):
             tokens: int = None,
             inference_time: float = None,
             model: Union[LLMModel, str] = LLMModel.DEFAULT,
-            gpu: Union[GPUFamily, str] = GPUFamily.DEFAULT,
+            gpu: str = None,
             date: datetime.datetime = get_time_utc(),
             file_path: str = None) -> None:
         """
@@ -54,7 +54,7 @@ class Response(Message):
         :param tokens: tokens
         :param inference_time: inference time
         :param model: agent model
-        :param gpu: GPU family
+        :param gpu: GPU model
         :param date: response date
         :param file_path: response file path
         """
@@ -66,7 +66,7 @@ class Response(Message):
         self._top_p = None
         self._inference_time = None
         self._model = LLMModel.DEFAULT.value
-        self._gpu = GPUFamily.DEFAULT.value
+        self._gpu = None
         if file_path:
             self.load(file_path)
         else:
@@ -177,18 +177,14 @@ class Response(Message):
             raise MemorValidationError(INVALID_MODEL_MESSAGE)
         self._mark_modified()
 
-    def update_gpu(self, gpu: Union[GPUFamily, str]) -> None:
+    def update_gpu(self, gpu: str) -> None:
         """
-        Update the GPU family.
+        Update the GPU model.
 
-        :param gpu: GPU family
+        :param gpu: GPU model
         """
-        if isinstance(gpu, str):
-            self._gpu = gpu
-        elif isinstance(gpu, GPUFamily):
-            self._gpu = gpu.value
-        else:
-            raise MemorValidationError(INVALID_GPU_MESSAGE)
+        _validate_string(gpu, "gpu")
+        self._gpu = gpu
         self._mark_modified()
 
     def save(self, file_path: str) -> Dict[str, Any]:

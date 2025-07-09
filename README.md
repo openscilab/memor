@@ -80,8 +80,8 @@ You can create a session by combining multiple prompts and responses, gradually 
 
 ```pycon
 >>> from memor import Session, Prompt, Response, Role
->>> from memor import PresetPromptTemplate, RenderFormat, LLMModel, GPUFamily
->>> response = Response(message="I am fine.", model=LLMModel.GPT_4, role=Role.ASSISTANT, temperature=0.9, score=0.9, top_p=0.9, gpu=GPUFamily.APPLE_M3)
+>>> from memor import PresetPromptTemplate, RenderFormat, LLMModel
+>>> response = Response(message="I am fine.", model=LLMModel.GPT_4, role=Role.ASSISTANT, temperature=0.9, score=0.9, top_p=0.9)
 >>> prompt = Prompt(message="Hello, how are you?",
                     responses=[response],
                     role=Role.USER,
