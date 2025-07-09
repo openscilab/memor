@@ -9,7 +9,7 @@ from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
-from .params import INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE, INVALID_GPU_MESSAGE
+from .params import INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
 from .params import Role, RenderFormat, LLMModel
 from .errors import MemorValidationError

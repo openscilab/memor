@@ -212,7 +212,7 @@ def test_gpu2():
 
 def test_gpu3():
     response = Response(message="I am fine.", gpu="Nvidia Tesla")
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `message` must be a string."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `gpu` must be a string."):
         response.update_gpu(4)
 
 
