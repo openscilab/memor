@@ -9,12 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Logo
 - `Response` class `top_k` property
 - `Response` class `top_p` property
-- `GPUFamily` enum
+- `Response` class `gpu` attribute
 ### Changed
 - `AI_STUDIO` render format modified
 - Test system modified
 - `README.md` updated
-- `Response` class `gpu` attribute
 ## [0.7] - 2025-06-25
 ### Added
 - `Message` abstract class
