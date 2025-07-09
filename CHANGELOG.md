@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Logo
 - `Response` class `top_k` property
 - `Response` class `top_p` property
-- `Response` class `gpu` attribute
+- `Response` class `gpu` property
 ### Changed
 - `AI_STUDIO` render format modified
 - Test system modified
