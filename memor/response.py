@@ -223,7 +223,7 @@ class Response(Message):
             result["tokens"] = loaded_obj.get("tokens", None)
             result["inference_time"] = loaded_obj.get("inference_time", None)
             result["model"] = loaded_obj["model"]
-            result["gpu"] = loaded_obj["gpu"]
+            result["gpu"] = loaded_obj.get("gpu", None)
             result["role"] = Role(loaded_obj["role"])
             result["memor_version"] = loaded_obj["memor_version"]
             result["id"] = loaded_obj.get("id", generate_message_id())
@@ -240,6 +240,8 @@ class Response(Message):
             _validate_pos_int(result["top_k"], "top_k")
         if result["top_p"] is not None:
             _validate_probability(result["top_p"], "top_p")
+        if result["gpu"] is not None:
+            _validate_string(result["gpu"], "gpu")
         if result["tokens"] is not None:
             _validate_pos_int(result["tokens"], "tokens")
         if result["inference_time"] is not None:
