@@ -222,7 +222,7 @@ class Response(Message):
             result["top_p"] = loaded_obj.get("top_p", None)
             result["tokens"] = loaded_obj.get("tokens", None)
             result["inference_time"] = loaded_obj.get("inference_time", None)
-            result["model"] = loaded_obj["model"]
+            result["model"] = loaded_obj["model"] if loaded_obj["model"] is not None else LLMModel.DEFAULT.value
             result["gpu"] = loaded_obj.get("gpu", None)
             result["role"] = Role(loaded_obj["role"])
             result["memor_version"] = loaded_obj["memor_version"]
