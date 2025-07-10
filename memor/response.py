@@ -9,10 +9,9 @@ from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
-from .params import INVALID_ROLE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE
+from .params import INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
 from .params import Role, RenderFormat, LLMModel
-from .tokens_estimator import TokensEstimator
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_float, _validate_pos_int, _validate_message_id
@@ -40,6 +39,7 @@ class Response(Message):
             tokens: int = None,
             inference_time: float = None,
             model: Union[LLMModel, str] = LLMModel.DEFAULT,
+            gpu: str = None,
             date: datetime.datetime = get_time_utc(),
             file_path: str = None) -> None:
         """
@@ -54,6 +54,7 @@ class Response(Message):
         :param tokens: tokens
         :param inference_time: inference time
         :param model: agent model
+        :param gpu: GPU model
         :param date: response date
         :param file_path: response file path
         """
@@ -65,6 +66,7 @@ class Response(Message):
         self._top_p = None
         self._inference_time = None
         self._model = LLMModel.DEFAULT.value
+        self._gpu = None
         if file_path:
             self.load(file_path)
         else:
@@ -76,6 +78,8 @@ class Response(Message):
                 self.update_role(role)
             if model:
                 self.update_model(model)
+            if gpu:
+                self.update_gpu(gpu)
             if temperature:
                 self.update_temperature(temperature)
             if top_k:
@@ -101,7 +105,8 @@ class Response(Message):
         if isinstance(other_response, Response):
             return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and \
                 self._temperature == other_response._temperature and self._model == other_response._model and self._tokens == other_response._tokens and \
-                self._inference_time == other_response._inference_time and self._top_k == other_response._top_k and self._top_p == other_response._top_p
+                self._inference_time == other_response._inference_time and self._top_k == other_response._top_k and self._top_p == other_response._top_p and \
+                self._gpu == other_response._gpu
         return False
 
     def __repr__(self) -> str:
@@ -172,6 +177,16 @@ class Response(Message):
             raise MemorValidationError(INVALID_MODEL_MESSAGE)
         self._mark_modified()
 
+    def update_gpu(self, gpu: str) -> None:
+        """
+        Update the GPU model.
+
+        :param gpu: GPU model
+        """
+        _validate_string(gpu, "gpu")
+        self._gpu = gpu
+        self._mark_modified()
+
     def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
@@ -208,6 +223,7 @@ class Response(Message):
             result["tokens"] = loaded_obj.get("tokens", None)
             result["inference_time"] = loaded_obj.get("inference_time", None)
             result["model"] = loaded_obj["model"]
+            result["gpu"] = loaded_obj.get("gpu", None)
             result["role"] = Role(loaded_obj["role"])
             result["memor_version"] = loaded_obj["memor_version"]
             result["id"] = loaded_obj.get("id", generate_message_id())
@@ -224,6 +240,8 @@ class Response(Message):
             _validate_pos_int(result["top_k"], "top_k")
         if result["top_p"] is not None:
             _validate_probability(result["top_p"], "top_p")
+        if result["gpu"] is not None:
+            _validate_string(result["gpu"], "gpu")
         if result["tokens"] is not None:
             _validate_pos_int(result["tokens"], "tokens")
         if result["inference_time"] is not None:
@@ -248,6 +266,7 @@ class Response(Message):
         self._tokens = data["tokens"]
         self._inference_time = data["inference_time"]
         self._model = data["model"]
+        self._gpu = data["gpu"]
         self._role = data["role"]
         self._memor_version = data["memor_version"]
         self._id = data["id"]
@@ -275,6 +294,7 @@ class Response(Message):
             "top_p": self._top_p,
             "role": self._role,
             "model": self._model,
+            "gpu": self._gpu,
             "id": self._id,
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
@@ -340,3 +360,8 @@ class Response(Message):
     def model(self) -> str:
         """Get the agent model."""
         return self._model
+
+    @property
+    def gpu(self) -> str:
+        """Get the GPU model."""
+        return self._gpu

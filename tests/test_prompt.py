@@ -265,8 +265,8 @@ def test_repr():
 
 def test_json1():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -282,8 +282,8 @@ def test_json1():
 
 def test_json2():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -341,6 +341,7 @@ def test_json4():
                                 "inference_time": null,
                                 "role": "user",
                                 "model": "gpt-4",
+                                "gpu": "Nvidia Tesla",
                                 "id": "8eb35f46-b660-4e28-92df-487211f7357e",
                                 "memor_version": "0.6",
                                 "date_created": "2025-05-21 17:21:21 +0000",

@@ -199,6 +199,23 @@ def test_model4():
         response.update_model(4)
 
 
+def test_gpu1():
+    response = Response(message="I am fine.", gpu="Nvidia Tesla")
+    assert response.gpu == "Nvidia Tesla"
+
+
+def test_gpu2():
+    response = Response(message="I am fine.", gpu="Nvidia Tesla")
+    response.update_gpu("my special GPU")
+    assert response.gpu == "my special GPU"
+
+
+def test_gpu3():
+    response = Response(message="I am fine.", gpu="Nvidia Tesla")
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `gpu` must be a string."):
+        response.update_gpu(4)
+
+
 def test_id1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
     assert uuid.UUID(response.id, version=4) == uuid.UUID(response._id, version=4)
@@ -292,6 +309,7 @@ def test_json3():
                            "inference_time": null,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -319,6 +337,7 @@ def test_json4():
                            "inference_time": null,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -340,6 +359,7 @@ def test_json5():
                            "inference_time": null,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -362,6 +382,7 @@ def test_json6():
                            "inference_time": -1,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -386,6 +407,7 @@ def test_json7():
                            "inference_time": 5,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",
@@ -412,6 +434,7 @@ def test_json8():
                            "inference_time": 5,
                            "role": "user",
                            "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
                            "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                            "memor_version": "0.6",
                            "date_created": "2025-05-07 21:54:48 +0000",

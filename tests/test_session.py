@@ -377,6 +377,7 @@ def test_load4():
                             "inference_time": null,
                             "role": "assistant",
                             "model": "unknown",
+                            "gpu": "Nvidia Ada Lovelace",
                             "id": "8a2a32b8-d828-4309-9583-2185fba9e3bb",
                             "memor_version": "0.6",
                             "date_created": "2025-05-07 21:57:05 +0000",
