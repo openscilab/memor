@@ -363,5 +363,5 @@ class Response(Message):
 
     @property
     def gpu(self) -> str:
-        """Get the GPU family."""
+        """Get the GPU model."""
         return self._gpu
