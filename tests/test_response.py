@@ -458,7 +458,7 @@ def test_json9():
                         "top_k": 5,
                         "top_p": 0.2,
                         "tokens": null,
-                        "inference_time": 5,
+                        "inference_time": 5.2,
                         "role": "user",
                         "model": null,
                         "gpu": "Nvidia Tesla",
@@ -469,7 +469,7 @@ def test_json9():
     assert response.message == "I am fine."
     assert response.model == 'unknown'
     assert response.temperature == 0.5
-    assert response.top_k == 5
+    assert response.top_k == 5.2
     assert response.top_p == 0.2
     assert response.tokens is None
     assert response.inference_time == 5
