@@ -448,6 +448,33 @@ def test_json8():
     assert response.inference_time is None
 
 
+def test_json9():
+    response = Response()
+    response.from_json(r"""{
+                        "message": "I am fine.",
+                        "type": "Response",
+                        "score": 0.8,
+                        "temperature": 0.5,
+                        "top_k": 5,
+                        "top_p": 0.2,
+                        "tokens": null,
+                        "inference_time": 5.2,
+                        "role": "user",
+                        "model": null,
+                        "gpu": "Nvidia Tesla",
+                        "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                        "memor_version": "0.6",
+                        "date_created": "2025-05-07 21:54:48 +0000",
+                        "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == "I am fine."
+    assert response.model == 'unknown'
+    assert response.temperature == 0.5
+    assert response.top_k == 5
+    assert response.top_p == 0.2
+    assert response.tokens is None
+    assert response.inference_time == 5.2
+
+
 def test_save1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     result = response.save("response_test1.json")
