@@ -67,28 +67,28 @@ class Response(Message):
         self._inference_time = None
         self._model = LLMModel.DEFAULT.value
         self._gpu = None
-        if file_path:
+        if file_path is not None:
             self.load(file_path)
         else:
             if message:
                 self.update_message(message)
-            if score:
+            if score is not None:
                 self.update_score(score)
             if role:
                 self.update_role(role)
             if model:
                 self.update_model(model)
-            if gpu:
+            if gpu is not None:
                 self.update_gpu(gpu)
-            if temperature:
+            if temperature is not None:
                 self.update_temperature(temperature)
-            if top_k:
+            if top_k is not None:
                 self.update_top_k(top_k)
-            if top_p:
+            if top_p is not None:
                 self.update_top_p(top_p)
-            if tokens:
+            if tokens is not None:
                 self.update_tokens(tokens)
-            if inference_time:
+            if inference_time is not None:
                 self.update_inference_time(inference_time)
             if date:
                 _validate_date_time(date, "date")
