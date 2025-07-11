@@ -88,7 +88,7 @@ def test_inference_time4():
 
 def test_inference_time5():
     response = Response(message="I am fine.", inference_time=8.2)
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `inference_time` must be a positive float."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `inference_time` must be a positive number."):
         response.update_inference_time(-5)
 
 
@@ -144,7 +144,7 @@ def test_temperature2():
 
 def test_temperature3():
     response = Response(message="I am fine.", temperature=0.2)
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `temperature` must be a positive float."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `temperature` must be a positive number."):
         response.update_temperature(-22)
 
 
@@ -332,7 +332,7 @@ def test_json3():
 
 def test_json4():
     response = Response()
-    with pytest.raises(MemorValidationError, match="Invalid value. `temperature` must be a positive float."):
+    with pytest.raises(MemorValidationError, match="Invalid value. `temperature` must be a positive number."):
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
@@ -377,7 +377,7 @@ def test_json5():
 
 def test_json6():
     response = Response()
-    with pytest.raises(MemorValidationError, match="Invalid value. `inference_time` must be a positive float."):
+    with pytest.raises(MemorValidationError, match="Invalid value. `inference_time` must be a positive number."):
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
