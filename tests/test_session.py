@@ -34,7 +34,6 @@ def test_title4():
     assert session.title == ""
 
 
-
 def test_messages1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")

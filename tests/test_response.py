@@ -206,9 +206,11 @@ def test_top_p3():
     with pytest.raises(MemorValidationError, match=r"Invalid value. `top_p` must be a value between 0 and 1."):
         response.update_top_p(-0.2)
 
+
 def test_top_p4():
     response = Response(message="I am fine.", top_p=0)
     assert response.top_p == 0
+
 
 def test_model1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)

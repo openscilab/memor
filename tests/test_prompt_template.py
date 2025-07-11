@@ -53,7 +53,6 @@ def test_title5():
     assert template.title == ""
 
 
-
 def test_content1():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
@@ -86,7 +85,6 @@ def test_content4():
         custom_map={
             "language": "Python"})
     assert template.content == ""
-
 
 
 def test_custom_map1():

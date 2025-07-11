@@ -270,8 +270,20 @@ def test_repr():
 
 def test_json1():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(
+        message="I am fine.",
+        model=LLMModel.GPT_4,
+        gpu="Nvidia Tesla",
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8)
+    response2 = Response(
+        message="Thanks!",
+        model=LLMModel.GPT_4,
+        gpu="Nvidia Tesla",
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -287,8 +299,20 @@ def test_json1():
 
 def test_json2():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(
+        message="I am fine.",
+        model=LLMModel.GPT_4,
+        gpu="Nvidia Tesla",
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8)
+    response2 = Response(
+        message="Thanks!",
+        model=LLMModel.GPT_4,
+        gpu="Nvidia Tesla",
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
