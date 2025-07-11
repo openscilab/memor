@@ -65,6 +65,11 @@ def test_tokens4():
         response.update_tokens(-2)
 
 
+def test_tokens5():
+    response = Response(message="I am fine.", tokens=0)
+    assert response.tokens == 0
+
+
 def test_inference_time1():
     response = Response(message="I am fine.")
     assert response.inference_time is None
@@ -92,6 +97,11 @@ def test_inference_time5():
         response.update_inference_time(-5)
 
 
+def test_inference_time6():
+    response = Response(message="I am fine.", inference_time=0)
+    assert response.inference_time == 0
+
+
 def test_score1():
     response = Response(message="I am fine.", score=0.9)
     assert response.score == 0.9
@@ -107,6 +117,11 @@ def test_score3():
     response = Response(message="I am fine.", score=0.9)
     with pytest.raises(MemorValidationError, match=r"Invalid value. `score` must be a value between 0 and 1."):
         response.update_score(-2)
+
+
+def test_score4():
+    response = Response(message="I am fine.", score=0)
+    assert response.score == 0
 
 
 def test_role1():
@@ -148,6 +163,11 @@ def test_temperature3():
         response.update_temperature(-22)
 
 
+def test_temperature4():
+    response = Response(message="I am fine.", temperature=0)
+    assert response.temperature == 0
+
+
 def test_top_k1():
     response = Response(message="I am fine.", top_k=5)
     assert response.top_k == 5
@@ -165,6 +185,11 @@ def test_top_k3():
         response.update_top_k(-22)
 
 
+def test_top_k4():
+    response = Response(message="I am fine.", top_k=0)
+    assert response.top_k == 0
+
+
 def test_top_p1():
     response = Response(message="I am fine.", top_p=0.9)
     assert response.top_p == 0.9
@@ -180,6 +205,10 @@ def test_top_p3():
     response = Response(message="I am fine.", top_p=0.9)
     with pytest.raises(MemorValidationError, match=r"Invalid value. `top_p` must be a value between 0 and 1."):
         response.update_top_p(-0.2)
+
+def test_top_p4():
+    response = Response(message="I am fine.", top_p=0)
+    assert response.top_p == 0
 
 def test_model1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4)
@@ -219,6 +248,11 @@ def test_gpu3():
     response = Response(message="I am fine.", gpu="Nvidia Tesla")
     with pytest.raises(MemorValidationError, match=r"Invalid value. `gpu` must be a string."):
         response.update_gpu(4)
+
+
+def test_gpu4():
+    response = Response(message="I am fine.", gpu="")
+    assert response.gpu == ""
 
 
 def test_id1():
