@@ -99,7 +99,7 @@ def _validate_pos_float(value: Any, parameter_name: str) -> bool:
     :param value: value
     :param parameter_name: parameter name
     """
-    if not isinstance(value, float) or value < 0:
+    if not isinstance(value, (float, int)) or value < 0:
         raise MemorValidationError(INVALID_POSFLOAT_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
@@ -111,7 +111,7 @@ def _validate_probability(value: Any, parameter_name: str) -> bool:
     :param value: value
     :param parameter_name: parameter name
     """
-    if not isinstance(value, float) or value < 0 or value > 1:
+    if not isinstance(value, (float, int)) or value < 0 or value > 1:
         raise MemorValidationError(INVALID_PROB_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
