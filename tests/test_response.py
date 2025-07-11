@@ -76,12 +76,17 @@ def test_inference_time2():
 
 
 def test_inference_time3():
+    response = Response(message="I am fine.", inference_time=5)
+    assert response.inference_time == 5
+
+
+def test_inference_time4():
     response = Response(message="I am fine.", inference_time=8.2)
     response.update_inference_time(9.5)
     assert response.inference_time == 9.5
 
 
-def test_inference_time4():
+def test_inference_time5():
     response = Response(message="I am fine.", inference_time=8.2)
     with pytest.raises(MemorValidationError, match=r"Invalid value. `inference_time` must be a positive float."):
         response.update_inference_time(-5)
