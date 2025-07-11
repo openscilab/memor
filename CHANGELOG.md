@@ -15,8 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Model load bug fixed
 - Test system modified
 - `README.md` updated
-- `_validate_pos_float` validates `int`s
-- `_validate_probability` validates `int`s
+- `_validate_pos_float` now validates `int` values
+- `_validate_probability` now validates `int` values
 ## [0.7] - 2025-06-25
 ### Added
 - `Message` abstract class
