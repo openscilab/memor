@@ -50,7 +50,7 @@ class Session:
         else:
             if title is not None:
                 self.update_title(title)
-            if messages:
+            if messages is not None:
                 self.update_messages(messages)
         if init_check:
             _ = self.render(enable_counter=False)

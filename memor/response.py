@@ -70,7 +70,7 @@ class Response(Message):
         if file_path is not None:
             self.load(file_path)
         else:
-            if message:
+            if message is not None:
                 self.update_message(message)
             if score is not None:
                 self.update_score(score)

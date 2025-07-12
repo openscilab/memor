@@ -65,13 +65,13 @@ class Prompt(Message):
         if file_path is not None:
             self.load(file_path)
         else:
-            if message:
+            if message is not None:
                 self.update_message(message)
             if role:
                 self.update_role(role)
             if tokens is not None:
                 self.update_tokens(tokens)
-            if responses:
+            if responses is not None:
                 self.update_responses(responses)
             if template:
                 self.update_template(template)
