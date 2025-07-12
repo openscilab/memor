@@ -28,6 +28,11 @@ def test_message3():
         prompt.update_message(22)
 
 
+def test_message4():
+    prompt = Prompt(message="")
+    assert prompt.message == ""
+
+
 def test_tokens1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     assert prompt.tokens is None
@@ -48,6 +53,11 @@ def test_tokens4():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a positive integer."):
         prompt.update_tokens("4")
+
+
+def test_tokens5():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, tokens=0)
+    assert prompt.tokens == 0
 
 
 def test_estimated_tokens1():
@@ -137,6 +147,12 @@ def test_responses5():
     prompt = Prompt(message=message)
     with pytest.raises(MemorValidationError, match=r"Invalid value. `responses` must be a list of `Response`."):
         prompt.update_responses([response0, "Good!"])
+
+
+def test_responses6():
+    message = "Hello, how are you?"
+    prompt = Prompt(message=message, responses=[])
+    assert prompt.responses == []
 
 
 def test_add_response1():
@@ -265,8 +281,20 @@ def test_repr():
 
 def test_json1():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(
+        message="I am fine.",
+        model=LLMModel.GPT_4,
+        gpu="Nvidia Tesla",
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8)
+    response2 = Response(
+        message="Thanks!",
+        model=LLMModel.GPT_4,
+        gpu="Nvidia Tesla",
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[
@@ -282,8 +310,20 @@ def test_json1():
 
 def test_json2():
     message = "Hello, how are you?"
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, gpu="Nvidia Tesla", temperature=0.5, role=Role.USER, score=0.8)
+    response1 = Response(
+        message="I am fine.",
+        model=LLMModel.GPT_4,
+        gpu="Nvidia Tesla",
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8)
+    response2 = Response(
+        message="Thanks!",
+        model=LLMModel.GPT_4,
+        gpu="Nvidia Tesla",
+        temperature=0.5,
+        role=Role.USER,
+        score=0.8)
     prompt1 = Prompt(
         message=message,
         responses=[

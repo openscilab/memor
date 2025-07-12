@@ -45,12 +45,12 @@ class Session:
         self._date_created = get_time_utc()
         self._mark_modified()
         self._memor_version = MEMOR_VERSION
-        if file_path:
+        if file_path is not None:
             self.load(file_path)
         else:
-            if title:
+            if title is not None:
                 self.update_title(title)
-            if messages:
+            if messages is not None:
                 self.update_messages(messages)
         if init_check:
             _ = self.render(enable_counter=False)

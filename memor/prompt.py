@@ -62,16 +62,16 @@ class Prompt(Message):
         self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
         self._selected_response_index = 0
-        if file_path:
+        if file_path is not None:
             self.load(file_path)
         else:
-            if message:
+            if message is not None:
                 self.update_message(message)
             if role:
                 self.update_role(role)
-            if tokens:
+            if tokens is not None:
                 self.update_tokens(tokens)
-            if responses:
+            if responses is not None:
                 self.update_responses(responses)
             if template:
                 self.update_template(template)

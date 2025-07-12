@@ -29,6 +29,11 @@ def test_title3():
         session.update_title(2)
 
 
+def test_title4():
+    session = Session(title="")
+    assert session.title == ""
+
+
 def test_messages1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
@@ -52,6 +57,11 @@ def test_messages3():
 
 
 def test_messages4():
+    session = Session(messages=[])
+    assert session.messages == []
+
+
+def test_messages5():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     session = Session(messages=[prompt])
     with pytest.raises(MemorValidationError, match=r"Invalid value. `messages` must be a list of `Prompt` or `Response`."):

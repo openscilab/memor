@@ -43,14 +43,14 @@ class PromptTemplate:
         self._mark_modified()
         self._memor_version = MEMOR_VERSION
         self._custom_map = None
-        if file_path:
+        if file_path is not None:
             self.load(file_path)
         else:
-            if title:
+            if title is not None:
                 self.update_title(title)
-            if content:
+            if content is not None:
                 self.update_content(content)
-            if custom_map:
+            if custom_map is not None:
                 self.update_map(custom_map)
 
     def _mark_modified(self) -> None:
