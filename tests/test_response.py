@@ -28,6 +28,11 @@ def test_message3():
         response.update_message(22)
 
 
+def test_message4():
+    response = Response(message="")
+    assert response.message == ""
+
+
 def test_tokens1():
     response = Response(message="I am fine.")
     assert response.tokens is None

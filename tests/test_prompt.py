@@ -28,6 +28,11 @@ def test_message3():
         prompt.update_message(22)
 
 
+def test_message4():
+    prompt = Prompt(message="")
+    assert prompt.message == ""
+
+
 def test_tokens1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     assert prompt.tokens is None
@@ -142,6 +147,12 @@ def test_responses5():
     prompt = Prompt(message=message)
     with pytest.raises(MemorValidationError, match=r"Invalid value. `responses` must be a list of `Response`."):
         prompt.update_responses([response0, "Good!"])
+
+
+def test_responses6():
+    message = "Hello, how are you?"
+    prompt = Prompt(message=message, responses=[])
+    assert prompt.responses == []
 
 
 def test_add_response1():
