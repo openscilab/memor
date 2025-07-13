@@ -107,7 +107,7 @@ class LLMModel(Enum):
     TXGEMMA = "txgemma"
     DATAGEMMA = "datagemma"
     SHIELDGEMMA_2 = "shieldgemma-2"
-    GEMINIS_1_PRO = "gemini-1-pro"
+    GEMINI_1_PRO = "gemini-1-pro"
     GEMINI_1_ULTRA = "gemini-1-ultra"
     GEMINI_1_5_PRO = "gemini-1.5-pro"
     GEMINI_1_5_ULTRA = "gemini-1.5-ultra"
