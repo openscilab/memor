@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Response` class `gpu` property
 ### Changed
 - `AI_STUDIO` render format modified
+- `LLMModel` enum updated
 - Model load bug fixed
 - Test system modified
 - `README.md` updated
