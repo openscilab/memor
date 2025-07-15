@@ -78,9 +78,7 @@ class LLMModel(Enum):
     GPT_O4_MINI_DEEP_RESEARCH = "gpt-o4-mini-deep-research"
     GPT_3_5_TURBO = "gpt-3.5-turbo"
     DAVINCI = "davinci"
-    CURIE = "curie"
     BABBAGE = "babbage"
-    ADA = "ada"
 
     CLAUDE_3_5_SONNET = "claude-3.5-sonnet"
     CLAUDE_3_OPUS = "claude-3-opus"
