@@ -150,6 +150,10 @@ class LLMModel(Enum):
     DEEPSEEK_CODER_7B_INSTRUCT = "deepseek-coder-7b-instruct"
     DEEPSEEK_CODER_33B_BASE = "deepseek-coder-33b-base"
     DEEPSEEK_CODER_33B_INSTRUCT = "deepseek-coder-33b-instruct"
+    DEEPSEEK_VL_7B_CHAT = "deepseek-vl-7b-chat"
+    DEEPSEEK_VL_1_3B_BASE = "deepseek-vl-1.3b-base"
+    DEEPSEEK_VL_7B_BASE = "deepseek-vl-7b-base"
+    DEEPSEEK_VL_1_3B_CHAT = "deepseek-vl-1.3b-chat"
 
     PHI_2 = "phi-2"
     PHI_4 = "phi-4"
