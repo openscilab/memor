@@ -154,6 +154,9 @@ class LLMModel(Enum):
     DEEPSEEK_VL_1_3B_BASE = "deepseek-vl-1.3b-base"
     DEEPSEEK_VL_7B_BASE = "deepseek-vl-7b-base"
     DEEPSEEK_VL_1_3B_CHAT = "deepseek-vl-1.3b-chat"
+    DEEPSEEK_MATH_7B_BASE = "deepseek-math-7b-base"
+    DEEPSEEK_MATH_7B_INSTRUCT = "deepseek-math-7b-instruct"
+    DEEPSEEK_MATH_7B_RL = "deepseek-math-7b-rl"
 
     PHI_2 = "phi-2"
     PHI_4 = "phi-4"
