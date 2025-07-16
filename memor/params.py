@@ -135,9 +135,11 @@ class LLMModel(Enum):
     GEMINI_2_5_FLASH_LITE = "gemini-2.5-flash-lite"
     GEMINI_2_5_PRO = "gemini-2.5-pro"
 
-    DEEPSEEK_V3 = "deepseek-v3"
-    DEEPSEEK_R1 = "deepseek-r1"
-    DEEPSEEK_CODER = "deepseek-coder"
+    DEEPSEEK_LLM_7B_BASE = "deepseek-llm-7b-base"
+    DEEPSEEK_LLM_7B_CHAT = "deepseek-llm-7b-chat"
+    DEEPSEEK_LLM_67B_BASE = "deepseek-llm-67b-base"
+    DEEPSEEK_LLM_67B_CHAT = "deepseek-llm-67b-chat"
+    
 
     PHI_2 = "phi-2"
     PHI_4 = "phi-4"
