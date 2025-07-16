@@ -139,7 +139,17 @@ class LLMModel(Enum):
     DEEPSEEK_LLM_7B_CHAT = "deepseek-llm-7b-chat"
     DEEPSEEK_LLM_67B_BASE = "deepseek-llm-67b-base"
     DEEPSEEK_LLM_67B_CHAT = "deepseek-llm-67b-chat"
-    
+    DEEPSEEK_MOE_16B_BASE = "deepseek-moe-16b-base"
+    DEEPSEEK_MOE_16B_CHAT = "deepseek-moe-16b-chat"
+    DEEPSEEK_V2_5 = "deepseek-ai/DeepSeek-V2.5"
+    DEEPSEEK_CODER_1_3B_BASE = "deepseek-coder-1.3b-base"
+    DEEPSEEK_CODER_1_3B_INSTRUCT = "deepseek-coder-1.3b-instruct"
+    DEEPSEEK_CODER_6_7B_BASE = "deepseek-coder-6.7b-base"
+    DEEPSEEK_CODER_6_7B_INSTRUCT = "deepseek-coder-6.7b-instruct"
+    DEEPSEEK_CODER_7B_BASE = "deepseek-coder-7b-base"
+    DEEPSEEK_CODER_7B_INSTRUCT = "deepseek-coder-7b-instruct"
+    DEEPSEEK_CODER_33B_BASE = "deepseek-coder-33b-base"
+    DEEPSEEK_CODER_33B_INSTRUCT = "deepseek-coder-33b-instruct"
 
     PHI_2 = "phi-2"
     PHI_4 = "phi-4"
