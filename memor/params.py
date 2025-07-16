@@ -141,6 +141,7 @@ class LLMModel(Enum):
     DEEPSEEK_LLM_67B_CHAT = "deepseek-llm-67b-chat"
     DEEPSEEK_MOE_16B_BASE = "deepseek-moe-16b-base"
     DEEPSEEK_MOE_16B_CHAT = "deepseek-moe-16b-chat"
+    DEEPSEEK_CODER = "deepseek-coder"
     DEEPSEEK_CODER_1_3B_BASE = "deepseek-coder-1.3b-base"
     DEEPSEEK_CODER_1_3B_INSTRUCT = "deepseek-coder-1.3b-instruct"
     DEEPSEEK_CODER_6_7B_BASE = "deepseek-coder-6.7b-base"
