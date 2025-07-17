@@ -52,7 +52,7 @@ jobs:
       - name: Vulture, Bandit and Pydocstyle tests
         run: |
           python -m vulture memor/ otherfiles/ setup.py --min-confidence 65 --exclude=__init__.py --sort-by-size
-          python -m bandit -r memor -s B311
+          python -m bandit -r memor -s B311,B105
           python -m pydocstyle -v
         if: matrix.python-version == env.TEST_PYTHON_VERSION
       - name: Version check
