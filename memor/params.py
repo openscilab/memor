@@ -211,8 +211,12 @@ class LLMModel(Enum):
     QWEN_14B = "qwen-14b"
     QWEN_72B = "qwen-72b"
 
-    YI_6B = "yi-6b"
-    YI_9B = "yi-9b"
     YI_34B = "yi-34b"
+    YI_34B_CHAT = "yi-34b-chat"
+    YI_34B_CHAT_8BITS = "yi-34b-chat-8bits"
+    YI_34B_CHAT_4BITS = "yi-34b-chat-4bits"
+    YI_9B = "yi-9b"
+    YI_6B_CHAT = "yi-6b-chat"
+    YI_6B = "yi-6b"
 
     DEFAULT = "unknown"
