@@ -224,5 +224,7 @@ class LLMModel(Enum):
     YI_1_5_9B_CHAT = "yi-1.5-9b-chat"
     YI_1_5_6B = "yi-1.5-6b"
     YI_1_5_6B_CHAT = "yi-1.5-6b-chat"
+    YI_VL_34B = "yi-vl-34b"
+    YI_VL_6B = "yi-vl-6b"
 
     DEFAULT = "unknown"
