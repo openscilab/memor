@@ -69,9 +69,9 @@ By bridging the gap between isolated LLM instances, Memor revolutionizes the way
 
 ### PyPI
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install memor==0.7`
+- Run `pip install memor==0.8`
 ### Source code
-- Download [Version 0.7](https://github.com/openscilab/memor/archive/v0.7.zip) or [Latest Source](https://github.com/openscilab/memor/archive/dev.zip)
+- Download [Version 0.8](https://github.com/openscilab/memor/archive/v0.8.zip) or [Latest Source](https://github.com/openscilab/memor/archive/dev.zip)
 - Run `pip install .`
 
 ## Usage
