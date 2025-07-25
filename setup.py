@@ -23,11 +23,16 @@ def read_description() -> str:
             description += c.read()
         return description
     except Exception:
-        return '''Memor is a library designed to help users manage the memory of their interactions with Large Language Models (LLMs).
-It enables users to seamlessly access and utilize the history of their conversations when prompting LLMs.
-That would create a more personalized and context-aware experience.
-Memor stands out by allowing users to transfer conversational history across different LLMs, eliminating cold starts where models don\'t have information about user and their preferences.
-Users can select specific parts of past interactions with one LLM and share them with another.By bridging the gap between isolated LLM instances, Memor revolutionizes the way users interact with AI by making transitions between models smoother.'''
+        return '''With Memor, LLM users can store their conversation history using an intuitive and structured data format.
+It abstracts user prompts and model responses into a "Session", a sequence of message exchanges that forms the basic unit of interaction.
+In addition to the content, each message can include generation details like decoding temperature and token count.
+Therefore users could create comprehensive and reproducible logs of their interactions.
+Because of the model-agnostic design, users can begin a conversation with one LLM and switch to another keeping the context.
+For example, they might use a retrieval-augmented model (like a RAG system) to gather relevant context for a math problem, then switch to a model better suited for reasoning to solve it featuring the retried information that is presented in the chat-history by Memor.
+
+Memor also lets users select and share specific parts of past conversations across different models. This means users are not only able to reproduce and review previous chats through structured logs, but can also flexibly transfer the content of their conversations between LLMs.
+In nutshell, Memor makes it easy to manage and reuse conversations with large language models effectively.
+'''
 
 
 setup(
@@ -35,7 +40,7 @@ setup(
     packages=[
         'memor', ],
     version='0.8',
-    description='Memor: A Python Library for Managing and Transferring Conversational Memory Across LLMs',
+    description='Memor: Reproducible Structured Memory for LLMs',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='Memor Development Team',
