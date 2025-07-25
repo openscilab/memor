@@ -79,35 +79,95 @@ In nutshell, Memor makes it easy to manage and reuse conversations with large la
 - Run `pip install .`
 
 ## Usage
-Define your prompt and the response(s) to that; Memor will wrap it into a object with a templated representation.
-You can create a session by combining multiple prompts and responses, gradually building it up:
+Let's say you want to have conversation session with [MistralAI](https://mistral.ai/)'s LLM through API call. You have `mistral_client` all set-up with the following code:
+```py
+from mistralai import Mistral
 
-```pycon
->>> from memor import Session, Prompt, Response, Role
->>> from memor import PresetPromptTemplate, RenderFormat, LLMModel
->>> response = Response(message="I am fine.", model=LLMModel.GPT_4, role=Role.ASSISTANT, temperature=0.9, score=0.9, top_p=0.9)
->>> prompt = Prompt(message="Hello, how are you?",
-                    responses=[response],
-                    role=Role.USER,
-                    template=PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD)
->>> system_prompt = Prompt(message="You are a friendly and informative AI assistant designed to answer questions on a wide range of topics.",
-                    role=Role.SYSTEM)
->>> session = Session(messages=[system_prompt, prompt])
->>> session.render(RenderFormat.OPENAI)
+mistral_client = Mistral(api_key="YOUR_MISTRAL_API")
 ```
 
-The rendered output will be a list of messages formatted for compatibility with the OpenAI API.
-
-```json
-[{"content": "You are a friendly and informative AI assistant designed to answer questions on a wide range of topics.", "role": "system"},
- {"content": "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\n"
-             "Prompt: Hello, how are you?\n"
-             "Response: I am fine.",
-  "role": "user"}]
+Then you may use this client in a loop for a unending interaction with it in CLI. Using the following code snippet you can have a running example for chatting with LLM easily:
+```py
+while True:
+    user_input = input("You: ")
+    response = mistral_client.chat.complete(
+        model="mistral-large-latest",
+        messages=[
+            {"role": "user", "content": user_input}
+        ]
+    )
+    print("MistralAI:", response.choices[0].message.content)
 ```
+
+Let's try it with an example:
+```
+You: Imagine you have 3 apples. You eat one of them. How many apples remain?
+MistralAI: If you start with 3 apples and you eat one of them, you would have 2 apples remaining.
+You: How about starting from 2 apples?
+MistralAI: If you start with 2 apples and add 2 more, you'll have 4 apples.
+```
+Wait what? Why it adds 2 more apples?
+Ops! We're not using the history of conversation and we're starting over after each call. That's why it can't remember the actual problem and it hallucinated.
+
+### ❌ Messy solution
+Well you can have a `history` list and fill it up as you go through like bellow, but that's not the best approach. You should take care of this history and can't save more details rather than messages there. It also gets messy when you want to save different things in different codes using the same approach.
+```py
+history = []
+while True:
+    user_input = input("You: ")
+    response = mistral_client.chat.complete(
+        model="mistral-large-latest",
+        messages=[
+            *history,
+            {"role": "user", "content": user_input}
+        ]
+    )
+    print("MistralAI:", response.choices[0].message.content)
+    history.append({"role": "user", "content": user_input})
+    history.append({"role": "assistant", "content": response.choices[0].message.content})
+```
+
+### ✅ Memor solution
+Memor provides `Prompt`, `Response`, and `Session` as abstraction by which you can save your conversation history much structured.
+You can set a `Session` object before starting the conversation, make a `Prompt` object from your prompt and a `Response` object from LLM's response. Then adding them to the created `Session` can keep the conversation history.
+
+```py
+from memor import Session, Prompt, Response
+from memor import RenderFormat
+
+session = Session()
+while True:
+    user_input = input("You: ")
+    prompt = Prompt(message=user_input)
+    session.add_message(prompt) # Add user input to session
+    response = mistral_client.chat.complete(
+        model="mistral-large-latest",
+        messages=session.render(RenderFormat.OPENAI)  # Render the whole session history
+    )
+    print("MistralAI:", response.choices[0].message.content)
+    response = Response(message=response.choices[0].message.content)
+    session.add_message(response) # Add model response to session
+```
+Then your conversations would always carry past interaction logs and have more meaningful conversations; Let's try the example we started with again:
+```
+You: Imagine you have 3 apples. You eat one of them. How many apples remain?
+MistralAI: If you start with 3 apples and you eat one of them, you will have 2 apples remaining.
+You: How about starting from 2 apples?
+MistralAI: If you start with 2 apples and you eat one of them, you will have 1 apple remaining. Here's the simple math:
+2 apples - 1 apple = 1 apple
+```
+Hurray! It's working now.
+
+Memor is doing much more than what you've just saw. In the following, we describe different abstracted classes to show more features of Memor.
+
+### Prompt
+[TBD]
+
+### Response
+[TBD]
 
 ### Prompt Templates
-
+[TBC]
 #### Preset Templates
 
 Memor provides a variety of pre-defined prompt templates to control how prompts and responses are rendered. Each template is prefixed by an optional instruction string and includes variations for different formatting styles. Following are different variants of parameters:
@@ -131,9 +191,10 @@ Memor provides a variety of pre-defined prompt templates to control how prompts 
 
 You can access them like this:
 
-```pycon
->>> from memor import PresetPromptTemplate
->>> template = PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD
+```py
+from memor import PresetPromptTemplate
+
+template = PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD
 ```
 
 #### Custom Templates
@@ -156,14 +217,17 @@ You can define custom templates for your prompts using the `PromptTemplate` clas
 
 Suppose you want to prepend an instruction to every prompt message. You can define and use a template as follows:
 
-```pycon
->>> template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
->>> prompt = Prompt(message="How are you?", template=template)
->>> prompt.render()
+```py
+template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+prompt = Prompt(message="How are you?", template=template)
+prompt.render()
 Hi, How are you?
 ```
 
 By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversational or instructional formats when interacting with LLM.
+
+### Session
+[TBD]
 
 ## Examples
 You can explore real-world usage of Memor in the [`examples`](https://github.com/openscilab/memor/tree/main/examples) directory.
