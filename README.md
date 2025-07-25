@@ -19,12 +19,12 @@ It abstracts user prompts and model responses into a "Session", a sequence of me
 In addition to the content, each message can include generation details like decoding temperature and token count.
 Therefore users could create comprehensive and reproducible logs of their interactions.
 Because of the model-agnostic design, users can begin a conversation with one LLM and switch to another keeping the context.
-For example, they might use a retrieval-augmented model (like a RAG system) to gather relevant context for a math problem, then switch to a model better suited for reasoning to solve it featuring the retried information that is presented in the chat-history by Memor.
+For example, they might use a retrieval-augmented model (like a RAG system) to gather relevant context for a math problem, then switch to a model better suited for reasoning to solve it featuring the retrieved information that is presented in the chat-history by Memor.
 </p>
 
 <p align="justify">
 Memor also lets users select and share specific parts of past conversations across different models. This means users are not only able to reproduce and review previous chats through structured logs, but can also flexibly transfer the content of their conversations between LLMs.
-In nutshell, Memor makes it easy to manage and reuse conversations with large language models effectively.
+In a nutshell, Memor makes it easy to manage and reuse conversations with large language models effectively.
 </p>
 <table>
     <tr>
