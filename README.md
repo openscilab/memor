@@ -161,7 +161,55 @@ Hurray! It's working now.
 Memor is doing much more than what you've just saw. In the following, we describe different abstracted classes to show more features of Memor.
 
 ### Prompt
-[TBD]
+
+The `Prompt` class is a core abstraction in Memor, representing a user input (or query) that can be associated with one or more responses from an LLM. It encapsulates not just the prompt text but also metadata, a template for rendering, role designation, and serialization capabilities.
+
+```pycon
+>>> from memor import Prompt, Response, PresetPromptTemplate
+>>> responses = [
+    Response(message="I'm fine."),
+    Response(message="I'm not fine."),
+]
+>>> prompt = Prompt(
+    message="Hello, how are you?",
+    responses=responses,
+    template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD
+)
+>>> print(prompt.render())
+Prompt: Hello, how are you?
+Response: I'm fine.
+```
+
+#### Parameters
+
+| Name         | Type                                     | Description                                                |
+| ------------ | ---------------------------------------- | ---------------------------------------------------------- |
+| `message`    | `str`                                    | The core prompt message content                            |
+| `responses`  | `List[Response]`                         | Optional list of associated responses                      |
+| `role`       | `Role`                                   | Role of the message sender (`USER`, `SYSTEM`, etc.)        |
+| `tokens`     | `int`                                    | Optional token count override                              |
+| `template`   | `PromptTemplate \| PresetPromptTemplate` | Template used to format the prompt                         |
+| `file_path`  | `str`                                    | Optional path to load a prompt from a JSON file            |
+| `init_check` | `bool`                                   | Whether to verify template rendering during initialization |
+
+#### Methods
+
+| Method                               | Description                                 |
+| ------------------------------------ | ------------------------------------------- |
+| `add_response(response, index=None)` | Add a new response (append or insert)       |
+| `remove_response(index)`             | Remove response at specified index          |
+| `select_response(index)`             | Mark a specific response as selected        |
+| `update_template(template)`          | Update the rendering template               |
+| `render(render_format)`              | Render the prompt in a specified format     |
+| `to_json()` / `from_json(json)`      | Serialize or deserialize prompt data        |
+| `save(path)` / `load(path)`          | Save or load prompt from file               |
+| `update_message(message)`            | Update the prompt text                      |
+| `update_role(role)`                  | Change the prompt role                      |
+| `update_tokens(tokens)`              | Set a custom token count                    |
+| `copy()` / `regenerate_id()`         | Clone prompt or reset ID                    |
+| `check_render()`                     | Validate if current prompt setup can render |
+| `estimate_tokens(method)`            | Estimate token usage for the prompt         |
+
 
 ### Response
 [TBD]
