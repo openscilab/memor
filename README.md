@@ -14,17 +14,17 @@
 
 ## Overview
 <p align="justify">
-With Memor, LLM users can store their conversation history using an intuitive and structured data format.
-It abstracts user prompts and model responses into a "Session", a sequence of message exchanges that forms the basic unit of interaction.
-In addition to the content, each message can include generation details like decoding temperature and token count.
+With Memor, users can store their LLM conversation history using an intuitive and structured data format.
+It abstracts user prompts and model responses into a "Session", a sequence of message exchanges.
+In addition to the content, each message include details like decoding temperature and token count.
 Therefore users could create comprehensive and reproducible logs of their interactions.
-Because of the model-agnostic design, users can begin a conversation with one LLM and switch to another keeping the context.
-For example, they might use a retrieval-augmented model (like a RAG system) to gather relevant context for a math problem, then switch to a model better suited for reasoning to solve it featuring the retrieved information that is presented in the chat-history by Memor.
+Because of the model-agnostic design, users can begin a conversation with one LLM and switch to another keeping the context the same.
+For example, they might use a retrieval-augmented model (like RAG) to gather relevant context for a math problem, and then switch to a model better suited for reasoning to solve it based on the retrieved information presented by Memor.
 </p>
 
 <p align="justify">
 Memor also lets users select and share specific parts of past conversations across different models. This means users are not only able to reproduce and review previous chats through structured logs, but can also flexibly transfer the content of their conversations between LLMs.
-In a nutshell, Memor makes it easy to manage and reuse conversations with large language models effectively.
+In a nutshell, Memor makes it easy and effective to manage and reuse conversations with large language models.
 </p>
 <table>
     <tr>
@@ -79,105 +79,56 @@ In a nutshell, Memor makes it easy to manage and reuse conversations with large 
 - Run `pip install .`
 
 ## Usage
-Let's say you want to have conversation session with [MistralAI](https://mistral.ai/)'s LLM through API call. You have `mistral_client` all set-up with the following code:
-```py
-from mistralai import Mistral
-
-mistral_client = Mistral(api_key="YOUR_MISTRAL_API")
-```
-
-Then you may use this client in a loop for a unending interaction with it in CLI. Using the following code snippet you can have a running example for chatting with LLM easily:
-```py
-while True:
-    user_input = input("You: ")
-    response = mistral_client.chat.complete(
-        model="mistral-large-latest",
-        messages=[
-            {"role": "user", "content": user_input}
-        ]
-    )
-    print("MistralAI:", response.choices[0].message.content)
-```
-
-Let's try it with an example:
-```
-You: Imagine you have 3 apples. You eat one of them. How many apples remain?
-MistralAI: If you start with 3 apples and you eat one of them, you would have 2 apples remaining.
-You: How about starting from 2 apples?
-MistralAI: If you start with 2 apples and add 2 more, you'll have 4 apples.
-```
-Wait what? Why it adds 2 more apples?
-Ops! We're not using the history of conversation and we're starting over after each call. That's why it can't remember the actual problem and it hallucinated.
-
-### ❌ Messy solution
-Well you can have a `history` list and fill it up as you go through like bellow, but that's not the best approach. You should take care of this history and can't save more details rather than messages there. It also gets messy when you want to save different things in different codes using the same approach.
-```py
-history = []
-while True:
-    user_input = input("You: ")
-    response = mistral_client.chat.complete(
-        model="mistral-large-latest",
-        messages=[
-            *history,
-            {"role": "user", "content": user_input}
-        ]
-    )
-    print("MistralAI:", response.choices[0].message.content)
-    history.append({"role": "user", "content": user_input})
-    history.append({"role": "assistant", "content": response.choices[0].message.content})
-```
-
-### ✅ Memor solution
-Memor provides `Prompt`, `Response`, and `Session` as abstraction by which you can save your conversation history much structured.
-You can set a `Session` object before starting the conversation, make a `Prompt` object from your prompt and a `Response` object from LLM's response. Then adding them to the created `Session` can keep the conversation history.
+Memor provides `Prompt`, `Response`, and `Session` as abstraction by which you can save your conversation history much structured. You can set a `Session` object before starting a conversation, make a `Prompt` object from your prompt and a `Response` object from LLM's response. Then adding them to the created `Session` can keep the conversation history.
 
 ```py
 from memor import Session, Prompt, Response
 from memor import RenderFormat
+from mistralai import Mistral
 
+client = Mistral(api_key="YOUR_MISTRAL_API")
 session = Session()
 while True:
-    user_input = input("You: ")
+    user_input = input(">> You: ")
     prompt = Prompt(message=user_input)
     session.add_message(prompt) # Add user input to session
-    response = mistral_client.chat.complete(
+    response = client.chat.complete(
         model="mistral-large-latest",
         messages=session.render(RenderFormat.OPENAI)  # Render the whole session history
     )
-    print("MistralAI:", response.choices[0].message.content)
+    print("<< MistralAI:", response.choices[0].message.content)
     response = Response(message=response.choices[0].message.content)
     session.add_message(response) # Add model response to session
 ```
-Then your conversations would always carry past interaction logs and have more meaningful conversations; Let's try the example we started with again:
+Your conversations would carry the past interaction and LLM remembers your session's information
 ```
-You: Imagine you have 3 apples. You eat one of them. How many apples remain?
-MistralAI: If you start with 3 apples and you eat one of them, you will have 2 apples remaining.
-You: How about starting from 2 apples?
-MistralAI: If you start with 2 apples and you eat one of them, you will have 1 apple remaining. Here's the simple math:
+>> You: Imagine you have 3 apples. You eat one of them. How many apples remain?
+<< MistralAI: If you start with 3 apples and you eat one of them, you will have 2 apples remaining.
+>> You: How about starting from 2 apples?
+<< MistralAI: If you start with 2 apples and you eat one of them, you will have 1 apple remaining. Here's the simple math:
 2 apples - 1 apple = 1 apple
 ```
-Hurray! It's working now.
 
-Memor is doing much more than what you've just saw. In the following, we describe different abstracted classes to show more features of Memor.
+In the following, we detail different abstraction levels Memor provides for the conversation artifacts.
 
 ### Prompt
 
-The `Prompt` class is a core abstraction in Memor, representing a user input (or query) that can be associated with one or more responses from an LLM. It encapsulates not just the prompt text but also metadata, a template for rendering, role designation, and serialization capabilities.
+The `Prompt` class is a core abstraction in Memor, representing a user input. The query can be associated with one or more responses from an LLM, with the first one being the most confident usually. It encapsulates not just the prompt text but also metadata, a template for rendering, role designation, and serialization capabilities.
 
-```pycon
->>> from memor import Prompt, Response, PresetPromptTemplate
->>> responses = [
+```py
+from memor import Prompt, Response, PresetPromptTemplate
+responses = [
     Response(message="I'm fine."),
     Response(message="I'm not fine."),
 ]
->>> prompt = Prompt(
+prompt = Prompt(
     message="Hello, how are you?",
     responses=responses,
     template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD
 )
->>> print(prompt.render())
-Prompt: Hello, how are you?
-Response: I'm fine.
+prompt.render()
+# Prompt: Hello, how are you?
+# Response: I'm fine.
 ```
 
 #### Parameters
@@ -187,7 +138,7 @@ Response: I'm fine.
 | `message`    | `str`                                    | The core prompt message content                            |
 | `responses`  | `List[Response]`                         | Optional list of associated responses                      |
 | `role`       | `Role`                                   | Role of the message sender (`USER`, `SYSTEM`, etc.)        |
-| `tokens`     | `int`                                    | Optional token count override                              |
+| `tokens`     | `int`                                    | Optional token count                              |
 | `template`   | `PromptTemplate \| PresetPromptTemplate` | Template used to format the prompt                         |
 | `file_path`  | `str`                                    | Optional path to load a prompt from a JSON file            |
 | `init_check` | `bool`                                   | Whether to verify template rendering during initialization |
@@ -197,34 +148,35 @@ Response: I'm fine.
 | Method                               | Description                                 |
 | ------------------------------------ | ------------------------------------------- |
 | `add_response(response, index=None)` | Add a new response (append or insert)       |
-| `remove_response(index)`             | Remove response at specified index          |
+| `remove_response(index)`             | Remove the response at specified index          |
 | `select_response(index)`             | Mark a specific response as selected        |
 | `update_template(template)`          | Update the rendering template               |
 | `render(render_format)`              | Render the prompt in a specified format     |
-| `to_json()` / `from_json(json)`      | Serialize or deserialize prompt data        |
+| `to_json()` / `from_json(json)`      | Serialize or deserialize the prompt data        |
 | `save(path)` / `load(path)`          | Save or load prompt from file               |
 | `update_message(message)`            | Update the prompt text                      |
 | `update_role(role)`                  | Change the prompt role                      |
 | `update_tokens(tokens)`              | Set a custom token count                    |
-| `copy()` / `regenerate_id()`         | Clone prompt or reset ID                    |
 | `check_render()`                     | Validate if current prompt setup can render |
 | `estimate_tokens(method)`            | Estimate token usage for the prompt         |
+| `copy()`                             | Clone the prompt                                |
+| `regenerate_id()`                    | Reset the unique identifier of the prompt   |
 
 
 ### Response
-The `Response` class represents a model-generated answer or completion tied to a prompt. It encapsulates metadata such as score, temperature, model, tokens, inference time, and more. It also provides utilities for JSON serialization, rendering in multiple formats, and export/import functionality.
+The `Response` class represents an answer or a completion generated by a model given a prompt. It encapsulates metadata such as score, temperature, model, tokens, inference time, and more. It also provides utilities for JSON serialization, rendering in multiple formats, and export/import functionality.
 
-```pycon
->>> from memor import Response, Role, LLMModel
->>> response = Response(
+```py
+from memor import Response, Role, LLMModel
+response = Response(
     message="Sure! Here's a summary.",
     score=0.94,
     temperature=0.7,
     model=LLMModel.GPT_4,
     inference_time=0.3
 )
->>> print(response.render())
-Sure! Here's a summary.
+response.render()
+# Sure! Here's a summary.
 ```
 
 #### Parameters
@@ -232,49 +184,49 @@ Sure! Here's a summary.
 | Name             | Type                | Description                                          |
 | ---------------- | ------------------- | -----------------------------------------------------|
 | `message`        | `str`               | The content of the response                          |
-| `score`          | `float`             | Optional evaluation score                            |
+| `score`          | `float`             | Evaluation score representing the response quality   |
 | `role`           | `Role`              | Role of the message sender (`USER`, `SYSTEM`, etc.)  |
 | `temperature`    | `float`             | Sampling temperature                                 |
-| `top_k`          | `int`               | Top-k sampling                                       |
-| `top_p`          | `float`             | Top-p (nucleus) sampling                             |
+| `top_k`          | `int`               | `k` in top-k sampling method                         |
+| `top_p`          | `float`             | `p` in top-p (nucleus) sampling                      |
 | `tokens`         | `int`               | Number of tokens in the response                     |
 | `inference_time` | `float`             | Time spent generating the response (seconds)         |
 | `model`          | `LLMModel` \| `str` | Model used                                           |
 | `gpu`            | `str`               | GPU model identifier                                 |
-| `date`           | `datetime.datetime` | Timestamp of creation                                |
-| `file_path`      | `str`               | Optional path to load a saved response               |
+| `date`           | `datetime.datetime` | Timestamp of the creation                            |
+| `file_path`      | `str`               | Path to load a saved the response               |
 
 #### Methods
 
-| Method                      | Description                               |
-| --------------------------- | ----------------------------------------- |
-| `update_score(score)`       | Update the response score                 |
-| `update_temperature(temp)`  | Set generation temperature                |
-| `update_top_k(k)`           | Set top-k value                           |
-| `update_top_p(p)`           | Set top-p value                           |
-| `update_model(model)`       | Set the model name or enum                |
-| `update_gpu(gpu_name)`      | Set GPU model identifier                  |
-| `update_inference_time(t)`  | Set inference time in seconds             |
-| `update_message(msg)`       | Update the response message               |
-| `update_role(role)`         | Update the sender role                    |
-| `update_tokens(tokens)`     | Set the number of tokens                  |
-| `render(format)`            | Render the response in a specific format  |
-| `to_json()` / `from_json()` | Serialize or deserialize to/from JSON     |
-| `to_dict()`                 | Convert the object to a Python dictionary |
-| `save(path)`                | Save response to file                     |
-| `load(path)`                | Load response from file                   |
-| `copy()` / `regenerate_id()`| Clone response or reset ID                |
+| Method                      | Description                                 |
+| --------------------------- | ------------------------------------------- |
+| `update_score(score)`       | Update the response score                   |
+| `update_temperature(temp)`  | Set generation temperature                  |
+| `update_top_k(k)`           | Set top-k value                             |
+| `update_top_p(p)`           | Set top-p value                             |
+| `update_model(model)`       | Set the model name or enum                  |
+| `update_gpu(gpu_name)`      | Set GPU model identifier                    |
+| `update_inference_time(t)`  | Set inference time in seconds               |
+| `update_message(msg)`       | Update the response message                 |
+| `update_role(role)`         | Update the sender role                      |
+| `update_tokens(tokens)`     | Set the number of tokens                    |
+| `render(format)`            | Render the response in a specific format    |
+| `to_json()` / `from_json()` | Serialize or deserialize to/from JSON       |
+| `save(path)` / `load(path)` | Save or load the response to/from a file        |
+| `to_dict()`                 | Convert the object to a Python dictionary   |
+| `copy()`                    | Clone the response                              |
+| `regenerate_id()`           | Reset the unique identifier of the response |
 
 
 
 ### Prompt Templates
 The `PromptTemplate` class provides a structured interface for managing, storing, and customizing text prompt templates used in prompt engineering tasks. This class supports template versioning, metadata tracking, file-based persistence, and integration with preset template formats. It is a core component of the memor library, designed to facilitate reproducible and organized prompt workflows for LLMs.
 
-```pycon
->>> from memor import Prompt, PromptTemplate
->>> template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
->>> prompt = Prompt(message="How are you?", template=template)
->>> prompt.render()
+```py
+from memor import Prompt, PromptTemplate
+template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+prompt = Prompt(message="How are you?", template=template)
+prompt.render()
 'Hi, How are you?'
 ```
 
@@ -282,10 +234,10 @@ The `PromptTemplate` class provides a structured interface for managing, storing
 
 | Name         | Type             | Default | Description                                            |
 | ------------ | ---------------- | ------- | ------------------------------------------------------ |
+| `title`      | `str`            | `None`  | A name for the template                                |
 | `content`    | `str`            | `None`  | The template content string with placeholders          |
-| `file_path`  | `str`            | `None`  | Path to a JSON file to load the template from          |
-| `title`      | `str`            | `None`  | A human-readable name for the template                 |
 | `custom_map` | `Dict[str, str]` | `None`  | A dictionary of custom variables used in the template  |
+| `file_path`  | `str`            | `None`  | Path to a JSON file to load the template from          |
 
 #### Methods
 
@@ -294,12 +246,10 @@ The `PromptTemplate` class provides a structured interface for managing, storing
 | `update_title(title)`                                | Update the template title                              |
 | `update_content(content)`                            | Update the template content                            |
 | `update_map(custom_map)`                             | Update the custom variable map                         |
-| `save(file_path)`                                    | Save the template to a file in JSON format             |
-| `load(file_path)`                                    | Load the template from a JSON file                     |
-| `from_json(json_object)`                             | Load attributes from a JSON object or string           |
-| `to_json()`                                          | Convert the template to a JSON-compatible dictionary   |
-| `to_dict()`                                          | Convert the template to a plain Python dictionary      |
 | `get_size()`                                         | Return the size (in bytes) of the JSON representation  |
+| `save(path)` / `load(path)`                          | Save or load the template to/from a file                   |
+| `to_json()` / `from_json()`                          | Serialize or deserialize to/from JSON                  |
+| `to_dict()`                                          | Convert the template to a plain Python dictionary      |
 | `copy()`                                             | Return a shallow copy of the template instance         |
 
 #### Preset Templates
@@ -355,7 +305,7 @@ Suppose you want to prepend an instruction to every prompt message. You can defi
 template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
 prompt = Prompt(message="How are you?", template=template)
 prompt.render()
-Hi, How are you?
+# Hi, How are you?
 ```
 
 By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversational or instructional formats when interacting with LLM.
@@ -363,23 +313,26 @@ By using this dynamic structure, you can create flexible and sophisticated promp
 ### Session
 The `Session` class represents a conversation session composed of `Prompt` and `Response` messages. It supports creation, modification, saving, loading, searching, rendering, and token estimation — offering a structured way to manage LLM interaction histories. Each session tracks metadata such as title, creation/modification time, render count, and message activation (masking) status.
 
-```pycon
->>> from memor import Session, Prompt, Response
->>> prompt1 = Prompt(message="What is the capital of France?")
->>> response1 = Response(message="The capital of France is Paris.")
->>> session = Session(title="Q&A Session", messages=[prompt1, response1])
->>> prompt2 = Prompt(message="What is the population of Paris?")
->>> session.add_message(prompt2)
->>> print(session.render())
-What is the capital of France?
-The capital of France is Paris.
-What is the population of Paris?
->>> results = session.search("Paris")
->>> print("Found at indices:", results)
-Found at indices: [1, 2]
->>> tokens = session.estimate_tokens()
->>> print("Estimated tokens:", tokens)
-Estimated tokens: 35
+```py
+from memor import Session, Prompt, Response
+# loading a Session with a prompt and its response
+prompt1 = Prompt(message="What is the capital of France?")
+response1 = Response(message="The capital of France is Paris.")
+session = Session(title="Q&A Session", messages=[prompt1, response1])
+# adding a new prompt to it
+prompt2 = Prompt(message="What is the population of Paris?")
+session.add_message(prompt2)
+
+print(session.render())
+# What is the capital of France?
+# The capital of France is Paris.
+# What is the population of Paris?
+results = session.search("Paris")
+print("Found at indices:", results)
+# Found at indices: [1, 2]
+tokens = session.estimate_tokens()
+print("Estimated tokens:", tokens)
+# Estimated tokens: 35
 ```
 
 #### Parameters
@@ -388,8 +341,8 @@ Estimated tokens: 35
 | ------------ | ------------------------------------ | --------------------------------------------- |
 | `title`      | `str`                                | Title of the session                          |
 | `messages`   | `List[Prompt or Response]`           | List of initial messages                      |
-| `file_path`  | `str`                                | Path to a saved session file                  |
 | `init_check` | `bool`                               | Whether to check rendering at initialization  |
+| `file_path`  | `str`                                | Path to a saved session file                  |
 
 #### Methods
 
@@ -401,7 +354,7 @@ Estimated tokens: 35
 | `remove_message_by_id(message_id)`                                | Remove a message by its unique ID                             |
 | `update_title(title)`                                             | Update the title of the session                               |
 | `update_messages(messages, status=None)`                          | Replace all messages and optionally update their status list  |
-| `update_messages_status(status)`                                  | Update message status without changing content                |
+| `update_messages_status(status)`                                  | Update the message status without changing the content                |
 | `clear_messages()`                                                | Remove all messages from the session                          |
 | `get_message(identifier)`                                         | Retrieve a message by index, slice, or ID                     |
 | `get_message_by_index(index)`                                     | Get a message by integer index or slice                       |
@@ -413,18 +366,16 @@ Estimated tokens: 35
 | `search(query, use_regex=False, case_sensitive=False)`            | Search for a string or regex pattern in the messages          |
 | `render(render_format=RenderFormat.DEFAULT, enable_counter=True)` | Render the session in the specified format                    |
 | `check_render()`                                                  | Return `True` if the session renders without error            |
-| `save(file_path)`                                                 | Save the session to a JSON file                               |
-| `load(file_path)`                                                 | Load a session from a JSON file                               |
-| `to_json()`                                                       | Convert the session to a JSON-compatible dictionary           |
-| `from_json(json_object)`                                          | Load the session from a JSON string or dictionary             |
+| `save(path)` / `load(path)`                                       | Save or load the session to/from a file                           |
+| `to_json()` / `from_json()`                                       | Serialize or deserialize the session to/from JSON                         |
 | `to_dict()`                                                       | Return a Python dict representation of the session            |
 | `get_size()`                                                      | Return session size in bytes (JSON-encoded)                   |
 | `copy()`                                                          | Return a shallow copy of the session                          |
-| `estimate_tokens(method=TokensEstimator.DEFAULT)`                 | Estimate token count of the session content                   |
+| `estimate_tokens(method=TokensEstimator.DEFAULT)`                 | Estimate the token count of the session content                   |
 
 
 ## Examples
-You can explore real-world usage of Memor in the [`examples`](https://github.com/openscilab/memor/tree/main/examples) directory.
+You can find more real-world usage of Memor in the [`examples`](https://github.com/openscilab/memor/tree/main/examples) directory.
 This directory includes concise and practical Python scripts that demonstrate key features of Memor library.
 
 ## Issues & bug reports
