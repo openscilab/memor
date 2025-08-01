@@ -268,7 +268,40 @@ Sure! Here's a summary.
 
 
 ### Prompt Templates
-[TBC]
+The `PromptTemplate` class provides a structured interface for managing, storing, and customizing text prompt templates used in prompt engineering tasks. This class supports template versioning, metadata tracking, file-based persistence, and integration with preset template formats. It is a core component of the memor library, designed to facilitate reproducible and organized prompt workflows for LLMs.
+
+```pycon
+>>> from memor import Prompt, PromptTemplate
+>>> template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+>>> prompt = Prompt(message="How are you?", template=template)
+>>> prompt.render()
+'Hi, How are you?'
+```
+
+#### Parameters
+
+| Name         | Type             | Default | Description                                            |
+| ------------ | ---------------- | ------- | ------------------------------------------------------ |
+| `content`    | `str`            | `None`  | The template content string with placeholders          |
+| `file_path`  | `str`            | `None`  | Path to a JSON file to load the template from          |
+| `title`      | `str`            | `None`  | A human-readable name for the template                 |
+| `custom_map` | `Dict[str, str]` | `None`  | A dictionary of custom variables used in the template  |
+
+#### Methods
+
+| Method                                               | Description                                            |
+| ---------------------------------------------------- | ------------------------------------------------------ |
+| `update_title(title)`                                | Update the template title                              |
+| `update_content(content)`                            | Update the template content                            |
+| `update_map(custom_map)`                             | Update the custom variable map                         |
+| `save(file_path)`                                    | Save the template to a file in JSON format             |
+| `load(file_path)`                                    | Load the template from a JSON file                     |
+| `from_json(json_object)`                             | Load attributes from a JSON object or string           |
+| `to_json()`                                          | Convert the template to a JSON-compatible dictionary   |
+| `to_dict()`                                          | Convert the template to a plain Python dictionary      |
+| `get_size()`                                         | Return the size (in bytes) of the JSON representation  |
+| `copy()`                                             | Return a shallow copy of the template instance         |
+
 #### Preset Templates
 
 Memor provides a variety of pre-defined prompt templates to control how prompts and responses are rendered. Each template is prefixed by an optional instruction string and includes variations for different formatting styles. Following are different variants of parameters:
