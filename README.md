@@ -212,7 +212,60 @@ Response: I'm fine.
 
 
 ### Response
-[TBD]
+The `Response` class represents a model-generated answer or completion tied to a prompt. It encapsulates metadata such as score, temperature, model, tokens, inference time, and more. It also provides utilities for JSON serialization, rendering in multiple formats, and export/import functionality.
+
+```pycon
+>>> from memor import Response, Role, LLMModel
+>>> response = Response(
+    message="Sure! Here's a summary.",
+    score=0.94,
+    temperature=0.7,
+    model=LLMModel.GPT_4,
+    inference_time=0.3
+)
+>>> print(response.render())
+Sure! Here's a summary.
+```
+
+#### Parameters
+
+| Name             | Type                | Description                                          |
+| ---------------- | ------------------- | -----------------------------------------------------|
+| `message`        | `str`               | The content of the response                          |
+| `score`          | `float`             | Optional evaluation score                            |
+| `role`           | `Role`              | Role of the message sender (`USER`, `SYSTEM`, etc.)  |
+| `temperature`    | `float`             | Sampling temperature                                 |
+| `top_k`          | `int`               | Top-k sampling                                       |
+| `top_p`          | `float`             | Top-p (nucleus) sampling                             |
+| `tokens`         | `int`               | Number of tokens in the response                     |
+| `inference_time` | `float`             | Time spent generating the response (seconds)         |
+| `model`          | `LLMModel` \| `str` | Model used                                           |
+| `gpu`            | `str`               | GPU model identifier                                 |
+| `date`           | `datetime.datetime` | Timestamp of creation                                |
+| `file_path`      | `str`               | Optional path to load a saved response               |
+
+#### Methods
+
+| Method                      | Description                               |
+| --------------------------- | ----------------------------------------- |
+| `update_score(score)`       | Update the response score                 |
+| `update_temperature(temp)`  | Set generation temperature                |
+| `update_top_k(k)`           | Set top-k value                           |
+| `update_top_p(p)`           | Set top-p value                           |
+| `update_model(model)`       | Set the model name or enum                |
+| `update_gpu(gpu_name)`      | Set GPU model identifier                  |
+| `update_inference_time(t)`  | Set inference time in seconds             |
+| `update_message(msg)`       | Update the response message               |
+| `update_role(role)`         | Update the sender role                    |
+| `update_tokens(tokens)`     | Set the number of tokens                  |
+| `render(format)`            | Render the response in a specific format  |
+| `to_json()` / `from_json()` | Serialize or deserialize to/from JSON     |
+| `to_dict()`                 | Convert the object to a Python dictionary |
+| `save(path)`                | Save response to file                     |
+| `load(path)`                | Load response from file                   |
+| `copy()` / `regenerate_id()`| Clone response or reset ID                |
+
+
 
 ### Prompt Templates
 [TBC]
