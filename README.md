@@ -328,7 +328,67 @@ Hi, How are you?
 By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversational or instructional formats when interacting with LLM.
 
 ### Session
-[TBD]
+The `Session` class represents a conversation session composed of `Prompt` and `Response` messages. It supports creation, modification, saving, loading, searching, rendering, and token estimation — offering a structured way to manage LLM interaction histories. Each session tracks metadata such as title, creation/modification time, render count, and message activation (masking) status.
+
+```pycon
+>>> from memor import Session, Prompt, Response
+>>> prompt1 = Prompt(message="What is the capital of France?")
+>>> response1 = Response(message="The capital of France is Paris.")
+>>> session = Session(title="Q&A Session", messages=[prompt1, response1])
+>>> prompt2 = Prompt(message="What is the population of Paris?")
+>>> session.add_message(prompt2)
+>>> print(session.render())
+What is the capital of France?
+The capital of France is Paris.
+What is the population of Paris?
+>>> results = session.search("Paris")
+>>> print("Found at indices:", results)
+Found at indices: [1, 2]
+>>> tokens = session.estimate_tokens()
+>>> print("Estimated tokens:", tokens)
+Estimated tokens: 35
+```
+
+#### Parameters
+
+| Parameter    | Type                                 | Description                                   |
+| ------------ | ------------------------------------ | --------------------------------------------- |
+| `title`      | `str`                                | Title of the session                          |
+| `messages`   | `List[Prompt or Response]`           | List of initial messages                      |
+| `file_path`  | `str`                                | Path to a saved session file                  |
+| `init_check` | `bool`                               | Whether to check rendering at initialization  |
+
+#### Methods
+
+| Method                                                            | Description                                                   |
+| ----------------------------------------------------------------- | ------------------------------------------------------------- |
+| `add_message(message, status=True, index=None)`                   | Add a `Prompt` or `Response` to the session                   |
+| `remove_message(identifier)`                                      | Remove a message by index or ID                               |
+| `remove_message_by_index(index)`                                  | Remove a message by numeric index                             |
+| `remove_message_by_id(message_id)`                                | Remove a message by its unique ID                             |
+| `update_title(title)`                                             | Update the title of the session                               |
+| `update_messages(messages, status=None)`                          | Replace all messages and optionally update their status list  |
+| `update_messages_status(status)`                                  | Update message status without changing content                |
+| `clear_messages()`                                                | Remove all messages from the session                          |
+| `get_message(identifier)`                                         | Retrieve a message by index, slice, or ID                     |
+| `get_message_by_index(index)`                                     | Get a message by integer index or slice                       |
+| `get_message_by_id(message_id)`                                   | Get a message by its unique ID                                |
+| `enable_message(index)`                                           | Mark the message at the given index as active                 |
+| `disable_message(index)`                                          | Mark the message as inactive (masked)                         |
+| `mask_message(index)`                                             | Alias for `disable_message()`                                 |
+| `unmask_message(index)`                                           | Alias for `enable_message()`                                  |
+| `search(query, use_regex=False, case_sensitive=False)`            | Search for a string or regex pattern in the messages          |
+| `render(render_format=RenderFormat.DEFAULT, enable_counter=True)` | Render the session in the specified format                    |
+| `check_render()`                                                  | Return `True` if the session renders without error            |
+| `save(file_path)`                                                 | Save the session to a JSON file                               |
+| `load(file_path)`                                                 | Load a session from a JSON file                               |
+| `to_json()`                                                       | Convert the session to a JSON-compatible dictionary           |
+| `from_json(json_object)`                                          | Load the session from a JSON string or dictionary             |
+| `to_dict()`                                                       | Return a Python dict representation of the session            |
+| `get_size()`                                                      | Return session size in bytes (JSON-encoded)                   |
+| `copy()`                                                          | Return a shallow copy of the session                          |
+| `estimate_tokens(method=TokensEstimator.DEFAULT)`                 | Estimate token count of the session content                   |
+
 
 ## Examples
 You can explore real-world usage of Memor in the [`examples`](https://github.com/openscilab/memor/tree/main/examples) directory.
