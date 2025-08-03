@@ -138,7 +138,7 @@ prompt.render()
 | `message`    | `str`                                    | The core prompt message content                            |
 | `responses`  | `List[Response]`                         | Optional list of associated responses                      |
 | `role`       | `Role`                                   | Role of the message sender (`USER`, `SYSTEM`, etc.)        |
-| `tokens`     | `int`                                    | Optional token count                              |
+| `tokens`     | `int`                                    | Optional token count                                       |
 | `template`   | `PromptTemplate \| PresetPromptTemplate` | Template used to format the prompt                         |
 | `file_path`  | `str`                                    | Optional path to load a prompt from a JSON file            |
 | `init_check` | `bool`                                   | Whether to verify template rendering during initialization |
@@ -148,18 +148,18 @@ prompt.render()
 | Method                               | Description                                 |
 | ------------------------------------ | ------------------------------------------- |
 | `add_response(response, index=None)` | Add a new response (append or insert)       |
-| `remove_response(index)`             | Remove the response at specified index          |
+| `remove_response(index)`             | Remove the response at specified index      |
 | `select_response(index)`             | Mark a specific response as selected        |
 | `update_template(template)`          | Update the rendering template               |
 | `render(render_format)`              | Render the prompt in a specified format     |
-| `to_json()` / `from_json(json)`      | Serialize or deserialize the prompt data        |
+| `to_json()` / `from_json(json)`      | Serialize or deserialize the prompt data    |
 | `save(path)` / `load(path)`          | Save or load prompt from file               |
 | `update_message(message)`            | Update the prompt text                      |
 | `update_role(role)`                  | Change the prompt role                      |
 | `update_tokens(tokens)`              | Set a custom token count                    |
 | `check_render()`                     | Validate if current prompt setup can render |
 | `estimate_tokens(method)`            | Estimate token usage for the prompt         |
-| `copy()`                             | Clone the prompt                                |
+| `copy()`                             | Clone the prompt                            |
 | `regenerate_id()`                    | Reset the unique identifier of the prompt   |
 
 
@@ -194,7 +194,7 @@ response.render()
 | `model`          | `LLMModel` \| `str` | Model used                                           |
 | `gpu`            | `str`               | GPU model identifier                                 |
 | `date`           | `datetime.datetime` | Timestamp of the creation                            |
-| `file_path`      | `str`               | Path to load a saved the response               |
+| `file_path`      | `str`               | Path to load a saved the response                    |
 
 #### Methods
 
@@ -212,9 +212,9 @@ response.render()
 | `update_tokens(tokens)`     | Set the number of tokens                    |
 | `render(format)`            | Render the response in a specific format    |
 | `to_json()` / `from_json()` | Serialize or deserialize to/from JSON       |
-| `save(path)` / `load(path)` | Save or load the response to/from a file        |
+| `save(path)` / `load(path)` | Save or load the response to/from a file    |
 | `to_dict()`                 | Convert the object to a Python dictionary   |
-| `copy()`                    | Clone the response                              |
+| `copy()`                    | Clone the response                          |
 | `regenerate_id()`           | Reset the unique identifier of the response |
 
 
@@ -247,7 +247,7 @@ prompt.render()
 | `update_content(content)`                            | Update the template content                            |
 | `update_map(custom_map)`                             | Update the custom variable map                         |
 | `get_size()`                                         | Return the size (in bytes) of the JSON representation  |
-| `save(path)` / `load(path)`                          | Save or load the template to/from a file                   |
+| `save(path)` / `load(path)`                          | Save or load the template to/from a file               |
 | `to_json()` / `from_json()`                          | Serialize or deserialize to/from JSON                  |
 | `to_dict()`                                          | Convert the template to a plain Python dictionary      |
 | `copy()`                                             | Return a shallow copy of the template instance         |
@@ -280,35 +280,6 @@ from memor import PresetPromptTemplate
 
 template = PresetPromptTemplate.INSTRUCTION1.PROMPT_RESPONSE_STANDARD
 ```
-
-#### Custom Templates
-
-You can define custom templates for your prompts using the `PromptTemplate` class. This class provides two key parameters that control its functionality:
-
-+ `content`: A string that defines the template structure, following Python string formatting conventions. You can include dynamic fields using placeholders like `{field_name}`, which will be automatically populated using attributes from the prompt object. Some common examples of auto-filled fields are shown below:
-
-| **Prompt Object Attribute**           | **Placeholder Syntax**             | **Description**                              |
-|--------------------------------------|------------------------------------|----------------------------------------------|
-| `prompt.message`                     | `{prompt[message]}`                | The main prompt message                       |
-| `prompt.selected_response`           | `{prompt[response]}`               | The selected response for the prompt          |
-| `prompt.date_modified`               | `{prompt[date_modified]}`          | Timestamp of the last modification            |
-| `prompt.responses[2].message`        | `{responses[2][message]}`          | Message from the response at index 2          |
-| `prompt.responses[0].inference_time` | `{responses[0][inference_time]}`   | Inference time for the response at index 0    |
-
-
-+ `custom_map`: In addition to the attributes listed above, you can define and insert custom placeholders (e.g., `{field_name}`) and provide their values through a dictionary. When rendering the template, each placeholder will be replaced with its corresponding value from `custom_map`.
-
-
-Suppose you want to prepend an instruction to every prompt message. You can define and use a template as follows:
-
-```py
-template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
-prompt = Prompt(message="How are you?", template=template)
-prompt.render()
-# Hi, How are you?
-```
-
-By using this dynamic structure, you can create flexible and sophisticated prompt templates with Memor. You can design specific schemas for your conversational or instructional formats when interacting with LLM.
 
 ### Session
 The `Session` class represents a conversation session composed of `Prompt` and `Response` messages. It supports creation, modification, saving, loading, searching, rendering, and token estimation — offering a structured way to manage LLM interaction histories. Each session tracks metadata such as title, creation/modification time, render count, and message activation (masking) status.
