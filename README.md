@@ -132,7 +132,7 @@ prompt.render()
 
 #### Parameters
 
-| Name         | Type                                     | Description                                                |
+| **Name**     | **Type**                                 | **Description**                                            |
 | ------------ | ---------------------------------------- | ---------------------------------------------------------- |
 | `message`    | `str`                                    | The core prompt message content                            |
 | `responses`  | `List[Response]`                         | List of associated responses                               |
@@ -144,7 +144,7 @@ prompt.render()
 
 #### Methods
 
-| Method                               | Description                                                            |
+| **Method**                           | **Description**                                                        |
 | ------------------------------------ | ---------------------------------------------------------------------- |
 | `add_response`                       | Add a new response (append or insert)                                  |
 | `remove_response`                    | Remove the response at specified index                                 |
@@ -183,7 +183,7 @@ response.render()
 
 #### Parameters
 
-| Name             | Type                | Description                                          |
+| **Name**         | **Type**            | **Description**                                      |
 | ---------------- | ------------------- | -----------------------------------------------------|
 | `message`        | `str`               | The content of the response                          |
 | `score`          | `float`             | Evaluation score representing the response quality   |
@@ -200,7 +200,7 @@ response.render()
 
 #### Methods
 
-| Method                      | Description                                                              |
+| **Method**                  | **Description**                                                          |
 | --------------------------- | ------------------------------------------------------------------------ |
 | `update_score`              | Update the response score                                                |
 | `update_temperature`        | Set the generation temperature                                           |
@@ -237,16 +237,16 @@ prompt.render()
 
 #### Parameters
 
-| Name         | Type             | Default | Description                                            |
-| ------------ | ---------------- | ------- | ------------------------------------------------------ |
-| `title`      | `str`            | `None`  | The template name                                      |
-| `content`    | `str`            | `None`  | The template content string with placeholders          |
-| `custom_map` | `Dict[str, str]` | `None`  | A dictionary of custom variables used in the template  |
-| `file_path`  | `str`            | `None`  | Path to a JSON file to load the template from          |
+| **Name**     | **Type**         | **Description**                                        |
+| ------------ | ---------------- | ------------------------------------------------------ |
+| `title`      | `str`            | The template name                                      |
+| `content`    | `str`            | The template content string with placeholders          |
+| `custom_map` | `Dict[str, str]` | A dictionary of custom variables used in the template  |
+| `file_path`  | `str`            | Path to a JSON file to load the template from          |
 
 #### Methods
 
-| Method                                               | Description                                            |
+| **Method**                                           | **Description**                                        |
 | ---------------------------------------------------- | ------------------------------------------------------ |
 | `update_title`                                       | Update the template title                              |
 | `update_content`                                     | Update the template content                            |
@@ -309,16 +309,16 @@ print("Estimated tokens:", tokens)
 
 #### Parameters
 
-| Parameter    | Type                                 | Description                                   |
-| ------------ | ------------------------------------ | --------------------------------------------- |
-| `title`      | `str`                                | The title of the session                      |
-| `messages`   | `List[Prompt or Response]`           | The list of initial messages                  |
-| `init_check` | `bool`                               | Whether to check rendering at initialization  |
-| `file_path`  | `str`                                | The Path to a saved session file              |
+| **Parameter**  | **Type**                             | **Description**                               |
+| ---------------| ------------------------------------ | --------------------------------------------- |
+| `title`        | `str`                                | The title of the session                      |
+| `messages`     | `List[Prompt or Response]`           | The list of initial messages                  |
+| `init_check`   | `bool`                               | Whether to check rendering at initialization  |
+| `file_path`    | `str`                                | The Path to a saved session file              |
 
 #### Methods
 
-| Method                                                            | Description                                                   |
+| **Method**                                                        | **Description**                                               |
 | ----------------------------------------------------------------- | ------------------------------------------------------------- |
 | `add_message`                                                     | Add a `Prompt` or `Response` to the session                   |
 | `remove_message`                                                  | Remove a message by index or ID                               |
