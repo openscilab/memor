@@ -200,24 +200,27 @@ response.render()
 
 #### Methods
 
-| Method                      | Description                                 |
-| --------------------------- | ------------------------------------------- |
-| `update_score`              | Update the response score                   |
-| `update_temperature`        | Set the generation temperature              |
-| `update_top_k`              | Set the top-k value                         |
-| `update_top_p`              | Set the top-p value                         |
-| `update_model`              | Set the model name or enum                  |
-| `update_gpu`                | Set the GPU model identifier                |
-| `update_inference_time`     | Set the inference time in seconds           |
-| `update_message`            | Update the response message                 |
-| `update_role`               | Update the sender role                      |
-| `update_tokens`             | Set the number of tokens                    |
-| `render`                    | Render the response in a specific format    |
-| `to_json` / `from_json`     | Serialize or deserialize to/from JSON       |
-| `save` / `load`             | Save or load the response to/from a file    |
-| `to_dict`                   | Convert the object to a Python dictionary   |
-| `copy`                      | Clone the response                          |
-| `regenerate_id`             | Reset the unique identifier of the response |
+| Method                      | Description                                                              |
+| --------------------------- | ------------------------------------------------------------------------ |
+| `update_score`              | Update the response score                                                |
+| `update_temperature`        | Set the generation temperature                                           |
+| `update_top_k`              | Set the top-k value                                                      |
+| `update_top_p`              | Set the top-p value                                                      |
+| `update_model`              | Set the model name or enum                                               |
+| `update_gpu`                | Set the GPU model identifier                                             |
+| `update_inference_time`     | Set the inference time in seconds                                        |
+| `update_message`            | Update the response message                                              |
+| `update_role`               | Update the sender role                                                   |
+| `update_tokens`             | Set the number of tokens                                                 |
+| `to_json` / `from_json`     | Serialize or deserialize to/from JSON                                    |
+| `to_dict` / `from_dict`     | Convert the response object to a Python dictionary or create it from one |
+| `save` / `load`             | Save or load the response to/from a file                                 |
+| `render`                    | Render the response in a specific format                                 |
+| `check_render`              | Validate if the current response setup can render                        | 
+| `estimate_tokens`           | Estimate the token usage for the response                                |
+| `get_size`                  | Return response size in bytes (JSON-encoded)                             |
+| `copy`                      | Clone the response                                                       |
+| `regenerate_id`             | Reset the unique identifier of the response                              |
 
 
 
