@@ -146,20 +146,20 @@ prompt.render()
 
 | Method                               | Description                                                   |
 | ------------------------------------ | ------------------------------------------------------------- |
-| `add_response(response, index=None)` | Add a new response (append or insert)                         |
-| `remove_response(index)`             | Remove the response at specified index                        |
-| `select_response(index)`             | Mark a specific response as selected to be included in memory |
-| `update_template(template)`          | Update the rendering template                                 |
-| `render(render_format)`              | Render the prompt in a specified format                       |
-| `to_json()` / `from_json(json)`      | Serialize or deserialize the prompt data                      |
-| `save(path)` / `load(path)`          | Save or load prompt from file                                 |
-| `update_message(message)`            | Update the prompt text                                        |
-| `update_role(role)`                  | Change the prompt role                                        |
-| `update_tokens(tokens)`              | Set a custom token count                                      |
-| `check_render()`                     | Validate if the current prompt setup can render               |
-| `estimate_tokens(method)`            | Estimate the token usage for the prompt                       |
-| `copy()`                             | Clone the prompt                                              |
-| `regenerate_id()`                    | Reset the unique identifier of the prompt                     |
+| `add_response`                       | Add a new response (append or insert)                         |
+| `remove_response`                    | Remove the response at specified index                        |
+| `select_response`                    | Mark a specific response as selected to be included in memory |
+| `update_template`                    | Update the rendering template                                 |
+| `render`                             | Render the prompt in a specified format                       |
+| `to_json` / `from_json`              | Serialize or deserialize the prompt data                      |
+| `save` / `load`                      | Save or load prompt from file                                 |
+| `update_message`                     | Update the prompt text                                        |
+| `update_role`                        | Change the prompt role                                        |
+| `update_tokens`                      | Set a custom token count                                      |
+| `check_render`                       | Validate if the current prompt setup can render               |
+| `estimate_tokens`                    | Estimate the token usage for the prompt                       |
+| `copy`                               | Clone the prompt                                              |
+| `regenerate_id`                      | Reset the unique identifier of the prompt                     |
 
 
 ### Response
@@ -199,22 +199,22 @@ response.render()
 
 | Method                      | Description                                 |
 | --------------------------- | ------------------------------------------- |
-| `update_score(score)`       | Update the response score                   |
-| `update_temperature(temp)`  | Set the generation temperature              |
-| `update_top_k(k)`           | Set the top-k value                         |
-| `update_top_p(p)`           | Set the top-p value                         |
-| `update_model(model)`       | Set the model name or enum                  |
-| `update_gpu(gpu_name)`      | Set the GPU model identifier                |
-| `update_inference_time(t)`  | Set the inference time in seconds           |
-| `update_message(msg)`       | Update the response message                 |
-| `update_role(role)`         | Update the sender role                      |
-| `update_tokens(tokens)`     | Set the number of tokens                    |
-| `render(format)`            | Render the response in a specific format    |
-| `to_json()` / `from_json()` | Serialize or deserialize to/from JSON       |
-| `save(path)` / `load(path)` | Save or load the response to/from a file    |
-| `to_dict()`                 | Convert the object to a Python dictionary   |
-| `copy()`                    | Clone the response                          |
-| `regenerate_id()`           | Reset the unique identifier of the response |
+| `update_score`              | Update the response score                   |
+| `update_temperature`        | Set the generation temperature              |
+| `update_top_k`              | Set the top-k value                         |
+| `update_top_p`              | Set the top-p value                         |
+| `update_model`              | Set the model name or enum                  |
+| `update_gpu`                | Set the GPU model identifier                |
+| `update_inference_time`     | Set the inference time in seconds           |
+| `update_message`            | Update the response message                 |
+| `update_role`               | Update the sender role                      |
+| `update_tokens`             | Set the number of tokens                    |
+| `render`                    | Render the response in a specific format    |
+| `to_json` / `from_json`     | Serialize or deserialize to/from JSON       |
+| `save` / `load`             | Save or load the response to/from a file    |
+| `to_dict`                   | Convert the object to a Python dictionary   |
+| `copy`                      | Clone the response                          |
+| `regenerate_id`             | Reset the unique identifier of the response |
 
 
 
@@ -242,14 +242,14 @@ prompt.render()
 
 | Method                                               | Description                                            |
 | ---------------------------------------------------- | ------------------------------------------------------ |
-| `update_title(title)`                                | Update the template title                              |
-| `update_content(content)`                            | Update the template content                            |
-| `update_map(custom_map)`                             | Update the custom variable map                         |
-| `get_size()`                                         | Return the size (in bytes) of the JSON representation  |
-| `save(path)` / `load(path)`                          | Save or load the template to/from a file               |
-| `to_json()` / `from_json()`                          | Serialize or deserialize to/from JSON                  |
-| `to_dict()`                                          | Convert the template to a plain Python dictionary      |
-| `copy()`                                             | Return a shallow copy of the template instance         |
+| `update_title`                                       | Update the template title                              |
+| `update_content`                                     | Update the template content                            |
+| `update_map`                                         | Update the custom variable map                         |
+| `get_size`                                           | Return the size (in bytes) of the JSON representation  |
+| `save` / `load`                                      | Save or load the template to/from a file               |
+| `to_json` / `from_json`                              | Serialize or deserialize to/from JSON                  |
+| `to_dict`                                            | Convert the template to a plain Python dictionary      |
+| `copy`                                               | Return a shallow copy of the template instance         |
 
 #### Preset Templates
 
@@ -314,30 +314,30 @@ print("Estimated tokens:", tokens)
 
 | Method                                                            | Description                                                   |
 | ----------------------------------------------------------------- | ------------------------------------------------------------- |
-| `add_message(message, status=True, index=None)`                   | Add a `Prompt` or `Response` to the session                   |
-| `remove_message(identifier)`                                      | Remove a message by index or ID                               |
-| `remove_message_by_index(index)`                                  | Remove a message by numeric index                             |
-| `remove_message_by_id(message_id)`                                | Remove a message by its unique ID                             |
-| `update_title(title)`                                             | Update the title of the session                               |
-| `update_messages(messages, status=None)`                          | Replace all messages and optionally update their status list  |
-| `update_messages_status(status)`                                  | Update the message status without changing the content        |
-| `clear_messages()`                                                | Remove all messages from the session                          |
-| `get_message(identifier)`                                         | Retrieve a message by index, slice, or ID                     |
-| `get_message_by_index(index)`                                     | Get a message by integer index or slice                       |
-| `get_message_by_id(message_id)`                                   | Get a message by its unique ID                                |
-| `enable_message(index)`                                           | Mark the message at the given index as active                 |
-| `disable_message(index)`                                          | Mark the message as inactive (masked)                         |
-| `mask_message(index)`                                             | Alias for `disable_message()`                                 |
-| `unmask_message(index)`                                           | Alias for `enable_message()`                                  |
-| `search(query, use_regex=False, case_sensitive=False)`            | Search for a string or regex pattern in the messages          |
-| `render(render_format=RenderFormat.DEFAULT, enable_counter=True)` | Render the session in the specified format                    |
-| `check_render()`                                                  | Return `True` if the session renders without error            |
-| `save(path)` / `load(path)`                                       | Save or load the session to/from a file                       |
-| `to_json()` / `from_json()`                                       | Serialize or deserialize the session to/from JSON             |
-| `to_dict()`                                                       | Return a Python dict representation of the session            |
-| `get_size()`                                                      | Return session size in bytes (JSON-encoded)                   |
-| `copy()`                                                          | Return a shallow copy of the session                          |
-| `estimate_tokens(method=TokensEstimator.DEFAULT)`                 | Estimate the token count of the session content               |
+| `add_message`                                                     | Add a `Prompt` or `Response` to the session                   |
+| `remove_message`                                                  | Remove a message by index or ID                               |
+| `remove_message_by_index`                                         | Remove a message by numeric index                             |
+| `remove_message_by_id`                                            | Remove a message by its unique ID                             |
+| `update_title`                                                    | Update the title of the session                               |
+| `update_messages`                                                 | Replace all messages and optionally update their status list  |
+| `update_messages_status`                                          | Update the message status without changing the content        |
+| `clear_messages`                                                  | Remove all messages from the session                          |
+| `get_message`                                                     | Retrieve a message by index, slice, or ID                     |
+| `get_message_by_index`                                            | Get a message by integer index or slice                       |
+| `get_message_by_id`                                               | Get a message by its unique ID                                |
+| `enable_message`                                                  | Mark the message at the given index as active                 |
+| `disable_message`                                                 | Mark the message as inactive (masked)                         |
+| `mask_message`                                                    | Alias for `disable_message()`                                 |
+| `unmask_message`                                                  | Alias for `enable_message()`                                  |
+| `search`                                                          | Search for a string or regex pattern in the messages          |
+| `render`                                                          | Render the session in the specified format                    |
+| `check_render`                                                    | Return `True` if the session renders without error            |
+| `save` / `load`                                                   | Save or load the session to/from a file                       |
+| `to_json` / `from_json`                                           | Serialize or deserialize the session to/from JSON             |
+| `to_dict`                                                         | Return a Python dict representation of the session            |
+| `get_size`                                                        | Return session size in bytes (JSON-encoded)                   |
+| `copy`                                                            | Return a shallow copy of the session                          |
+| `estimate_tokens`                                                 | Estimate the token count of the session content               |
 
 
 ## Examples
