@@ -336,11 +336,11 @@ print("Estimated tokens:", tokens)
 | `mask_message`                                                    | Alias for `disable_message()`                                 |
 | `unmask_message`                                                  | Alias for `enable_message()`                                  |
 | `search`                                                          | Search for a string or regex pattern in the messages          |
-| `render`                                                          | Render the session in the specified format                    |
-| `check_render`                                                    | Return `True` if the session renders without error            |
 | `save` / `load`                                                   | Save or load the session to/from a file                       |
 | `to_json` / `from_json`                                           | Serialize or deserialize the session to/from JSON             |
 | `to_dict`                                                         | Return a Python dict representation of the session            |
+| `render`                                                          | Render the session in the specified format                    |
+| `check_render`                                                    | Return `True` if the session renders without error            |
 | `get_size`                                                        | Return session size in bytes (JSON-encoded)                   |
 | `copy`                                                            | Return a shallow copy of the session                          |
 | `estimate_tokens`                                                 | Estimate the token count of the session content               |
