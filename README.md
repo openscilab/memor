@@ -155,7 +155,7 @@ prompt.render()
 | `update_role`                        | Change the prompt role                                                 |
 | `update_tokens`                      | Set a custom token count                                               |
 | `to_json` / `from_json`              | Serialize or deserialize the prompt data                               |
-| `to_dict` / `from_dict`              | Convert the prompt object to a Python dictionary or create it from one |
+| `to_dict`                            | Convert the object to a Python dictionary                              |
 | `save` / `load`                      | Save or load prompt from file                                          |
 | `render`                             | Render the prompt in a specified format                                |
 | `check_render`                       | Validate if the current prompt setup can render                        | 
@@ -213,7 +213,7 @@ response.render()
 | `update_role`               | Update the sender role                                                   |
 | `update_tokens`             | Set the number of tokens                                                 |
 | `to_json` / `from_json`     | Serialize or deserialize to/from JSON                                    |
-| `to_dict` / `from_dict`     | Convert the response object to a Python dictionary or create it from one |
+| `to_dict`                   | Convert the object to a Python dictionary                                |
 | `save` / `load`             | Save or load the response to/from a file                                 |
 | `render`                    | Render the response in a specific format                                 |
 | `check_render`              | Validate if the current response setup can render                        | 
@@ -265,16 +265,16 @@ Memor provides a variety of pre-defined `PromptTemplate`s to control how prompts
 + `INSTRUCTION2`: "*Here is the context from a prior conversation. Please learn from this information and use it to provide a thoughtful and context-aware response to my next questions.*"
 +  `INSTRUCTION3`: "*I am sharing a record of a previous discussion. Use this information to provide a consistent and relevant answer to my next query.*"
 
-| **Template Title** | **Description** |
-|--------------|----------|
-| `PROMPT` | Only includes the prompt message |
-| `RESPONSE` | Only includes the response message |
-| `RESPONSE0` to `RESPONSE3` | Include specific responses from a list of multiple responses |
-| `PROMPT_WITH_LABEL` | Prompt with a "Prompt: " prefix |
-| `RESPONSE_WITH_LABEL` | Response with a "Response: " prefix |
-| `RESPONSE0_WITH_LABEL` to `RESPONSE3_WITH_LABEL` | Labeled response for the i-th response. |
-| `PROMPT_RESPONSE_STANDARD` | Includes both labeled prompt and response on a single line |
-| `PROMPT_RESPONSE_FULL` | A detailed multi-line representation including role, date, model, etc. |
+| **Template Title**                               | **Description**                                                        |
+|--------------------------------------------------|------------------------------------------------------------------------|
+| `PROMPT`                                         | Only includes the prompt message                                       |
+| `RESPONSE`                                       | Only includes the response message                                     |
+| `RESPONSE0` to `RESPONSE3`                       | Include specific responses from a list of multiple responses           |
+| `PROMPT_WITH_LABEL`                              | Prompt with a "Prompt: " prefix                                        |
+| `RESPONSE_WITH_LABEL`                            | Response with a "Response: " prefix                                    |
+| `RESPONSE0_WITH_LABEL` to `RESPONSE3_WITH_LABEL` | Labeled response for the i-th response                                 |
+| `PROMPT_RESPONSE_STANDARD`                       | Includes both labeled prompt and response on a single line             |
+| `PROMPT_RESPONSE_FULL`                           | A detailed multi-line representation including role, date, model, etc  |
 
 You can access them using:
 
