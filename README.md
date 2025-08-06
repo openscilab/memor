@@ -144,22 +144,25 @@ prompt.render()
 
 #### Methods
 
-| Method                               | Description                                                   |
-| ------------------------------------ | ------------------------------------------------------------- |
-| `add_response`                       | Add a new response (append or insert)                         |
-| `remove_response`                    | Remove the response at specified index                        |
-| `select_response`                    | Mark a specific response as selected to be included in memory |
-| `update_template`                    | Update the rendering template                                 |
-| `render`                             | Render the prompt in a specified format                       |
-| `to_json` / `from_json`              | Serialize or deserialize the prompt data                      |
-| `save` / `load`                      | Save or load prompt from file                                 |
-| `update_message`                     | Update the prompt text                                        |
-| `update_role`                        | Change the prompt role                                        |
-| `update_tokens`                      | Set a custom token count                                      |
-| `check_render`                       | Validate if the current prompt setup can render               |
-| `estimate_tokens`                    | Estimate the token usage for the prompt                       |
-| `copy`                               | Clone the prompt                                              |
-| `regenerate_id`                      | Reset the unique identifier of the prompt                     |
+| Method                               | Description                                                            |
+| ------------------------------------ | ---------------------------------------------------------------------- |
+| `add_response`                       | Add a new response (append or insert)                                  |
+| `remove_response`                    | Remove the response at specified index                                 |
+| `select_response`                    | Mark a specific response as selected to be included in memory          |
+| `update_template`                    | Update the rendering template                                          |
+| `update_responses`                   | Replace all responses                                                  |
+| `update_message`                     | Update the prompt text                                                 |
+| `update_role`                        | Change the prompt role                                                 |
+| `update_tokens`                      | Set a custom token count                                               |
+| `to_json` / `from_json`              | Serialize or deserialize the prompt data                               |
+| `to_dict` / `from_dict`              | Convert the prompt object to a Python dictionary or create it from one |
+| `save` / `load`                      | Save or load prompt from file                                          |
+| `render`                             | Render the prompt in a specified format                                |
+| `check_render`                       | Validate if the current prompt setup can render                        | 
+| `estimate_tokens`                    | Estimate the token usage for the prompt                                |
+| `get_size`                           | Return prompt size in bytes (JSON-encoded)                             |
+| `copy`                               | Clone the prompt                                                       |
+| `regenerate_id`                      | Reset the unique identifier of the prompt                              |
 
 
 ### Response
