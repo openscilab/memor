@@ -22,13 +22,16 @@ about:
     home: https://github.com/openscilab/memor
     license: MIT
     license_family: MIT
-    summary: Memor: A Python Library for Managing and Transferring Conversational Memory Across LLMs
+    summary: Memor: Reproducible Structured Memory for LLMs
     description: |
-	Memor is a library designed to help users manage the memory of their interactions with Large Language Models (LLMs). It enables users to seamlessly access and utilize the history of their conversations when prompting LLMs. That would create a more personalized and context-aware experience. Memor stands out by allowing users to transfer conversational history across different LLMs, eliminating cold starts where models don\'t have information about user and their preferences. Users can select specific parts of past interactions with one LLM and share them with another.By bridging the gap between isolated LLM instances, Memor revolutionizes the way users interact with AI by making transitions between models smoother.
-	
-        Website: https://openscilab.com
-
-        Repo: https://github.com/openscilab/memor
+	With Memor, users can store their LLM conversation history using an intuitive and structured data format.
+    It abstracts user prompts and model responses into a "Session", a sequence of message exchanges.
+    In addition to the content, it includes details like decoding temperature and token count of each message.
+    Therefore users could create comprehensive and reproducible logs of their interactions.
+    Because of the model-agnostic design, users can begin a conversation with one LLM and switch to another keeping the context the same.
+    For example, they might use a retrieval-augmented model (like RAG) to gather relevant context for a math problem, and then switch to a model better suited for reasoning to solve the problem based on the retrieved information presented by Memor.
+    Website: https://openscilab.com
+    Repo: https://github.com/openscilab/memor
 extra:
     recipe-maintainers:
         - sepandhaghighi
