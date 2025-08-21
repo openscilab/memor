@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Changed
 - `README.md` updated
+- `LLMModel` enum updated
 ## [0.8] - 2025-07-21
 ### Added
 - Logo
