@@ -154,6 +154,7 @@ class LLMModel(Enum):
     MISTRAL_SMALL_24B_INSTRUCT = "mistral-small-24b-instruct"
     MISTRAL_SMALL_3_1_24B = "mistral-small-3.1-24b"
     MISTRAL_SMALL_3_1_24B_INSTRUCT = "mistral-small-3.1-24b-instruct"
+    MISTRAL_SMALL_3_2_24B_INSTRUCT = "mistral-small-3.2-24b-instruct"
     MISTRAL_LARGE_INSTRUCT = "mistral-large-instruct"
     MINISTRAL_8B_INSTRUCT = "ministral-8b-instruct"
     CODESTRAL_22B = "codestral-22b"
