@@ -160,7 +160,7 @@ class LLMModel(Enum):
     MAMBA_CODESTRAL_7B = "mamba-codestral-7b"
     DEVSTRAL_SMALL = "devstral-small"
     MAGISTRAL_SMALL = "magistral-small"
-    MATHSTRAL_22b = "mathstral-22b"
+    MATHSTRAL_7B = "mathstral-7b"
     PIXTRAL_12B = "pixtral-12b"
     PIXTRAL_LARGE_INSTRUCT = "pixtral-large-instruct"
     VOXTRAL_MINI_3B = "voxtral-mini-3b"
