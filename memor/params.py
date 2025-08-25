@@ -150,6 +150,7 @@ class LLMModel(Enum):
     MIXTRAL_8X22B_INSTRUCT = "mixtral-8x22b-instruct"
     MISTRAL_NEMO = "mistral-nemo"
     MISTRAL_NEMO_INSTRUCT = "mistral-nemo-instruct"
+    MISTRAL_SMALL_INSTRUCT = "mistral-small-instruct"
     MISTRAL_SMALL_24B = "mistral-small-24b"
     MISTRAL_SMALL_24B_INSTRUCT = "mistral-small-24b-instruct"
     MISTRAL_SMALL_3_1_24B = "mistral-small-3.1-24b"
