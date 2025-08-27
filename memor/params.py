@@ -309,8 +309,8 @@ class LLMModel(Enum):
     ORCA_2_13B = "orca-2-13b"
     UDOP_LARGE = "udop-large"
     UDOP_LARGE_300K = "udop-large-300k"
-    FLORANCE_2_BASE = "florance-2-base"
-    FLORANCE_2_LARGE = "florance-2-large"
+    FLORENCE_2_BASE = "florence-2-base"
+    FLORENCE_2_LARGE = "florence-2-large"
     LLAMA_2_GTL_DELTA_7B = "llama-2-7b-gtl-delta"
     LLAMA_2_GTL_DELTA_13B = "llama-2-13b-gtl-delta"
 
