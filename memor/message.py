@@ -2,11 +2,13 @@
 """Message class."""
 from abc import ABC, abstractmethod
 from typing import List, Dict, Union, Tuple, Any
+import re
 import datetime
 import json
 from .params import MEMOR_VERSION
 from .params import RenderFormat
 from .params import Role
+from .params import XML_PATTERN
 from .tokens_estimator import TokensEstimator
 from .params import INVALID_ROLE_MESSAGE
 from .errors import MemorValidationError
@@ -215,3 +217,7 @@ class Message(ABC):
         :param method: token estimator method
         """
         return method(self.render(render_format=RenderFormat.STRING))
+
+    def contains_xml(self) -> bool:
+        """Checks if the message contains any XML tags."""
+        return bool(re.search(XML_PATTERN, self._message))
