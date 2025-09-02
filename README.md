@@ -163,6 +163,7 @@ prompt.render()
 | `get_size`                           | Return prompt size in bytes (JSON-encoded)                             |
 | `copy`                               | Clone the prompt                                                       |
 | `regenerate_id`                      | Reset the unique identifier of the prompt                              |
+| `contains_xml`                       | Checks if the prompt contains any XML tags                             |
 
 
 ### Response
@@ -221,6 +222,7 @@ response.render()
 | `get_size`                  | Return response size in bytes (JSON-encoded)                             |
 | `copy`                      | Clone the response                                                       |
 | `regenerate_id`             | Reset the unique identifier of the response                              |
+| `contains_xml`              | Checks if the response contains any XML tags                             |
 
 
 
