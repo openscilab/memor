@@ -219,5 +219,5 @@ class Message(ABC):
         return method(self.render(render_format=RenderFormat.STRING))
 
     def contains_xml(self) -> bool:
-        """Checks if the message contains any XML tags."""
+        """Check if the message contains any XML tags."""
         return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING)))
