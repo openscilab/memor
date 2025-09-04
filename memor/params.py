@@ -399,12 +399,12 @@ class LLMModel(Enum):
     QWEN_2_VL_7B_INSTRUCT = "qwen-2-vl-7b-instruct"
     QWEN_2_VL_72B = "qwen-2-vl-72b"
     QWEN_2_VL_72B_INSTRUCT = "qwen-2-vl-72b-instruct"
-
     QWEN_2_5_VL_3B_INSTRUCT = "qwen-2.5-vl-3b-instruct"
     QWEN_2_5_VL_7B_INSTRUCT = "qwen-2.5-vl-7b-instruct"
     QWEN_2_5_VL_32B_INSTRUCT = "qwen-2.5-vl-32b-instruct"
     QWEN_2_5_VL_72B_INSTRUCT = "qwen-2.5-vl-72b-instruct"
-
+    QWEN_2_5_OMNI_3B = "qwen-2.5-omni-3b"
+    QWEN_2_5_OMNI_7B = "qwen-2.5-omni-7b"
     QWEN_2_AUDIO_7B = "qwen-2-audio-7b"
     QWEN_2_AUDIO_7B_INSTRUCT = "qwen-2-audio-7b-instruct"
     QWEN_2_MATH_1_5B = "qwen-2-math-1.5b"
