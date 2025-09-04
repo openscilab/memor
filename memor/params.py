@@ -413,6 +413,8 @@ class LLMModel(Enum):
     QWEN_2_MATH_7B_INSTRUCT = "qwen-2-math-7b-instruct"
     QWEN_2_MATH_72B = "qwen-2-math-72b"
     QWEN_2_MATH_72B_INSTRUCT = "qwen-2-math-72b-instruct"
+    QWEN_3_CODER_30B_INSTRUCT = "qwen-3-coder-30b-instruct"
+    QWEN_3_CODER_480B_INSTRUCT = "qwen-3-coder-480b-instruct"
     QWQ_32B = "qwq-32b"
     QVQ_72B = "qvq-72b"
 
