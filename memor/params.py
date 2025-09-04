@@ -346,6 +346,12 @@ class LLMModel(Enum):
     QWEN_2_VL_72B_INSTRUCT = "qwen-2-vl-72b-instruct"
     QWEN_2_AUDIO_7B = "qwen-2-audio-7b"
     QWEN_2_AUDIO_7B_INSTRUCT = "qwen-2-audio-7b-instruct"
+    QWEN_2_MATH_1_5B = "qwen-2-math-1.5b"
+    QWEN_2_MATH_1_5B_INSTRUCT = "qwen-2-math-1.5b-instruct"
+    QWEN_2_MATH_7B = "qwen-2-math-7b"
+    QWEN_2_MATH_7B_INSTRUCT = "qwen-2-math-7b-instruct"
+    QWEN_2_MATH_72B = "qwen-2-math-72b"
+    QWEN_2_MATH_72B_INSTRUCT = "qwen-2-math-72b-instruct"
 
 
     YI_34B = "yi-34b"
