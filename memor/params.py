@@ -344,6 +344,8 @@ class LLMModel(Enum):
     QWEN_2_VL_7B_INSTRUCT = "qwen-2-vl-7b-instruct"
     QWEN_2_VL_72B = "qwen-2-vl-72b"
     QWEN_2_VL_72B_INSTRUCT = "qwen-2-vl-72b-instruct"
+    QWEN_2_AUDIO_7B = "qwen-2-audio-7b"
+    QWEN_2_AUDIO_7B_INSTRUCT = "qwen-2-audio-7b-instruct"
 
 
     YI_34B = "yi-34b"
