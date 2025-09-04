@@ -33,6 +33,8 @@ UNSUPPORTED_OPERAND_ERROR_MESSAGE = "Unsupported operand type(s) for {operator}:
 AI_STUDIO_SYSTEM_WARNING = "Google AI Studio models may not support content with a system role."
 DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."
 
+XML_PATTERN = r"<([a-zA-Z_][\w\-\.]*)(\s[^<>]*?)?>.*?</\1\s*>|<([a-zA-Z_][\w\-\.]*)(\s[^<>]*?)?/?>"
+
 
 class Role(Enum):
     """Role enum."""

@@ -611,6 +611,16 @@ def test_render7():
         _ = response.render(RenderFormat.AI_STUDIO)
 
 
+def test_contains_xml1():
+    response = Response(message="I am fine.")
+    assert not response.contains_xml()
+
+
+def test_contains_xml2():
+    response = Response(message="I am fine. <note>test</note>")
+    assert response.contains_xml()
+
+
 def test_equality1():
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = response1.copy()
