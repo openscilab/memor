@@ -338,6 +338,13 @@ class LLMModel(Enum):
     QWEN_7B = "qwen-7b"
     QWEN_14B = "qwen-14b"
     QWEN_72B = "qwen-72b"
+    QWEN_2_VL_2B = "qwen-2-vl-2b"
+    QWEN_2_VL_2B_INSTRUCT = "qwen-2-vl-2b-instruct"
+    QWEN_2_VL_7B = "qwen-2-vl-7b"
+    QWEN_2_VL_7B_INSTRUCT = "qwen-2-vl-7b-instruct"
+    QWEN_2_VL_72B = "qwen-2-vl-72b"
+    QWEN_2_VL_72B_INSTRUCT = "qwen-2-vl-72b-instruct"
+
 
     YI_34B = "yi-34b"
     YI_34B_CHAT = "yi-34b-chat"
