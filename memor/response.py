@@ -129,9 +129,9 @@ class Response(Message):
 
         :param temperature: temperature
         """
-        _validate_pos_float(temperature, "temperature")
-        self._temperature = temperature
-        self._mark_modified()
+        if temperature is None or _validate_pos_float(temperature, "temperature"):
+            self._temperature = temperature
+            self._mark_modified()
 
     def update_top_k(self, top_k: int) -> None:
         """
