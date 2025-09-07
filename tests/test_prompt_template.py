@@ -53,6 +53,15 @@ def test_title5():
     assert template.title == ""
 
 
+def test_title6():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"})
+    template.update_title(None)
+    assert template.title == None
+
+
 def test_content1():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
@@ -87,6 +96,15 @@ def test_content4():
     assert template.content == ""
 
 
+def test_content5():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"})
+    template.update_content(content=None)
+    assert template.content == None
+
+
 def test_custom_map1():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
@@ -118,6 +136,15 @@ def test_custom_map4():
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={})
     assert template.custom_map == {}
+
+
+def test_custom_map5():
+    template = PromptTemplate(
+        content="Act as a {language} developer and respond to this question:\n{prompt_message}",
+        custom_map={
+            "language": "Python"})
+    template.update_map(None)
+    assert template.custom_map == None
 
 
 def test_date_modified():

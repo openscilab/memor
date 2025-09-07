@@ -60,6 +60,12 @@ def test_tokens5():
     assert prompt.tokens == 0
 
 
+def test_tokens6():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, tokens=4)
+    prompt.update_tokens(None)
+    assert prompt.tokens == None
+
+
 def test_estimated_tokens1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     assert prompt.estimate_tokens(TokensEstimator.UNIVERSAL) == 7
