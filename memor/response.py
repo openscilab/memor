@@ -149,9 +149,9 @@ class Response(Message):
 
         :param top_p: top-p
         """
-        _validate_probability(top_p, "top_p")
-        self._top_p = top_p
-        self._mark_modified()
+        if top_p is None or _validate_probability(top_p, "top_p"):
+            self._top_p = top_p
+            self._mark_modified()
 
     def update_inference_time(self, inference_time: float) -> None:
         """
