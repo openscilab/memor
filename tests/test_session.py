@@ -37,7 +37,7 @@ def test_title4():
 def test_title5():
     session = Session(title="session1")
     session.update_title(None)
-    assert session.title == None
+    assert session.title is None
 
 
 def test_messages1():

@@ -59,7 +59,7 @@ def test_title6():
         custom_map={
             "language": "Python"})
     template.update_title(None)
-    assert template.title == None
+    assert template.title is None
 
 
 def test_content1():
@@ -102,7 +102,7 @@ def test_content5():
         custom_map={
             "language": "Python"})
     template.update_content(content=None)
-    assert template.content == None
+    assert template.content is None
 
 
 def test_custom_map1():
@@ -144,7 +144,7 @@ def test_custom_map5():
         custom_map={
             "language": "Python"})
     template.update_map(None)
-    assert template.custom_map == None
+    assert template.custom_map is None
 
 
 def test_date_modified():

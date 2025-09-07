@@ -63,7 +63,7 @@ def test_tokens5():
 def test_tokens6():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER, tokens=4)
     prompt.update_tokens(None)
-    assert prompt.tokens == None
+    assert prompt.tokens is None
 
 
 def test_estimated_tokens1():

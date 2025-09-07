@@ -52,7 +52,7 @@ def test_tokens3():
 def test_tokens4():
     response = Response(message="I am fine.", tokens=4)
     response.update_tokens(None)
-    assert response.tokens == None
+    assert response.tokens is None
 
 
 def test_estimated_tokens1():
@@ -116,7 +116,7 @@ def test_inference_time6():
 def test_inference_time7():
     response = Response(message="I am fine.", inference_time=8.2)
     response.update_inference_time(None)
-    assert response.inference_time == None
+    assert response.inference_time is None
 
 
 def test_score1():
@@ -136,7 +136,6 @@ def test_score3():
         response.update_score(-2)
 
 
-
 def test_score4():
     response = Response(message="I am fine.", score=0)
     assert response.score == 0
@@ -145,7 +144,7 @@ def test_score4():
 def test_score5():
     response = Response(message="I am fine.", score=0.9)
     response.update_score(None)
-    assert response.score == None
+    assert response.score is None
 
 
 def test_role1():
@@ -195,7 +194,7 @@ def test_temperature4():
 def test_temperature5():
     response = Response(message="I am fine.", temperature=0.2)
     response.update_temperature(None)
-    assert response.temperature == None
+    assert response.temperature is None
 
 
 def test_top_k1():
@@ -223,7 +222,7 @@ def test_top_k4():
 def test_top_k5():
     response = Response(message="I am fine.", top_k=5)
     response.update_top_k(None)
-    assert response.top_k == None
+    assert response.top_k is None
 
 
 def test_top_p1():
@@ -251,7 +250,7 @@ def test_top_p4():
 def test_top_p5():
     response = Response(message="I am fine.", top_p=0.9)
     response.update_top_p(None)
-    assert response.top_p == None
+    assert response.top_p is None
 
 
 def test_model1():
@@ -302,7 +301,7 @@ def test_gpu4():
 def test_gpu5():
     response = Response(message="I am fine.", gpu="Nvidia Tesla")
     response.update_gpu(None)
-    assert response.gpu == None
+    assert response.gpu is None
 
 
 def test_id1():
