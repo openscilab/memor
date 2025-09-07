@@ -299,9 +299,9 @@ class Session:
 
         :param title: title
         """
-        _validate_string(title, "title")
-        self._title = title
-        self._mark_modified()
+        if title is None or _validate_string(title, "title"):
+            self._title = title
+            self._mark_modified()
 
     def update_messages(self,
                         messages: List[Union[Prompt, Response]],
