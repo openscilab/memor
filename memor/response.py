@@ -139,9 +139,9 @@ class Response(Message):
 
         :param top_k: top-k
         """
-        _validate_pos_int(top_k, "top_k")
-        self._top_k = top_k
-        self._mark_modified()
+        if top_k is None or _validate_pos_int(top_k, "top_k"):
+            self._top_k = top_k
+            self._mark_modified()
 
     def update_top_p(self, top_p: float) -> None:
         """
