@@ -102,9 +102,9 @@ class PromptTemplate:
 
         :param content: content
         """
-        _validate_string(content, "content")
-        self._content = content
-        self._mark_modified()
+        if content is None or _validate_string(content, "content"):
+            self._content = content
+            self._mark_modified()
 
     def update_map(self, custom_map: Dict[str, str]) -> None:
         """
