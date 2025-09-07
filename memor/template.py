@@ -112,9 +112,9 @@ class PromptTemplate:
 
         :param custom_map: custom map
         """
-        _validate_custom_map(custom_map)
-        self._custom_map = custom_map
-        self._mark_modified()
+        if custom_map is None or _validate_custom_map(custom_map):
+            self._custom_map = custom_map
+            self._mark_modified()
 
     def save(self, file_path: str) -> Dict[str, Any]:
         """
