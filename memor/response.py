@@ -159,9 +159,9 @@ class Response(Message):
 
         :param inference_time: inference time
         """
-        _validate_pos_float(inference_time, "inference_time")
-        self._inference_time = inference_time
-        self._mark_modified()
+        if inference_time is None or _validate_pos_float(inference_time, "inference_time"):
+            self._inference_time = inference_time
+            self._mark_modified()
 
     def update_model(self, model: Union[LLMModel, str]) -> None:
         """
