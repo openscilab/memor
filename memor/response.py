@@ -183,9 +183,9 @@ class Response(Message):
 
         :param gpu: GPU model
         """
-        _validate_string(gpu, "gpu")
-        self._gpu = gpu
-        self._mark_modified()
+        if gpu is None or _validate_string(gpu, "gpu"):
+            self._gpu = gpu
+            self._mark_modified()
 
     def save(self, file_path: str) -> Dict[str, Any]:
         """
