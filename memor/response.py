@@ -119,9 +119,9 @@ class Response(Message):
 
         :param score: score
         """
-        _validate_probability(score, "score")
-        self._score = score
-        self._mark_modified()
+        if score is None or _validate_probability(score, "score"):
+            self._score = score
+            self._mark_modified()
 
     def update_temperature(self, temperature: float) -> None:
         """
