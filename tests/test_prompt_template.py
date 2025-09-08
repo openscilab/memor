@@ -57,7 +57,8 @@ def test_title6():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={
-            "language": "Python"})
+            "language": "Python"},
+        title="Title1")
     template.update_title(None)
     assert template.title is None
 
