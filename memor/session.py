@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Session class."""
-from typing import List, Dict, Tuple, Any, Union, Generator
+from typing import List, Dict, Tuple, Any, Union, Generator, Optional
 import datetime
 import json
 import re
@@ -26,9 +26,9 @@ class Session:
 
     def __init__(
             self,
-            title: str = None,
+            title: Optional[str] = None,
             messages: List[Union[Prompt, Response]] = [],
-            file_path: str = None,
+            file_path: Optional[str] = None,
             init_check: bool = True) -> None:
         """
         Session object initiator.
@@ -171,7 +171,7 @@ class Session:
     def add_message(self,
                     message: Union[Prompt, Response],
                     status: bool = True,
-                    index: int = None) -> None:
+                    index: Optional[int] = None) -> None:
         """
         Add a message to the session object.
 
@@ -293,7 +293,7 @@ class Session:
         """
         self.enable_message(index)
 
-    def update_title(self, title: str) -> None:
+    def update_title(self, title: Optional[str]) -> None:
         """
         Update the session title.
 
@@ -305,7 +305,7 @@ class Session:
 
     def update_messages(self,
                         messages: List[Union[Prompt, Response]],
-                        status: List[bool] = None) -> None:
+                        status: Optional[List[bool]] = None) -> None:
         """
         Update the session messages.
 
