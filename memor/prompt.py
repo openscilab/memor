@@ -42,9 +42,9 @@ class Prompt(Message):
             message: str = "",
             responses: List[Response] = [],
             role: Role = Role.DEFAULT,
-            tokens: int = None,
+            tokens: Optional[int] = None,
             template: Union[PresetPromptTemplate, PromptTemplate] = PresetPromptTemplate.DEFAULT,
-            file_path: str = None,
+            file_path: Optional[str] = None,
             init_check: bool = True) -> None:
         """
         Prompt object initiator.
@@ -96,7 +96,7 @@ class Prompt(Message):
         """Return string representation of Prompt."""
         return "Prompt(message={message})".format(message=self._message)
 
-    def add_response(self, response: Response, index: int = None) -> None:
+    def add_response(self, response: Response, index: Optional[int] = None) -> None:
         """
         Add a response to the prompt object.
 
