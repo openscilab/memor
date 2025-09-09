@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Response class."""
-from typing import List, Dict, Union, Tuple, Any
+from typing import List, Dict, Union, Tuple, Any, Optional
 import datetime
 import json
 import warnings
@@ -31,17 +31,17 @@ class Response(Message):
     def __init__(
             self,
             message: str = "",
-            score: float = None,
+            score: Optional[float] = None,
             role: Role = Role.ASSISTANT,
-            temperature: float = None,
-            top_k: int = None,
-            top_p: float = None,
-            tokens: int = None,
-            inference_time: float = None,
+            temperature: Optional[float] = None,
+            top_k: Optional[int] = None,
+            top_p: Optional[float] = None,
+            tokens: Optional[int] = None,
+            inference_time: Optional[float] = None,
             model: Union[LLMModel, str] = LLMModel.DEFAULT,
-            gpu: str = None,
+            gpu: Optional[str] = None,
             date: datetime.datetime = get_time_utc(),
-            file_path: str = None) -> None:
+            file_path: Optional[str] = None) -> None:
         """
         Response object initiator.
 
@@ -113,7 +113,7 @@ class Response(Message):
         """Return string representation of Response."""
         return "Response(message={message})".format(message=self._message)
 
-    def update_score(self, score: float) -> None:
+    def update_score(self, score: Optional[float]) -> None:
         """
         Update the response score.
 
@@ -123,7 +123,7 @@ class Response(Message):
             self._score = score
             self._mark_modified()
 
-    def update_temperature(self, temperature: float) -> None:
+    def update_temperature(self, temperature: Optional[float]) -> None:
         """
         Update the temperature.
 
@@ -133,7 +133,7 @@ class Response(Message):
             self._temperature = temperature
             self._mark_modified()
 
-    def update_top_k(self, top_k: int) -> None:
+    def update_top_k(self, top_k: Optional[int]) -> None:
         """
         Update the top-k.
 
@@ -143,7 +143,7 @@ class Response(Message):
             self._top_k = top_k
             self._mark_modified()
 
-    def update_top_p(self, top_p: float) -> None:
+    def update_top_p(self, top_p: Optional[float]) -> None:
         """
         Update the top-p.
 
@@ -153,7 +153,7 @@ class Response(Message):
             self._top_p = top_p
             self._mark_modified()
 
-    def update_inference_time(self, inference_time: float) -> None:
+    def update_inference_time(self, inference_time: Optional[float]) -> None:
         """
         Update inference time.
 
@@ -177,7 +177,7 @@ class Response(Message):
             raise MemorValidationError(INVALID_MODEL_MESSAGE)
         self._mark_modified()
 
-    def update_gpu(self, gpu: str) -> None:
+    def update_gpu(self, gpu: Optional[str]) -> None:
         """
         Update the GPU model.
 
