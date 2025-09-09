@@ -119,9 +119,9 @@ class Response(Message):
 
         :param score: score
         """
-        _validate_probability(score, "score")
-        self._score = score
-        self._mark_modified()
+        if score is None or _validate_probability(score, "score"):
+            self._score = score
+            self._mark_modified()
 
     def update_temperature(self, temperature: float) -> None:
         """
@@ -129,9 +129,9 @@ class Response(Message):
 
         :param temperature: temperature
         """
-        _validate_pos_float(temperature, "temperature")
-        self._temperature = temperature
-        self._mark_modified()
+        if temperature is None or _validate_pos_float(temperature, "temperature"):
+            self._temperature = temperature
+            self._mark_modified()
 
     def update_top_k(self, top_k: int) -> None:
         """
@@ -139,9 +139,9 @@ class Response(Message):
 
         :param top_k: top-k
         """
-        _validate_pos_int(top_k, "top_k")
-        self._top_k = top_k
-        self._mark_modified()
+        if top_k is None or _validate_pos_int(top_k, "top_k"):
+            self._top_k = top_k
+            self._mark_modified()
 
     def update_top_p(self, top_p: float) -> None:
         """
@@ -149,9 +149,9 @@ class Response(Message):
 
         :param top_p: top-p
         """
-        _validate_probability(top_p, "top_p")
-        self._top_p = top_p
-        self._mark_modified()
+        if top_p is None or _validate_probability(top_p, "top_p"):
+            self._top_p = top_p
+            self._mark_modified()
 
     def update_inference_time(self, inference_time: float) -> None:
         """
@@ -159,9 +159,9 @@ class Response(Message):
 
         :param inference_time: inference time
         """
-        _validate_pos_float(inference_time, "inference_time")
-        self._inference_time = inference_time
-        self._mark_modified()
+        if inference_time is None or _validate_pos_float(inference_time, "inference_time"):
+            self._inference_time = inference_time
+            self._mark_modified()
 
     def update_model(self, model: Union[LLMModel, str]) -> None:
         """
@@ -183,9 +183,9 @@ class Response(Message):
 
         :param gpu: GPU model
         """
-        _validate_string(gpu, "gpu")
-        self._gpu = gpu
-        self._mark_modified()
+        if gpu is None or _validate_string(gpu, "gpu"):
+            self._gpu = gpu
+            self._mark_modified()
 
     def save(self, file_path: str) -> Dict[str, Any]:
         """

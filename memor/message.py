@@ -92,9 +92,9 @@ class Message(ABC):
 
         :param tokens: tokens
         """
-        _validate_pos_int(tokens, "tokens")
-        self._tokens = tokens
-        self._mark_modified()
+        if tokens is None or _validate_pos_int(tokens, "tokens"):
+            self._tokens = tokens
+            self._mark_modified()
 
     @abstractmethod
     def save(self, file_path: str) -> Dict[str, Any]:

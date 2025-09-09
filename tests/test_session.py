@@ -34,6 +34,12 @@ def test_title4():
     assert session.title == ""
 
 
+def test_title5():
+    session = Session(title="session1")
+    session.update_title(None)
+    assert session.title is None
+
+
 def test_messages1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")

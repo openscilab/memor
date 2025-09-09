@@ -92,9 +92,9 @@ class PromptTemplate:
 
         :param title: title
         """
-        _validate_string(title, "title")
-        self._title = title
-        self._mark_modified()
+        if title is None or _validate_string(title, "title"):
+            self._title = title
+            self._mark_modified()
 
     def update_content(self, content: str) -> None:
         """
@@ -102,9 +102,9 @@ class PromptTemplate:
 
         :param content: content
         """
-        _validate_string(content, "content")
-        self._content = content
-        self._mark_modified()
+        if content is None or _validate_string(content, "content"):
+            self._content = content
+            self._mark_modified()
 
     def update_map(self, custom_map: Dict[str, str]) -> None:
         """
@@ -112,9 +112,9 @@ class PromptTemplate:
 
         :param custom_map: custom map
         """
-        _validate_custom_map(custom_map)
-        self._custom_map = custom_map
-        self._mark_modified()
+        if custom_map is None or _validate_custom_map(custom_map):
+            self._custom_map = custom_map
+            self._mark_modified()
 
     def save(self, file_path: str) -> Dict[str, Any]:
         """
