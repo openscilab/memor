@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Message class."""
 from abc import ABC, abstractmethod
-from typing import List, Dict, Union, Tuple, Any
+from typing import List, Dict, Union, Tuple, Any, Optional
 import re
 import datetime
 import json
@@ -86,7 +86,7 @@ class Message(ABC):
         self._role = role
         self._mark_modified()
 
-    def update_tokens(self, tokens: int) -> None:
+    def update_tokens(self, tokens: Optional[int]) -> None:
         """
         Update the tokens.
 
