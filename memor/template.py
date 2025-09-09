@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Template class."""
-from typing import Dict, Any, Union
+from typing import Dict, Any, Union, Optional
 import json
 import datetime
 from enum import Enum
@@ -25,10 +25,10 @@ class PromptTemplate:
 
     def __init__(
             self,
-            content: str = None,
-            file_path: str = None,
-            title: str = None,
-            custom_map: Dict[str, str] = None) -> None:
+            content: Optional[str] = None,
+            file_path: Optional[str] = None,
+            title: Optional[str] = None,
+            custom_map: Optional[Dict[str, str]] = None) -> None:
         """
         Prompt template object initiator.
 
@@ -86,7 +86,7 @@ class PromptTemplate:
         """Return a copy of the PromptTemplate object."""
         return self.__copy__()
 
-    def update_title(self, title: str) -> None:
+    def update_title(self, title: Optional[str]) -> None:
         """
         Update title.
 
@@ -96,7 +96,7 @@ class PromptTemplate:
             self._title = title
             self._mark_modified()
 
-    def update_content(self, content: str) -> None:
+    def update_content(self, content: Optional[str]) -> None:
         """
         Update content.
 
@@ -106,7 +106,7 @@ class PromptTemplate:
             self._content = content
             self._mark_modified()
 
-    def update_map(self, custom_map: Dict[str, str]) -> None:
+    def update_map(self, custom_map: Optional[Dict[str, str]]) -> None:
         """
         Update custom map.
 
