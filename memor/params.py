@@ -82,6 +82,8 @@ class LLMModel(Enum):
     GPT_O4_MINI = "gpt-o4-mini"
     GPT_O4_MINI_DEEP_RESEARCH = "gpt-o4-mini-deep-research"
     GPT_3_5_TURBO = "gpt-3.5-turbo"
+    GPT_OSS_20B = "gpt-oss-20b"
+    GPT_OSS_120B = "gpt-oss-120b"
     DAVINCI = "davinci"
     BABBAGE = "babbage"
 
