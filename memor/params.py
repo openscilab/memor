@@ -59,6 +59,9 @@ class RenderFormat(Enum):
 class LLMModel(Enum):
     """LLM model enum."""
 
+    GPT_5 = "gpt-5"
+    GPT_5_MINI = "gpt-5-mini"
+    GPT_5_NANO = "gpt-5-nano"
     GPT_4 = "gpt-4"
     GPT_4_TURBO = "gpt-4-turbo"
     GPT_4_VISION = "gpt-4-vision"
@@ -79,6 +82,8 @@ class LLMModel(Enum):
     GPT_O4_MINI = "gpt-o4-mini"
     GPT_O4_MINI_DEEP_RESEARCH = "gpt-o4-mini-deep-research"
     GPT_3_5_TURBO = "gpt-3.5-turbo"
+    GPT_OSS_20B = "gpt-oss-20b"
+    GPT_OSS_120B = "gpt-oss-120b"
     DAVINCI = "davinci"
     BABBAGE = "babbage"
 
