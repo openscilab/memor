@@ -315,6 +315,8 @@ class Prompt(Message):
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
+        if show_warning:
+            self._handle_size_warning()
         try:
             format_kwargs = {"prompt": self.to_json(save_template=False)}
             if isinstance(self.selected_response, Response):

@@ -317,6 +317,8 @@ class Response(Message):
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
+        if show_warning:
+            self._handle_size_warning()
         if render_format == RenderFormat.STRING:
             return self._message
         elif render_format == RenderFormat.OPENAI:
