@@ -5,12 +5,13 @@ from typing import List, Dict, Union, Tuple, Any, Optional
 import re
 import datetime
 import json
+from warnings import warn
 from .params import MEMOR_VERSION
 from .params import RenderFormat
 from .params import Role
 from .params import XML_PATTERN
 from .tokens_estimator import TokensEstimator
-from .params import INVALID_ROLE_MESSAGE
+from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int
@@ -222,6 +223,14 @@ class Message(ABC):
     def contains_xml(self) -> bool:
         """Check if the message contains any XML tags."""
         return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING)))
+
+    def _handle_size_warning(self) -> None:
+        """Size warning handler."""
+        if self._warnings["size"]["enable"]:
+            message_size = self.get_size()
+            size_threshold = self._warnings["size"]["threshold"]
+            if message_size > size_threshold:
+                warn(MESSAGE_SIZE_WARNING.format(message_id = self.id, current_size= message_size, threshold=size_threshold), RuntimeWarning)
 
     def set_size_warning(self, threshold: Union[float, int]) -> None:
         """
