@@ -14,7 +14,7 @@ from .params import INVALID_ROLE_MESSAGE
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int
-from .functions import _validate_path
+from .functions import _validate_pos_float, _validate_path
 
 
 class Message(ABC):
@@ -23,6 +23,7 @@ class Message(ABC):
     def __init__(self) -> None:
         """Message initiator."""
         self._message = ""
+        self._warnings = {"size": {"enable": False, "threshold": 0}}
         self._tokens = None
         self._role = Role.DEFAULT
         self._date_created = get_time_utc()
@@ -221,3 +222,17 @@ class Message(ABC):
     def contains_xml(self) -> bool:
         """Check if the message contains any XML tags."""
         return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING)))
+
+    def set_size_warning(self, threshold: Union[float, int]) -> None:
+        """
+        Set size warning.
+
+        :param threshold: size threshold
+        """
+        _validate_pos_float(threshold, "threshold")
+        self._warnings["size"]["enable"] = True
+        self._warnings["size"]["threhold"] = threshold
+
+    def reset_size_warning(self) -> None:
+        """Reset size warning."""
+        self._warnings["size"]["enable"] = False
