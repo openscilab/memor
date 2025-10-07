@@ -15,7 +15,7 @@ from .params import Role, RenderFormat, LLMModel
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_float, _validate_pos_int, _validate_message_id
-from .functions import _validate_date_time, _validate_probability
+from .functions import _validate_date_time, _validate_probability, _validate_warnings
 
 
 class Response(Message):
@@ -216,6 +216,7 @@ class Response(Message):
             else:
                 loaded_obj = json_object.copy()
             result["message"] = loaded_obj["message"]
+            result["warnings"] = loaded_obj.get("warnings", {})
             result["score"] = loaded_obj["score"]
             result["temperature"] = loaded_obj["temperature"]
             result["top_k"] = loaded_obj.get("top_k", None)
@@ -231,6 +232,7 @@ class Response(Message):
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
+        _validate_warnings(result["warnings"])
         _validate_string(result["message"], "message")
         if result["score"] is not None:
             _validate_probability(result["score"], "score")
@@ -259,6 +261,7 @@ class Response(Message):
         """
         data = self._validate_extract_json(json_object)
         self._message = data["message"]
+        self._warnings = data["warnings"]
         self._score = data["score"]
         self._temperature = data["temperature"]
         self._top_k = data["top_k"]
@@ -286,6 +289,7 @@ class Response(Message):
         return {
             "type": "Response",
             "message": self._message,
+            "warnings": self._warnings,
             "score": self._score,
             "temperature": self._temperature,
             "top_k": self._top_k,
