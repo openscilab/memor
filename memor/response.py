@@ -306,13 +306,14 @@ class Response(Message):
         }
 
     def render(self,
-               render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
+               render_format: RenderFormat = RenderFormat.DEFAULT, show_warning: bool = True) -> Union[str,
                                                                             Dict[str, Any],
                                                                             List[Tuple[str, Any]]]:
         """
         Render the response.
 
         :param render_format: render format
+        :param show_warning: show warning flag
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)

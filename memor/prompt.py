@@ -78,7 +78,7 @@ class Prompt(Message):
             self._id = generate_message_id()
         _validate_message_id(self._id)
         if init_check:
-            _ = self.render()
+            _ = self.render(show_warning=False)
 
     def __eq__(self, other_prompt: "Prompt") -> bool:
         """
@@ -304,13 +304,14 @@ class Prompt(Message):
             return self._responses[self._selected_response_index]
         return None
 
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT, show_warning: bool = True) -> Union[str,
                                                                                   Dict[str, Any],
                                                                                   List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
+        :param show_warning: show warning flag
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)

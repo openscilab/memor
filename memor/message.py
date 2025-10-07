@@ -38,12 +38,12 @@ class Message(ABC):
 
     def __str__(self) -> str:
         """Return string representation of Message."""
-        return self.render(render_format=RenderFormat.STRING)
+        return self.render(render_format=RenderFormat.STRING, show_warning=False)
 
     def __len__(self) -> int:
         """Return the length of the Message."""
         try:
-            return len(self.render(render_format=RenderFormat.STRING))
+            return len(self.render(render_format=RenderFormat.STRING, show_warning=False))
         except Exception:
             return 0
 
@@ -194,20 +194,21 @@ class Message(ABC):
         return self.get_size()
 
     @abstractmethod
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT, show_warning: bool = True) -> Union[str,
                                                                                   Dict[str, Any],
                                                                                   List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
+        :param show_warning: show warning flag
         """
         pass  # pragma: no cover
 
     def check_render(self) -> bool:
         """Check render."""
         try:
-            _ = self.render()
+            _ = self.render(show_warning=False)
             return True
         except Exception:
             return False
@@ -218,11 +219,11 @@ class Message(ABC):
 
         :param method: token estimator method
         """
-        return method(self.render(render_format=RenderFormat.STRING))
+        return method(self.render(render_format=RenderFormat.STRING, show_warning=False))
 
     def contains_xml(self) -> bool:
         """Check if the message contains any XML tags."""
-        return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING)))
+        return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING, show_warning=False)))
 
     def _handle_size_warning(self) -> None:
         """Size warning handler."""
@@ -247,10 +248,10 @@ class Message(ABC):
         _validate_pos_float(threshold, "threshold")
         self._warnings["size"] = dict()
         self._warnings["size"]["enable"] = True
-        self._warnings["size"]["threhold"] = threshold
+        self._warnings["size"]["threshold"] = threshold
 
     def reset_size_warning(self) -> None:
         """Reset size warning."""
         self._warnings["size"] = dict()
         self._warnings["size"]["enable"] = False
-        self._warnings["size"]["threhold"] = 0
+        self._warnings["size"]["threshold"] = 0
