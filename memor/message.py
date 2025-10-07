@@ -249,9 +249,11 @@ class Message(ABC):
         self._warnings["size"] = dict()
         self._warnings["size"]["enable"] = True
         self._warnings["size"]["threshold"] = threshold
+        self._mark_modified()
 
     def reset_size_warning(self) -> None:
         """Reset size warning."""
         self._warnings["size"] = dict()
         self._warnings["size"]["enable"] = False
         self._warnings["size"]["threshold"] = 0
+        self._mark_modified()
