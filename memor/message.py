@@ -230,11 +230,7 @@ class Message(ABC):
         if size_warning.get("enable", False):
             message_size = self.get_size()
             size_threshold = size_warning.get("threshold", None)
-            try:
-                size_threshold = float(size_threshold)
-            except Exception:
-                pass
-            else:
+            if isinstance(size_threshold, (float, int)):
                 if message_size > size_threshold:
                     warn(
                         MESSAGE_SIZE_WARNING.format(
