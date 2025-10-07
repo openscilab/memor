@@ -304,9 +304,8 @@ class Prompt(Message):
             return self._responses[self._selected_response_index]
         return None
 
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT, show_warning: bool = True) -> Union[str,
-                                                                                  Dict[str, Any],
-                                                                                  List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
+               show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render method.
 

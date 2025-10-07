@@ -305,10 +305,8 @@ class Response(Message):
             "date_modified": self._date_modified,
         }
 
-    def render(self,
-               render_format: RenderFormat = RenderFormat.DEFAULT, show_warning: bool = True) -> Union[str,
-                                                                            Dict[str, Any],
-                                                                            List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
+               show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render the response.
 

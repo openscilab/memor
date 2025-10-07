@@ -194,9 +194,8 @@ class Message(ABC):
         return self.get_size()
 
     @abstractmethod
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT, show_warning: bool = True) -> Union[str,
-                                                                                  Dict[str, Any],
-                                                                                  List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
+               show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render method.
 
@@ -237,7 +236,12 @@ class Message(ABC):
                 pass
             else:
                 if message_size > size_threshold:
-                    warn(MESSAGE_SIZE_WARNING.format(message_id = self.id, current_size= message_size, threshold=size_threshold), RuntimeWarning)
+                    warn(
+                        MESSAGE_SIZE_WARNING.format(
+                            message_id=self.id,
+                            current_size=message_size,
+                            threshold=size_threshold),
+                        RuntimeWarning)
 
     def set_size_warning(self, threshold: Union[float, int]) -> None:
         """
