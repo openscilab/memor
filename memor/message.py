@@ -226,11 +226,17 @@ class Message(ABC):
 
     def _handle_size_warning(self) -> None:
         """Size warning handler."""
-        if self._warnings["size"]["enable"]:
+        size_warning = self._warnings.get("size", {})
+        if size_warning.get("enable", False):
             message_size = self.get_size()
-            size_threshold = self._warnings["size"]["threshold"]
-            if message_size > size_threshold:
-                warn(MESSAGE_SIZE_WARNING.format(message_id = self.id, current_size= message_size, threshold=size_threshold), RuntimeWarning)
+            size_threshold = size_warning.get("threshold", None)
+            try:
+                size_threshold = float(size_threshold)
+            except Exception:
+                pass
+            else:
+                if message_size > size_threshold:
+                    warn(MESSAGE_SIZE_WARNING.format(message_id = self.id, current_size= message_size, threshold=size_threshold), RuntimeWarning)
 
     def set_size_warning(self, threshold: Union[float, int]) -> None:
         """
