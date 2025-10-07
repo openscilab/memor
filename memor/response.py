@@ -232,7 +232,6 @@ class Response(Message):
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
-        _validate_warnings(result["warnings"])
         _validate_string(result["message"], "message")
         if result["score"] is not None:
             _validate_probability(result["score"], "score")
@@ -250,6 +249,7 @@ class Response(Message):
             _validate_pos_float(result["inference_time"], "inference_time")
         _validate_string(result["model"], "model")
         _validate_message_id(result["id"])
+        _validate_warnings(result["warnings"])
         _validate_string(result["memor_version"], "memor_version")
         return result
 
