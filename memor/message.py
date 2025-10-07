@@ -24,7 +24,7 @@ class Message(ABC):
     def __init__(self) -> None:
         """Message initiator."""
         self._message = ""
-        self._warnings = {"size": {"enable": False, "threshold": 0}}
+        self._warnings = dict()
         self._tokens = None
         self._role = Role.DEFAULT
         self._date_created = get_time_utc()
@@ -245,9 +245,12 @@ class Message(ABC):
         :param threshold: size threshold
         """
         _validate_pos_float(threshold, "threshold")
+        self._warnings["size"] = dict()
         self._warnings["size"]["enable"] = True
         self._warnings["size"]["threhold"] = threshold
 
     def reset_size_warning(self) -> None:
         """Reset size warning."""
+        self._warnings["size"] = dict()
         self._warnings["size"]["enable"] = False
+        self._warnings["size"]["threhold"] = 0
