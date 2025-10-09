@@ -461,7 +461,7 @@ def test_json6():
         prompt.from_json(r"""{
                          "type": "Prompt",
                          "message": "Hello, how are you?",
-                         "warnings": {"length": {"enable": true, "threshold: 3000}},
+                         "warnings": {"length": {"enable": true, "threshold": 3000}},
                          "selected_response_index": 0,
                          "tokens": 30,
                          "responses": [

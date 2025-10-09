@@ -627,7 +627,7 @@ def test_json12():
     with pytest.raises(MemorValidationError, match="Invalid `warnings` structure. It must be a valid dictionary."):
         response.from_json(r"""{
                            "message": "I am fine.",
-                           "warnings": {"length": {"enable": true, "threshold: 3000}},
+                           "warnings": {"length": {"enable": true, "threshold": 3000}},
                            "type": "Response",
                            "score": 0.8,
                            "temperature": 0.5,
@@ -769,6 +769,13 @@ def test_render6():
 def test_render7():
     response = Response(message="I am fine.", role=Role.SYSTEM)
     with pytest.warns(UserWarning, match="Google AI Studio models may not support content with a system role."):
+        _ = response.render(RenderFormat.AI_STUDIO)
+
+
+def test_render8():
+    response = Response(message="I am fine.")
+    response.set_warning_size(threshold=10)
+    with pytest.warns(RuntimeWarning, match="Message {message_id} exceeded size threshold ({current_size} > {threshold}).".format(message_id=response.id, current_size=response.get_size(), threshold=10)):
         _ = response.render(RenderFormat.AI_STUDIO)
 
 
