@@ -776,7 +776,7 @@ def test_render8():
     response = Response(message="I am fine.")
     response.set_size_warning(threshold=10)
     with pytest.warns(RuntimeWarning, match="Message {message_id} exceeded size threshold \({current_size} > {threshold}\).".format(message_id=response.id, current_size=response.get_size(),
-                                                                                                                                   threshold=10)):
+                                                                                                                                    threshold=10)):
         _ = response.render(RenderFormat.AI_STUDIO)
 
 
