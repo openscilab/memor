@@ -657,7 +657,7 @@ def test_json13():
     with pytest.raises(MemorValidationError, match="Invalid `warnings` structure. It must be a valid dictionary."):
         response.from_json(r"""{
                            "message": "I am fine.",
-                           "warnings": {"size": [],
+                           "warnings": {"size": []},
                            "type": "Response",
                            "score": 0.8,
                            "temperature": 0.5,
