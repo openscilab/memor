@@ -797,7 +797,7 @@ def test_size_warning():
         role=Role.ASSISTANT,
         template=template)
     prompt.set_size_warning(threshold=10)
-    assert prompt._warnings["size"]["enable"] == True
+    assert prompt._warnings["size"]["enable"]
     assert prompt._warnings["size"]["threshold"] == 10
     with pytest.warns(RuntimeWarning, match=r"Message {message_id} exceeded size threshold \({current_size} > {threshold}\).".format(message_id=prompt.id, current_size=prompt.get_size(),
                                                                                                                                      threshold=10)):

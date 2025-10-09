@@ -775,7 +775,7 @@ def test_render7():
 def test_size_warning():
     response = Response(message="I am fine.")
     response.set_size_warning(threshold=10)
-    assert response._warnings["size"]["enable"] == True
+    assert response._warnings["size"]["enable"]
     assert response._warnings["size"]["threshold"] == 10
     with pytest.warns(RuntimeWarning, match="Message {message_id} exceeded size threshold \({current_size} > {threshold}\).".format(message_id=response.id, current_size=response.get_size(),
                                                                                                                                     threshold=10)):
