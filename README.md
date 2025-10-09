@@ -164,7 +164,7 @@ prompt.render()
 | `copy`                                          | Clone the prompt                                                       |
 | `regenerate_id`                                 | Reset the unique identifier of the prompt                              |
 | `contains_xml`                                  | Check if the prompt contains any XML tags                              |
-| `set_size_warning` / `reset_size_warning`         | Set or reset size warning                                              | 
+| `set_size_warning` / `reset_size_warning`       | Set or reset size warning                                              | 
 
 
 ### Response
@@ -224,7 +224,7 @@ response.render()
 | `copy`                                          | Clone the response                                                       |
 | `regenerate_id`                                 | Reset the unique identifier of the response                              |
 | `contains_xml`                                  | Check if the response contains any XML tags                              |
-| `set_size_warning` / `reset_size_warning`         | Set or reset size warning                                                | 
+| `set_size_warning` / `reset_size_warning`       | Set or reset size warning                                                | 
 
 
 
