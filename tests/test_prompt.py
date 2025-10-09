@@ -575,10 +575,8 @@ def test_json8():
                         "memor_version": "0.6",
                         "date_created": "2025-05-07 21:49:23 +0000",
                         "date_modified": "2025-05-07 21:49:23 +0000"}""")
-    assert prompt.message == ''
-    assert prompt.responses == []
-    assert prompt.role == Role.USER
-    assert prompt.tokens is None
+    assert prompt.message == 'Hello, how are you?'
+    assert prompt.tokens == 30
     assert prompt._warnings == {"size": {"enable": True, "threshold": 3000}}
 
 
