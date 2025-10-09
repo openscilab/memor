@@ -461,7 +461,7 @@ def test_json6():
         prompt.from_json(r"""{
                          "type": "Prompt",
                          "message": "Hello, how are you?",
-                         "warnings": {"length": {"enable": true, "threshold: 3000},
+                         "warnings": {"length": {"enable": true, "threshold: 3000}},
                          "selected_response_index": 0,
                          "tokens": 30,
                          "responses": [
@@ -744,6 +744,23 @@ def test_render10():
         role=Role.ASSISTANT,
         template=template)
     assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
+
+
+def test_render11():
+    message = "How are you?"
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.ASSISTANT,
+        template=template)
+    prompt.set_size_warning(threshold=10)
+    with pytest.warns(RuntimeWarning, match="Message {message_id} exceeded size threshold ({current_size} > {threshold}).".format(message_id=prompt.id, current_size=prompt.get_size(), threshold=10)):
+        _ = prompt.render(RenderFormat.AI_STUDIO)
 
 
 def test_init_check():
