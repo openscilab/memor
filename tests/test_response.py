@@ -563,6 +563,125 @@ def test_json9():
     assert response.inference_time == 5.2
 
 
+def test_json10():
+    response = Response()
+    response.from_json(r"""{
+                        "message": "I am fine.",
+                        "warnings": {"size": {"enable": true, "threshold": 3000}},
+                        "type": "Response",
+                        "score": 0.8,
+                        "temperature": 0.5,
+                        "top_k": 5,
+                        "top_p": 0.2,
+                        "tokens": null,
+                        "inference_time": 5.2,
+                        "role": "user",
+                        "model": null,
+                        "gpu": "Nvidia Tesla",
+                        "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                        "memor_version": "0.6",
+                        "date_created": "2025-05-07 21:54:48 +0000",
+                        "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == "I am fine."
+    assert response.model == 'unknown'
+    assert response.temperature == 0.5
+    assert response.top_k == 5
+    assert response.top_p == 0.2
+    assert response.tokens is None
+    assert response.inference_time == 5.2
+    assert response._warnings == {"size": {"enable": True, "threshold": 3000}}
+
+
+def test_json11():
+    response = Response()
+    with pytest.raises(MemorValidationError, match="Invalid `warnings` structure. It must be a valid dictionary."):
+        response.from_json(r"""{
+                           "message": "I am fine.",
+                           "warnings": [],
+                           "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
+                           "top_k": 5,
+                           "top_p": 0.2,
+                           "tokens": null,
+                           "inference_time": 5,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response._warnings == {}
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.top_k is None
+    assert response.top_p is None
+    assert response.tokens is None
+    assert response.inference_time is None
+
+
+def test_json12():
+    response = Response()
+    with pytest.raises(MemorValidationError, match="Invalid `warnings` structure. It must be a valid dictionary."):
+        response.from_json(r"""{
+                           "message": "I am fine.",
+                           "warnings": {"length": {"enable": true, "threshold: 3000},
+                           "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
+                           "top_k": 5,
+                           "top_p": 0.2,
+                           "tokens": null,
+                           "inference_time": 5,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response._warnings == {}
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.top_k is None
+    assert response.top_p is None
+    assert response.tokens is None
+    assert response.inference_time is None
+
+
+def test_json13():
+    response = Response()
+    with pytest.raises(MemorValidationError, match="Invalid `warnings` structure. It must be a valid dictionary."):
+        response.from_json(r"""{
+                           "message": "I am fine.",
+                           "warnings": {"size": [],
+                           "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
+                           "top_k": 5,
+                           "top_p": 0.2,
+                           "tokens": null,
+                           "inference_time": 5,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response._warnings == {}
+    assert response.model == 'unknown'
+    assert response.temperature is None
+    assert response.top_k is None
+    assert response.top_p is None
+    assert response.tokens is None
+    assert response.inference_time is None
+
+
 def test_save1():
     response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     result = response.save("response_test1.json")
