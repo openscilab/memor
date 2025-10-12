@@ -241,7 +241,7 @@ class Message(ABC):
 
     def set_size_warning(self, threshold: Union[float, int]) -> None:
         """
-        Set size warning.
+        Set the size warning.
 
         :param threshold: size threshold
         """
@@ -252,7 +252,7 @@ class Message(ABC):
         self._mark_modified()
 
     def reset_size_warning(self) -> None:
-        """Reset size warning."""
+        """Reset the size warning."""
         self._warnings["size"] = dict()
         self._warnings["size"]["enable"] = False
         self._warnings["size"]["threshold"] = 0
