@@ -804,6 +804,7 @@ def test_size_warning():
         _ = prompt.render(RenderFormat.AI_STUDIO)
     prompt.reset_size_warning()
     assert prompt._warnings["size"]["enable"] == False
+    assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
 
 
 def test_init_check():

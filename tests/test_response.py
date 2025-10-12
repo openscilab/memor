@@ -782,6 +782,7 @@ def test_size_warning():
         _ = response.render(RenderFormat.AI_STUDIO)
     response.reset_size_warning()
     assert response._warnings["size"]["enable"] == False
+    assert response.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'I am fine.'}]}
 
 
 def test_contains_xml1():
