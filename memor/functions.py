@@ -196,7 +196,7 @@ def _validate_warnings(warnings: Any) -> bool:
     if not set(warnings).issubset(allowed_keys):
         raise MemorValidationError(INVALID_WARNINGS_STRUCTURE_MESSAGE)
 
-    for _, inner_dict in warnings.items():
+    for inner_dict in warnings.values():
         if not isinstance(inner_dict, dict):
             raise MemorValidationError(INVALID_WARNINGS_STRUCTURE_MESSAGE)
     return True
