@@ -13,6 +13,7 @@ from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_BOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
 from .params import INVALID_ID_MESSAGE
+from .params import INVALID_WARNINGS_STRUCTURE_MESSAGE
 from .errors import MemorValidationError
 
 
@@ -179,4 +180,23 @@ def _validate_custom_map(custom_map: Any) -> bool:
         raise MemorValidationError(INVALID_CUSTOM_MAP_MESSAGE)
     if not all(_can_convert_to_string(k) and _can_convert_to_string(v) for k, v in custom_map.items()):
         raise MemorValidationError(INVALID_CUSTOM_MAP_MESSAGE)
+    return True
+
+
+def _validate_warnings(warnings: Any) -> bool:
+    """
+    Validate warnings structure.
+
+    :param warnings: warnings structure
+    """
+    if not isinstance(warnings, dict):
+        raise MemorValidationError(INVALID_WARNINGS_STRUCTURE_MESSAGE)
+
+    allowed_keys = {"size", "tokens"}
+    if not set(warnings).issubset(allowed_keys):
+        raise MemorValidationError(INVALID_WARNINGS_STRUCTURE_MESSAGE)
+
+    for inner_dict in warnings.values():
+        if not isinstance(inner_dict, dict):
+            raise MemorValidationError(INVALID_WARNINGS_STRUCTURE_MESSAGE)
     return True

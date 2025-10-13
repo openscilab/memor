@@ -18,7 +18,7 @@ from .params import AI_STUDIO_SYSTEM_WARNING
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int, _validate_list_of
-from .functions import _validate_path, _validate_message_id
+from .functions import _validate_path, _validate_message_id, _validate_warnings
 from .template import PromptTemplate, PresetPromptTemplate
 from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
 from .response import Response
@@ -78,7 +78,7 @@ class Prompt(Message):
             self._id = generate_message_id()
         _validate_message_id(self._id)
         if init_check:
-            _ = self.render()
+            _ = self.render(show_warning=False)
 
     def __eq__(self, other_prompt: "Prompt") -> bool:
         """
@@ -198,6 +198,7 @@ class Prompt(Message):
             else:
                 loaded_obj = json_object.copy()
             result["message"] = loaded_obj["message"]
+            result["warnings"] = loaded_obj.get("warnings", {})
             result["tokens"] = loaded_obj.get("tokens", None)
             result["id"] = loaded_obj.get("id", generate_message_id())
             result["responses"] = []
@@ -218,9 +219,11 @@ class Prompt(Message):
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
+
         if result["tokens"] is not None:
             _validate_pos_int(result["tokens"], "tokens")
         _validate_message_id(result["id"])
+        _validate_warnings(result["warnings"])
         _validate_string(result["memor_version"], "memor_version")
         _validate_pos_int(result["selected_response_index"], "selected_response_index")
         return result
@@ -233,6 +236,7 @@ class Prompt(Message):
         """
         data = self._validate_extract_json(json_object)
         self._message = data["message"]
+        self._warnings = data["warnings"]
         self._tokens = data["tokens"]
         self._id = data["id"]
         self._responses = data["responses"]
@@ -268,6 +272,7 @@ class Prompt(Message):
         data = {
             "type": "Prompt",
             "message": self._message,
+            "warnings": self._warnings,
             "responses": self._responses.copy(),
             "selected_response_index": self._selected_response_index,
             "tokens": self._tokens,
@@ -299,16 +304,18 @@ class Prompt(Message):
             return self._responses[self._selected_response_index]
         return None
 
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
-                                                                                  Dict[str, Any],
-                                                                                  List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
+               show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
+        :param show_warning: show warning flag
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
+        if show_warning:
+            self._handle_size_warning()
         try:
             format_kwargs = {"prompt": self.to_json(save_template=False)}
             if isinstance(self.selected_response, Response):

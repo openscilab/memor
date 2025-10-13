@@ -410,6 +410,176 @@ def test_json4():
     assert prompt.tokens is None
 
 
+def test_json5():
+    prompt = Prompt()
+    with pytest.raises(MemorValidationError, match=r"Invalid `warnings` structure. It must be a valid dictionary."):
+        prompt.from_json(r"""{
+                         "type": "Prompt",
+                         "message": "Hello, how are you?",
+                         "warnings": [],
+                         "selected_response_index": 0,
+                         "tokens": 30,
+                         "responses": [
+                            {
+                                "type": "Response",
+                                "message": "I am fine.",
+                                "score": 0.8,
+                                "temperature": 0.5,
+                                "tokens": null,
+                                "inference_time": null,
+                                "role": "user",
+                                "model": "gpt-4",
+                                "gpu": "Nvidia Tesla",
+                                "id": "8eb35f46-b660-4e28-92df-487211f7357e",
+                                "memor_version": "0.6",
+                                "date_created": "2025-05-21 17:21:21 +0000",
+                                "date_modified": "2025-05-21 17:21:21 +0000"
+                            }],
+                         "role": "assistant",
+                         "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
+                         "template": {
+                            "title": "Basic/Prompt-Response Standard",
+                            "content": "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}",
+                            "memor_version": "0.6", "custom_map": {"instruction": ""},
+                            "date_created": "2025-05-07 21:49:23 +0000",
+                            "date_modified": "2025-05-07 21:49:23 +0000"},
+                         "memor_version": "0.6",
+                         "date_created": "2025-05-07 21:49:23 +0000",
+                         "date_modified": "2025-05-07 21:49:23 +0000"}""")
+    assert prompt.message == ''
+    assert prompt._warnings == {}
+    assert prompt.responses == []
+    assert prompt.role == Role.USER
+    assert prompt.tokens is None
+
+
+def test_json6():
+    prompt = Prompt()
+    with pytest.raises(MemorValidationError, match=r"Invalid `warnings` structure. It must be a valid dictionary."):
+        # a corrupted JSON string with invalid `tokens` field
+        prompt.from_json(r"""{
+                         "type": "Prompt",
+                         "message": "Hello, how are you?",
+                         "warnings": {"length": {"enable": true, "threshold": 3000}},
+                         "selected_response_index": 0,
+                         "tokens": 30,
+                         "responses": [
+                            {
+                                "type": "Response",
+                                "message": "I am fine.",
+                                "score": 0.8,
+                                "temperature": 0.5,
+                                "tokens": null,
+                                "inference_time": null,
+                                "role": "user",
+                                "model": "gpt-4",
+                                "gpu": "Nvidia Tesla",
+                                "id": "8eb35f46-b660-4e28-92df-487211f7357e",
+                                "memor_version": "0.6",
+                                "date_created": "2025-05-21 17:21:21 +0000",
+                                "date_modified": "2025-05-21 17:21:21 +0000"
+                            }],
+                         "role": "assistant",
+                         "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
+                         "template": {
+                            "title": "Basic/Prompt-Response Standard",
+                            "content": "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}",
+                            "memor_version": "0.6", "custom_map": {"instruction": ""},
+                            "date_created": "2025-05-07 21:49:23 +0000",
+                            "date_modified": "2025-05-07 21:49:23 +0000"},
+                         "memor_version": "0.6",
+                         "date_created": "2025-05-07 21:49:23 +0000",
+                         "date_modified": "2025-05-07 21:49:23 +0000"}""")
+    assert prompt.message == ''
+    assert prompt._warnings == {}
+    assert prompt.responses == []
+    assert prompt.role == Role.USER
+    assert prompt.tokens is None
+
+
+def test_json7():
+    prompt = Prompt()
+    with pytest.raises(MemorValidationError, match=r"Invalid `warnings` structure. It must be a valid dictionary."):
+        prompt.from_json(r"""{
+                         "type": "Prompt",
+                         "message": "Hello, how are you?",
+                         "warnings": {"size": []},
+                         "selected_response_index": 0,
+                         "tokens": 30,
+                         "responses": [
+                            {
+                                "type": "Response",
+                                "message": "I am fine.",
+                                "score": 0.8,
+                                "temperature": 0.5,
+                                "tokens": null,
+                                "inference_time": null,
+                                "role": "user",
+                                "model": "gpt-4",
+                                "gpu": "Nvidia Tesla",
+                                "id": "8eb35f46-b660-4e28-92df-487211f7357e",
+                                "memor_version": "0.6",
+                                "date_created": "2025-05-21 17:21:21 +0000",
+                                "date_modified": "2025-05-21 17:21:21 +0000"
+                            }],
+                         "role": "assistant",
+                         "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
+                         "template": {
+                            "title": "Basic/Prompt-Response Standard",
+                            "content": "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}",
+                            "memor_version": "0.6", "custom_map": {"instruction": ""},
+                            "date_created": "2025-05-07 21:49:23 +0000",
+                            "date_modified": "2025-05-07 21:49:23 +0000"},
+                         "memor_version": "0.6",
+                         "date_created": "2025-05-07 21:49:23 +0000",
+                         "date_modified": "2025-05-07 21:49:23 +0000"}""")
+    assert prompt.message == ''
+    assert prompt._warnings == {}
+    assert prompt.responses == []
+    assert prompt.role == Role.USER
+    assert prompt.tokens is None
+
+
+def test_json8():
+    prompt = Prompt()
+    prompt.from_json(r"""{
+                        "type": "Prompt",
+                        "message": "Hello, how are you?",
+                        "warnings": {"size": {"enable": true, "threshold": 3000}},
+                        "selected_response_index": 0,
+                        "tokens": 30,
+                        "responses": [
+                        {
+                            "type": "Response",
+                            "message": "I am fine.",
+                            "score": 0.8,
+                            "temperature": 0.5,
+                            "tokens": null,
+                            "inference_time": null,
+                            "role": "user",
+                            "model": "gpt-4",
+                            "gpu": "Nvidia Tesla",
+                            "id": "8eb35f46-b660-4e28-92df-487211f7357e",
+                            "memor_version": "0.6",
+                            "date_created": "2025-05-21 17:21:21 +0000",
+                            "date_modified": "2025-05-21 17:21:21 +0000"
+                        }],
+                        "role": "assistant",
+                        "id": "b0bb6573-57eb-48c3-8c35-63f8e71dd30c",
+                        "template": {
+                        "title": "Basic/Prompt-Response Standard",
+                        "content": "{instruction}Prompt: {prompt[message]}\nResponse: {response[message]}",
+                        "memor_version": "0.6", "custom_map": {"instruction": ""},
+                        "date_created": "2025-05-07 21:49:23 +0000",
+                        "date_modified": "2025-05-07 21:49:23 +0000"},
+                        "memor_version": "0.6",
+                        "date_created": "2025-05-07 21:49:23 +0000",
+                        "date_modified": "2025-05-07 21:49:23 +0000"}""")
+    assert prompt.message == 'Hello, how are you?'
+    assert prompt.tokens == 30
+    assert prompt._warnings == {"size": {"enable": True, "threshold": 3000}}
+
+
 def test_save1():
     message = "Hello, how are you?"
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
@@ -611,6 +781,47 @@ def test_render10():
             response2],
         role=Role.ASSISTANT,
         template=template)
+    assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
+
+
+def test_size_warning1():
+    message = "How are you?"
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.ASSISTANT,
+        template=template)
+    prompt.set_size_warning(threshold=10)
+    assert prompt._warnings["size"]["enable"]
+    assert prompt._warnings["size"]["threshold"] == 10
+    with pytest.warns(RuntimeWarning, match=r"Message {message_id} exceeded size threshold \({current_size} > {threshold}\).".format(message_id=prompt.id, current_size=prompt.get_size(),
+                                                                                                                                     threshold=10)):
+        _ = prompt.render(RenderFormat.AI_STUDIO)
+    prompt.reset_size_warning()
+    assert prompt._warnings["size"]["enable"] == False
+    assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
+
+
+def test_size_warning2():
+    message = "How are you?"
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.ASSISTANT,
+        template=template)
+    prompt.set_size_warning(threshold=5000)
+    assert prompt._warnings["size"]["enable"]
+    assert prompt._warnings["size"]["threshold"] == 5000
     assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
 
 

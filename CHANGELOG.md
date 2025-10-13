@@ -8,10 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `Prompt` class `contains_xml` method
 - `Response` class `contains_xml` method
+- `Prompt` class size warning
+- `Response` class size warning
 ### Changed
 - `README.md` updated
 - `LLMModel` enum updated
 - `None` value update bug fixed
+- `show_warning` parameter added to `render` method
 - Test system modified
 - Typing modified
 ## [0.8] - 2025-07-21

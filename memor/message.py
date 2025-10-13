@@ -5,16 +5,17 @@ from typing import List, Dict, Union, Tuple, Any, Optional
 import re
 import datetime
 import json
+from warnings import warn
 from .params import MEMOR_VERSION
 from .params import RenderFormat
 from .params import Role
 from .params import XML_PATTERN
 from .tokens_estimator import TokensEstimator
-from .params import INVALID_ROLE_MESSAGE
+from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int
-from .functions import _validate_path
+from .functions import _validate_pos_float, _validate_path
 
 
 class Message(ABC):
@@ -23,6 +24,7 @@ class Message(ABC):
     def __init__(self) -> None:
         """Message initiator."""
         self._message = ""
+        self._warnings = dict()
         self._tokens = None
         self._role = Role.DEFAULT
         self._date_created = get_time_utc()
@@ -36,12 +38,12 @@ class Message(ABC):
 
     def __str__(self) -> str:
         """Return string representation of Message."""
-        return self.render(render_format=RenderFormat.STRING)
+        return self.render(render_format=RenderFormat.STRING, show_warning=False)
 
     def __len__(self) -> int:
         """Return the length of the Message."""
         try:
-            return len(self.render(render_format=RenderFormat.STRING))
+            return len(self.render(render_format=RenderFormat.STRING, show_warning=False))
         except Exception:
             return 0
 
@@ -192,20 +194,20 @@ class Message(ABC):
         return self.get_size()
 
     @abstractmethod
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
-                                                                                  Dict[str, Any],
-                                                                                  List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
+               show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
+        :param show_warning: show warning flag
         """
         pass  # pragma: no cover
 
     def check_render(self) -> bool:
         """Check render."""
         try:
-            _ = self.render()
+            _ = self.render(show_warning=False)
             return True
         except Exception:
             return False
@@ -216,8 +218,42 @@ class Message(ABC):
 
         :param method: token estimator method
         """
-        return method(self.render(render_format=RenderFormat.STRING))
+        return method(self.render(render_format=RenderFormat.STRING, show_warning=False))
 
     def contains_xml(self) -> bool:
         """Check if the message contains any XML tags."""
-        return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING)))
+        return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING, show_warning=False)))
+
+    def _handle_size_warning(self) -> None:
+        """Size warning handler."""
+        size_warning = self._warnings.get("size", {})
+        if size_warning.get("enable", False):
+            message_size = self.get_size()
+            size_threshold = size_warning.get("threshold", None)
+            if isinstance(size_threshold, (float, int)):
+                if message_size > size_threshold:
+                    warn(
+                        MESSAGE_SIZE_WARNING.format(
+                            message_id=self.id,
+                            current_size=message_size,
+                            threshold=size_threshold),
+                        RuntimeWarning)
+
+    def set_size_warning(self, threshold: Union[float, int]) -> None:
+        """
+        Set the size warning.
+
+        :param threshold: size threshold
+        """
+        _validate_pos_float(threshold, "threshold")
+        self._warnings["size"] = dict()
+        self._warnings["size"]["enable"] = True
+        self._warnings["size"]["threshold"] = threshold
+        self._mark_modified()
+
+    def reset_size_warning(self) -> None:
+        """Reset the size warning."""
+        self._warnings["size"] = dict()
+        self._warnings["size"]["enable"] = False
+        self._warnings["size"]["threshold"] = 0
+        self._mark_modified()

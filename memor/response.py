@@ -15,7 +15,7 @@ from .params import Role, RenderFormat, LLMModel
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_float, _validate_pos_int, _validate_message_id
-from .functions import _validate_date_time, _validate_probability
+from .functions import _validate_date_time, _validate_probability, _validate_warnings
 
 
 class Response(Message):
@@ -216,6 +216,7 @@ class Response(Message):
             else:
                 loaded_obj = json_object.copy()
             result["message"] = loaded_obj["message"]
+            result["warnings"] = loaded_obj.get("warnings", {})
             result["score"] = loaded_obj["score"]
             result["temperature"] = loaded_obj["temperature"]
             result["top_k"] = loaded_obj.get("top_k", None)
@@ -248,6 +249,7 @@ class Response(Message):
             _validate_pos_float(result["inference_time"], "inference_time")
         _validate_string(result["model"], "model")
         _validate_message_id(result["id"])
+        _validate_warnings(result["warnings"])
         _validate_string(result["memor_version"], "memor_version")
         return result
 
@@ -259,6 +261,7 @@ class Response(Message):
         """
         data = self._validate_extract_json(json_object)
         self._message = data["message"]
+        self._warnings = data["warnings"]
         self._score = data["score"]
         self._temperature = data["temperature"]
         self._top_k = data["top_k"]
@@ -286,6 +289,7 @@ class Response(Message):
         return {
             "type": "Response",
             "message": self._message,
+            "warnings": self._warnings,
             "score": self._score,
             "temperature": self._temperature,
             "top_k": self._top_k,
@@ -301,17 +305,18 @@ class Response(Message):
             "date_modified": self._date_modified,
         }
 
-    def render(self,
-               render_format: RenderFormat = RenderFormat.DEFAULT) -> Union[str,
-                                                                            Dict[str, Any],
-                                                                            List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
+               show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render the response.
 
         :param render_format: render format
+        :param show_warning: show warning flag
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
+        if show_warning:
+            self._handle_size_warning()
         if render_format == RenderFormat.STRING:
             return self._message
         elif render_format == RenderFormat.OPENAI:

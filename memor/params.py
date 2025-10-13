@@ -28,10 +28,12 @@ INVALID_PROMPT_STRUCTURE_MESSAGE = "Invalid prompt structure. It should be a JSO
 INVALID_RESPONSE_STRUCTURE_MESSAGE = "Invalid response structure. It should be a JSON object with proper fields."
 INVALID_SESSION_STRUCTURE_MESSAGE = "Invalid session structure. It should be a JSON object with proper fields."
 INVALID_RENDER_FORMAT_MESSAGE = "Invalid render format. It must be an instance of RenderFormat enum."
+INVALID_WARNINGS_STRUCTURE_MESSAGE = "Invalid `warnings` structure. It must be a valid dictionary."
 PROMPT_RENDER_ERROR_MESSAGE = "Prompt template and properties are incompatible."
 UNSUPPORTED_OPERAND_ERROR_MESSAGE = "Unsupported operand type(s) for {operator}: `{operand1}` and `{operand2}`"
 AI_STUDIO_SYSTEM_WARNING = "Google AI Studio models may not support content with a system role."
 DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."
+MESSAGE_SIZE_WARNING = "Message {message_id} exceeded size threshold ({current_size} > {threshold})."
 
 XML_PATTERN = r"<([a-zA-Z_][\w\-\.]*)(\s[^<>]*?)?>.*?</\1\s*>|<([a-zA-Z_][\w\-\.]*)(\s[^<>]*?)?/?>"
 
