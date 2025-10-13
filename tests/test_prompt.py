@@ -784,7 +784,7 @@ def test_render10():
     assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
 
 
-def test_size_warning():
+def test_size_warning1():
     message = "How are you?"
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
@@ -804,7 +804,27 @@ def test_size_warning():
         _ = prompt.render(RenderFormat.AI_STUDIO)
     prompt.reset_size_warning()
     assert prompt._warnings["size"]["enable"] == False
-    assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
+    with pytest.warns(None):
+        assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
+
+
+def test_size_warning2():
+    message = "How are you?"
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.ASSISTANT,
+        template=template)
+    prompt.set_size_warning(threshold=5000)
+    assert prompt._warnings["size"]["enable"]
+    assert prompt._warnings["size"]["threshold"] == 5000
+    with pytest.warns(None):
+        _ = prompt.render(RenderFormat.AI_STUDIO)
 
 
 def test_init_check():

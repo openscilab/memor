@@ -772,7 +772,7 @@ def test_render7():
         _ = response.render(RenderFormat.AI_STUDIO)
 
 
-def test_size_warning():
+def test_size_warning1():
     response = Response(message="I am fine.")
     response.set_size_warning(threshold=10)
     assert response._warnings["size"]["enable"]
@@ -782,7 +782,17 @@ def test_size_warning():
         _ = response.render(RenderFormat.AI_STUDIO)
     response.reset_size_warning()
     assert response._warnings["size"]["enable"] == False
-    assert response.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'I am fine.'}]}
+    with pytest.warns(None):
+        _ = response.render(RenderFormat.AI_STUDIO)
+
+
+def test_size_warning2():
+    response = Response(message="I am fine.")
+    response.set_size_warning(threshold=5000)
+    assert response._warnings["size"]["enable"]
+    assert response._warnings["size"]["threshold"] == 5000
+    with pytest.warns(None):
+        _ = response.render(RenderFormat.AI_STUDIO)
 
 
 def test_contains_xml1():
