@@ -804,8 +804,7 @@ def test_size_warning1():
         _ = prompt.render(RenderFormat.AI_STUDIO)
     prompt.reset_size_warning()
     assert prompt._warnings["size"]["enable"] == False
-    with pytest.warns(None):
-        assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
+    assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
 
 
 def test_size_warning2():
@@ -823,8 +822,7 @@ def test_size_warning2():
     prompt.set_size_warning(threshold=5000)
     assert prompt._warnings["size"]["enable"]
     assert prompt._warnings["size"]["threshold"] == 5000
-    with pytest.warns(None):
-        _ = prompt.render(RenderFormat.AI_STUDIO)
+    assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
 
 
 def test_init_check():
