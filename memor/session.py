@@ -20,6 +20,7 @@ from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
 from .functions import _validate_status, _validate_pos_int, _validate_pos_float
+from .functions import _validate_warnings
 
 
 class Session:
@@ -373,6 +374,7 @@ class Session:
             result["render_counter"] = loaded_obj.get("render_counter", 0)
             result["messages_status"] = loaded_obj["messages_status"]
             result["messages"] = []
+            result["warnings"] = loaded_obj.get("warnings", {})
             for message in loaded_obj["messages"]:
                 if message["type"] == "Prompt":
                     message_obj = Prompt()
@@ -387,6 +389,7 @@ class Session:
             raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
         if result["title"] is not None:
             _validate_string(result["title"], "title")
+        _validate_warnings(result["warnings"])
         _validate_pos_int(result["render_counter"], "render_counter")
         _validate_status(result["messages_status"], result["messages"])
         _validate_string(result["memor_version"], "memor_version")
@@ -416,6 +419,7 @@ class Session:
         self._title = data["title"]
         self._render_counter = data["render_counter"]
         self._messages = data["messages"]
+        self._warnings = data["warnings"]
         self._messages_status = data["messages_status"]
         self._memor_version = data["memor_version"]
         self._date_created = data["date_created"]
@@ -441,6 +445,7 @@ class Session:
             "title": self._title,
             "render_counter": self._render_counter,
             "messages": self._messages.copy(),
+            "warnings": self._warnings,
             "messages_status": self._messages_status.copy(),
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
