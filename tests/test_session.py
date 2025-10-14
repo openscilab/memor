@@ -413,7 +413,7 @@ def test_load5():
         # a corrupted JSON string with invalid `title` field
         session.from_json(r"""{
                           "type": "Session",
-                          "title": "title1,
+                          "title": "title1",
                           "warnings": [],
                           "render_counter": 1,
                           "messages_status": [true, false],
@@ -466,7 +466,7 @@ def test_load6():
         # a corrupted JSON string with invalid `title` field
         session.from_json(r"""{
                           "type": "Session",
-                          "title": "title1,
+                          "title": "title1",
                           "warnings": {"length": {"enable": true, "threshold": 3000}},
                           "render_counter": 1,
                           "messages_status": [true, false],
@@ -519,7 +519,7 @@ def test_load7():
         # a corrupted JSON string with invalid `title` field
         session.from_json(r"""{
                           "type": "Session",
-                          "title": "title1,
+                          "title": "title1",
                           "warnings": {"size": []},
                           "render_counter": 1,
                           "messages_status": [true, false],
@@ -570,7 +570,7 @@ def test_load8():
     session = Session()
     session.from_json(r"""{
                         "type": "Session",
-                        "title": "title1,
+                        "title": "title1",
                         "warnings": {"size": {"enable": true, "threshold": 3000}},
                         "render_counter": 1,
                         "messages_status": [true, false],
