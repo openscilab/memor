@@ -410,7 +410,6 @@ def test_load4():
 def test_load5():
     session = Session()
     with pytest.raises(MemorValidationError, match=r"Invalid `warnings` structure. It must be a valid dictionary."):
-        # a corrupted JSON string with invalid `title` field
         session.from_json(r"""{
                           "type": "Session",
                           "title": "title1",
@@ -463,7 +462,6 @@ def test_load5():
 def test_load6():
     session = Session()
     with pytest.raises(MemorValidationError, match=r"Invalid `warnings` structure. It must be a valid dictionary."):
-        # a corrupted JSON string with invalid `title` field
         session.from_json(r"""{
                           "type": "Session",
                           "title": "title1",
@@ -516,7 +514,6 @@ def test_load6():
 def test_load7():
     session = Session()
     with pytest.raises(MemorValidationError, match=r"Invalid `warnings` structure. It must be a valid dictionary."):
-        # a corrupted JSON string with invalid `title` field
         session.from_json(r"""{
                           "type": "Session",
                           "title": "title1",
