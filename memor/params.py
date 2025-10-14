@@ -34,6 +34,7 @@ UNSUPPORTED_OPERAND_ERROR_MESSAGE = "Unsupported operand type(s) for {operator}:
 AI_STUDIO_SYSTEM_WARNING = "Google AI Studio models may not support content with a system role."
 DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."
 MESSAGE_SIZE_WARNING = "Message {message_id} exceeded size threshold ({current_size} > {threshold})."
+SESSION_SIZE_WARNING = "Session exceeded size threshold ({current_size} > {threshold})."
 
 XML_PATTERN = r"<([a-zA-Z_][\w\-\.]*)(\s[^<>]*?)?>.*?</\1\s*>|<([a-zA-Z_][\w\-\.]*)(\s[^<>]*?)?/?>"
 

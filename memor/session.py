@@ -4,12 +4,13 @@ from typing import List, Dict, Tuple, Any, Union, Generator, Optional
 import datetime
 import json
 import re
+from warnings import warn
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
 from .params import INVALID_SESSION_STRUCTURE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
 from .params import INVALID_INT_OR_STR_MESSAGE, INVALID_INT_OR_STR_SLICE_MESSAGE
-from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE
+from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE, SESSION_SIZE_WARNING
 from .params import RenderFormat
 from .tokens_estimator import TokensEstimator
 from .prompt import Prompt
@@ -390,6 +391,20 @@ class Session:
         _validate_status(result["messages_status"], result["messages"])
         _validate_string(result["memor_version"], "memor_version")
         return result
+
+    def _handle_size_warning(self) -> None:
+        """Size warning handler."""
+        size_warning = self._warnings.get("size", {})
+        if size_warning.get("enable", False):
+            session_size = self.get_size()
+            size_threshold = size_warning.get("threshold", None)
+            if isinstance(size_threshold, (float, int)):
+                if session_size > size_threshold:
+                    warn(
+                        SESSION_SIZE_WARNING.format(
+                            current_size=session_size,
+                            threshold=size_threshold),
+                        RuntimeWarning)
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
