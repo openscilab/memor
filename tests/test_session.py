@@ -171,7 +171,7 @@ def test_add_message2():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
     session.add_message(message=Response("Good!"), status=False, index=0)
-    assert session.messages[0] == Response("Good!") and session.messages_status[0] == False
+    assert session.messages[0] == Response("Good!") and not session.messages_status[0]
 
 
 def test_add_message3():
@@ -284,7 +284,7 @@ def test_save1():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
     result = session.save("f:/")
-    assert result["status"] == False
+    assert not result["status"]
 
 
 def test_save2():
@@ -687,7 +687,7 @@ def test_size_warning1():
                                                                                                                         threshold=10)):
         _ = session.render(RenderFormat.AI_STUDIO)
     session.reset_size_warning()
-    assert session._warnings["size"]["enable"] == False
+    assert not session._warnings["size"]["enable"]
     assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'user', 'parts': [{'text': 'Hello, how are you?'}]}, {
         'role': 'model', 'parts': [{'text': 'I am fine.'}]}]
 

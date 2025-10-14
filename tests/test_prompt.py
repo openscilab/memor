@@ -592,7 +592,7 @@ def test_save1():
         role=Role.USER,
         template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
     result = prompt.save("f:/")
-    assert result["status"] == False
+    assert not result["status"]
 
 
 def test_save2():
@@ -803,7 +803,7 @@ def test_size_warning1():
                                                                                                                                      threshold=10)):
         _ = prompt.render(RenderFormat.AI_STUDIO)
     prompt.reset_size_warning()
-    assert prompt._warnings["size"]["enable"] == False
+    assert not prompt._warnings["size"]["enable"]
     assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
 
 

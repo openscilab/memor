@@ -693,7 +693,7 @@ def test_save1():
 def test_save2():
     response = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     result = response.save("f:/")
-    assert result["status"] == False
+    assert not result["status"]
 
 
 def test_load1():
@@ -781,7 +781,7 @@ def test_size_warning1():
                                                                                                                                     threshold=10)):
         _ = response.render(RenderFormat.AI_STUDIO)
     response.reset_size_warning()
-    assert response._warnings["size"]["enable"] == False
+    assert not response._warnings["size"]["enable"]
     assert response.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'I am fine.'}]}
 
 
