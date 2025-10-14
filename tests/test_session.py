@@ -407,6 +407,215 @@ def test_load4():
     assert session.messages_status == []
 
 
+def test_load5():
+    session = Session()
+    with pytest.raises(MemorValidationError, match=r"Invalid `warnings` structure. It must be a valid dictionary."):
+        # a corrupted JSON string with invalid `title` field
+        session.from_json(r"""{
+                          "type": "Session",
+                          "title": "title1,
+                          "warnings": [],
+                          "render_counter": 1,
+                          "messages_status": [true, false],
+                          "messages": [
+                          {
+                            "type": "Prompt",
+                            "message": "Hello, how are you?",
+                            "responses": [],
+                            "selected_response_index": 0,
+                            "tokens": null,
+                            "role": "user",
+                            "id":"465a5bc3-2ede-46b5-af47-294637e44407",
+                            "template": {
+                                "title": "Basic/Prompt",
+                                "content": "{instruction}{prompt[message]}",
+                                "memor_version": "0.6",
+                                "custom_map": {"instruction": ""},
+                                "date_created": "2025-05-07 21:57:05 +0000",
+                                "date_modified": "2025-05-07 21:57:05 +0000"},
+                            "memor_version": "0.6",
+                            "date_created": "2025-05-07 21:57:05 +0000",
+                            "date_modified": "2025-05-07 21:57:05 +0000"},
+                          {
+                            "type": "Response",
+                            "message": "I am fine.",
+                            "score": null,
+                            "temperature": null,
+                            "tokens": null,
+                            "inference_time": null,
+                            "role": "assistant",
+                            "model": "unknown",
+                            "gpu": "Nvidia Ada Lovelace",
+                            "id": "8a2a32b8-d828-4309-9583-2185fba9e3bb",
+                            "memor_version": "0.6",
+                            "date_created": "2025-05-07 21:57:05 +0000",
+                            "date_modified": "2025-05-07 21:57:05 +0000"
+                          }],
+                          "memor_version": "0.6",
+                          "date_created": "2025-05-07 21:57:05 +0000",
+                          "date_modified": "2025-05-07 21:57:05 +0000"}""")
+    assert session.messages == [] and session.title is None
+    assert session._warnings == {}
+    assert session.render_counter == 0
+    assert session.messages_status == []
+
+
+def test_load6():
+    session = Session()
+    with pytest.raises(MemorValidationError, match=r"Invalid `warnings` structure. It must be a valid dictionary."):
+        # a corrupted JSON string with invalid `title` field
+        session.from_json(r"""{
+                          "type": "Session",
+                          "title": "title1,
+                          "warnings": {"length": {"enable": true, "threshold": 3000}},
+                          "render_counter": 1,
+                          "messages_status": [true, false],
+                          "messages": [
+                          {
+                            "type": "Prompt",
+                            "message": "Hello, how are you?",
+                            "responses": [],
+                            "selected_response_index": 0,
+                            "tokens": null,
+                            "role": "user",
+                            "id":"465a5bc3-2ede-46b5-af47-294637e44407",
+                            "template": {
+                                "title": "Basic/Prompt",
+                                "content": "{instruction}{prompt[message]}",
+                                "memor_version": "0.6",
+                                "custom_map": {"instruction": ""},
+                                "date_created": "2025-05-07 21:57:05 +0000",
+                                "date_modified": "2025-05-07 21:57:05 +0000"},
+                            "memor_version": "0.6",
+                            "date_created": "2025-05-07 21:57:05 +0000",
+                            "date_modified": "2025-05-07 21:57:05 +0000"},
+                          {
+                            "type": "Response",
+                            "message": "I am fine.",
+                            "score": null,
+                            "temperature": null,
+                            "tokens": null,
+                            "inference_time": null,
+                            "role": "assistant",
+                            "model": "unknown",
+                            "gpu": "Nvidia Ada Lovelace",
+                            "id": "8a2a32b8-d828-4309-9583-2185fba9e3bb",
+                            "memor_version": "0.6",
+                            "date_created": "2025-05-07 21:57:05 +0000",
+                            "date_modified": "2025-05-07 21:57:05 +0000"
+                          }],
+                          "memor_version": "0.6",
+                          "date_created": "2025-05-07 21:57:05 +0000",
+                          "date_modified": "2025-05-07 21:57:05 +0000"}""")
+    assert session.messages == [] and session.title is None
+    assert session._warnings == {}
+    assert session.render_counter == 0
+    assert session.messages_status == []
+
+
+def test_load7():
+    session = Session()
+    with pytest.raises(MemorValidationError, match=r"Invalid `warnings` structure. It must be a valid dictionary."):
+        # a corrupted JSON string with invalid `title` field
+        session.from_json(r"""{
+                          "type": "Session",
+                          "title": "title1,
+                          "warnings": {"size": []},
+                          "render_counter": 1,
+                          "messages_status": [true, false],
+                          "messages": [
+                          {
+                            "type": "Prompt",
+                            "message": "Hello, how are you?",
+                            "responses": [],
+                            "selected_response_index": 0,
+                            "tokens": null,
+                            "role": "user",
+                            "id":"465a5bc3-2ede-46b5-af47-294637e44407",
+                            "template": {
+                                "title": "Basic/Prompt",
+                                "content": "{instruction}{prompt[message]}",
+                                "memor_version": "0.6",
+                                "custom_map": {"instruction": ""},
+                                "date_created": "2025-05-07 21:57:05 +0000",
+                                "date_modified": "2025-05-07 21:57:05 +0000"},
+                            "memor_version": "0.6",
+                            "date_created": "2025-05-07 21:57:05 +0000",
+                            "date_modified": "2025-05-07 21:57:05 +0000"},
+                          {
+                            "type": "Response",
+                            "message": "I am fine.",
+                            "score": null,
+                            "temperature": null,
+                            "tokens": null,
+                            "inference_time": null,
+                            "role": "assistant",
+                            "model": "unknown",
+                            "gpu": "Nvidia Ada Lovelace",
+                            "id": "8a2a32b8-d828-4309-9583-2185fba9e3bb",
+                            "memor_version": "0.6",
+                            "date_created": "2025-05-07 21:57:05 +0000",
+                            "date_modified": "2025-05-07 21:57:05 +0000"
+                          }],
+                          "memor_version": "0.6",
+                          "date_created": "2025-05-07 21:57:05 +0000",
+                          "date_modified": "2025-05-07 21:57:05 +0000"}""")
+    assert session.messages == [] and session.title is None
+    assert session._warnings == {}
+    assert session.render_counter == 0
+    assert session.messages_status == []
+
+
+def test_load8():
+    session = Session()
+    session.from_json(r"""{
+                        "type": "Session",
+                        "title": "title1,
+                        "warnings": {"size": {"enable": true, "threshold": 3000}},
+                        "render_counter": 1,
+                        "messages_status": [true, false],
+                        "messages": [
+                        {
+                        "type": "Prompt",
+                        "message": "Hello, how are you?",
+                        "responses": [],
+                        "selected_response_index": 0,
+                        "tokens": null,
+                        "role": "user",
+                        "id":"465a5bc3-2ede-46b5-af47-294637e44407",
+                        "template": {
+                            "title": "Basic/Prompt",
+                            "content": "{instruction}{prompt[message]}",
+                            "memor_version": "0.6",
+                            "custom_map": {"instruction": ""},
+                            "date_created": "2025-05-07 21:57:05 +0000",
+                            "date_modified": "2025-05-07 21:57:05 +0000"},
+                        "memor_version": "0.6",
+                        "date_created": "2025-05-07 21:57:05 +0000",
+                        "date_modified": "2025-05-07 21:57:05 +0000"},
+                        {
+                        "type": "Response",
+                        "message": "I am fine.",
+                        "score": null,
+                        "temperature": null,
+                        "tokens": null,
+                        "inference_time": null,
+                        "role": "assistant",
+                        "model": "unknown",
+                        "gpu": "Nvidia Ada Lovelace",
+                        "id": "8a2a32b8-d828-4309-9583-2185fba9e3bb",
+                        "memor_version": "0.6",
+                        "date_created": "2025-05-07 21:57:05 +0000",
+                        "date_modified": "2025-05-07 21:57:05 +0000"
+                        }],
+                        "memor_version": "0.6",
+                        "date_created": "2025-05-07 21:57:05 +0000",
+                        "date_modified": "2025-05-07 21:57:05 +0000"}""")
+    assert session._warnings == {"size": {"enable": True, "threshold": 3000}}
+    assert session.render_counter == 1
+    assert session.messages_status == [True, False]
+
+
 def test_render1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
@@ -465,6 +674,33 @@ def test_render7():
     assert session.render() == 'Hello, how are you?\n'
     assert session.render(RenderFormat.OPENAI) == [{'content': 'Hello, how are you?', 'role': 'user'}]
     assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'user', 'parts': [{'text': 'Hello, how are you?'}]}]
+
+
+def test_size_warning1():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    session.set_size_warning(threshold=10)
+    assert session._warnings["size"]["enable"]
+    assert session._warnings["size"]["threshold"] == 10
+    with pytest.warns(RuntimeWarning, match=r"Session exceeded size threshold \({current_size} > {threshold}\).".format(current_size=session.get_size(),
+                                                                                                                                     threshold=10)):
+        _ = session.render(RenderFormat.AI_STUDIO)
+    session.reset_size_warning()
+    assert session._warnings["size"]["enable"] == False
+    assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'user', 'parts': [{'text': 'Hello, how are you?'}]}, {
+        'role': 'model', 'parts': [{'text': 'I am fine.'}]}]
+
+
+def test_size_warning2():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response], title="session1")
+    session.set_size_warning(threshold=5000)
+    assert session._warnings["size"]["enable"]
+    assert session._warnings["size"]["threshold"] == 5000
+    assert session.render(RenderFormat.AI_STUDIO) == [{'role': 'user', 'parts': [{'text': 'Hello, how are you?'}]}, {
+        'role': 'model', 'parts': [{'text': 'I am fine.'}]}]
 
 
 def test_check_render1():
