@@ -18,7 +18,7 @@ from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
-from .functions import _validate_status, _validate_pos_int
+from .functions import _validate_status, _validate_pos_int, _validate_pos_float
 
 
 class Session:
@@ -42,6 +42,7 @@ class Session:
         self._render_counter = 0
         self._messages = []
         self._messages_status = []
+        self._warnings = dict()
         self._date_created = get_time_utc()
         self._mark_modified()
         self._memor_version = MEMOR_VERSION
@@ -489,6 +490,26 @@ class Session:
         :param method: token estimator method
         """
         return method(self.render(render_format=RenderFormat.STRING, enable_counter=False))
+
+
+    def set_size_warning(self, threshold: Union[float, int]) -> None:
+        """
+        Set the size warning.
+
+        :param threshold: size threshold
+        """
+        _validate_pos_float(threshold, "threshold")
+        self._warnings["size"] = dict()
+        self._warnings["size"]["enable"] = True
+        self._warnings["size"]["threshold"] = threshold
+        self._mark_modified()
+
+    def reset_size_warning(self) -> None:
+        """Reset the size warning."""
+        self._warnings["size"] = dict()
+        self._warnings["size"]["enable"] = False
+        self._warnings["size"]["threshold"] = 0
+        self._mark_modified()
 
     @property
     def date_created(self) -> datetime.datetime:
