@@ -55,7 +55,7 @@ class Session:
             if messages is not None:
                 self.update_messages(messages)
         if init_check:
-            _ = self.render(enable_counter=False)
+            _ = self.render(enable_counter=False, show_warning=False)
 
     def _mark_modified(self) -> None:
         """Mark modification."""
@@ -73,7 +73,7 @@ class Session:
 
     def __str__(self) -> str:
         """Return string representation of Session."""
-        return self.render(render_format=RenderFormat.STRING, enable_counter=False)
+        return self.render(render_format=RenderFormat.STRING, enable_counter=False, show_warning=False)
 
     def __repr__(self) -> str:
         """Return string representation of Session."""
@@ -454,15 +454,18 @@ class Session:
         return len(json_str.encode())
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
-               enable_counter: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
+               enable_counter: bool = True, show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
         :param enable_counter: render counter flag
+        :param show_warning: show warning flag
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
+        if show_warning:
+            self._handle_size_warning()
         result = None
         if render_format in [RenderFormat.OPENAI, RenderFormat.AI_STUDIO]:
             result = []
@@ -493,7 +496,7 @@ class Session:
     def check_render(self) -> bool:
         """Check render."""
         try:
-            _ = self.render(enable_counter=False)
+            _ = self.render(enable_counter=False, show_warning=False)
             return True
         except Exception:
             return False
@@ -504,7 +507,7 @@ class Session:
 
         :param method: token estimator method
         """
-        return method(self.render(render_format=RenderFormat.STRING, enable_counter=False))
+        return method(self.render(render_format=RenderFormat.STRING, enable_counter=False, show_warning=False))
 
 
     def set_size_warning(self, threshold: Union[float, int]) -> None:
