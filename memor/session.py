@@ -458,8 +458,8 @@ class Session:
         json_str = json.dumps(self.to_json())
         return len(json_str.encode())
 
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
-               enable_counter: bool = True, show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT, enable_counter: bool = True,
+               show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render method.
 
@@ -513,7 +513,6 @@ class Session:
         :param method: token estimator method
         """
         return method(self.render(render_format=RenderFormat.STRING, enable_counter=False, show_warning=False))
-
 
     def set_size_warning(self, threshold: Union[float, int]) -> None:
         """

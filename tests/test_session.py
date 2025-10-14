@@ -684,7 +684,7 @@ def test_size_warning1():
     assert session._warnings["size"]["enable"]
     assert session._warnings["size"]["threshold"] == 10
     with pytest.warns(RuntimeWarning, match=r"Session exceeded size threshold \({current_size} > {threshold}\).".format(current_size=session.get_size(),
-                                                                                                                                     threshold=10)):
+                                                                                                                        threshold=10)):
         _ = session.render(RenderFormat.AI_STUDIO)
     session.reset_size_warning()
     assert session._warnings["size"]["enable"] == False
