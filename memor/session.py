@@ -4,12 +4,13 @@ from typing import List, Dict, Tuple, Any, Union, Generator, Optional
 import datetime
 import json
 import re
+from warnings import warn
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
 from .params import INVALID_SESSION_STRUCTURE_MESSAGE, INVALID_RENDER_FORMAT_MESSAGE
 from .params import INVALID_INT_OR_STR_MESSAGE, INVALID_INT_OR_STR_SLICE_MESSAGE
-from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE
+from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE, SESSION_SIZE_WARNING
 from .params import RenderFormat
 from .tokens_estimator import TokensEstimator
 from .prompt import Prompt
@@ -18,7 +19,8 @@ from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
-from .functions import _validate_status, _validate_pos_int
+from .functions import _validate_status, _validate_pos_int, _validate_pos_float
+from .functions import _validate_warnings
 
 
 class Session:
@@ -42,6 +44,7 @@ class Session:
         self._render_counter = 0
         self._messages = []
         self._messages_status = []
+        self._warnings = dict()
         self._date_created = get_time_utc()
         self._mark_modified()
         self._memor_version = MEMOR_VERSION
@@ -53,7 +56,7 @@ class Session:
             if messages is not None:
                 self.update_messages(messages)
         if init_check:
-            _ = self.render(enable_counter=False)
+            _ = self.render(enable_counter=False, show_warning=False)
 
     def _mark_modified(self) -> None:
         """Mark modification."""
@@ -71,7 +74,7 @@ class Session:
 
     def __str__(self) -> str:
         """Return string representation of Session."""
-        return self.render(render_format=RenderFormat.STRING, enable_counter=False)
+        return self.render(render_format=RenderFormat.STRING, enable_counter=False, show_warning=False)
 
     def __repr__(self) -> str:
         """Return string representation of Session."""
@@ -371,6 +374,7 @@ class Session:
             result["render_counter"] = loaded_obj.get("render_counter", 0)
             result["messages_status"] = loaded_obj["messages_status"]
             result["messages"] = []
+            result["warnings"] = loaded_obj.get("warnings", {})
             for message in loaded_obj["messages"]:
                 if message["type"] == "Prompt":
                     message_obj = Prompt()
@@ -385,10 +389,25 @@ class Session:
             raise MemorValidationError(INVALID_SESSION_STRUCTURE_MESSAGE)
         if result["title"] is not None:
             _validate_string(result["title"], "title")
+        _validate_warnings(result["warnings"])
         _validate_pos_int(result["render_counter"], "render_counter")
         _validate_status(result["messages_status"], result["messages"])
         _validate_string(result["memor_version"], "memor_version")
         return result
+
+    def _handle_size_warning(self) -> None:
+        """Size warning handler."""
+        size_warning = self._warnings.get("size", {})
+        if size_warning.get("enable", False):
+            session_size = self.get_size()
+            size_threshold = size_warning.get("threshold", None)
+            if isinstance(size_threshold, (float, int)):
+                if session_size > size_threshold:
+                    warn(
+                        SESSION_SIZE_WARNING.format(
+                            current_size=session_size,
+                            threshold=size_threshold),
+                        RuntimeWarning)
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
         """
@@ -400,6 +419,7 @@ class Session:
         self._title = data["title"]
         self._render_counter = data["render_counter"]
         self._messages = data["messages"]
+        self._warnings = data["warnings"]
         self._messages_status = data["messages_status"]
         self._memor_version = data["memor_version"]
         self._date_created = data["date_created"]
@@ -425,6 +445,7 @@ class Session:
             "title": self._title,
             "render_counter": self._render_counter,
             "messages": self._messages.copy(),
+            "warnings": self._warnings,
             "messages_status": self._messages_status.copy(),
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
@@ -437,16 +458,19 @@ class Session:
         json_str = json.dumps(self.to_json())
         return len(json_str.encode())
 
-    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
-               enable_counter: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
+    def render(self, render_format: RenderFormat = RenderFormat.DEFAULT, enable_counter: bool = True,
+               show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
         """
         Render method.
 
         :param render_format: render format
         :param enable_counter: render counter flag
+        :param show_warning: show warning flag
         """
         if not isinstance(render_format, RenderFormat):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
+        if show_warning:
+            self._handle_size_warning()
         result = None
         if render_format in [RenderFormat.OPENAI, RenderFormat.AI_STUDIO]:
             result = []
@@ -477,7 +501,7 @@ class Session:
     def check_render(self) -> bool:
         """Check render."""
         try:
-            _ = self.render(enable_counter=False)
+            _ = self.render(enable_counter=False, show_warning=False)
             return True
         except Exception:
             return False
@@ -488,7 +512,26 @@ class Session:
 
         :param method: token estimator method
         """
-        return method(self.render(render_format=RenderFormat.STRING, enable_counter=False))
+        return method(self.render(render_format=RenderFormat.STRING, enable_counter=False, show_warning=False))
+
+    def set_size_warning(self, threshold: Union[float, int]) -> None:
+        """
+        Set the size warning.
+
+        :param threshold: size threshold
+        """
+        _validate_pos_float(threshold, "threshold")
+        self._warnings["size"] = dict()
+        self._warnings["size"]["enable"] = True
+        self._warnings["size"]["threshold"] = threshold
+        self._mark_modified()
+
+    def reset_size_warning(self) -> None:
+        """Reset the size warning."""
+        self._warnings["size"] = dict()
+        self._warnings["size"]["enable"] = False
+        self._warnings["size"]["threshold"] = 0
+        self._mark_modified()
 
     @property
     def date_created(self) -> datetime.datetime:
