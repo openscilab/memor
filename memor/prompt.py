@@ -16,7 +16,7 @@ from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
 from .errors import MemorValidationError, MemorRenderError
-from .functions import get_time_utc, generate_message_id
+from .functions import generate_message_id
 from .functions import _validate_string, _validate_pos_int, _validate_list_of
 from .functions import _validate_path, _validate_message_id, _validate_warnings
 from .template import PromptTemplate, PresetPromptTemplate
