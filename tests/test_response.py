@@ -70,13 +70,13 @@ def test_estimated_tokens3():
     assert response.estimate_tokens(TokensEstimator.OPENAI_GPT_4) == 4
 
 
-def test_tokens4():
+def test_tokens5():
     response = Response(message="I am fine.", tokens=4)
     with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a positive integer."):
         response.update_tokens(-2)
 
 
-def test_tokens5():
+def test_tokens6():
     response = Response(message="I am fine.", tokens=0)
     assert response.tokens == 0
 
@@ -710,7 +710,7 @@ def test_load2():
 
 def test_load3():
     with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: response_test10.json"):
-        response = Response(file_path="response_test10.json")
+        _ = Response(file_path="response_test10.json")
 
 
 def test_copy1():
