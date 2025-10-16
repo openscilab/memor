@@ -272,7 +272,7 @@ def test_save2():
         custom_map={
             "language": "Python"})
     result = template.save("f:/")
-    assert result["status"] == False
+    assert not result["status"]
 
 
 def test_load1():

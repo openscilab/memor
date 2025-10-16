@@ -705,7 +705,7 @@ def test_load1():
 
 def test_load2():
     with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: 2"):
-        response = Response(file_path=2)
+        _ = Response(file_path=2)
 
 
 def test_load3():
