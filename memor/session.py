@@ -4,6 +4,7 @@ from typing import List, Dict, Tuple, Any, Union, Generator, Optional
 import datetime
 import json
 import re
+import copy
 from warnings import warn
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
@@ -572,3 +573,8 @@ class Session:
     def size(self) -> int:
         """Get the session size in bytes."""
         return self.get_size()
+
+    @property
+    def warnings(self) -> Dict[str, Union[float, bool]]:
+        """Get the session warnings."""
+        return copy.deepcopy(self._warnings)
