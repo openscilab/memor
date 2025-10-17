@@ -720,8 +720,10 @@ def test_render_counter1():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
     assert session.render_counter == 0
-    for _ in range(10):
-        __ = session.render()
+    index = 0
+    while index < 10:
+        _ = session.render()
+        index += 1
     assert session.render_counter == 10
 
 
@@ -730,10 +732,14 @@ def test_render_counter2():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
     assert session.render_counter == 0
-    for _ in range(10):
-        __ = session.render()
-    for _ in range(2):
-        __ = session.render(enable_counter=False)
+    index = 0
+    while index < 10:
+        _ = session.render()
+        index += 1
+    index = 0
+    while index < 2:
+        _ = session.render(enable_counter=False)
+        index += 1
     assert session.render_counter == 10
 
 
