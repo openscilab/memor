@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Prompt` class size warning
 - `Response` class size warning
 - `Session` class size warning
+- `Response` class `warnings` property
+- `Prompt` class `warnings` property
+- `Session` class `warnings` property
 ### Changed
 - `README.md` updated
 - `LLMModel` enum updated
