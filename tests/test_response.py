@@ -169,6 +169,16 @@ def test_role4():
         response.update_role(2)
 
 
+def test_warnings():
+    response = Response(message="I am fine.")
+    assert response.warnings == dict()
+    response.set_size_warning(threshold=500)
+    assert response.warnings["size"]["enable"]
+    assert response.warnings["size"]["threshold"] == 500
+    response.warnings["size"]["threshold"] = 100
+    assert response.warnings["size"]["threshold"] == 500
+
+
 def test_temperature1():
     response = Response(message="I am fine.", temperature=0.2)
     assert response.temperature == 0.2

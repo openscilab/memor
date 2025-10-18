@@ -115,6 +115,18 @@ def test_messages_status5():
     assert s.messages_status == []
 
 
+def test_warnings():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    assert session.warnings == dict()
+    session.set_size_warning(threshold=500)
+    assert session.warnings["size"]["enable"]
+    assert session.warnings["size"]["threshold"] == 500
+    session.warnings["size"]["threshold"] = 100
+    assert session.warnings["size"]["threshold"] == 500
+
+
 def test_enable_message():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")

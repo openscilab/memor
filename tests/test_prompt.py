@@ -103,6 +103,16 @@ def test_role4():
         prompt.update_role(2)
 
 
+def test_warnings():
+    prompt = Prompt(message="Hello, how are you?")
+    assert prompt.warnings == dict()
+    prompt.set_size_warning(threshold=500)
+    assert prompt.warnings["size"]["enable"]
+    assert prompt.warnings["size"]["threshold"] == 500
+    prompt.warnings["size"]["threshold"] = 100
+    assert prompt.warnings["size"]["threshold"] == 500
+
+
 def test_id1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     assert uuid.UUID(prompt.id, version=4) == uuid.UUID(prompt._id, version=4)

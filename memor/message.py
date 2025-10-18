@@ -5,6 +5,7 @@ from typing import List, Dict, Union, Tuple, Any, Optional
 import re
 import datetime
 import json
+import copy
 from warnings import warn
 from .params import MEMOR_VERSION
 from .params import RenderFormat
@@ -192,6 +193,11 @@ class Message(ABC):
     def size(self) -> int:
         """Get the size of the message in bytes."""
         return self.get_size()
+
+    @property
+    def warnings(self) -> Dict[str, Dict[str, Union[float, bool]]]:
+        """Get the message warnings."""
+        return copy.deepcopy(self._warnings)
 
     @abstractmethod
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
