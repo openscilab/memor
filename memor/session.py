@@ -575,6 +575,6 @@ class Session:
         return self.get_size()
 
     @property
-    def warnings(self) -> Dict[str, Union[float, bool]]:
+    def warnings(self) -> Dict[str, Dict[str, Union[float, bool]]]:
         """Get the session warnings."""
         return copy.deepcopy(self._warnings)
