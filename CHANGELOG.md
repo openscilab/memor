@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `LLMModel` enum updated
 - `None` value update bug fixed
 - `show_warning` parameter added to `render` method
+- `Python 3.14` added to `test.yml`
 - Test system modified
 - Typing modified
 ## [0.8] - 2025-07-21
