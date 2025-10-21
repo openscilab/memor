@@ -73,9 +73,9 @@ In a nutshell, Memor makes it easy and effective to manage and reuse conversatio
 
 ### PyPI
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install memor==0.8`
+- Run `pip install memor==0.9`
 ### Source code
-- Download [Version 0.8](https://github.com/openscilab/memor/archive/v0.8.zip) or [Latest Source](https://github.com/openscilab/memor/archive/dev.zip)
+- Download [Version 0.9](https://github.com/openscilab/memor/archive/v0.9.zip) or [Latest Source](https://github.com/openscilab/memor/archive/dev.zip)
 - Run `pip install .`
 
 ## Usage
