@@ -35,14 +35,14 @@ setup(
     name='memor',
     packages=[
         'memor', ],
-    version='0.8',
+    version='0.9',
     description='Memor: Reproducible Structured Memory for LLMs',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='Memor Development Team',
     author_email='memor@openscilab.com',
     url='https://github.com/openscilab/memor',
-    download_url='https://github.com/openscilab/memor/tarball/v0.8',
+    download_url='https://github.com/openscilab/memor/tarball/v0.9',
     keywords="llm memory management conversational history ai agent",
     project_urls={
             'Source': 'https://github.com/openscilab/memor',
