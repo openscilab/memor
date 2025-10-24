@@ -460,4 +460,15 @@ class LLMModel(Enum):
     YI_CODER_1_5B_CHAT = "yi-coder-1.5b-chat"
     YI_CODER_1_5B = "yi-coder-1.5b"
 
+    EXAONE_3_0_7_8B_INSTRUCT = "exaone-3.0-7.8b-instruct"
+    EXAONE_3_5_2_4B_INSTRUCT = "exaone-3.5-2.4b-instruct"
+    EXAONE_3_5_32B_INSTRUCT = "exaone-3.5-32b-instruct"
+    EXAONE_3_5_7_8B_INSTRUCT = "exaone-3.5-7.8b-instruct"
+    EXAONE_4_0_1_2B = "exaone-4.0-1.2b"
+    EXAONE_4_0_32B = "exaone-4.0-32b"
+    EXAONE_4_0_1_32B = "exaone-4.0.1-32b"
+    EXAONE_DEEP_2_4B = "exaone-deep-2.4b"
+    EXAONE_DEEP_32B = "exaone-deep-32b"
+    EXAONE_DEEP_7_8B = "exaone-deep-7.8b"
+
     DEFAULT = "unknown"
