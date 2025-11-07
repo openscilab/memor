@@ -6,7 +6,7 @@ import re
 import datetime
 import json
 import copy
-import xml.etree.ElementTree as ET
+from defusedxml import ElementTree as ET
 from warnings import warn
 from .params import MEMOR_VERSION
 from .params import RenderFormat
