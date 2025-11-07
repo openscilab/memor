@@ -248,7 +248,7 @@ class Message(ABC):
             raise MemorValidationError(INVALID_XML_MESSAGE)
         tree = {}
 
-        def _parse_xml_element(element: ET.Element) -> Dict[str, Any]:
+        def _parse_xml_element(element: Any) -> Dict[str, Any]:
             """
             Parse a XML element.
 
