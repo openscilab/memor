@@ -6,7 +6,7 @@ import re
 import datetime
 import json
 import copy
-from defusedxml import ElementTree as ET
+from defusedxml import ElementTree
 from warnings import warn
 from .params import MEMOR_VERSION
 from .params import RenderFormat
@@ -243,7 +243,7 @@ class Message(ABC):
                 render_format=RenderFormat.STRING,
                 show_warning=False))
         try:
-            root = ET.fromstring(wrapped)
+            root = ElementTree.fromstring(wrapped)
         except Exception:
             raise MemorValidationError(INVALID_XML_MESSAGE)
         tree = {}
