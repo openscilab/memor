@@ -236,15 +236,18 @@ class Message(ABC):
         """Check if the message contains any XML tags."""
         return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING, show_warning=False)))
 
-
     def _build_xml_tree(self) -> Dict[str, Any]:
         """Build XML tree."""
-        wrapped = "<root>{message}</root>".format(message=self.render(render_format=RenderFormat.STRING, show_warning=False))
+        wrapped = "<root>{message}</root>".format(
+            message=self.render(
+                render_format=RenderFormat.STRING,
+                show_warning=False))
         try:
             root = ET.fromstring(wrapped)
         except Exception:
             raise MemorValidationError(INVALID_XML_MESSAGE)
         tree = {}
+
         def _parse_xml_element(element: ET.Element) -> Dict[str, Any]:
             """
             Parse a XML element.
@@ -268,7 +271,6 @@ class Message(ABC):
             tree[child.tag].append(_parse_xml_element(child))
 
         return tree
-
 
     def _handle_size_warning(self) -> None:
         """Size warning handler."""
