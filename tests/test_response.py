@@ -178,6 +178,7 @@ def test_xml_tree2():
     response = Response("<reasoning>Reasoning1</reasoning><reasoning>Reasoning2</reasoning>")
     assert response.xml_tree == {'reasoning': [{'text': 'Reasoning1'}, {'text': 'Reasoning2'}]}
 
+
 def test_xml_tree3():
     response = Response("<examples><item>Example1</item><item>Example2</item><examples>")
     with pytest.raises(MemorValidationError, match=r"Invalid XML-like structure."):
