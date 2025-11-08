@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Prompt` class `xml_tree` property
 ### Changed
 - `LLMModel` enum updated
+- `verify` parameter added to `contains_xml` method
+- Test system modified
 ## [0.9] - 2025-10-22
 ### Added
 - `Prompt` class `contains_xml` method
