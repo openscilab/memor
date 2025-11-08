@@ -825,16 +825,21 @@ def test_contains_xml1():
 
 
 def test_contains_xml2():
+    response = Response(message="I am fine.")
+    assert not response.contains_xml(verify=True)
+
+
+def test_contains_xml3():
     response = Response(message="I am fine. <note>test</note>")
     assert response.contains_xml()
 
 
-def test_contains_xml3():
+def test_contains_xml4():
     response = Response(message="I am fine. <note>test<note>")
     assert response.contains_xml()
 
 
-def test_contains_xml4():
+def test_contains_xml5():
     response = Response(message="I am fine. <note>test<note>")
     assert not response.contains_xml(verify=True)
 
