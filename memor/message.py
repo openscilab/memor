@@ -232,9 +232,22 @@ class Message(ABC):
         """
         return method(self.render(render_format=RenderFormat.STRING, show_warning=False))
 
-    def contains_xml(self) -> bool:
-        """Check if the message contains any XML tags."""
-        return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING, show_warning=False)))
+    def contains_xml(self, verify: bool = False) -> bool:
+        """
+        Check if the message contains any XML tags.
+
+        :param verify: verify if the XML structure is well-formed
+        """
+        message = self.render(render_format=RenderFormat.STRING, show_warning=False)
+        wrapped = "<root>{message}</root>".format(message=message)
+        pattern_result = bool(re.search(XML_PATTERN, message))
+        if not verify:
+            return pattern_result
+        try:
+            _ = ElementTree.fromstring(wrapped)
+            return pattern_result
+        except Exception:
+            return False
 
     def _build_xml_tree(self) -> Dict[str, Any]:
         """Build XML tree."""
