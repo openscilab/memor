@@ -169,6 +169,22 @@ def test_role4():
         response.update_role(2)
 
 
+def test_xml_tree1():
+    response = Response("<examples><item>Example1</item><item>Example2</item></examples>")
+    assert response.xml_tree == {'examples': [{'item': [{'text': 'Example1'}, {'text': 'Example2'}]}]}
+
+
+def test_xml_tree2():
+    response = Response("<reasoning>Reasoning1</reasoning><reasoning>Reasoning2</reasoning>")
+    assert response.xml_tree == {'reasoning': [{'text': 'Reasoning1'}, {'text': 'Reasoning2'}]}
+
+
+def test_xml_tree3():
+    response = Response("<examples><item>Example1</item><item>Example2</item><examples>")
+    with pytest.raises(MemorValidationError, match=r"Invalid XML-like structure."):
+        _ = response.xml_tree
+
+
 def test_warnings():
     response = Response(message="I am fine.")
     assert response.warnings == dict()

@@ -6,13 +6,14 @@ import re
 import datetime
 import json
 import copy
+from defusedxml import ElementTree
 from warnings import warn
 from .params import MEMOR_VERSION
 from .params import RenderFormat
 from .params import Role
 from .params import XML_PATTERN
 from .tokens_estimator import TokensEstimator
-from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING
+from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING, INVALID_XML_MESSAGE
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int
@@ -199,6 +200,11 @@ class Message(ABC):
         """Get the message warnings."""
         return copy.deepcopy(self._warnings)
 
+    @property
+    def xml_tree(self) -> Dict[str, Any]:
+        """Get the XML tree."""
+        return self._build_xml_tree()
+
     @abstractmethod
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
                show_warning: bool = True) -> Union[str, Dict[str, Any], List[Tuple[str, Any]]]:
@@ -229,6 +235,42 @@ class Message(ABC):
     def contains_xml(self) -> bool:
         """Check if the message contains any XML tags."""
         return bool(re.search(XML_PATTERN, self.render(render_format=RenderFormat.STRING, show_warning=False)))
+
+    def _build_xml_tree(self) -> Dict[str, Any]:
+        """Build XML tree."""
+        wrapped = "<root>{message}</root>".format(
+            message=self.render(
+                render_format=RenderFormat.STRING,
+                show_warning=False))
+        try:
+            root = ElementTree.fromstring(wrapped)
+        except Exception:
+            raise MemorValidationError(INVALID_XML_MESSAGE)
+        tree = {}
+
+        def _parse_xml_element(element: Any) -> Dict[str, Any]:
+            """
+            Parse a XML element.
+
+            :param element: XML element
+            """
+            node = {}
+            text = (element.text or "").strip()
+            if text:
+                node["text"] = text
+            for child in element:
+                child_data = _parse_xml_element(child)
+                if child.tag not in node:
+                    node[child.tag] = []
+                node[child.tag].append(child_data)
+            return node
+
+        for child in root:
+            if child.tag not in tree:
+                tree[child.tag] = []
+            tree[child.tag].append(_parse_xml_element(child))
+
+        return tree
 
     def _handle_size_warning(self) -> None:
         """Size warning handler."""

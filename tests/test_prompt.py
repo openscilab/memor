@@ -103,6 +103,17 @@ def test_role4():
         prompt.update_role(2)
 
 
+def test_xml_tree1():
+    prompt = Prompt("<examples><item>Example1</item><item>Example2</item></examples>")
+    assert prompt.xml_tree == {'examples': [{'item': [{'text': 'Example1'}, {'text': 'Example2'}]}]}
+
+
+def test_xml_tree2():
+    prompt = Prompt("<examples><item>Example1</item><item>Example2</item><examples>")
+    with pytest.raises(MemorValidationError, match=r"Invalid XML-like structure."):
+        _ = prompt.xml_tree
+
+
 def test_warnings():
     prompt = Prompt(message="Hello, how are you?")
     assert prompt.warnings == dict()
