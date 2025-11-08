@@ -829,6 +829,16 @@ def test_contains_xml2():
     assert response.contains_xml()
 
 
+def test_contains_xml3():
+    response = Response(message="I am fine. <note>test<note>")
+    assert response.contains_xml()
+
+
+def test_contains_xml4():
+    response = Response(message="I am fine. <note>test<note>")
+    assert not response.contains_xml(verify=True)
+
+
 def test_equality1():
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = response1.copy()
