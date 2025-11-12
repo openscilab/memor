@@ -322,8 +322,6 @@ class Message(ABC):
         _build_xml_element(root, xml_tree)
         return "".join(ElementTree.tostring(element, encoding="unicode") for element in root)
 
-
-
     def _handle_size_warning(self) -> None:
         """Size warning handler."""
         size_warning = self._warnings.get("size", {})
