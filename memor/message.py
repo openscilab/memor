@@ -13,7 +13,7 @@ from .params import RenderFormat
 from .params import Role
 from .params import XML_PATTERN
 from .tokens_estimator import TokensEstimator
-from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING, INVALID_XML_MESSAGE
+from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING, INVALID_XML_TREE_MESSAGE
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int
@@ -267,7 +267,7 @@ class Message(ABC):
         try:
             root = ElementTree.fromstring(wrapped)
         except Exception:
-            raise MemorValidationError(INVALID_XML_MESSAGE)
+            raise MemorValidationError(INVALID_XML_TREE_MESSAGE)
         tree = {}
 
         def _parse_xml_element(element: Any) -> Dict[str, Any]:
