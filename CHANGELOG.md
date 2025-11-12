@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `Response` class `xml_tree` property
 - `Prompt` class `xml_tree` property
+- `Response` class `update_message_from_xml` method
+- `Prompt` class `update_message_from_xml` method
 ### Changed
 - `LLMModel` enum updated
 - `verify` parameter added to `contains_xml` method
