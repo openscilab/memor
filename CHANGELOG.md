@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Response` class `update_message_from_xml` method
 - `Prompt` class `update_message_from_xml` method
 ### Changed
+- `README.md` updated
 - `LLMModel` enum updated
 - `verify` parameter added to `contains_xml` method
 - Test system modified
