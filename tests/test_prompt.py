@@ -110,7 +110,7 @@ def test_xml_tree1():
 
 def test_xml_tree2():
     prompt = Prompt("<examples><item>Example1</item><item>Example2</item><examples>")
-    with pytest.raises(MemorValidationError, match=r"Invalid XML-like structure."):
+    with pytest.raises(MemorValidationError, match=r"Invalid XML tree structure."):
         _ = prompt.xml_tree
 
 
