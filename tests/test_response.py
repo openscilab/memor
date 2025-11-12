@@ -191,6 +191,12 @@ def test_xml_tree3():
         _ = response.xml_tree
 
 
+def test_xml_tree4():
+    response = Response("<examples><item>Example1</item><item>Example2</item><examples>")
+    with pytest.raises(MemorValidationError, match=r"Invalid XML tree structure."):
+        response.update_message_from_xml([])
+
+
 def test_warnings():
     response = Response(message="I am fine.")
     assert response.warnings == dict()

@@ -86,7 +86,10 @@ class Message(ABC):
 
         :param xml_tree: XML tree
         """
-        self._message = self._build_xml_string(xml_tree)
+        try:
+            self._message = self._build_xml_string(xml_tree)
+        except Exception:
+            raise MemorValidationError(INVALID_XML_TREE_MESSAGE)
         self._mark_modified()
 
     def update_role(self, role: Role) -> None:
