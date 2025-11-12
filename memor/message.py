@@ -79,6 +79,15 @@ class Message(ABC):
         self._message = message
         self._mark_modified()
 
+    def update_message_from_xml(self, xml_tree: Dict[str, Any]) -> None:
+        """
+        Update the message form XML tree.
+
+        :param xml_tree: XML tree
+        """
+        self._message = self._build_xml_string(xml_tree)
+        self._mark_modified()
+
     def update_role(self, role: Role) -> None:
         """
         Update the role.
@@ -284,6 +293,36 @@ class Message(ABC):
             tree[child.tag].append(_parse_xml_element(child))
 
         return tree
+
+    @staticmethod
+    def _build_xml_string(xml_tree: Dict[str, Any]) -> str:
+        """
+        Build XML string.
+
+        :param xml_tree: XML tree
+        """
+        def _build_xml_element(parent: Any, structure: Dict[str, Any]) -> None:
+            """
+            Build a XML element.
+
+            :param parent: parent node
+            :param structure: XML tree structure
+            """
+            for tag, nodes in structure.items():
+                for node in nodes:
+                    element = ElementTree.SubElement(parent, tag)
+                    text = node.get("text")
+                    if text:
+                        element.text = text
+                    for k, v in node.items():
+                        if k != "text":
+                            _build_xml_element(element, {k: v})
+
+        root = ElementTree.Element("root")
+        _build_xml_element(root, xml_tree)
+        return "".join(ElementTree.tostring(element, encoding="unicode") for element in root)
+
+
 
     def _handle_size_warning(self) -> None:
         """Size warning handler."""
