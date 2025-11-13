@@ -152,6 +152,7 @@ prompt.render()
 | `update_template`                               | Update the rendering template                                          |
 | `update_responses`                              | Replace all responses                                                  |
 | `update_message`                                | Update the prompt text                                                 |
+| `update_message_from_xml`                       | Update the prompt text from XML                                        |
 | `update_role`                                   | Change the prompt role                                                 |
 | `update_tokens`                                 | Set a custom token count                                               |
 | `to_json` / `from_json`                         | Serialize or deserialize the prompt data                               |
@@ -212,6 +213,7 @@ response.render()
 | `update_gpu`                                    | Set the GPU model identifier                                             |
 | `update_inference_time`                         | Set the inference time in seconds                                        |
 | `update_message`                                | Update the response message                                              |
+| `update_message_from_xml`                       | Update the response message from XML                                     |
 | `update_role`                                   | Update the sender role                                                   |
 | `update_tokens`                                 | Set the number of tokens                                                 |
 | `to_json` / `from_json`                         | Serialize or deserialize to/from JSON                                    |

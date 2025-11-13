@@ -172,17 +172,29 @@ def test_role4():
 def test_xml_tree1():
     response = Response("<examples><item>Example1</item><item>Example2</item></examples>")
     assert response.xml_tree == {'examples': [{'item': [{'text': 'Example1'}, {'text': 'Example2'}]}]}
+    response.update_message_from_xml({'examples': [{'item': [{'text': 'Example33'}, {'text': 'Example46'}]}]})
+    assert response.xml_tree == {'examples': [{'item': [{'text': 'Example33'}, {'text': 'Example46'}]}]}
+    assert response.message == "<examples><item>Example33</item><item>Example46</item></examples>"
 
 
 def test_xml_tree2():
     response = Response("<reasoning>Reasoning1</reasoning><reasoning>Reasoning2</reasoning>")
     assert response.xml_tree == {'reasoning': [{'text': 'Reasoning1'}, {'text': 'Reasoning2'}]}
+    response.update_message_from_xml({'reasoning': [{'text': 'Reasoning100'}, {'text': 'Reasoning250'}]})
+    assert response.xml_tree == {'reasoning': [{'text': 'Reasoning100'}, {'text': 'Reasoning250'}]}
+    assert response.message == "<reasoning>Reasoning100</reasoning><reasoning>Reasoning250</reasoning>"
 
 
 def test_xml_tree3():
     response = Response("<examples><item>Example1</item><item>Example2</item><examples>")
-    with pytest.raises(MemorValidationError, match=r"Invalid XML-like structure."):
+    with pytest.raises(MemorValidationError, match=r"Invalid XML tree structure."):
         _ = response.xml_tree
+
+
+def test_xml_tree4():
+    response = Response("<examples><item>Example1</item><item>Example2</item><examples>")
+    with pytest.raises(MemorValidationError, match=r"Invalid XML tree structure."):
+        response.update_message_from_xml([])
 
 
 def test_warnings():

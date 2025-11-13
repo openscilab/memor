@@ -6,14 +6,15 @@ import re
 import datetime
 import json
 import copy
-from defusedxml import ElementTree
+import xml.etree.ElementTree as ElementTree
+from defusedxml import ElementTree as SafeElementTree
 from warnings import warn
 from .params import MEMOR_VERSION
 from .params import RenderFormat
 from .params import Role
 from .params import XML_PATTERN
 from .tokens_estimator import TokensEstimator
-from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING, INVALID_XML_MESSAGE
+from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING, INVALID_XML_TREE_MESSAGE
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int
@@ -77,6 +78,18 @@ class Message(ABC):
         """
         _validate_string(message, "message")
         self._message = message
+        self._mark_modified()
+
+    def update_message_from_xml(self, xml_tree: Dict[str, Any]) -> None:
+        """
+        Update the message form XML tree.
+
+        :param xml_tree: XML tree
+        """
+        try:
+            self._message = self._build_xml_string(xml_tree)
+        except Exception:
+            raise MemorValidationError(INVALID_XML_TREE_MESSAGE)
         self._mark_modified()
 
     def update_role(self, role: Role) -> None:
@@ -244,7 +257,7 @@ class Message(ABC):
         if not verify:
             return pattern_result
         try:
-            _ = ElementTree.fromstring(wrapped)
+            _ = SafeElementTree.fromstring(wrapped)
             return pattern_result
         except Exception:
             return False
@@ -256,9 +269,9 @@ class Message(ABC):
                 render_format=RenderFormat.STRING,
                 show_warning=False))
         try:
-            root = ElementTree.fromstring(wrapped)
+            root = SafeElementTree.fromstring(wrapped)
         except Exception:
-            raise MemorValidationError(INVALID_XML_MESSAGE)
+            raise MemorValidationError(INVALID_XML_TREE_MESSAGE)
         tree = {}
 
         def _parse_xml_element(element: Any) -> Dict[str, Any]:
@@ -284,6 +297,34 @@ class Message(ABC):
             tree[child.tag].append(_parse_xml_element(child))
 
         return tree
+
+    @staticmethod
+    def _build_xml_string(xml_tree: Dict[str, Any]) -> str:
+        """
+        Build XML string.
+
+        :param xml_tree: XML tree
+        """
+        def _build_xml_element(parent: Any, structure: Dict[str, Any]) -> None:
+            """
+            Build a XML element.
+
+            :param parent: parent node
+            :param structure: XML tree structure
+            """
+            for tag, nodes in structure.items():
+                for node in nodes:
+                    element = ElementTree.SubElement(parent, tag)
+                    text = node.get("text")
+                    if text:
+                        element.text = text
+                    for k, v in node.items():
+                        if k != "text":
+                            _build_xml_element(element, {k: v})
+
+        root = ElementTree.Element("root")
+        _build_xml_element(root, xml_tree)
+        return "".join(ElementTree.tostring(element, encoding="unicode") for element in root)
 
     def _handle_size_warning(self) -> None:
         """Size warning handler."""

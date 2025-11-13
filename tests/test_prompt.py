@@ -106,12 +106,21 @@ def test_role4():
 def test_xml_tree1():
     prompt = Prompt("<examples><item>Example1</item><item>Example2</item></examples>")
     assert prompt.xml_tree == {'examples': [{'item': [{'text': 'Example1'}, {'text': 'Example2'}]}]}
+    prompt.update_message_from_xml({'examples': [{'item': [{'text': 'Example146'}, {'text': 'Example233'}]}]})
+    assert prompt.xml_tree == {'examples': [{'item': [{'text': 'Example146'}, {'text': 'Example233'}]}]}
+    assert prompt.message == "<examples><item>Example146</item><item>Example233</item></examples>"
 
 
 def test_xml_tree2():
     prompt = Prompt("<examples><item>Example1</item><item>Example2</item><examples>")
-    with pytest.raises(MemorValidationError, match=r"Invalid XML-like structure."):
+    with pytest.raises(MemorValidationError, match=r"Invalid XML tree structure."):
         _ = prompt.xml_tree
+
+
+def test_xml_tree3():
+    prompt = Prompt("<examples><item>Example1</item><item>Example2</item><examples>")
+    with pytest.raises(MemorValidationError, match=r"Invalid XML tree structure."):
+        prompt.update_message_from_xml([])
 
 
 def test_warnings():
