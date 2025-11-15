@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `README.md` updated
 - `LLMModel` enum updated
 - `verify` parameter added to `contains_xml` method
+- Warning bug fixed
 - Test system modified
 ## [0.9] - 2025-10-22
 ### Added
