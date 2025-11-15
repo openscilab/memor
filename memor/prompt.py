@@ -333,7 +333,7 @@ class Prompt(Message):
                 return {"role": self._role.value, "content": content}
             if render_format == RenderFormat.AI_STUDIO:
                 role_str = self._role.value
-                if self._role == Role.SYSTEM:
+                if self._role == Role.SYSTEM and show_warning:
                     warnings.warn(AI_STUDIO_SYSTEM_WARNING, UserWarning)
                 if self._role == Role.ASSISTANT:
                     role_str = "model"
