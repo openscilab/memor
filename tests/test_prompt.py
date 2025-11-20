@@ -906,13 +906,14 @@ def test_contains_xml1():
         role=Role.USER,
         template=template)
     assert not prompt.contains_xml()
+    assert not prompt.contains_xml(verify=True)
 
 
 def test_contains_xml2():
     message = "How are you?"
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    template = PromptTemplate(content="{instruction}, {prompt[message]}", custom_map={"instruction": "Hi"})
+    template = PromptTemplate(content="<inst>{instruction}</inst>, {prompt[message]}", custom_map={"instruction": "Hi"})
     prompt = Prompt(
         message=message,
         responses=[
@@ -920,28 +921,14 @@ def test_contains_xml2():
             response2],
         role=Role.USER,
         template=template)
-    assert not prompt.contains_xml(verify=True)
+    assert prompt.contains_xml()
+    assert prompt.contains_xml(verify=True)
 
 
 def test_contains_xml3():
     message = "How are you?"
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    template = PromptTemplate(content="<inst>{instruction}</inst>, {prompt[message]}", custom_map={"instruction": "Hi"})
-    prompt = Prompt(
-        message=message,
-        responses=[
-            response1,
-            response2],
-        role=Role.USER,
-        template=template)
-    assert prompt.contains_xml()
-
-
-def test_contains_xml4():
-    message = "How are you?"
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
     template = PromptTemplate(content="<inst>{instruction}<inst>, {prompt[message]}", custom_map={"instruction": "Hi"})
     prompt = Prompt(
         message=message,
@@ -951,36 +938,7 @@ def test_contains_xml4():
         role=Role.USER,
         template=template)
     assert prompt.contains_xml()
-
-
-def test_contains_xml5():
-    message = "How are you?"
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    template = PromptTemplate(content="<inst>{instruction}<inst>, {prompt[message]}", custom_map={"instruction": "Hi"})
-    prompt = Prompt(
-        message=message,
-        responses=[
-            response1,
-            response2],
-        role=Role.USER,
-        template=template)
     assert not prompt.contains_xml(verify=True)
-
-
-def test_contains_xml6():
-    message = "How are you?"
-    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
-    template = PromptTemplate(content="<inst>{instruction}</inst>, {prompt[message]}", custom_map={"instruction": "Hi"})
-    prompt = Prompt(
-        message=message,
-        responses=[
-            response1,
-            response2],
-        role=Role.USER,
-        template=template)
-    assert prompt.contains_xml(verify=True)
 
 
 def test_equality1():
