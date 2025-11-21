@@ -473,4 +473,14 @@ class LLMModel(Enum):
     EXAONE_DEEP_32B = "exaone-deep-32b"
     EXAONE_DEEP_7_8B = "exaone-deep-7.8b"
 
+    GROK_4_1_FAST_REASONING = "grok-4.1-fast-reasoning"
+    GROK_4_1_FAST_NON_REASONING = "grok-4.1-fast-non-reasoning"
+    GROK_4_FAST_REASONING = "grok-4-fast-reasoning"
+    GROK_4_FAST_NON_REASONING = "grok-4-fast-non-reasoning"
+    GROK_4 = "grok-4"
+    GROK_3 = "grok-3"
+    GROK_3_MINI = "grok-3-mini"
+    GROK_CODE_FAST_1 = "grok-code-fast-1"
+    GROK_2_VISION = "grok-2-vision"
+
     DEFAULT = "unknown"
