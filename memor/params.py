@@ -63,6 +63,7 @@ class RenderFormat(Enum):
 class LLMModel(Enum):
     """LLM model enum."""
 
+    GPT_5_1 = "gpt-5.1"
     GPT_5 = "gpt-5"
     GPT_5_MINI = "gpt-5-mini"
     GPT_5_NANO = "gpt-5-nano"
@@ -472,5 +473,15 @@ class LLMModel(Enum):
     EXAONE_DEEP_2_4B = "exaone-deep-2.4b"
     EXAONE_DEEP_32B = "exaone-deep-32b"
     EXAONE_DEEP_7_8B = "exaone-deep-7.8b"
+
+    GROK_4_1_FAST_REASONING = "grok-4.1-fast-reasoning"
+    GROK_4_1_FAST_NON_REASONING = "grok-4.1-fast-non-reasoning"
+    GROK_4_FAST_REASONING = "grok-4-fast-reasoning"
+    GROK_4_FAST_NON_REASONING = "grok-4-fast-non-reasoning"
+    GROK_4 = "grok-4"
+    GROK_3 = "grok-3"
+    GROK_3_MINI = "grok-3-mini"
+    GROK_CODE_FAST_1 = "grok-code-fast-1"
+    GROK_2_VISION = "grok-2-vision"
 
     DEFAULT = "unknown"
