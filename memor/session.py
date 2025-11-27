@@ -455,7 +455,7 @@ class Session:
             "date_modified": self._date_modified,
         }
         return data
-    
+
 
     def to_dataframe(self) -> pd.DataFrame:
         """Convert the session to a pandas DataFrame."""

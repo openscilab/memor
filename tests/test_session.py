@@ -299,7 +299,7 @@ def test_to_dataframe():
     assert df.iloc[0]["message"] == prompt.message
     assert df.iloc[1]["message"] == response.message
     assert len(df) == 2
-    
+
 
 def test_save1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
