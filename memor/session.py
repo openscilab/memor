@@ -6,6 +6,7 @@ import json
 import re
 import copy
 from warnings import warn
+import pandas as pd
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
@@ -453,6 +454,21 @@ class Session:
             "date_modified": self._date_modified,
         }
         return data
+    
+
+    def to_dataframe(self) -> pd.DataFrame:
+        records = []
+        for message in self.messages:
+            message_json = message.to_json()
+            record = {"metadata":dict()}
+            for key in message_json:
+                if key in ["id", "message"]:
+                    record[key] = message_json[key]
+                else:
+                    record["metadata"][key] = message_json[key]
+            records.append(record)
+        return pd.DataFrame(records)
+
 
     def get_size(self) -> int:
         """Get the size of the session in bytes."""
