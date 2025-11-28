@@ -462,7 +462,7 @@ class Session:
         records = []
         for message in self.messages:
             message_json = message.to_json()
-            record = {"metadata":dict()}
+            record = {"metadata": dict()}
             for key in message_json:
                 if key in DATAFRAME_MAIN_COLUMNS:
                     record[key] = message_json[key]
