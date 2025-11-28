@@ -6,6 +6,7 @@ import json
 import re
 import copy
 from warnings import warn
+import pandas as pd
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT, DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_MESSAGE
@@ -13,6 +14,7 @@ from .params import INVALID_SESSION_STRUCTURE_MESSAGE, INVALID_RENDER_FORMAT_MES
 from .params import INVALID_INT_OR_STR_MESSAGE, INVALID_INT_OR_STR_SLICE_MESSAGE
 from .params import UNSUPPORTED_OPERAND_ERROR_MESSAGE, SESSION_SIZE_WARNING
 from .params import RenderFormat
+from .params import DATAFRAME_MAIN_COLUMNS
 from .tokens_estimator import TokensEstimator
 from .prompt import Prompt
 from .response import Response
@@ -453,6 +455,22 @@ class Session:
             "date_modified": self._date_modified,
         }
         return data
+
+
+    def to_dataframe(self) -> pd.DataFrame:
+        """Convert the session to a pandas DataFrame."""
+        records = []
+        for message in self.messages:
+            message_json = message.to_json()
+            record = {"metadata": dict()}
+            for key in message_json:
+                if key in DATAFRAME_MAIN_COLUMNS:
+                    record[key] = message_json[key]
+                else:
+                    record["metadata"][key] = message_json[key]
+            records.append(record)
+        return pd.DataFrame(records)
+
 
     def get_size(self) -> int:
         """Get the size of the session in bytes."""

@@ -345,6 +345,7 @@ print("Estimated tokens:", tokens)
 | `save` / `load`                                                   | Save or load the session to/from a file                       |
 | `to_json` / `from_json`                                           | Serialize or deserialize the session to/from JSON             |
 | `to_dict`                                                         | Return a Python dict representation of the session            |
+| `to_dataframe`                                                    | Return a Pandas DataFrame representation of the session            |
 | `render`                                                          | Render the session in the specified format                    |
 | `check_render`                                                    | Return `True` if the session renders without error            |
 | `get_size`                                                        | Return session size in bytes (JSON-encoded)                   |
