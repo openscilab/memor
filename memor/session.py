@@ -483,18 +483,16 @@ class Session:
         for _, row in dataframe.iterrows():
             json_data = {}
             for col in DATAFRAME_MAIN_COLUMNS:
-                if col in row and pd.notna(row[col]):
-                    json_data[col] = row[col]
+                json_data[col] = row[col]
 
             metadata = row.get("metadata", {})
-            if isinstance(metadata, dict):
-                json_data.update(metadata)
+            json_data.update(metadata)
 
             message_type = json_data.get("type")
             if message_type == "Prompt":
                 message = Prompt()
                 message.from_json(json_data)
-            elif message_type == "Response":
+            else:
                 message = Response()
                 message.from_json(json_data)
             messages.append(message)
