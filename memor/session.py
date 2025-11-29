@@ -480,7 +480,7 @@ class Session:
         """
         messages = []
 
-        for _, row in df.iterrows():
+        for _, row in dataframe.iterrows():
             json_data = {}
             for col in DATAFRAME_MAIN_COLUMNS:
                 if col in row and pd.notna(row[col]):
@@ -494,11 +494,12 @@ class Session:
             if message_type == "Prompt":
                 message = Prompt()
                 message.from_json(json_data)
-            elif msg_type == "Response":
+            elif message_type == "Response":
                 message = Response()
                 message.from_json(json_data)
             messages.append(message)
         self._messages = messages
+        self._messages_status = len(self._messages) * [True]
 
 
     def get_size(self) -> int:
