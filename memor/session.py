@@ -470,6 +470,35 @@ class Session:
                     record["metadata"][key] = message_json[key]
             records.append(record)
         return pd.DataFrame(records)
+    
+
+    def from_dataframe(self, dataframe: pd.DataFrame) -> None:
+        """
+        Reconstruct a session object from a pandas DataFrame.
+        
+        :param dataframe: input dataframe
+        """
+        messages = []
+
+        for _, row in df.iterrows():
+            json_data = {}
+            for col in DATAFRAME_MAIN_COLUMNS:
+                if col in row and pd.notna(row[col]):
+                    json_data[col] = row[col]
+
+            metadata = row.get("metadata", {})
+            if isinstance(metadata, dict):
+                json_data.update(metadata)
+
+            message_type = json_data.get("type")
+            if message_type == "Prompt":
+                message = Prompt()
+                message.from_json(json_data)
+            elif msg_type == "Response":
+                message = Response()
+                message.from_json(json_data)
+            messages.append(message)
+        self._messages = messages
 
 
     def get_size(self) -> int:
