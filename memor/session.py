@@ -472,6 +472,34 @@ class Session:
         return pd.DataFrame(records)
 
 
+    def from_dataframe(self, dataframe: pd.DataFrame) -> None:
+        """
+        Reconstruct a session object from a pandas DataFrame.
+        
+        :param dataframe: input dataframe
+        """
+        messages = []
+
+        for _, row in dataframe.iterrows():
+            json_data = {}
+            for col in DATAFRAME_MAIN_COLUMNS:
+                json_data[col] = row[col]
+
+            metadata = row.get("metadata", {})
+            json_data.update(metadata)
+
+            message_type = json_data.get("type")
+            if message_type == "Prompt":
+                message = Prompt()
+                message.from_json(json_data)
+            else:
+                message = Response()
+                message.from_json(json_data)
+            messages.append(message)
+        self._messages = messages
+        self._messages_status = len(self._messages) * [True]
+
+
     def get_size(self) -> int:
         """Get the size of the session in bytes."""
         json_str = json.dumps(self.to_json())

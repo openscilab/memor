@@ -301,6 +301,16 @@ def test_to_dataframe():
     assert len(df) == 2
 
 
+def test_from_dataframe():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session1 = Session(messages=[prompt, response])
+    df1 = session1.to_dataframe()
+    session2 = Session()
+    session2.from_dataframe(df1)
+    assert session1 == session2
+
+
 def test_save1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
