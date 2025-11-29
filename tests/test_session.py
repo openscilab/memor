@@ -305,7 +305,7 @@ def test_from_dataframe():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response])
-    df1 = session.to_dataframe()
+    df1 = session1.to_dataframe()
     session2 = Session()
     session2.from_dataframe(df1)
     df2 = session2.to_dataframe()
