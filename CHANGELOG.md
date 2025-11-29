@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `Session` class `to_dataframe` method
+- `Session` class `from_dataframe` method
 ### Changed
 - `LLMModel` enum updated
 - Test system modified
