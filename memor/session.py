@@ -470,7 +470,7 @@ class Session:
                     record["metadata"][key] = message_json[key]
             records.append(record)
         return pd.DataFrame(records)
-    
+
 
     def from_dataframe(self, dataframe: pd.DataFrame) -> None:
         """

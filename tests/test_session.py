@@ -308,7 +308,6 @@ def test_from_dataframe():
     df1 = session1.to_dataframe()
     session2 = Session()
     session2.from_dataframe(df1)
-    df2 = session2.to_dataframe()
     assert session1 == session2
 
 
