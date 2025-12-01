@@ -12,3 +12,7 @@ Memor simplifies this by providing `Session`, `Prompt`, and `Response` as an int
 ## Dual-LLM Chat (Same Instruction)
 An advanced interactive chat loop, simultaneously engaging with both Mistral and Google Gemini language models.
 It leverages the Memor library to manage independent conversation histories for each LLM, ensuring contextual understanding.
+
+## XML Usage
+This example shows how XML can serve as a structured contract between a user, program logic, and an LLM using Memor.
+By converting XML to a tree, modifying it programmatically, and having the LLM refine it, the workflow becomes both dynamic and model-friendly.
