@@ -27,7 +27,6 @@ initial_xml = """
 session = Session(title="XML Planner Session")
 
 prompt = Prompt(message=initial_xml, role=Role.USER)
-session.add_message(prompt)
 
 print("Initial parsed plan:")
 pprint(prompt.xml_tree)
