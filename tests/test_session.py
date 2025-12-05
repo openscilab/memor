@@ -299,8 +299,8 @@ def test_to_dataframe():
     df = session.to_dataframe()
     assert df.iloc[0]["message"] == prompt.message
     assert df.iloc[1]["message"] == response.message
-    assert df.iloc[0]["status"] == True
-    assert df.iloc[1]["status"] == False
+    assert df.iloc[0]["status"]
+    assert not df.iloc[1]["status"]
     assert len(df) == 2
 
 
