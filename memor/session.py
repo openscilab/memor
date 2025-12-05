@@ -460,9 +460,9 @@ class Session:
     def to_dataframe(self) -> pd.DataFrame:
         """Convert the session to a pandas DataFrame."""
         records = []
-        for message in self.messages:
+        for index, message in enumerate(self.messages):
             message_json = message.to_json()
-            record = {"metadata": dict()}
+            record = {"metadata": dict(), "status": self.messages_status[index]}
             for key in message_json:
                 if key in DATAFRAME_MAIN_COLUMNS:
                     record[key] = message_json[key]
