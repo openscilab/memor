@@ -295,9 +295,12 @@ def test_to_dataframe():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response], title="session1")
+    session.update_messages_status([True, False])
     df = session.to_dataframe()
     assert df.iloc[0]["message"] == prompt.message
     assert df.iloc[1]["message"] == response.message
+    assert df.iloc[0]["status"] == True
+    assert df.iloc[1]["status"] == False
     assert len(df) == 2
 
 
