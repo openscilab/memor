@@ -460,9 +460,9 @@ class Session:
     def to_dataframe(self) -> pd.DataFrame:
         """Convert the session to a pandas DataFrame."""
         records = []
-        for message in self.messages:
+        for index, message in enumerate(self.messages):
             message_json = message.to_json()
-            record = {"metadata": dict()}
+            record = {"metadata": dict(), "status": self.messages_status[index]}
             for key in message_json:
                 if key in DATAFRAME_MAIN_COLUMNS:
                     record[key] = message_json[key]
@@ -479,7 +479,7 @@ class Session:
         :param dataframe: input dataframe
         """
         messages = []
-
+        messages_status = []
         for _, row in dataframe.iterrows():
             json_data = {}
             for col in DATAFRAME_MAIN_COLUMNS:
@@ -496,8 +496,9 @@ class Session:
                 message = Response()
                 message.from_json(json_data)
             messages.append(message)
+            messages_status.append(row["status"])
         self._messages = messages
-        self._messages_status = len(self._messages) * [True]
+        self._messages_status = messages_status
 
 
     def get_size(self) -> int:
