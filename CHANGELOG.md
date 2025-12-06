@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `Session` class `to_dataframe` method
 - `Session` class `from_dataframe` method
+- `Session` class `reset_render_counter` method
 - `xml_usage.py` example
 ### Changed
 - `LLMModel` enum updated
