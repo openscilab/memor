@@ -580,7 +580,7 @@ class Session:
         self._warnings["size"]["enable"] = False
         self._warnings["size"]["threshold"] = 0
         self._mark_modified()
-    
+
     def reset_render_counter(self) -> None:
         """Reset the render counter."""
         self._render_counter = 0
