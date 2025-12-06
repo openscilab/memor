@@ -351,7 +351,8 @@ print("Estimated tokens:", tokens)
 | `get_size`                                                        | Return session size in bytes (JSON-encoded)                   |
 | `copy`                                                            | Return a shallow copy of the session                          |
 | `estimate_tokens`                                                 | Estimate the token count of the session content               |
-| `set_size_warning` / `reset_size_warning`                         | Set or reset size warning                                     | 
+| `set_size_warning` / `reset_size_warning`                         | Set or reset size warning                                     |
+| `reset_render_counter`                                            | Reset render counter                                          | 
 
 
 ## Examples
