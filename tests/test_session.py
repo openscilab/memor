@@ -310,8 +310,15 @@ def test_from_dataframe():
     session1 = Session(messages=[prompt, response])
     df1 = session1.to_dataframe()
     session2 = Session()
+    index = 0
+    while index < 10:
+        _ = session2.render()
+        index += 1
+    assert session2.render_counter == 10
+    assert session1.render_counter == 0
     session2.from_dataframe(df1)
     assert session1 == session2
+    assert session2.render_counter == 0
 
 
 def test_save1():
