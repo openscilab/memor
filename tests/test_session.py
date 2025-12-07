@@ -760,6 +760,8 @@ def test_render_counter1():
         _ = session.render()
         index += 1
     assert session.render_counter == 10
+    session.reset_render_counter()
+    assert session.render_counter == 0
 
 
 def test_render_counter2():
@@ -776,6 +778,8 @@ def test_render_counter2():
         _ = session.render(enable_counter=False)
         index += 1
     assert session.render_counter == 10
+    session.reset_render_counter()
+    assert session.render_counter == 0
 
 
 def test_render_counter3():
