@@ -499,6 +499,8 @@ class Session:
             messages_status.append(row["status"])
         self._messages = messages
         self._messages_status = messages_status
+        self.reset_render_counter()
+        self._mark_modified()
 
 
     def get_size(self) -> int:
