@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Step 1: Example conversation content for the premium session
-"""
+"""Step 1: Example conversation content for the premium session."""
 
 from memor import Prompt, Response, Session, Role, RenderFormat
 from mistralai import Mistral

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Step 3: Mistral session picking up the same problem but giving a simpler session.
-"""
+"""Step 3: Mistral session picking up the same problem but giving a simpler session."""
 
 from memor import Prompt, Session, Role, RenderFormat
 from mistralai import Mistral
@@ -30,7 +28,12 @@ df.loc[df["message"].astype(str).str.len() > MAX_CHARS, "status"] = False
 # Anonymize names inside remaining messages
 NAME_REGEX = re.compile(r"\b[A-Z][a-z]{1,20}\s[A-Z][a-z]{1,20}\b")
 
-def anonymize_names(text):
+def anonymize_names(text: str) -> str:
+    """
+    Anonymize the text by replacing names with [REDACTED_NAME].
+
+    :param text: the text to be modified
+    """
     return NAME_REGEX.sub("[REDACTED_NAME]", text)
 df["message"] = df["message"].astype(str).apply(anonymize_names)
 
