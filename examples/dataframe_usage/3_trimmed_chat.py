@@ -18,23 +18,27 @@ SENSITIVE_REGEX = re.compile(
 MAX_CHARS = 1500  # threshold for free LLM context window
 
 
-df = pd.read_csv('2_session_df.csv')
-# df["contains_sensitive"] = df["message"].astype(str).str.contains(SENSITIVE_REGEX)
+df = pd.read_pickle('2_session_df.pkl')
+print("Main session size:", len(df))
+print(df.head())
+df["contains_sensitive"] = df["message"].astype(str).str.contains(SENSITIVE_REGEX)
 
-# # Turn the status of ones with sensitive information or long to off:
-# df.loc[df["contains_sensitive"], "status"] = False
-# df.loc[df["message"].astype(str).str.len() > MAX_CHARS, "status"] = False
+# Turn the status of ones with sensitive information or long to off:
+df.loc[df["contains_sensitive"], "status"] = False
+df.loc[df["message"].astype(str).str.len() > MAX_CHARS, "status"] = False
 
-# # Anonymize names inside remaining messages
-# NAME_REGEX = re.compile(r"\b[A-Z][a-z]{1,20}\s[A-Z][a-z]{1,20}\b")
+# Anonymize names inside remaining messages
+NAME_REGEX = re.compile(r"\b[A-Z][a-z]{1,20}\s[A-Z][a-z]{1,20}\b")
 
-# def anonymize_names(text):
-#     return NAME_REGEX.sub("[REDACTED_NAME]", text)
-# df["message"] = df["message"].astype(str).apply(anonymize_names)
+def anonymize_names(text):
+    return NAME_REGEX.sub("[REDACTED_NAME]", text)
+df["message"] = df["message"].astype(str).apply(anonymize_names)
 
 
 # Keep only active messages
-# df_clean = df[df["status"] == True].reset_index(drop=True)
+df = df[df["status"] == True].reset_index(drop=True)
+print("Main session size:", len(df))
+print(df.head())
 
 MISTRAL_API_KEY = "YOUR_MISTRAL_API_KEY"
 MISTRAL_MODEL = "mistral-large-latest"
@@ -51,8 +55,4 @@ mistral_response = mistral_client.chat.complete(
     messages=session.render(RenderFormat.OPENAI),
 ).choices[0].message.content
 
-print("\n=== CLEANED INPUT SENT TO MISTRAL ===\n")
-print(session.render(RenderFormat.STRING))
-
-print("\n=== MISTRAL RESPONSE ===\n")
 print(mistral_response)
