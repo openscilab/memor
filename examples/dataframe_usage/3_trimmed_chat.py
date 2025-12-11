@@ -35,11 +35,13 @@ def anonymize_names(text: str) -> str:
     :param text: the text to be modified
     """
     return NAME_REGEX.sub("[REDACTED_NAME]", text)
+
+
 df["message"] = df["message"].astype(str).apply(anonymize_names)
 
 
 # Keep only active messages
-df = df[df["status"] == True].reset_index(drop=True)
+df = df[df["status"]].reset_index(drop=True)
 print("Main session size:", len(df))
 print(df.head())
 
