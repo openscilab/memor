@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Step 1: ...
+Step 3: Mistral session picking up the same problem but giving a simpler session.
 """
 
-from memor import Prompt, Response, Session, Role, RenderFormat
+from memor import Prompt, Session, Role, RenderFormat
 from mistralai import Mistral
 import pandas as pd
 import re
