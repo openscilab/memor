@@ -42,7 +42,7 @@ df["message"] = df["message"].astype(str).apply(anonymize_names)
 
 # Keep only active messages
 df = df[df["status"]].reset_index(drop=True)
-print("Main session size:", len(df))
+print("Trimmed session size:", len(df))
 print(df.head())
 
 MISTRAL_API_KEY = "YOUR_MISTRAL_API_KEY"
