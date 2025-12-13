@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Session` class `from_dataframe` method
 - `Session` class `reset_render_counter` method
 - `xml_usage.py` example
+- `dataframe_usage` example
 ### Changed
 - `LLMModel` enum updated
 - Test system modified

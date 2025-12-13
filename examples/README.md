@@ -16,3 +16,7 @@ It leverages the Memor library to manage independent conversation histories for 
 ## XML Usage
 This example shows how XML can serve as a structured contract between a user, program logic, and an LLM using Memor.
 By converting XML to a tree, modifying it programmatically, and having the LLM refine it, the workflow becomes both dynamic and model-friendly.
+
+## Dataframe Usage
+This example demonstrates how Memor can serialize an entire chat session into a dataframe, clean it using pandas, and rebuild a safe version for use with another LLM.
+A simulated multi-turn conversation is first exported as a DataFrame. In a second script, sensitive information (emails, IDs, passport-like strings) and oversized messages are automatically filtered out using regex rules and length constraints. The trimmed DataFrame is then converted back into a Memor Session and sent to another model like Mistral.
