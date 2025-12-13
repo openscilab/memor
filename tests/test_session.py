@@ -3,6 +3,7 @@ import re
 import datetime
 import copy
 import pytest
+import pandas as pd
 from memor import Session, Prompt, Response, Role
 from memor import PromptTemplate
 from memor import RenderFormat
@@ -304,7 +305,7 @@ def test_to_dataframe():
     assert len(df) == 2
 
 
-def test_from_dataframe():
+def test_from_dataframe1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session1 = Session(messages=[prompt, response])
@@ -319,6 +320,23 @@ def test_from_dataframe():
     session2.from_dataframe(df1)
     assert session1 == session2
     assert session2.render_counter == 0
+
+
+def test_from_dataframe2():
+    response = Response(message="I am fine.")
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER, responses=[response])
+    session1 = Session(messages=[prompt, response])
+    df1 = session1.to_dataframe()
+    df1.to_csv("session.csv")
+    df1.to_pickle("session.pkl")
+    df2 = pd.read_csv("session.csv")
+    df3 = pd.read_pickle("session.pkl")
+    session2 = Session()
+    session2.from_dataframe(df2)
+    session3 = Session()
+    session3.from_dataframe(df3)
+    assert session1 == session2
+    assert session1 == session3
 
 
 def test_save1():
