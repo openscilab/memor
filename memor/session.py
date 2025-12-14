@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Session class."""
 from typing import List, Dict, Tuple, Any, Union, Generator, Optional
+import ast
 import datetime
 import json
 import re
@@ -486,6 +487,8 @@ class Session:
                 json_data[col] = row[col]
 
             metadata = row.get("metadata", {})
+            if isinstance(metadata, str):
+                metadata = ast.literal_eval(metadata)
             json_data.update(metadata)
 
             message_type = json_data.get("type")
