@@ -64,8 +64,13 @@ class RenderFormat(Enum):
 class LLMModel(Enum):
     """LLM model enum."""
 
+    GPT_5_2_PRO = "gpt-5.2-pro"
     GPT_5_2 = "gpt-5.2"
+    GPT_5_1_CODEX_MAX = "gpt-5.1-codex-max"
+    GPT_5_1_CODEX = "gpt-5.1-codex"
     GPT_5_1 = "gpt-5.1"
+    GPT_5_CODEX = "gpt-5-codex"
+    GPT_5_PRO = "gpt-5-pro"
     GPT_5 = "gpt-5"
     GPT_5_MINI = "gpt-5-mini"
     GPT_5_NANO = "gpt-5-nano"
