@@ -6,12 +6,12 @@ from mistralai import Mistral
 
 
 sample_messages = [
-    "Hey, I need help planning my 3-month Europe trip. I'll be visiting France, Italy, and Germany.",
-    "My budget is around $7,200. I'm trying to keep track of flight costs, hotels, and food.",
-    "Also here is my email just in case: personal.email@example.com",
-    "I'm thinking of booking a multi-city flight. Found one for $1240 on Lufthansa.",
-    "Here's a chunk of my notes: " + "lorem ipsum " * 400,  # intentionally long
-    "My passport number is X12345678. Please remind me to renew it.",
+    "Hey, I need help planning my 3-month Europe trip. I'll be visiting France, Italy, and Germany. What else information should I give to you?",
+    "My budget is around $7,200. I'm trying to keep track of flight costs, hotels, and food. Do you need any contact information?",
+    "Here is my email just in case: personal.email@example.com. What are the options I have for the flight?",
+    "I'm thinking of booking a multi-city flight. Found one for $1240 on Lufthansa. Do you need more information?",
+    "OK! Here's a chunk of my notes: " + "lorem ipsum " * 400 + "\n\nCan you book it for me if I give you my information?",  # intentionally long
+    "My passport number is X12345678. Please remind me to renew it, it's a bit old. Should we start the daily plan of the trip?",
     "Can you help me create a daily itinerary for France first?",
 ]
 
@@ -41,4 +41,4 @@ for msg in sample_messages:
     session.add_message(r)
 
 df = session.to_dataframe()
-df.to_pickle('2_session_df.pkl')
+df.to_csv('2_session_df.csv')

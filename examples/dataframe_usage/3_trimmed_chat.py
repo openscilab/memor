@@ -16,7 +16,7 @@ SENSITIVE_REGEX = re.compile(
 MAX_CHARS = 1500  # threshold for free LLM context window
 
 
-df = pd.read_pickle('2_session_df.pkl')
+df = pd.read_csv('2_session_df.csv')
 print("Main session size:", len(df))
 print(df.head())
 df["contains_sensitive"] = df["message"].astype(str).str.contains(SENSITIVE_REGEX)
