@@ -41,4 +41,4 @@ for msg in sample_messages:
     session.add_message(r)
 
 df = session.to_dataframe()
-df.to_pickle('2_session_df.pkl')
+df.to_csv('2_session_df.csv')
