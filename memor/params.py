@@ -41,6 +41,7 @@ XML_PATTERN = r"<([a-zA-Z_][\w\-\.]*)(\s[^<>]*?)?>.*?</\1\s*>|<([a-zA-Z_][\w\-\.
 
 DATAFRAME_MAIN_COLUMNS = ["type", "message", "role", "id", "date_created", "date_modified"]
 
+
 class Role(Enum):
     """Role enum."""
 

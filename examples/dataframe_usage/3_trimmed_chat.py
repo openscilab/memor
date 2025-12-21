@@ -28,6 +28,7 @@ df.loc[df["message"].astype(str).str.len() > MAX_CHARS, "status"] = False
 # Anonymize names inside remaining messages
 NAME_REGEX = re.compile(r"\b[A-Z][a-z]{1,20}\s[A-Z][a-z]{1,20}\b")
 
+
 def anonymize_names(text: str) -> str:
     """
     Anonymize the text by replacing names with [REDACTED_NAME].

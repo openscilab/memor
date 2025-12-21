@@ -10,7 +10,8 @@ sample_messages = [
     "My budget is around $7,200. I'm trying to keep track of flight costs, hotels, and food. Do you need any contact information?",
     "Here is my email just in case: personal.email@example.com. What are the options I have for the flight?",
     "I'm thinking of booking a multi-city flight. Found one for $1240 on Lufthansa. Do you need more information?",
-    "OK! Here's a chunk of my notes: " + "lorem ipsum " * 400 + "\n\nCan you book it for me if I give you my information?",  # intentionally long
+    "OK! Here's a chunk of my notes: " + "lorem ipsum " * 400 +
+    "\n\nCan you book it for me if I give you my information?",  # intentionally long
     "My passport number is X12345678. Please remind me to renew it, it's a bit old. Should we start the daily plan of the trip?",
     "Can you help me create a daily itinerary for France first?",
 ]
