@@ -457,7 +457,6 @@ class Session:
         }
         return data
 
-
     def to_dataframe(self) -> pd.DataFrame:
         """Convert the session to a pandas DataFrame."""
         records = []
@@ -472,11 +471,10 @@ class Session:
             records.append(record)
         return pd.DataFrame(records)
 
-
     def from_dataframe(self, dataframe: pd.DataFrame) -> None:
         """
         Reconstruct a session object from a pandas DataFrame.
-        
+
         :param dataframe: input dataframe
         """
         messages = []
@@ -504,7 +502,6 @@ class Session:
         self._messages_status = messages_status
         self.reset_render_counter()
         self._mark_modified()
-
 
     def get_size(self) -> int:
         """Get the size of the session in bytes."""

@@ -817,8 +817,8 @@ def test_size_warning1():
     response.set_size_warning(threshold=10)
     assert response._warnings["size"]["enable"]
     assert response._warnings["size"]["threshold"] == 10
-    with pytest.warns(RuntimeWarning, match="Message {message_id} exceeded size threshold \({current_size} > {threshold}\).".format(message_id=response.id, current_size=response.get_size(),
-                                                                                                                                    threshold=10)):
+    with pytest.warns(RuntimeWarning, match="Message {message_id} exceeded size threshold \\({current_size} > {threshold}\\).".format(message_id=response.id, current_size=response.get_size(),
+                                                                                                                                      threshold=10)):
         _ = response.render(RenderFormat.AI_STUDIO)
     response.reset_size_warning()
     assert not response._warnings["size"]["enable"]
