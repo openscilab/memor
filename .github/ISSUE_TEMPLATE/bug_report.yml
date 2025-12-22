@@ -86,6 +86,7 @@ body:
       label: Memor version
       description: Which version of Memor are you using?
       options:
+        - Memor 1.1
         - Memor 1.0
         - Memor 0.9
         - Memor 0.8

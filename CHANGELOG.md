@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.1] - 2025-12-23
 ### Added
 - `Session` class `to_dataframe` method
 - `Session` class `from_dataframe` method
@@ -161,7 +162,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `PresetPromptTemplate` class
 
 
-[Unreleased]: https://github.com/openscilab/memor/compare/v1.0...dev
+[Unreleased]: https://github.com/openscilab/memor/compare/v1.1...dev
+[1.1]: https://github.com/openscilab/memor/compare/v1.0...v1.1
 [1.0]: https://github.com/openscilab/memor/compare/v0.9...v1.0
 [0.9]: https://github.com/openscilab/memor/compare/v0.8...v0.9
 [0.8]: https://github.com/openscilab/memor/compare/v0.7...v0.8

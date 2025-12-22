@@ -4,7 +4,7 @@ import os
 import sys
 import codecs
 Failed = 0
-MEMOR_VERSION = "1.0"
+MEMOR_VERSION = "1.1"
 
 
 SETUP_ITEMS = [
