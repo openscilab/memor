@@ -34,6 +34,7 @@ class ToolCall(Message):
             self,
             name: str,
             arguments: Dict[str, Any],
+            message: str = "",
             call_id: Optional[str] = None,
             role: Role = Role.ASSISTANT,
             date: datetime.datetime = get_time_utc(),
@@ -44,8 +45,9 @@ class ToolCall(Message):
 
         :param name: tool/function name
         :param arguments: tool/function arguments
+        :param message: tool message
         :param call_id: tool call id
-        :param role: message role (assistant)
+        :param role: message role
         :param date: creation date
         :param file_path: tool call file path
         """
@@ -61,6 +63,7 @@ class ToolCall(Message):
             self.update_name(name)
             self.update_arguments(arguments)
             self.update_role(role)
+            self.update_message(message)
 
             if call_id is not None:
                 self.update_call_id(call_id)
