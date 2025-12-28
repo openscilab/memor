@@ -67,8 +67,6 @@ class ToolCall(Message):
 
             if call_id is not None:
                 self.update_call_id(call_id)
-            else:
-                self._call_id = generate_message_id()
 
             if date:
                 _validate_date_time(date, "date")
@@ -152,8 +150,11 @@ class ToolCall(Message):
             raise MemorValidationError(INVALID_RENDER_FORMAT_MESSAGE)
 
         if render_format == RenderFormat.OPENAI:
+            role_str = self._role.value
+            if self._role == Role.ASSISTANT:
+                role_str = "model"
             return {
-                "role": "assistant",
+                "role": role_str,
                 "tool_calls": [
                     {
                         "id": self._call_id,
@@ -168,7 +169,7 @@ class ToolCall(Message):
 
         elif render_format == RenderFormat.AI_STUDIO:
             return {
-                "role": "model",
+                "role": self._role.value,
                 "parts": [
                     {
                         "functionCall": {
