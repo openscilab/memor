@@ -29,6 +29,7 @@ INVALID_RESPONSE_STRUCTURE_MESSAGE = "Invalid response structure. It should be a
 INVALID_SESSION_STRUCTURE_MESSAGE = "Invalid session structure. It should be a JSON object with proper fields."
 INVALID_RENDER_FORMAT_MESSAGE = "Invalid render format. It must be an instance of RenderFormat enum."
 INVALID_WARNINGS_STRUCTURE_MESSAGE = "Invalid `warnings` structure. It must be a valid dictionary."
+INVALID_ARGUMENTS_STRUCTURE_MESSAGE = "Invalid `arguments` structure. It must be a JSON-serializable dictionary."
 INVALID_XML_TREE_MESSAGE = "Invalid XML tree structure."
 PROMPT_RENDER_ERROR_MESSAGE = "Prompt template and properties are incompatible."
 UNSUPPORTED_OPERAND_ERROR_MESSAGE = "Unsupported operand type(s) for {operator}: `{operand1}` and `{operand2}`"

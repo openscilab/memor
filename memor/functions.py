@@ -4,6 +4,7 @@ from typing import Any, Type
 import os
 import datetime
 import uuid
+import json
 from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE, INVALID_MESSAGE_STATUS_LEN_MESSAGE
@@ -14,6 +15,7 @@ from .params import INVALID_BOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
 from .params import INVALID_ID_MESSAGE
 from .params import INVALID_WARNINGS_STRUCTURE_MESSAGE
+from .params import INVALID_ARGUMENTS_STRUCTURE_MESSAGE
 from .errors import MemorValidationError
 
 
@@ -180,6 +182,21 @@ def _validate_custom_map(custom_map: Any) -> bool:
         raise MemorValidationError(INVALID_CUSTOM_MAP_MESSAGE)
     if not all(_can_convert_to_string(k) and _can_convert_to_string(v) for k, v in custom_map.items()):
         raise MemorValidationError(INVALID_CUSTOM_MAP_MESSAGE)
+    return True
+
+
+def _validate_arguments(arguments: Any) -> bool:
+    """
+    Validate arguments.
+
+    :param arguments: input arguments
+    """
+    if not isinstance(arguments, dict):
+        raise MemorValidationError(INVALID_ARGUMENTS_STRUCTURE_MESSAGE)
+    try:
+        _ = json.dumps(arguments)
+    except Exception:
+        raise MemorValidationError(INVALID_ARGUMENTS_STRUCTURE_MESSAGE)
     return True
 
 
