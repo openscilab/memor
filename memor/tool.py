@@ -98,10 +98,9 @@ class ToolCall(Message):
 
     def update_arguments(self, arguments: Dict[str, Any]) -> None:
         """Update tool arguments."""
-        if not isinstance(arguments, dict):
-            raise MemorValidationError("arguments must be a dictionary")
-        self._arguments = arguments
-        self._mark_modified()
+        if _validate_arguments(arguments):
+            self._arguments = arguments
+            self._mark_modified()
 
     def update_call_id(self, call_id: str) -> None:
         """Update tool call id."""
