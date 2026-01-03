@@ -18,6 +18,7 @@ from .errors import MemorValidationError, MemorRenderError
 from .functions import generate_message_id
 from .functions import _validate_string, _validate_pos_int, _validate_list_of
 from .functions import _validate_message_id, _validate_warnings, get_time_utc
+from .functions import _validate_arguments
 from .template import PromptTemplate, PresetPromptTemplate
 from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
 from .response import Response
