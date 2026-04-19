@@ -64,7 +64,7 @@ class RenderFormat(Enum):
 
 class LLMModel(Enum):
     """LLM model enum."""
-    
+
     GPT_5_4 = "gpt-5.4"
     GPT_5_4_PRO = "gpt-5.4-pro"
     GPT_5_4_MINI = "gpt-5.4-mini"
