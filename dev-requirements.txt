@@ -1,7 +1,7 @@
 defusedxml==0.7.1
 pandas==2.3.3
 setuptools>=40.8.0
-vulture>=1.0
+vulture>=2.16
 bandit>=1.5.1
 pydocstyle>=3.0.0
 pytest>=4.3.1
