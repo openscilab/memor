@@ -11,7 +11,8 @@ from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
-from .params import Role, RenderFormat, LLMModel
+from .params import Role, RenderFormat
+from .llm_models import LLMModel
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_float, _validate_pos_int, _validate_message_id
@@ -38,7 +39,7 @@ class Response(Message):
             top_p: Optional[float] = None,
             tokens: Optional[int] = None,
             inference_time: Optional[float] = None,
-            model: Union[LLMModel, str] = LLMModel.DEFAULT,
+            model: Union[object, str] = LLMModel.DEFAULT,
             gpu: Optional[str] = None,
             date: datetime.datetime = get_time_utc(),
             file_path: Optional[str] = None) -> None:
@@ -163,7 +164,7 @@ class Response(Message):
             self._inference_time = inference_time
             self._mark_modified()
 
-    def update_model(self, model: Union[LLMModel, str]) -> None:
+    def update_model(self, model: Union[object, str]) -> None:
         """
         Update the agent model.
 
@@ -171,8 +172,22 @@ class Response(Message):
         """
         if isinstance(model, str):
             self._model = model
-        elif isinstance(model, LLMModel):
+        elif isinstance(model, LLMModel._PROVIDERS):
             self._model = model.value
+        elif isinstance(model, LLMModel):
+            model_name = model.name
+            if model_name in LLMModel._legacy_names:
+                self._model = model.value
+                warnings.warn(
+                (
+                    f"LLMModel.{model_name} is deprecated and "
+                    f"will be removed in a future version. "
+                    f"Use hierarchical access instead:\n"
+                    f"LLMModel.<Provider>.{model_name}"
+                ),
+                DeprecationWarning,
+                stacklevel=3,
+                )
         else:
             raise MemorValidationError(INVALID_MODEL_MESSAGE)
         self._mark_modified()
