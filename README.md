@@ -177,7 +177,7 @@ response = Response(
     message="Sure! Here's a summary.",
     score=0.94,
     temperature=0.7,
-    model=LLMModel.GPT_4,
+    model=LLMModel.OpenAI.GPT_4,
     inference_time=0.3
 )
 response.render()
