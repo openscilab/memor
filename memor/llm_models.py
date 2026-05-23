@@ -4,6 +4,8 @@
 from enum import Enum
 
 class _OpenAI(Enum):
+    """OpenAI models."""
+
     GPT_5_4 = "gpt-5.4"
     GPT_5_4_PRO = "gpt-5.4-pro"
     GPT_5_4_MINI = "gpt-5.4-mini"
@@ -47,6 +49,8 @@ class _OpenAI(Enum):
     DEFAULT = "unknown"
 
 class _Anthropic(Enum):
+    """Anthropic models."""
+
     CLAUDE_1 = "claude-1"
     CLAUDE_INSTANT = "claude-instant"
     CLAUDE_2 = "claude-2"
@@ -63,6 +67,8 @@ class _Anthropic(Enum):
     DEFAULT = "unknown"
 
 class _Google(Enum):
+    """Google models."""
+
     GEMMA_7B = "gemma-7b"
     GEMMA_2_9B = "gemma-2-9b"
     GEMMA_3_1B = "gemma-3-1b"
@@ -100,6 +106,8 @@ class _Google(Enum):
     DEFAULT = "unknown"
 
 class _Meta(Enum):
+    """Meta models."""
+
     LLAMA_2_7B = "llama-2-7b"
     LLAMA_2_13B = "llama-2-13b"
     LLAMA_2_70B = "llama-2-70b"
@@ -150,6 +158,8 @@ class _Meta(Enum):
     DEFAULT = "unknown"
 
 class _Mistral(Enum):
+    """Mistral models."""
+
     MISTRAL_7B = "mistral-7b"
     MISTRAL_7B_INSTRUCT = "mistral-7b-instruct"
     MIXTRAL_8X7B = "mixtral-8x7b"
@@ -178,6 +188,8 @@ class _Mistral(Enum):
     DEFAULT = "unknown"
 
 class _DeepSeek(Enum):
+    """DeepSeek models."""
+
     DEEPSEEK_LLM_7B_BASE = "deepseek-llm-7b-base"
     DEEPSEEK_LLM_7B_CHAT = "deepseek-llm-7b-chat"
     DEEPSEEK_LLM_67B_BASE = "deepseek-llm-67b-base"
@@ -248,6 +260,8 @@ class _DeepSeek(Enum):
     DEFAULT = "unknown"
 
 class _Qwen(Enum):
+    """Qwen models."""
+
     QWEN_1_8B = "qwen-1.8b"
     QWEN_7B = "qwen-7b"
     QWEN_14B = "qwen-14b"
@@ -348,6 +362,8 @@ class _Qwen(Enum):
     DEFAULT = "unknown"
 
 class _Microsoft(Enum):
+    """Microsoft models."""
+
     LTS_GPT2_SM = "lts-gpt2-sm"
     DIALO_SMALL = "dialo-small"
     DIALO_MEDIUM = "dialo-medium"
@@ -412,6 +428,8 @@ class _Microsoft(Enum):
     DEFAULT = "unknown"
 
 class _XAI(Enum):
+    """XAI models."""
+
     GROK_4_1_FAST_REASONING = "grok-4.1-fast-reasoning"
     GROK_4_1_FAST_NON_REASONING = "grok-4.1-fast-non-reasoning"
     GROK_4_FAST_REASONING = "grok-4-fast-reasoning"
@@ -424,6 +442,8 @@ class _XAI(Enum):
     DEFAULT = "unknown"
 
 class _ZeroOneAI(Enum):
+    """10AI models."""
+
     YI_34B = "yi-34b"
     YI_34B_CHAT = "yi-34b-chat"
     YI_34B_CHAT_8BITS = "yi-34b-chat-8bits"
@@ -446,6 +466,8 @@ class _ZeroOneAI(Enum):
     DEFAULT = "unknown"
 
 class _LGAI(Enum):
+    """LG-AI models."""
+
     EXAONE_3_0_7_8B_INSTRUCT = "exaone-3.0-7.8b-instruct"
     EXAONE_3_5_2_4B_INSTRUCT = "exaone-3.5-2.4b-instruct"
     EXAONE_3_5_32B_INSTRUCT = "exaone-3.5-32b-instruct"
@@ -459,6 +481,8 @@ class _LGAI(Enum):
     DEFAULT = "unknown"
 
 class _Other(Enum):
+    """Other models."""
+
     DEFAULT = "unknown"
 
 
