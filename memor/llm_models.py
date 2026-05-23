@@ -477,6 +477,31 @@ class LLMModel:
     ZeroOneAI = _ZeroOneAI
     LGAI = _LGAI
     Other = _Other
-    DEFAULT = "unknown"
+    _PROVIDERS = (
+        OpenAI,
+        Anthropic,
+        Google,
+        Meta,
+        Mistral,
+        DeepSeek,
+        Qwen,
+        Microsoft,
+        XAI,
+        ZeroOneAI,
+        LGAI,
+        Other
+    )
+    _legacy_names = set()
+    DEFAULT = OpenAI.DEFAULT
 
 
+def _register_legacy_aliases() -> None:
+    """Add backward-compatible flat aliases."""
+
+    for provider in LLMModel._PROVIDERS:
+        for item in provider:
+            setattr(LLMModel, item.name, item)
+            LLMModel._legacy_names.add(item.name)
+
+
+_register_legacy_aliases()
