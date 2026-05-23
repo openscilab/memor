@@ -174,20 +174,6 @@ class Response(Message):
             self._model = model
         elif isinstance(model, LLMModel._PROVIDERS):
             self._model = model.value
-        elif isinstance(model, LLMModel):
-            model_name = model.name
-            if model_name in LLMModel._legacy_names:
-                self._model = model.value
-                warnings.warn(
-                (
-                    f"LLMModel.{model_name} is deprecated and "
-                    f"will be removed in a future version. "
-                    f"Use hierarchical access instead:\n"
-                    f"LLMModel.<Provider>.{model_name}"
-                ),
-                DeprecationWarning,
-                stacklevel=3,
-                )
         else:
             raise MemorValidationError(INVALID_MODEL_MESSAGE)
         self._mark_modified()
