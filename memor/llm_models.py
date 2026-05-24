@@ -521,7 +521,6 @@ class LLMModel:
 
 def _register_legacy_aliases() -> None:
     """Add backward-compatible flat aliases."""
-
     for provider in LLMModel._PROVIDERS:
         for item in provider:
             setattr(LLMModel, item.name, item)
