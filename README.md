@@ -186,20 +186,20 @@ response.render()
 
 #### Parameters
 
-| **Name**         | **Type**            | **Description**                                      |
-| ---------------- | ------------------- | -----------------------------------------------------|
-| `message`        | `str`               | The content of the response                          |
-| `score`          | `float`             | Evaluation score representing the response quality   |
-| `role`           | `Role`              | Role of the message sender (`USER`, `SYSTEM`, etc.)  |
-| `temperature`    | `float`             | Sampling temperature                                 |
-| `top_k`          | `int`               | `k` in top-k sampling method                         |
-| `top_p`          | `float`             | `p` in top-p (nucleus) sampling                      |
-| `tokens`         | `int`               | Number of tokens in the response                     |
-| `inference_time` | `float`             | Time spent generating the response (seconds)         |
-| `model`          | `LLMModel` \| `str` | Model used                                           |
-| `gpu`            | `str`               | GPU model used                                       |
-| `date`           | `datetime.datetime` | Timestamp of the creation                            |
-| `file_path`      | `str`               | Path to load a saved response                        |
+| **Name**         | **Type**               | **Description**                                      |
+| ---------------- | -------------------    | -----------------------------------------------------|
+| `message`        | `str`                  | The content of the response                          |
+| `score`          | `float`                | Evaluation score representing the response quality   |
+| `role`           | `Role`                 | Role of the message sender (`USER`, `SYSTEM`, etc.)  |
+| `temperature`    | `float`                | Sampling temperature                                 |
+| `top_k`          | `int`                  | `k` in top-k sampling method                         |
+| `top_p`          | `float`                | `p` in top-p (nucleus) sampling                      |
+| `tokens`         | `int`                  | Number of tokens in the response                     |
+| `inference_time` | `float`                | Time spent generating the response (seconds)         |
+| `model`          | `LLMModel.<provider>` \| `str` | Model used                                   |
+| `gpu`            | `str`                  | GPU model used                                       |
+| `date`           | `datetime.datetime`    | Timestamp of the creation                            |
+| `file_path`      | `str`                  | Path to load a saved response                        |
 
 #### Methods
 
