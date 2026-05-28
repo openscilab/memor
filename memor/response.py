@@ -23,7 +23,7 @@ class Response(Message):
     """
     Response class.
 
-    >>> from memor import Response, Role
+    >>> from memor import Response, Role, LLMModel
     >>> response = Response(message="Hello!", score=0.9, role=Role.ASSISTANT, temperature=0.5, model=LLMModel.OpenAI.GPT_4)
     >>> response.message
     'Hello!'
