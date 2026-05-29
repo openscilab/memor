@@ -71,7 +71,7 @@ while True:
         message=response_content_gemini.text,
         role=Role.ASSISTANT,
         tokens=response_content_gemini.usage_metadata.total_token_count,
-        model=LLMModel.GEMINI_2_FLASH,
+        model=LLMModel.Google.GEMINI_2_FLASH,
     )
 
     print(f"LLM1 ({MISTRAL_MODEL}): {response_mistral.message}")

@@ -8,7 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `MemorError` class
 ### Changed
-- `LLMModel` enum updated
+- `LLMModel` structure updated
+- `LLMModel` type changed
+- `README.md` updated
+- Test system modified
 ## [1.1] - 2025-12-23
 ### Added
 - `Session` class `to_dataframe` method
