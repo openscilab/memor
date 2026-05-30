@@ -215,7 +215,11 @@ class PromptTemplate:
         :param context: template context
         """
         try:
-            return self._content.format(**context)
+            final_context = {}
+            if self._custom_map is not None:
+                final_context.update(self._custom_map)
+            if context is not None:
+                final_context.update(context)
         except Exception:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
 
