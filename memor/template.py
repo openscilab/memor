@@ -220,6 +220,7 @@ class PromptTemplate:
                 final_context.update(self._custom_map)
             if context is not None:
                 final_context.update(context)
+            return self._content.format(**final_context)
         except Exception:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
 
