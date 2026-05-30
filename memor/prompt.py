@@ -326,7 +326,7 @@ class Prompt(Message):
             custom_map = self._template._custom_map
             if custom_map is not None:
                 format_kwargs.update(custom_map)
-            content = self._template._content.format(**format_kwargs)
+            content = self._template.render(context=format_kwargs)
             prompt_dict = self.to_dict()
             prompt_dict["content"] = content
             if render_format == RenderFormat.OPENAI:
