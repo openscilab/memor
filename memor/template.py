@@ -208,7 +208,7 @@ class PromptTemplate:
         json_str = json.dumps(self.to_json())
         return len(json_str.encode())
     
-    def render(self, context: Dict[str, Any]) -> str:
+    def render(self, context: Optional[Dict[str, Any]] = None) -> str:
         """
         Render method.
 
