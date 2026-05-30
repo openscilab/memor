@@ -323,9 +323,6 @@ class Prompt(Message):
             for _, response in enumerate(self._responses):
                 responses_dicts.append(response.to_json())
             format_kwargs.update({"responses": responses_dicts})
-            custom_map = self._template._custom_map
-            if custom_map is not None:
-                format_kwargs.update(custom_map)
             content = self._template.render(context=format_kwargs)
             prompt_dict = self.to_dict()
             prompt_dict["content"] = content
