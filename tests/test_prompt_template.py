@@ -389,14 +389,16 @@ def test_render1():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={"language": "Python"})
-    assert template.render({"prompt_message": "Mock Question"}) == "Act as a Python developer and respond to this question:\nMock Question"
+    assert template.render({"prompt_message": "Mock Question"}
+                           ) == "Act as a Python developer and respond to this question:\nMock Question"
 
 
 def test_render2():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
         custom_map={"language": "Python"})
-    assert template.render({"language": "Rust", "prompt_message": "Mock Question"}) == "Act as a Rust developer and respond to this question:\nMock Question"
+    assert template.render({"language": "Rust", "prompt_message": "Mock Question"}
+                           ) == "Act as a Rust developer and respond to this question:\nMock Question"
 
 
 def test_render3():

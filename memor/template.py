@@ -207,7 +207,7 @@ class PromptTemplate:
         """Get the size of the PromptTemplate in bytes."""
         json_str = json.dumps(self.to_json())
         return len(json_str.encode())
-    
+
     def render(self, context: Optional[Dict[str, Any]] = None) -> str:
         """
         Render method.
