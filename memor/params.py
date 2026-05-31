@@ -31,6 +31,7 @@ INVALID_RENDER_FORMAT_MESSAGE = "Invalid render format. It must be an instance o
 INVALID_WARNINGS_STRUCTURE_MESSAGE = "Invalid `warnings` structure. It must be a valid dictionary."
 INVALID_XML_TREE_MESSAGE = "Invalid XML tree structure."
 PROMPT_RENDER_ERROR_MESSAGE = "Prompt template and properties are incompatible."
+TEMPLATE_RENDER_ERROR_MESSAGE = "Template and context are incompatible."
 UNSUPPORTED_OPERAND_ERROR_MESSAGE = "Unsupported operand type(s) for {operator}: `{operand1}` and `{operand2}`"
 AI_STUDIO_SYSTEM_WARNING = "Google AI Studio models may not support content with a system role."
 DATA_SAVE_SUCCESS_MESSAGE = "Everything seems good."

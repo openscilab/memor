@@ -6,9 +6,9 @@ import datetime
 from enum import Enum
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
-from .params import INVALID_TEMPLATE_STRUCTURE_MESSAGE
+from .params import INVALID_TEMPLATE_STRUCTURE_MESSAGE, TEMPLATE_RENDER_ERROR_MESSAGE
 from .params import MEMOR_VERSION
-from .errors import MemorValidationError
+from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_path, _validate_custom_map
 from .functions import _validate_string
@@ -207,6 +207,22 @@ class PromptTemplate:
         """Get the size of the PromptTemplate in bytes."""
         json_str = json.dumps(self.to_json())
         return len(json_str.encode())
+
+    def render(self, context: Optional[Dict[str, Any]] = None) -> str:
+        """
+        Render method.
+
+        :param context: template context
+        """
+        try:
+            final_context = {}
+            if self._custom_map is not None:
+                final_context.update(self._custom_map)
+            if context is not None:
+                final_context.update(context)
+            return self._content.format(**final_context)
+        except Exception:
+            raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
 
     @property
     def content(self) -> str:

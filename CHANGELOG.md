@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `MemorError` class
+- `PromptTemplate` class `render` method
 ### Changed
+- `Prompt` class `render` method updated
 - `LLMModel` structure updated
 - `LLMModel` type changed
 - `README.md` updated

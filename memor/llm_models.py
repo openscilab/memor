@@ -3,6 +3,7 @@
 
 from enum import Enum
 
+
 class _OpenAI(Enum):
     """OpenAI models."""
 
@@ -48,6 +49,7 @@ class _OpenAI(Enum):
     BABBAGE = "babbage"
     DEFAULT = "unknown"
 
+
 class _Anthropic(Enum):
     """Anthropic models."""
 
@@ -65,6 +67,7 @@ class _Anthropic(Enum):
     CLAUDE_4_SONNET = "claude-4-sonnet"
     CLAUDE_4_1_OPUS = "claude-4.1-opus"
     DEFAULT = "unknown"
+
 
 class _Google(Enum):
     """Google models."""
@@ -104,6 +107,7 @@ class _Google(Enum):
     GEMINI_2_5_PRO = "gemini-2.5-pro"
     GEMINI_3_PRO = "gemini-3-pro"
     DEFAULT = "unknown"
+
 
 class _Meta(Enum):
     """Meta models."""
@@ -157,6 +161,7 @@ class _Meta(Enum):
     CODE_LLAMA_70B_PYTHON = "code-llama-70b-python"
     DEFAULT = "unknown"
 
+
 class _Mistral(Enum):
     """Mistral models."""
 
@@ -186,6 +191,7 @@ class _Mistral(Enum):
     VOXTRAL_MINI_3B = "voxtral-mini-3b"
     VOXTRAL_SMALL_24B = "voxtral-small-24b"
     DEFAULT = "unknown"
+
 
 class _DeepSeek(Enum):
     """DeepSeek models."""
@@ -258,6 +264,7 @@ class _DeepSeek(Enum):
     ESFT_GATE_INTENT_LITE = "esft-gate-intent-lite"
     ESFT_GATE_MATH_LITE = "esft-gate-math-lite"
     DEFAULT = "unknown"
+
 
 class _Qwen(Enum):
     """Qwen models."""
@@ -361,6 +368,7 @@ class _Qwen(Enum):
     CODEQWEN_1_5_7B = "codeqwen-1.5-7b"
     DEFAULT = "unknown"
 
+
 class _Microsoft(Enum):
     """Microsoft models."""
 
@@ -427,6 +435,7 @@ class _Microsoft(Enum):
     RHO_MATH_7B_INTERPRETER = "rho-math-7b-interpreter"
     DEFAULT = "unknown"
 
+
 class _XAI(Enum):
     """XAI models."""
 
@@ -440,6 +449,7 @@ class _XAI(Enum):
     GROK_CODE_FAST_1 = "grok-code-fast-1"
     GROK_2_VISION = "grok-2-vision"
     DEFAULT = "unknown"
+
 
 class _ZeroOneAI(Enum):
     """10AI models."""
@@ -465,6 +475,7 @@ class _ZeroOneAI(Enum):
     YI_CODER_1_5B = "yi-coder-1.5b"
     DEFAULT = "unknown"
 
+
 class _LGAI(Enum):
     """LG-AI models."""
 
@@ -479,6 +490,7 @@ class _LGAI(Enum):
     EXAONE_DEEP_32B = "exaone-deep-32b"
     EXAONE_DEEP_7_8B = "exaone-deep-7.8b"
     DEFAULT = "unknown"
+
 
 class _Other(Enum):
     """Other models."""

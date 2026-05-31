@@ -262,6 +262,7 @@ prompt.render()
 | `to_json` / `from_json`                              | Serialize or deserialize to/from JSON                  |
 | `to_dict`                                            | Convert the template to a plain Python dictionary      |
 | `copy`                                               | Return a shallow copy of the template instance         |
+| `render`                                             | Render the template                                    |
 
 #### Preset Templates
 
