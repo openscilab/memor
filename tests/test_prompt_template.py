@@ -407,3 +407,43 @@ def test_render3():
         custom_map={"language": "Python"})
     with pytest.raises(MemorRenderError, match="Template and context are incompatible."):
         template.render()
+
+
+def test_from_content_file1(tmp_path):
+    file_path = tmp_path / "template.txt"
+    file_path.write_text("Hello World", encoding="utf-8")
+    template = PromptTemplate.from_content_file(str(file_path))
+    assert template.content == "Hello World"
+
+
+def test_from_content_file2(tmp_path):
+    file_path = tmp_path / "review.txt"
+    file_path.write_text("{{ name }}", encoding="utf-8")
+    template = PromptTemplate.from_content_file(str(file_path))
+    assert template.title == "review"
+
+
+def test_from_content_file3(tmp_path):
+    file_path = tmp_path / "review.txt"
+    file_path.write_text("{{ name }}", encoding="utf-8")
+    template = PromptTemplate.from_content_file(
+        str(file_path),
+        title="My Template",
+    )
+    assert template.title == "My Template"
+
+
+def test_from_content_file4(tmp_path):
+    file_path = tmp_path / "template.txt"
+    file_path.write_text("Hello", encoding="utf-8")
+    custom_map = {"instruction": "test"}
+    template = PromptTemplate.from_content_file(
+        str(file_path),
+        custom_map=custom_map,
+    )
+    assert template.custom_map == custom_map
+
+
+def test_from_content_file5():
+    with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: this-file-does-not-exist.txt"):
+        PromptTemplate.from_content_file("this-file-does-not-exist.txt")
