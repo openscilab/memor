@@ -224,14 +224,14 @@ class PromptTemplate:
             return self._content.format(**final_context)
         except Exception:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
-    
+
     @classmethod
     def from_content_file(
         cls,
         file_path: str,
         title: Optional[str] = None,
         custom_map: Optional[Dict[str, Any]] = None,
-        ) -> "PromptTemplate":
+    ) -> "PromptTemplate":
         """
         Create a PromptTemplate from a text file.
 
