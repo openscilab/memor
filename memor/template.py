@@ -223,6 +223,37 @@ class PromptTemplate:
             return self._content.format(**final_context)
         except Exception:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
+    
+    @classmethod
+    def from_content_file(
+        cls,
+        file_path: str,
+        title: Optional[str] = None,
+        custom_map: Optional[Dict[str, Any]] = None,
+        ) -> "PromptTemplate":
+        """
+        Create a PromptTemplate from a text file.
+
+        This method reads the file contents and stores
+        them as the template content.
+
+        :param file_path: content file path
+        :param title: template title
+        :param custom_map: custom map
+        """
+        _validate_path(file_path)
+
+        with open(file_path, "r", encoding="utf-8") as file:
+            content = file.read()
+
+        if title is None:
+            title = Path(file_path).stem
+
+        return cls(
+            content=content,
+            title=title,
+            custom_map=custom_map
+        )
 
     @property
     def content(self) -> str:
