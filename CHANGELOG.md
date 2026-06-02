@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Prompt` class `render` method updated
 - `LLMModel` structure updated
 - `LLMModel` type changed
+- Session list contamination bug fixed
 - `README.md` updated
 - Test system modified
 ## [1.1] - 2025-12-23
