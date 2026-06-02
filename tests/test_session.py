@@ -75,6 +75,15 @@ def test_messages5():
         session.update_messages("I am fine.")
 
 
+def test_messages6():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    session1 = Session()
+    session2 = Session()
+    session1.add_message(prompt)
+    assert session1.messages != session2.messages
+    assert len(session2.messages) == 0
+
+
 def test_messages_status1():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
