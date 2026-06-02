@@ -252,17 +252,18 @@ prompt.render()
 
 #### Methods
 
-| **Method**                                           | **Description**                                        |
-| ---------------------------------------------------- | ------------------------------------------------------ |
-| `update_title`                                       | Update the template title                              |
-| `update_content`                                     | Update the template content                            |
-| `update_map`                                         | Update the custom variable map                         |
-| `get_size`                                           | Return the size (in bytes) of the JSON representation  |
-| `save` / `load`                                      | Save or load the template to/from a file               |
-| `to_json` / `from_json`                              | Serialize or deserialize to/from JSON                  |
-| `to_dict`                                            | Convert the template to a plain Python dictionary      |
-| `copy`                                               | Return a shallow copy of the template instance         |
-| `render`                                             | Render the template                                    |
+| **Method**                                           | **Description**                                                                    |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------  |
+| `update_title`                                       | Update the template title                                                          |
+| `update_content`                                     | Update the template content                                                        |
+| `update_map`                                         | Update the custom variable map                                                     |
+| `get_size`                                           | Return the size (in bytes) of the JSON representation                              |
+| `from_content_file`                                  | Create a template from a text file by loading its contents as the template content |
+| `save` / `load`                                      | Save or load the template to/from a file                                           |
+| `to_json` / `from_json`                              | Serialize or deserialize to/from JSON                                              |
+| `to_dict`                                            | Convert the template to a plain Python dictionary                                  |
+| `copy`                                               | Return a shallow copy of the template instance                                     |
+| `render`                                             | Render the template                                                                |
 
 #### Preset Templates
 
