@@ -33,7 +33,7 @@ class Session:
     def __init__(
             self,
             title: Optional[str] = None,
-            messages: List[Union[Prompt, Response]] = [],
+            messages: Optional[List[Union[Prompt, Response]]] = None,
             file_path: Optional[str] = None,
             init_check: bool = True) -> None:
         """
