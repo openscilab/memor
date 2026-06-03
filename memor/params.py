@@ -61,3 +61,11 @@ class RenderFormat(Enum):
     DICTIONARY = "DICTIONARY"
     ITEMS = "ITEMS"
     DEFAULT = STRING
+
+
+class TemplateEngine(Enum):
+    """Template engine."""
+
+    FORMAT = "format"
+    JINJA = "jinja"
+    DEFAULT = FORMAT
