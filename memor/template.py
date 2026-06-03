@@ -165,6 +165,9 @@ class PromptTemplate:
         """
         from jinja2 import Environment
         from jinja2 import StrictUndefined
+        # PromptTemplate is designed for text/prompt generation,
+        # not HTML/XML rendering. Autoescaping would modify prompt
+        # contents and produce unexpected output.
         env = Environment(undefined=StrictUndefined, autoescape=False)
         template = env.from_string(self._content)
         return template.render(**context)
