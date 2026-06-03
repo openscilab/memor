@@ -172,6 +172,7 @@ class PromptTemplate:
                 loaded_obj = json_object.copy()
             result["content"] = loaded_obj["content"]
             result["title"] = loaded_obj["title"]
+            result["engine"] = TemplateEngine(loaded_obj.get("engine", TemplateEngine.FORMAT.value))
             result["custom_map"] = loaded_obj["custom_map"]
             result["memor_version"] = loaded_obj["memor_version"]
             result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
@@ -196,6 +197,7 @@ class PromptTemplate:
         data = self._validate_extract_json(json_object)
         self._content = data["content"]
         self._title = data["title"]
+        self._engine = data["engine"]
         self._memor_version = data["memor_version"]
         self._custom_map = data["custom_map"]
         self._date_created = data["date_created"]
@@ -213,6 +215,7 @@ class PromptTemplate:
         return {
             "title": self._title,
             "content": self._content,
+            "engine": self._engine.value,
             "memor_version": MEMOR_VERSION,
             "custom_map": self._custom_map.copy(),
             "date_created": self._date_created,
