@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `TemplateEngine` enum
 - `MemorError` class
 - `PromptTemplate` class `render` method
 - `PromptTemplate` class `from_content_file` method

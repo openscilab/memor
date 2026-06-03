@@ -3,7 +3,8 @@ import datetime
 import json
 import copy
 import pytest
-from memor import PromptTemplate, MemorValidationError, MemorRenderError
+from memor import PromptTemplate, TemplateEngine
+from memor import MemorValidationError, MemorRenderError
 
 TEST_CASE_NAME = "PromptTemplate tests"
 
