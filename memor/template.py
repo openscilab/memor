@@ -12,7 +12,7 @@ from .params import MEMOR_VERSION, TemplateEngine
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_path, _validate_custom_map
-from .functions import _validate_string
+from .functions import _validate_string, _validate_template_engine
 
 
 class PromptTemplate:
@@ -121,7 +121,17 @@ class PromptTemplate:
         if custom_map is None or _validate_custom_map(custom_map):
             self._custom_map = custom_map
             self._mark_modified()
+    
+    def update_engine(self, engine: TemplateEngine) -> None:
+        """
+        Update engine.
 
+        :param engine: template engine
+        """
+        if _validate_template_engine(engine):
+            self._engine = engine
+            self._mark_modified()
+    
     def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
