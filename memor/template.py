@@ -8,7 +8,7 @@ from pathlib import Path
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_TEMPLATE_STRUCTURE_MESSAGE, TEMPLATE_RENDER_ERROR_MESSAGE
-from .params import MEMOR_VERSION
+from .params import MEMOR_VERSION, TemplateEngine
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_path, _validate_custom_map
@@ -29,7 +29,8 @@ class PromptTemplate:
             content: Optional[str] = None,
             file_path: Optional[str] = None,
             title: Optional[str] = None,
-            custom_map: Optional[Dict[str, str]] = None) -> None:
+            custom_map: Optional[Dict[str, str]] = None,
+            engine: TemplateEngine = TemplateEngine.FORMAT) -> None:
         """
         Prompt template object initiator.
 
@@ -37,6 +38,7 @@ class PromptTemplate:
         :param file_path: template file path
         :param title: template title
         :param custom_map: custom map
+        :param engine: template engine
         """
         self._content = None
         self._title = None
@@ -44,6 +46,7 @@ class PromptTemplate:
         self._mark_modified()
         self._memor_version = MEMOR_VERSION
         self._custom_map = None
+        self._engine = TemplateEngine.FORMAT
         if file_path is not None:
             self.load(file_path)
         else:
@@ -53,6 +56,8 @@ class PromptTemplate:
                 self.update_content(content)
             if custom_map is not None:
                 self.update_map(custom_map)
+            if engine is not None:
+                self.update_engine(engine)
 
     def _mark_modified(self) -> None:
         """Mark modification."""
