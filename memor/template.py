@@ -254,7 +254,7 @@ class PromptTemplate:
             if self._engine == TemplateEngine.FORMAT:
                 return self._content.format(**final_context)
             if self._engine == TemplateEngine.JINJA:
-                return self._render_jinja(context)
+                return self._render_jinja(final_context)
         except Exception:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
 
