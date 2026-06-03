@@ -156,6 +156,18 @@ class PromptTemplate:
         _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
+    
+    def _render_jinja(self, context) -> str:
+        """
+        Render Jinja2 template.
+
+        :param context: template context
+        """
+        from jinja2 import Environment
+        from jinja2 import StrictUndefined
+        env = Environment(undefined=StrictUndefined, autoescape=False)
+        template = env.from_string(self._content)
+        return template.render(**context)
 
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
