@@ -213,4 +213,3 @@ def _validate_template_engine(template_engine: Any):
     if not isinstance(template_engine, TemplateEngine):
         raise MemorValidationError(INVALID_TEMPLATE_ENGINE_MESSAGE)
     return True
-

@@ -121,7 +121,7 @@ class PromptTemplate:
         if custom_map is None or _validate_custom_map(custom_map):
             self._custom_map = custom_map
             self._mark_modified()
-    
+
     def update_engine(self, engine: TemplateEngine) -> None:
         """
         Update engine.
@@ -131,7 +131,7 @@ class PromptTemplate:
         if _validate_template_engine(engine):
             self._engine = engine
             self._mark_modified()
-    
+
     def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
@@ -156,7 +156,7 @@ class PromptTemplate:
         _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
-    
+
     def _render_jinja(self, context) -> str:
         """
         Render Jinja2 template.
@@ -318,7 +318,7 @@ class PromptTemplate:
     def size(self) -> int:
         """Get the size of the PromptTemplate in bytes."""
         return self.get_size()
-    
+
     @property
     def engine(self) -> int:
         """Get the engine of the PromptTemplate."""
