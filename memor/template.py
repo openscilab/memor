@@ -318,6 +318,11 @@ class PromptTemplate:
     def size(self) -> int:
         """Get the size of the PromptTemplate in bytes."""
         return self.get_size()
+    
+    @property
+    def engine(self) -> int:
+        """Get the engine of the PromptTemplate."""
+        return self._engine
 
 
 PROMPT_INSTRUCTION1 = "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\n"
