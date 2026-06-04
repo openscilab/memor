@@ -323,7 +323,7 @@ class PromptTemplate:
         return self.get_size()
 
     @property
-    def engine(self) -> int:
+    def engine(self) -> TemplateEngine:
         """Get the engine of the PromptTemplate."""
         return self._engine
 
