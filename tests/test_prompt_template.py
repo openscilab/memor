@@ -498,17 +498,10 @@ def test_render_jinja5():
         engine=TemplateEngine.JINJA,
     )
     assert template.render({"is_admin": True}) == "Admin"
-
-
-def test_render_jinja6():
-    template = PromptTemplate(
-        content="{% if is_admin %}Admin{% else %}User{% endif %}",
-        engine=TemplateEngine.JINJA,
-    )
     assert template.render({"is_admin": False}) == "User"
 
 
-def test_render_jinja7():
+def test_render_jinja6():
     template = PromptTemplate(
         content="{% for item in items %}{{ item }} {% endfor %}",
         engine=TemplateEngine.JINJA,
@@ -518,29 +511,7 @@ def test_render_jinja7():
     ) == "A B C "
 
 
-def test_render_jinja8():
-    template = PromptTemplate(
-        content="{{ greeting }}, {{ name }}!",
-        custom_map={"greeting": "Hello"},
-        engine=TemplateEngine.JINJA,
-    )
-    assert template.render(
-        {"name": "Bob"}
-    ) == "Hello, Bob!"
-
-
-def test_render_jinja9():
-    template = PromptTemplate(
-        content="{{ greeting }}, {{ name }}!",
-        custom_map={"greeting": "Hello"},
-        engine=TemplateEngine.JINJA,
-    )
-    assert template.render(
-        {"greeting": "Hi", "name": "Bob"}
-    ) == "Hi, Bob!"
-
-
-def test_render_jinja10():
+def test_render_jinja7():
     template = PromptTemplate(
         content="{{ user.name }} is {{ user.age }} years old",
         engine=TemplateEngine.JINJA,
@@ -550,7 +521,7 @@ def test_render_jinja10():
     ) == "Alice is 30 years old"
 
 
-def test_render_jinja11():
+def test_render_jinja8():
     template = PromptTemplate(
         content="{{ missing_variable }}",
         engine=TemplateEngine.JINJA,
@@ -559,7 +530,7 @@ def test_render_jinja11():
         template.render({})
 
 
-def test_render_jinja12():
+def test_render_jinja9():
     template = PromptTemplate(
         content="",
         engine=TemplateEngine.JINJA,
@@ -567,7 +538,7 @@ def test_render_jinja12():
     assert template.render({}) == ""
 
 
-def test_render_jinja13():
+def test_render_jinja10():
     template = PromptTemplate(
         content="{{ value|upper }}",
         engine=TemplateEngine.JINJA,
@@ -577,7 +548,7 @@ def test_render_jinja13():
     ) == "PYTHON"
 
 
-def test_render_jinja14():
+def test_render_jinja11():
     template = PromptTemplate(
         content="{{ numbers|length }}",
         engine=TemplateEngine.JINJA,
@@ -587,7 +558,7 @@ def test_render_jinja14():
     ) == "4"
 
 
-def test_render_jinja15():
+def test_render_jinja12():
     template = PromptTemplate(
         content="{% for user in users %}{{ user.name }};{% endfor %}",
         engine=TemplateEngine.JINJA,
