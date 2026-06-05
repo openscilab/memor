@@ -4,6 +4,7 @@ from typing import Any, Type
 import os
 import datetime
 import uuid
+from .params import TemplateEngine
 from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE, INVALID_MESSAGE_STATUS_LEN_MESSAGE
@@ -14,6 +15,7 @@ from .params import INVALID_BOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
 from .params import INVALID_ID_MESSAGE
 from .params import INVALID_WARNINGS_STRUCTURE_MESSAGE
+from .params import INVALID_TEMPLATE_ENGINE_MESSAGE
 from .errors import MemorValidationError
 
 
@@ -199,4 +201,15 @@ def _validate_warnings(warnings: Any) -> bool:
     for inner_dict in warnings.values():
         if not isinstance(inner_dict, dict):
             raise MemorValidationError(INVALID_WARNINGS_STRUCTURE_MESSAGE)
+    return True
+
+
+def _validate_template_engine(template_engine: Any) -> bool:
+    """
+    Validate template engine.
+
+    :param template_engine: template engine
+    """
+    if not isinstance(template_engine, TemplateEngine):
+        raise MemorValidationError(INVALID_TEMPLATE_ENGINE_MESSAGE)
     return True

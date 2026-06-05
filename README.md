@@ -249,6 +249,7 @@ prompt.render()
 | `content`    | `str`            | The template content string with placeholders          |
 | `custom_map` | `Dict[str, str]` | A dictionary of custom variables used in the template  |
 | `file_path`  | `str`            | Path to a JSON file to load the template from          |
+| `engine`     | `TemplateEngine` | Template engine (`FORMAT`, `JINJA`)                    |
 
 #### Methods
 
@@ -257,6 +258,7 @@ prompt.render()
 | `update_title`                                       | Update the template title                                                          |
 | `update_content`                                     | Update the template content                                                        |
 | `update_map`                                         | Update the custom variable map                                                     |
+| `update_engine`                                      | Update the engine                                                                  |
 | `get_size`                                           | Return the size (in bytes) of the JSON representation                              |
 | `from_content_file`                                  | Create a template from a text file by loading its contents as the template content |
 | `save` / `load`                                      | Save or load the template to/from a file                                           |

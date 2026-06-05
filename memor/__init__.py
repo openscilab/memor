@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Memor modules."""
-from .params import MEMOR_VERSION, RenderFormat
+from .params import MEMOR_VERSION, RenderFormat, TemplateEngine
 from .llm_models import LLMModel
 from .tokens_estimator import TokensEstimator
 from .template import PromptTemplate, PresetPromptTemplate
@@ -12,6 +12,7 @@ from .errors import MemorError, MemorRenderError, MemorValidationError
 __version__ = MEMOR_VERSION
 
 __all__ = [
+    "TemplateEngine",
     "RenderFormat",
     "LLMModel",
     "TokensEstimator",

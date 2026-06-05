@@ -8,11 +8,11 @@ from pathlib import Path
 from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_TEMPLATE_STRUCTURE_MESSAGE, TEMPLATE_RENDER_ERROR_MESSAGE
-from .params import MEMOR_VERSION
+from .params import MEMOR_VERSION, TemplateEngine
 from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_path, _validate_custom_map
-from .functions import _validate_string
+from .functions import _validate_string, _validate_template_engine
 
 
 class PromptTemplate:
@@ -29,7 +29,8 @@ class PromptTemplate:
             content: Optional[str] = None,
             file_path: Optional[str] = None,
             title: Optional[str] = None,
-            custom_map: Optional[Dict[str, str]] = None) -> None:
+            custom_map: Optional[Dict[str, str]] = None,
+            engine: TemplateEngine = TemplateEngine.FORMAT) -> None:
         """
         Prompt template object initiator.
 
@@ -37,6 +38,7 @@ class PromptTemplate:
         :param file_path: template file path
         :param title: template title
         :param custom_map: custom map
+        :param engine: template engine
         """
         self._content = None
         self._title = None
@@ -44,6 +46,7 @@ class PromptTemplate:
         self._mark_modified()
         self._memor_version = MEMOR_VERSION
         self._custom_map = None
+        self._engine = TemplateEngine.FORMAT
         if file_path is not None:
             self.load(file_path)
         else:
@@ -53,6 +56,8 @@ class PromptTemplate:
                 self.update_content(content)
             if custom_map is not None:
                 self.update_map(custom_map)
+            if engine is not None:
+                self.update_engine(engine)
 
     def _mark_modified(self) -> None:
         """Mark modification."""
@@ -117,6 +122,16 @@ class PromptTemplate:
             self._custom_map = custom_map
             self._mark_modified()
 
+    def update_engine(self, engine: TemplateEngine) -> None:
+        """
+        Update engine.
+
+        :param engine: template engine
+        """
+        if _validate_template_engine(engine):
+            self._engine = engine
+            self._mark_modified()
+
     def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
@@ -142,6 +157,21 @@ class PromptTemplate:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
+    def _render_jinja(self, context) -> str:
+        """
+        Render Jinja2 template.
+
+        :param context: template context
+        """
+        from jinja2 import Environment
+        from jinja2 import StrictUndefined
+        # PromptTemplate is designed for text/prompt generation,
+        # not HTML/XML rendering. Autoescaping would modify prompt
+        # contents and produce unexpected output.
+        env = Environment(undefined=StrictUndefined, autoescape=False)
+        template = env.from_string(self._content)
+        return template.render(**context)
+
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
@@ -157,6 +187,7 @@ class PromptTemplate:
                 loaded_obj = json_object.copy()
             result["content"] = loaded_obj["content"]
             result["title"] = loaded_obj["title"]
+            result["engine"] = TemplateEngine(loaded_obj.get("engine", TemplateEngine.FORMAT.value))
             result["custom_map"] = loaded_obj["custom_map"]
             result["memor_version"] = loaded_obj["memor_version"]
             result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
@@ -181,6 +212,7 @@ class PromptTemplate:
         data = self._validate_extract_json(json_object)
         self._content = data["content"]
         self._title = data["title"]
+        self._engine = data["engine"]
         self._memor_version = data["memor_version"]
         self._custom_map = data["custom_map"]
         self._date_created = data["date_created"]
@@ -198,6 +230,7 @@ class PromptTemplate:
         return {
             "title": self._title,
             "content": self._content,
+            "engine": self._engine.value,
             "memor_version": MEMOR_VERSION,
             "custom_map": self._custom_map.copy(),
             "date_created": self._date_created,
@@ -221,7 +254,10 @@ class PromptTemplate:
                 final_context.update(self._custom_map)
             if context is not None:
                 final_context.update(context)
-            return self._content.format(**final_context)
+            if self._engine == TemplateEngine.FORMAT:
+                return self._content.format(**final_context)
+            if self._engine == TemplateEngine.JINJA:
+                return self._render_jinja(final_context)
         except Exception:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
 
@@ -285,6 +321,11 @@ class PromptTemplate:
     def size(self) -> int:
         """Get the size of the PromptTemplate in bytes."""
         return self.get_size()
+
+    @property
+    def engine(self) -> TemplateEngine:
+        """Get the engine of the PromptTemplate."""
+        return self._engine
 
 
 PROMPT_INSTRUCTION1 = "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\n"

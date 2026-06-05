@@ -28,6 +28,7 @@ INVALID_PROMPT_STRUCTURE_MESSAGE = "Invalid prompt structure. It should be a JSO
 INVALID_RESPONSE_STRUCTURE_MESSAGE = "Invalid response structure. It should be a JSON object with proper fields."
 INVALID_SESSION_STRUCTURE_MESSAGE = "Invalid session structure. It should be a JSON object with proper fields."
 INVALID_RENDER_FORMAT_MESSAGE = "Invalid render format. It must be an instance of RenderFormat enum."
+INVALID_TEMPLATE_ENGINE_MESSAGE = "Invalid template engine. It must be an instance of TemplateEngine enum."
 INVALID_WARNINGS_STRUCTURE_MESSAGE = "Invalid `warnings` structure. It must be a valid dictionary."
 INVALID_XML_TREE_MESSAGE = "Invalid XML tree structure."
 PROMPT_RENDER_ERROR_MESSAGE = "Prompt template and properties are incompatible."
@@ -61,3 +62,11 @@ class RenderFormat(Enum):
     DICTIONARY = "DICTIONARY"
     ITEMS = "ITEMS"
     DEFAULT = STRING
+
+
+class TemplateEngine(Enum):
+    """Template engine."""
+
+    FORMAT = "format"
+    JINJA = "jinja"
+    DEFAULT = FORMAT

@@ -3,7 +3,8 @@ import datetime
 import json
 import copy
 import pytest
-from memor import PromptTemplate, MemorValidationError, MemorRenderError
+from memor import PromptTemplate, TemplateEngine
+from memor import MemorValidationError, MemorRenderError
 
 TEST_CASE_NAME = "PromptTemplate tests"
 
@@ -447,3 +448,127 @@ def test_from_content_file4(tmp_path):
 def test_from_content_file5():
     with pytest.raises(FileNotFoundError, match=r"Invalid path: must be a string and refer to an existing location. Given path: this-file-does-not-exist.txt"):
         PromptTemplate.from_content_file("this-file-does-not-exist.txt")
+
+
+def test_render_jinja1():
+    template = PromptTemplate(
+        content="Act as a {{ language }} developer and respond to this question:\n{{ prompt_message }}",
+        custom_map={"language": "Python"},
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render(
+        {"prompt_message": "Mock Question"}
+    ) == "Act as a Python developer and respond to this question:\nMock Question"
+
+
+def test_render_jinja2():
+    template = PromptTemplate(
+        content="Act as a {{ language }} developer and respond to this question:\n{{ prompt_message }}",
+        custom_map={"language": "Python"},
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render(
+        {"language": "Rust", "prompt_message": "Mock Question"}
+    ) == "Act as a Rust developer and respond to this question:\nMock Question"
+
+
+def test_render_jinja3():
+    template = PromptTemplate(
+        content="Act as a {{ language }} developer and respond to this question:\n{{ prompt_message }}",
+        custom_map={"language": "Python"},
+        engine=TemplateEngine.JINJA,
+    )
+    with pytest.raises(MemorRenderError, match="Template and context are incompatible."):
+        template.render()
+
+
+def test_render_jinja4():
+    template = PromptTemplate(
+        content="Hello {{ name }}!",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render(
+        {"name": "Alice"}
+    ) == "Hello Alice!"
+
+
+def test_render_jinja5():
+    template = PromptTemplate(
+        content="{% if is_admin %}Admin{% else %}User{% endif %}",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render({"is_admin": True}) == "Admin"
+    assert template.render({"is_admin": False}) == "User"
+
+
+def test_render_jinja6():
+    template = PromptTemplate(
+        content="{% for item in items %}{{ item }} {% endfor %}",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render(
+        {"items": ["A", "B", "C"]}
+    ) == "A B C "
+
+
+def test_render_jinja7():
+    template = PromptTemplate(
+        content="{{ user.name }} is {{ user.age }} years old",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render(
+        {"user": {"name": "Alice", "age": 30}}
+    ) == "Alice is 30 years old"
+
+
+def test_render_jinja8():
+    template = PromptTemplate(
+        content="{{ missing_variable }}",
+        engine=TemplateEngine.JINJA,
+    )
+    with pytest.raises(MemorRenderError, match="Template and context are incompatible."):
+        template.render({})
+
+
+def test_render_jinja9():
+    template = PromptTemplate(
+        content="",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render({}) == ""
+
+
+def test_render_jinja10():
+    template = PromptTemplate(
+        content="{{ value|upper }}",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render(
+        {"value": "python"}
+    ) == "PYTHON"
+
+
+def test_render_jinja11():
+    template = PromptTemplate(
+        content="{{ numbers|length }}",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render(
+        {"numbers": [1, 2, 3, 4]}
+    ) == "4"
+
+
+def test_render_jinja12():
+    template = PromptTemplate(
+        content="{% for user in users %}{{ user.name }};{% endfor %}",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.render(
+        {
+            "users": [
+                {"name": "Alice"},
+                {"name": "Bob"},
+                {"name": "Charlie"},
+            ]
+        }
+    ) == "Alice;Bob;Charlie;"
