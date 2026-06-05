@@ -204,7 +204,7 @@ def _validate_warnings(warnings: Any) -> bool:
     return True
 
 
-def _validate_template_engine(template_engine: Any):
+def _validate_template_engine(template_engine: Any) -> bool:
     """
     Validate template engine.
 
