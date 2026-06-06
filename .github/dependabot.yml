@@ -5,6 +5,7 @@ updates:
   exclude-paths:
       - "requirements-dev.txt"
       - "setup.py"
+      - "examples/requirements.txt"
   schedule:
     interval: weekly
     time: "01:30"
