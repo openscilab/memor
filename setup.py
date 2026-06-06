@@ -5,13 +5,6 @@ try:
 except ImportError:
     from distutils.core import setup
 
-
-def get_requires() -> list:
-    """Read requirements.txt."""
-    requirements = open("requirements.txt", "r").read()
-    return list(filter(lambda x: x != "", requirements.split()))
-
-
 def read_description() -> str:
     """Read README.md and CHANGELOG.md."""
     try:
@@ -43,11 +36,15 @@ setup(
     author_email='memor@openscilab.com',
     url='https://github.com/openscilab/memor',
     download_url='https://github.com/openscilab/memor/tarball/v1.1',
-    keywords="llm memory management conversational history ai agent",
+    keywords='llm memory management conversational history ai agent',
     project_urls={
-            'Source': 'https://github.com/openscilab/memor',
+        'Source': 'https://github.com/openscilab/memor',
     },
-    install_requires=get_requires(),
+    install_requires=[
+        'defusedxml>=0.7.1',
+        'pandas>=1.3.5',
+        'jinja2>=3.1.6'
+    ],
     python_requires='>=3.7',
     classifiers=[
         'Development Status :: 4 - Beta',
