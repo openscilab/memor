@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `LLMModel` structure updated
 - `LLMModel` type changed
 - Session list contamination bug fixed
+- Prompt list contamination bug fixed
 - `README.md` updated
 - Test system modified
 - Dependencies structure modified
