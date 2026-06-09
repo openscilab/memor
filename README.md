@@ -148,6 +148,7 @@ prompt.render()
 | ----------------------------------------------  | ---------------------------------------------------------------------- |
 | `add_response`                                  | Add a new response (append or insert)                                  |
 | `remove_response`                               | Remove the response at specified index                                 |
+| `clear_responses`                               | Remove all responses from the prompt                                   |
 | `select_response`                               | Mark a specific response as selected to be included in memory          |
 | `update_template`                               | Update the rendering template                                          |
 | `update_responses`                              | Replace all responses                                                  |
