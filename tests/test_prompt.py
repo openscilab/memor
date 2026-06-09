@@ -236,6 +236,19 @@ def test_remove_response():
     assert response0 not in prompt.responses
 
 
+def test_clear_responses():
+    message = "Hello, how are you?"
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    prompt = Prompt(message=message, responses=[response0, response1])
+    _ = prompt.select_response(index=0)
+    assert len(prompt.responses) == 2
+    assert prompt.selected_response == response0
+    prompt.clear_responses()
+    assert len(prompt.responses) == 0
+    assert prompt.selected_response is None
+
+
 def test_select_response():
     message = "Hello, how are you?"
     response0 = Response(message="I am fine.")
