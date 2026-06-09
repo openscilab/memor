@@ -118,6 +118,12 @@ class Prompt(Message):
         """
         self._responses.pop(index)
         self._mark_modified()
+    
+    def clear_responses(self) -> None:
+        """Remove all responses from the prompt."""
+        self._responses.clear()
+        self._selected_response_index = 0
+        self._mark_modified()
 
     def select_response(self, index: int) -> Optional[Response]:
         """
