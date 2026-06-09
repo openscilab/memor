@@ -5,6 +5,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
+
 def read_description() -> str:
     """Read README.md and CHANGELOG.md."""
     try:
