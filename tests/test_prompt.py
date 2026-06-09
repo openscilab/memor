@@ -191,6 +191,16 @@ def test_responses6():
     assert prompt.responses == []
 
 
+def test_responses7():
+    message = "Hello, how are you?"
+    response = Response(message="I am fine.")
+    prompt1 = Prompt(message=message)
+    prompt2 = Prompt(message=message)
+    prompt1.update_responses([response])
+    assert prompt1.responses != prompt2.responses
+    assert len(prompt2.responses) == 0
+
+
 def test_add_response1():
     message = "Hello, how are you?"
     response0 = Response(message="I am fine.")

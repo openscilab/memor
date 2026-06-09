@@ -39,7 +39,7 @@ class Prompt(Message):
     def __init__(
             self,
             message: str = "",
-            responses: List[Response] = [],
+            responses: Optional[List[Response]] = None,
             role: Role = Role.DEFAULT,
             tokens: Optional[int] = None,
             template: Union[PresetPromptTemplate, PromptTemplate] = PresetPromptTemplate.DEFAULT,
