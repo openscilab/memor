@@ -15,6 +15,7 @@ from .params import Role
 from .params import XML_PATTERN
 from .tokens_estimator import TokensEstimator
 from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING, INVALID_XML_TREE_MESSAGE
+from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_pos_int
@@ -131,6 +132,22 @@ class Message(ABC):
         _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
+    
+    def _save_json(self, file_path: str, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Save JSON data to file.
+
+        :param file_path: message file path
+        :param data: data
+        """
+        result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
+        try:
+            with open(file_path, "w") as file:
+                json.dump(data, file)
+        except Exception as e:
+            result["status"] = False
+            result["message"] = str(e)
+        return result
 
     @staticmethod
     @abstractmethod
