@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `PromptTemplate` class `from_content_file` method
 - `PromptTemplate` class `update_engine` method
 - `PromptTemplate` class `engine` property
+- `Prompt` class `clear_responses` method
 ### Changed
 - `engine` parameter added to `PromptTemplate` class
 - `Prompt` class `render` method updated
