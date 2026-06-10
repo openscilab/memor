@@ -132,7 +132,7 @@ class Message(ABC):
         _validate_path(file_path)
         with open(file_path, "r") as file:
             self.from_json(file.read())
-    
+
     def _save_json(self, file_path: str, data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Save JSON data to file.
