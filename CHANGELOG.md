@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - `engine` parameter added to `PromptTemplate` class
 - `Prompt` class `render` method updated
+- `Prompt` class `save` method updated
+- `Response` class `save` method updated
 - `LLMModel` structure updated
 - `LLMModel` type changed
 - Session list contamination bug fixed

@@ -179,15 +179,7 @@ class Prompt(Message):
         :param file_path: prompt file path
         :param save_template: save template flag
         """
-        result = {"status": True, "message": DATA_SAVE_SUCCESS_MESSAGE}
-        try:
-            with open(file_path, "w") as file:
-                data = self.to_json(save_template=save_template)
-                json.dump(data, file)
-        except Exception as e:
-            result["status"] = False
-            result["message"] = str(e)
-        return result
+        return self._save_json(file_path, self.to_json(save_template=save_template))
 
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
