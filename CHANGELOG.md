@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.2] - 2026-06-15
 ### Added
 - `TemplateEngine` enum
 - `MemorError` class
@@ -182,7 +183,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `PresetPromptTemplate` class
 
 
-[Unreleased]: https://github.com/openscilab/memor/compare/v1.1...dev
+[Unreleased]: https://github.com/openscilab/memor/compare/v1.2...dev
+[1.2]: https://github.com/openscilab/memor/compare/v1.1...v1.2
 [1.1]: https://github.com/openscilab/memor/compare/v1.0...v1.1
 [1.0]: https://github.com/openscilab/memor/compare/v0.9...v1.0
 [0.9]: https://github.com/openscilab/memor/compare/v0.8...v0.9
