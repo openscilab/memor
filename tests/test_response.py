@@ -1,4 +1,5 @@
 import os
+import time
 import datetime
 import uuid
 import json
@@ -374,6 +375,13 @@ def test_date3():
 def test_date4():
     with pytest.raises(MemorValidationError, match=r"Invalid value. `date` must be a datetime object that includes timezone information."):
         _ = Response(message="I am fine.", date=datetime.datetime.now())
+
+
+def test_date5():
+    response1 = Response(message="I am fine.")
+    time.sleep(2)
+    response2 = Response(message="I am fine.")
+    assert response1.date_created != response2.date_created
 
 
 def test_json1():
