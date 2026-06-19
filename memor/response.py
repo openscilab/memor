@@ -41,7 +41,7 @@ class Response(Message):
             inference_time: Optional[float] = None,
             model: Union[object, str] = LLMModel.DEFAULT,
             gpu: Optional[str] = None,
-            date: datetime.datetime = get_time_utc(),
+            date: Optional[datetime.datetime] = None,
             file_path: Optional[str] = None) -> None:
         """
         Response object initiator.
@@ -67,6 +67,7 @@ class Response(Message):
         self._top_p = None
         self._inference_time = None
         self._model = LLMModel.DEFAULT.value
+        self._date_created = get_time_utc()
         self._gpu = None
         if file_path is not None:
             self.load(file_path)
