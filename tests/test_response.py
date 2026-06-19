@@ -380,7 +380,7 @@ def test_date4():
 def test_date5():
     response1 = Response(message="I am fine.")
     time.sleep(2)
-    response2 = Response(message="I am fine.")
+    response2 = Response(message="Great!")
     assert response1.date_created != response2.date_created
 
 
