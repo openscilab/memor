@@ -1,5 +1,6 @@
 import os
 import re
+import time
 import datetime
 import copy
 import pytest
@@ -143,6 +144,7 @@ def test_enable_message():
     session = Session(messages=[prompt, response])
     session.update_messages_status([False, False])
     session_date_modified = copy.deepcopy(session.date_modified)
+    time.sleep(2)
     session.enable_message(0)
     assert session.messages_status == [True, False]
     assert session.date_modified != session_date_modified
@@ -154,6 +156,7 @@ def test_disable_message():
     session = Session(messages=[prompt, response])
     session.update_messages_status([True, True])
     session_date_modified = copy.deepcopy(session.date_modified)
+    time.sleep(2)
     session.disable_message(0)
     assert session.messages_status == [False, True]
     assert session.date_modified != session_date_modified
