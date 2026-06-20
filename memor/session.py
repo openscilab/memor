@@ -275,6 +275,7 @@ class Session:
         :param index: index
         """
         self._messages_status[index] = True
+        self._mark_modified()
 
     def disable_message(self, index: int) -> None:
         """
@@ -283,6 +284,7 @@ class Session:
         :param index: index
         """
         self._messages_status[index] = False
+        self._mark_modified()
 
     def mask_message(self, index: int) -> None:
         """
