@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Changed
+- `Session` class `enable_message` method modified
+- `Session` class `disable_message` method modified
+- `Session` class `mask_message` method modified
+- `Session` class `unmask_message` method modified
 - Test system modified
 - `Response` class `date` bug fixed
 ## [1.2] - 2026-06-15

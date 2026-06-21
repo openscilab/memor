@@ -1,5 +1,6 @@
 import os
 import re
+import time
 import datetime
 import copy
 import pytest
@@ -142,8 +143,11 @@ def test_enable_message():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
     session.update_messages_status([False, False])
+    session_date_modified = session.date_modified
+    time.sleep(2)
     session.enable_message(0)
     assert session.messages_status == [True, False]
+    assert session.date_modified > session_date_modified
 
 
 def test_disable_message():
@@ -151,16 +155,22 @@ def test_disable_message():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
     session.update_messages_status([True, True])
+    session_date_modified = session.date_modified
+    time.sleep(2)
     session.disable_message(0)
     assert session.messages_status == [False, True]
+    assert session.date_modified > session_date_modified
 
 
 def test_mask_message():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
+    session_date_modified = session.date_modified
+    time.sleep(2)
     session.mask_message(0)
     assert session.messages_status == [False, True]
+    assert session.date_modified > session_date_modified
 
 
 def test_unmask_message():
@@ -168,8 +178,11 @@ def test_unmask_message():
     response = Response(message="I am fine.")
     session = Session(messages=[prompt, response])
     session.update_messages_status([False, False])
+    session_date_modified = session.date_modified
+    time.sleep(2)
     session.unmask_message(0)
     assert session.messages_status == [True, False]
+    assert session.date_modified > session_date_modified
 
 
 def test_masks():
