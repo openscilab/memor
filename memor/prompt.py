@@ -153,23 +153,17 @@ class Prompt(Message):
 
         :param template: template
         """
-        if not isinstance(
-            template,
-            (PromptTemplate,
-             _BasicPresetPromptTemplate,
-             _Instruction1PresetPromptTemplate,
-             _Instruction2PresetPromptTemplate,
-             _Instruction3PresetPromptTemplate)):
-            raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
         if isinstance(template, PromptTemplate):
             self._template = template
-        if isinstance(
+        elif isinstance(
             template,
             (_BasicPresetPromptTemplate,
              _Instruction1PresetPromptTemplate,
              _Instruction2PresetPromptTemplate,
              _Instruction3PresetPromptTemplate)):
             self._template = template.value
+        else:
+            raise MemorValidationError(INVALID_TEMPLATE_MESSAGE)
         self._mark_modified()
 
     def save(self, file_path: str, save_template: bool = True) -> Dict[str, Any]:
