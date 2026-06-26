@@ -256,6 +256,17 @@ def test_json6():
     assert template.title is None
 
 
+def test_json7():
+    template1 = PromptTemplate(
+        content="Act as a Python developer and respond to this question:\n{prompt_message}")
+    assert template1.custom_map is None
+    template1_json = template1.to_json()
+    template2 = PromptTemplate()
+    template2.from_json(template1_json)
+    assert template1 == template2
+    assert template2.custom_map is None
+
+
 def test_save1():
     template = PromptTemplate(
         content="Act as a {language} developer and respond to this question:\n{prompt_message}",
