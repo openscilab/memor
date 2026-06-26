@@ -257,8 +257,7 @@ def test_json6():
 
 
 def test_json7():
-    template1 = PromptTemplate(
-        content="Act as a Python developer and respond to this question:\n{prompt_message}")
+    template1 = PromptTemplate(content="Act as a Python developer and respond to this question:\n{prompt_message}")
     assert template1.custom_map is None
     template1_json = template1.to_json()
     template2 = PromptTemplate()
