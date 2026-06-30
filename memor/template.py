@@ -232,7 +232,7 @@ class PromptTemplate:
             "content": self._content,
             "engine": self._engine.value,
             "memor_version": MEMOR_VERSION,
-            "custom_map": self._custom_map.copy(),
+            "custom_map": None if self._custom_map is None else self._custom_map.copy(),
             "date_created": self._date_created,
             "date_modified": self._date_modified,
         }
