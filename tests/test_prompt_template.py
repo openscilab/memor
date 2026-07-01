@@ -420,6 +420,12 @@ def test_render3():
         template.render()
 
 
+def test_render4():
+    template = PromptTemplate()
+    with pytest.raises(MemorRenderError, match="Template and context are incompatible."):
+        template.render()
+
+
 def test_from_content_file1(tmp_path):
     file_path = tmp_path / "template.txt"
     file_path.write_text("Hello World", encoding="utf-8")
