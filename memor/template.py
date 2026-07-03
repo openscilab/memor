@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Template class."""
-from typing import Dict, Any, Union, Optional
+from typing import List, Dict, Any, Union, Optional
+import string
+import re
 import json
 import datetime
 from enum import Enum
@@ -171,6 +173,16 @@ class PromptTemplate:
         env = Environment(undefined=StrictUndefined, autoescape=False)
         template = env.from_string(self._content)
         return template.render(**context)
+    
+
+    def _extract_format_variables(self) -> List[str]:
+        """Extract variables from format templates."""
+        formatter = string.Formatter()
+        variables = set()
+        for _, field_name, _, _ in formatter.parse(self._content or ""):
+            if field_name:
+                variables.add(field_name.split("[")[0])
+        return sorted(variables)
 
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
