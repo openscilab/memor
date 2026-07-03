@@ -184,7 +184,6 @@ class PromptTemplate:
                 variables.add(field_name.split("[")[0])
         return sorted(variables)
     
-
     def _extract_jinja_variables(self) -> List[str]:
         """Extract variables from jinja templates."""
         pattern = r"\{\{\s*([a-zA-Z_][a-zA-Z0-9_]*)"
@@ -346,6 +345,13 @@ class PromptTemplate:
     def engine(self) -> TemplateEngine:
         """Get the engine of the PromptTemplate."""
         return self._engine
+    
+    @property
+    def variables(self) -> List[str]:
+        """Return template variables."""
+        if self._engine == TemplateEngine.JINJA:
+            return self._extract_jinja_variables()
+        return self._extract_format_variables()
 
 
 PROMPT_INSTRUCTION1 = "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\n"
