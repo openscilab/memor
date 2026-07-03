@@ -173,7 +173,6 @@ class PromptTemplate:
         env = Environment(undefined=StrictUndefined, autoescape=False)
         template = env.from_string(self._content)
         return template.render(**context)
-    
 
     def _extract_format_variables(self) -> List[str]:
         """Extract variables from format templates."""
@@ -183,7 +182,7 @@ class PromptTemplate:
             if field_name:
                 variables.add(field_name.split("[")[0])
         return sorted(variables)
-    
+
     def _extract_jinja_variables(self) -> List[str]:
         """Extract variables from jinja templates."""
         return sorted(set(re.findall(JINJA_VARIABLES_PATTERN, self._content or "")))
@@ -344,7 +343,7 @@ class PromptTemplate:
     def engine(self) -> TemplateEngine:
         """Get the engine of the PromptTemplate."""
         return self._engine
-    
+
     @property
     def variables(self) -> List[str]:
         """Return template variables."""

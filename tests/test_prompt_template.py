@@ -606,6 +606,3 @@ def test_variables2():
 def test_variables3():
     template = PromptTemplate()
     assert template.variables == []
-
-
-
