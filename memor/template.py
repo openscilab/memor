@@ -248,6 +248,8 @@ class PromptTemplate:
 
         :param context: template context
         """
+        if self._content is None:
+            raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
         try:
             final_context = {}
             if self._custom_map is not None:
