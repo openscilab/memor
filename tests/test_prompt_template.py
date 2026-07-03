@@ -588,3 +588,24 @@ def test_render_jinja12():
             ]
         }
     ) == "Alice;Bob;Charlie;"
+
+
+def test_variables1():
+    template = PromptTemplate(
+        content="{% for user in users %}{{ user.name }};{% endfor %}",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.variables == ["user"]
+
+
+def test_variables2():
+    template = PromptTemplate("{user1}, {user2}, {prompt}")
+    assert template.variables == ['prompt', 'user1', 'user2']
+
+
+def test_variables3():
+    template = PromptTemplate()
+    assert template.variables == []
+
+
+
