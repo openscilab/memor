@@ -183,6 +183,12 @@ class PromptTemplate:
             if field_name:
                 variables.add(field_name.split("[")[0])
         return sorted(variables)
+    
+
+    def _extract_jinja_variables(self) -> List[str]:
+        """Extract variables from jinja templates."""
+        pattern = r"\{\{\s*([a-zA-Z_][a-zA-Z0-9_]*)"
+        return sorted(set(re.findall(pattern, self._content or "")))
 
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
