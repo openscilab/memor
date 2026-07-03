@@ -7,7 +7,7 @@ import json
 import datetime
 from enum import Enum
 from pathlib import Path
-from .params import DATE_TIME_FORMAT
+from .params import DATE_TIME_FORMAT, JINJA_VARIABLES_PATTERN
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_TEMPLATE_STRUCTURE_MESSAGE, TEMPLATE_RENDER_ERROR_MESSAGE
 from .params import MEMOR_VERSION, TemplateEngine
@@ -186,8 +186,7 @@ class PromptTemplate:
     
     def _extract_jinja_variables(self) -> List[str]:
         """Extract variables from jinja templates."""
-        pattern = r"\{\{\s*([a-zA-Z_][a-zA-Z0-9_]*)"
-        return sorted(set(re.findall(pattern, self._content or "")))
+        return sorted(set(re.findall(JINJA_VARIABLES_PATTERN, self._content or "")))
 
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
@@ -349,6 +348,8 @@ class PromptTemplate:
     @property
     def variables(self) -> List[str]:
         """Return template variables."""
+        if self._content is None:
+            return []
         if self._engine == TemplateEngine.JINJA:
             return self._extract_jinja_variables()
         return self._extract_format_variables()
