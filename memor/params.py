@@ -40,7 +40,6 @@ MESSAGE_SIZE_WARNING = "Message {message_id} exceeded size threshold ({current_s
 SESSION_SIZE_WARNING = "Session exceeded size threshold ({current_size} > {threshold})."
 
 XML_PATTERN = r"<([a-zA-Z_][\w\-\.]*)(\s[^<>]*?)?>.*?</\1\s*>|<([a-zA-Z_][\w\-\.]*)(\s[^<>]*?)?/?>"
-JINJA_VARIABLES_PATTERN = r"\{\{\s*([a-zA-Z_][a-zA-Z0-9_]*)"
 
 DATAFRAME_MAIN_COLUMNS = ["type", "message", "role", "id", "date_created", "date_modified"]
 

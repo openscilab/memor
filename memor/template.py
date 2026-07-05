@@ -2,12 +2,11 @@
 """Template class."""
 from typing import List, Dict, Any, Union, Optional
 import string
-import re
 import json
 import datetime
 from enum import Enum
 from pathlib import Path
-from .params import DATE_TIME_FORMAT, JINJA_VARIABLES_PATTERN
+from .params import DATE_TIME_FORMAT
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .params import INVALID_TEMPLATE_STRUCTURE_MESSAGE, TEMPLATE_RENDER_ERROR_MESSAGE
 from .params import MEMOR_VERSION, TemplateEngine
@@ -185,7 +184,10 @@ class PromptTemplate:
 
     def _extract_jinja_variables(self) -> List[str]:
         """Extract variables from jinja templates."""
-        return sorted(set(re.findall(JINJA_VARIABLES_PATTERN, self._content or "")))
+        from jinja2 import Environment, meta
+        env = Environment()
+        ast = env.parse(self._content or "")
+        return sorted(meta.find_undeclared_variables(ast))
 
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
