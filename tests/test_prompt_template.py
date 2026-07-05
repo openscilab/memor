@@ -595,7 +595,7 @@ def test_variables1():
         content="{% for user in users %}{{ user.name }};{% endfor %}",
         engine=TemplateEngine.JINJA,
     )
-    assert template.variables == ["user"]
+    assert template.variables == ["users"]
 
 
 def test_variables2():
