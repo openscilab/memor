@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Prompt` class `update_template` method modified
 - `PromptTemplate` class `to_dict` method modified
 - `PromptTemplate` class `render` method modified
+- `engine` parameter added to `from_content_file` method
 - Test system modified
 - `Response` class `date` bug fixed
 ## [1.2] - 2026-06-15
