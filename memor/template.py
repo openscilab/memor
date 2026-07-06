@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Template class."""
-from typing import Dict, Any, Union, Optional
+from typing import List, Dict, Any, Union, Optional
+import string
 import json
 import datetime
 from enum import Enum
@@ -172,6 +173,22 @@ class PromptTemplate:
         template = env.from_string(self._content)
         return template.render(**context)
 
+    def _extract_format_variables(self) -> List[str]:
+        """Extract variables from format templates."""
+        formatter = string.Formatter()
+        variables = set()
+        for _, field_name, _, _ in formatter.parse(self._content or ""):
+            if field_name:
+                variables.add(field_name.split("[")[0])
+        return sorted(variables)
+
+    def _extract_jinja_variables(self) -> List[str]:
+        """Extract variables from jinja templates."""
+        from jinja2 import Environment, meta
+        env = Environment()
+        ast = env.parse(self._content or "")
+        return sorted(meta.find_undeclared_variables(ast))
+
     @staticmethod
     def _validate_extract_json(json_object: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
         """
@@ -328,6 +345,15 @@ class PromptTemplate:
     def engine(self) -> TemplateEngine:
         """Get the engine of the PromptTemplate."""
         return self._engine
+
+    @property
+    def variables(self) -> List[str]:
+        """Return template variables."""
+        if self._content is None:
+            return []
+        if self._engine == TemplateEngine.JINJA:
+            return self._extract_jinja_variables()
+        return self._extract_format_variables()
 
 
 PROMPT_INSTRUCTION1 = "I'm providing you with a history of a previous conversation. Please consider this context when responding to my new question.\n"
