@@ -436,7 +436,7 @@ def test_from_content_file1(tmp_path):
 def test_from_content_file2(tmp_path):
     file_path = tmp_path / "review.txt"
     file_path.write_text("{{ name }}", encoding="utf-8")
-    template = PromptTemplate.from_content_file(str(file_path))
+    template = PromptTemplate.from_content_file(str(file_path), engine=TemplateEngine.JINJA)
     assert template.title == "review"
 
 
@@ -446,8 +446,10 @@ def test_from_content_file3(tmp_path):
     template = PromptTemplate.from_content_file(
         str(file_path),
         title="My Template",
+        engine=TemplateEngine.JINJA
     )
     assert template.title == "My Template"
+    assert template.engine == TemplateEngine.JINJA
 
 
 def test_from_content_file4(tmp_path):
@@ -459,6 +461,7 @@ def test_from_content_file4(tmp_path):
         custom_map=custom_map,
     )
     assert template.custom_map == custom_map
+    assert template.engine == TemplateEngine.FORMAT
 
 
 def test_from_content_file5():

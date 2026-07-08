@@ -286,6 +286,7 @@ class PromptTemplate:
         file_path: str,
         title: Optional[str] = None,
         custom_map: Optional[Dict[str, Any]] = None,
+        engine: TemplateEngine = TemplateEngine.FORMAT
     ) -> "PromptTemplate":
         """
         Create a PromptTemplate from a text file.
@@ -296,6 +297,7 @@ class PromptTemplate:
         :param file_path: content file path
         :param title: template title
         :param custom_map: custom map
+        :param engine: template engine
         """
         _validate_path(file_path)
 
@@ -308,7 +310,8 @@ class PromptTemplate:
         return cls(
             content=content,
             title=title,
-            custom_map=custom_map
+            custom_map=custom_map,
+            engine=engine,
         )
 
     @property
