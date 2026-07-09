@@ -258,7 +258,6 @@ class PromptTemplate:
         """Get the size of the PromptTemplate in bytes."""
         json_str = json.dumps(self.to_json())
         return len(json_str.encode())
-    
 
     def get_missing_variables(self, context: Optional[Dict[str, Any]] = None) -> List[str]:
         """
@@ -272,7 +271,6 @@ class PromptTemplate:
         if context is not None:
             final_context.update(context)
         return sorted(set(self.variables) - set(final_context))
-
 
     def render(self, context: Optional[Dict[str, Any]] = None) -> str:
         """
