@@ -609,3 +609,24 @@ def test_variables2():
 def test_variables3():
     template = PromptTemplate()
     assert template.variables == []
+
+
+def test_get_missing_variables1():
+    template = PromptTemplate(
+        content="{% for user in users %}{{ user.name }};{% endfor %}",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.get_missing_variables({"users": []}) == []
+
+
+def test_get_missing_variables2():
+    template = PromptTemplate(
+        content="{% for user in users %}{{ user.name }};{% endfor %}",
+        engine=TemplateEngine.JINJA,
+    )
+    assert template.get_missing_variables({"test": []}) == ["users"]
+
+
+def test_get_missing_variables3():
+    template = PromptTemplate("{user1}, {user2}, {prompt}", custom_map={"prompt": "hi"})
+    assert template.get_missing_variables({"user1": "test"}) == ["user2"]
