@@ -261,6 +261,7 @@ prompt.render()
 | `update_map`                                         | Update the custom variable map                                                     |
 | `update_engine`                                      | Update the engine                                                                  |
 | `get_size`                                           | Return the size (in bytes) of the JSON representation                              |
+| `get_missing_variables`                              | Return the list of missing template variables                                      |
 | `from_content_file`                                  | Create a template from a text file by loading its contents as the template content |
 | `save` / `load`                                      | Save or load the template to/from a file                                           |
 | `to_json` / `from_json`                              | Serialize or deserialize to/from JSON                                              |

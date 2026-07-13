@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `PromptTemplate` class `variables` property
+- `PromptTemplate` class `get_missing_variables` method
 ### Changed
 - `Session` class `enable_message` method modified
 - `Session` class `disable_message` method modified
