@@ -344,6 +344,7 @@ print("Estimated tokens:", tokens)
 | `get_message_by_index`                                            | Get a message by integer index or slice                       |
 | `get_message_by_id`                                               | Get a message by its unique ID                                |
 | `enable_message`                                                  | Mark the message at the given index as active                 |
+| `enable_all_messages`                                             | Mark all the messages as active                               |
 | `disable_message`                                                 | Mark the message as inactive (masked)                         |
 | `mask_message`                                                    | Alias for `disable_message()`                                 |
 | `unmask_message`                                                  | Alias for `enable_message()`                                  |
