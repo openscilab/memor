@@ -291,6 +291,11 @@ class Session:
         self._messages_status[index] = False
         self._mark_modified()
 
+    def disable_all_messages(self) -> None:
+        """Disable all the messages at once."""
+        self._messages_status = [False] * len(self._messages)
+        self._mark_modified()
+
     def mask_message(self, index: int) -> None:
         """
         Mask a message.
