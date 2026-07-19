@@ -174,6 +174,18 @@ def test_disable_message():
     assert session.date_modified > session_date_modified
 
 
+def test_disable_all_messages():
+    prompt = Prompt(message="Hello, how are you?", role=Role.USER)
+    response = Response(message="I am fine.")
+    session = Session(messages=[prompt, response])
+    session.update_messages_status([True, False])
+    session_date_modified = session.date_modified
+    time.sleep(2)
+    session.disable_all_messages()
+    assert session.messages_status == [False, False]
+    assert session.date_modified > session_date_modified
+
+
 def test_mask_message():
     prompt = Prompt(message="Hello, how are you?", role=Role.USER)
     response = Response(message="I am fine.")

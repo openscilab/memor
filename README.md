@@ -346,6 +346,7 @@ print("Estimated tokens:", tokens)
 | `enable_message`                                                  | Mark the message at the given index as active                 |
 | `enable_all_messages`                                             | Mark all the messages as active                               |
 | `disable_message`                                                 | Mark the message as inactive (masked)                         |
+| `disable_all_messages`                                            | Mark all the messages as inactive (masked)                    |
 | `mask_message`                                                    | Alias for `disable_message()`                                 |
 | `unmask_message`                                                  | Alias for `enable_message()`                                  |
 | `search`                                                          | Search for a string or regex pattern in the messages          |
