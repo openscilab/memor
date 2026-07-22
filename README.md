@@ -268,6 +268,7 @@ prompt.render()
 | `to_dict`                                            | Convert the template to a plain Python dictionary                                  |
 | `copy`                                               | Return a shallow copy of the template instance                                     |
 | `render`                                             | Render the template                                                                |
+| `check_render`                                       | Return `True` if the template renders without error                                |
 
 #### Preset Templates
 
