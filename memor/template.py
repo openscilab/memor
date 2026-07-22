@@ -293,6 +293,18 @@ class PromptTemplate:
         except Exception:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
 
+    def check_render(self, context: Optional[Dict[str, Any]] = None) -> bool:
+        """
+        Return True if the template renders with the given context.
+
+        :param context: template context
+        """
+        try:
+            self.render(context)
+            return True
+        except MemorRenderError:
+            return False
+
     @classmethod
     def from_content_file(
         cls,
