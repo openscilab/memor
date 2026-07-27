@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Memor parameters and constants."""
 from enum import Enum
-MEMOR_VERSION = "1.2"
+MEMOR_VERSION = "1.3"
 
 DATE_TIME_FORMAT = "%Y-%m-%d %H:%M:%S %z"
 
