@@ -25,17 +25,17 @@ def generate_message_id() -> str:
 
 
 def _build_context(
-        map: Optional[Dict[str, Any]],
+        custom_map: Optional[Dict[str, Any]],
         context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
     """
     Build context from given context data.
 
-    :param map: input custom map
+    :param custom_map: input custom map
     :param context: input context data
     """
     final_context = {}
-    if map is not None:
-        final_context.update(map)
+    if custom_map is not None:
+        final_context.update(custom_map)
     if context is not None:
         final_context.update(context)
     return final_context
