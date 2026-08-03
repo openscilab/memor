@@ -266,7 +266,7 @@ class PromptTemplate:
 
         :param context: template context
         """
-        final_context = _build_context(map=self._custom_map, context=context)
+        final_context = _build_context(custom_map=self._custom_map, context=context)
         return sorted(set(self.variables) - set(final_context))
 
     def render(self, context: Optional[Dict[str, Any]] = None) -> str:
@@ -278,7 +278,7 @@ class PromptTemplate:
         if self._content is None:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
         try:
-            final_context = _build_context(map=self._custom_map, context=context)
+            final_context = _build_context(custom_map=self._custom_map, context=context)
             if self._engine == TemplateEngine.FORMAT:
                 return self._content.format(**final_context)
             if self._engine == TemplateEngine.JINJA:
