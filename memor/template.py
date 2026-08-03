@@ -14,6 +14,7 @@ from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_path, _validate_custom_map
 from .functions import _validate_string, _validate_template_engine
+from .functions import _build_context
 
 
 class PromptTemplate:
@@ -265,11 +266,7 @@ class PromptTemplate:
 
         :param context: template context
         """
-        final_context = {}
-        if self._custom_map is not None:
-            final_context.update(self._custom_map)
-        if context is not None:
-            final_context.update(context)
+        final_context = _build_context(map=self._custom_map, context=context)
         return sorted(set(self.variables) - set(final_context))
 
     def render(self, context: Optional[Dict[str, Any]] = None) -> str:
@@ -281,11 +278,7 @@ class PromptTemplate:
         if self._content is None:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
         try:
-            final_context = {}
-            if self._custom_map is not None:
-                final_context.update(self._custom_map)
-            if context is not None:
-                final_context.update(context)
+            final_context = _build_context(map=self._custom_map, context=context)
             if self._engine == TemplateEngine.FORMAT:
                 return self._content.format(**final_context)
             if self._engine == TemplateEngine.JINJA:
