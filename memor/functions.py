@@ -24,6 +24,23 @@ def generate_message_id() -> str:
     return str(uuid.uuid4())
 
 
+def _build_context(
+        map: Optional[Dict[str, Any]],
+        context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Build context from given context data.
+
+    :param map: input custom map
+    :param context: input context data
+    """
+    final_context = {}
+    if map is not None:
+        final_context.update(map)
+    if context is not None:
+        final_context.update(context)
+    return final_context
+
+
 def _validate_message_id(message_id: str) -> bool:
     """
     Validate message ID.
