@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Memor functions."""
-from typing import Any, Type
+from typing import Any, Type, Optional, Dict
 import os
 import datetime
 import uuid
