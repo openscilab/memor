@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- `_build_context` function
+- `_build_slot_map` function
 ## [1.3] - 2026-07-28
 ### Added
 - `Session` class `enable_all_messages` method

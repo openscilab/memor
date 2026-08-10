@@ -14,7 +14,6 @@ from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_path, _validate_custom_map
 from .functions import _validate_string, _validate_template_engine
-from .functions import _build_context
 
 
 class PromptTemplate:
@@ -64,6 +63,19 @@ class PromptTemplate:
     def _mark_modified(self) -> None:
         """Mark modification."""
         self._date_modified = get_time_utc()
+
+    def _build_slot_map(self, context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Build the mapping for the template slots from given context data.
+
+        :param context: input context data
+        """
+        final_context = {}
+        if self._custom_map is not None:
+            final_context.update(self._custom_map)
+        if context is not None:
+            final_context.update(context)
+        return final_context
 
     def __eq__(self, other_template: "PromptTemplate") -> bool:
         """
@@ -266,7 +278,7 @@ class PromptTemplate:
 
         :param context: template context
         """
-        final_context = _build_context(custom_map=self._custom_map, context=context)
+        final_context = self._build_slot_map(context)
         return sorted(set(self.variables) - set(final_context))
 
     def render(self, context: Optional[Dict[str, Any]] = None) -> str:
@@ -278,7 +290,7 @@ class PromptTemplate:
         if self._content is None:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
         try:
-            final_context = _build_context(custom_map=self._custom_map, context=context)
+            final_context = self._build_slot_map(context)
             if self._engine == TemplateEngine.FORMAT:
                 return self._content.format(**final_context)
             if self._engine == TemplateEngine.JINJA:

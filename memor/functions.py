@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Memor functions."""
-from typing import Any, Type, Optional, Dict
+from typing import Any, Type
 import os
 import datetime
 import uuid
@@ -22,23 +22,6 @@ from .errors import MemorValidationError
 def generate_message_id() -> str:
     """Generate message ID."""
     return str(uuid.uuid4())
-
-
-def _build_context(
-        custom_map: Optional[Dict[str, Any]],
-        context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
-    """
-    Build context from given context data.
-
-    :param custom_map: input custom map
-    :param context: input context data
-    """
-    final_context = {}
-    if custom_map is not None:
-        final_context.update(custom_map)
-    if context is not None:
-        final_context.update(context)
-    return final_context
 
 
 def _validate_message_id(message_id: str) -> bool:
