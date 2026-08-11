@@ -64,7 +64,7 @@ class PromptTemplate:
         """Mark modification."""
         self._date_modified = get_time_utc()
 
-    def _build_slot_map(self, context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _build_context(self, context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
         """
         Build the mapping for the template slots from given context data.
 
@@ -278,7 +278,7 @@ class PromptTemplate:
 
         :param context: template context
         """
-        final_context = self._build_slot_map(context)
+        final_context = self._build_context(context)
         return sorted(set(self.variables) - set(final_context))
 
     def render(self, context: Optional[Dict[str, Any]] = None) -> str:
@@ -290,7 +290,7 @@ class PromptTemplate:
         if self._content is None:
             raise MemorRenderError(TEMPLATE_RENDER_ERROR_MESSAGE)
         try:
-            final_context = self._build_slot_map(context)
+            final_context = self._build_context(context)
             if self._engine == TemplateEngine.FORMAT:
                 return self._content.format(**final_context)
             if self._engine == TemplateEngine.JINJA:
