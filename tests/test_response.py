@@ -5,7 +5,7 @@ import uuid
 import json
 import copy
 import pytest
-from memor import Response, Role, LLMModel, MemorValidationError
+from memor import Response, Role, LLMModel, MemorValidationError, FinishReason
 from memor import RenderFormat
 from memor import TokensEstimator
 
@@ -341,6 +341,23 @@ def test_gpu5():
     response = Response(message="I am fine.", gpu="Nvidia Tesla")
     response.update_gpu(None)
     assert response.gpu is None
+
+
+def test_finish_reason1():
+    response = Response(message="I am fine.", finish_reason=FinishReason.STOP)
+    assert response.finish_reason == "stop"
+
+
+def test_finish_reason2():
+    response = Response(message="I am fine.", finish_reason="stop")
+    response.update_finish_reason(FinishReason.TOOL_CALLS)
+    assert response.finish_reason == "tool_calls"
+
+
+def test_finish_reason3():
+    response = Response(message="I am fine.", finish_reason="length")
+    with pytest.raises(MemorValidationError, match=r"Invalid finish reason. It must be an instance of FinishReason enum or a string."):
+        response.update_finish_reason(4)
 
 
 def test_id1():
