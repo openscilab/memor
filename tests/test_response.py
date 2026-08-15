@@ -613,6 +613,7 @@ def test_json9():
                         "role": "user",
                         "model": null,
                         "gpu": "Nvidia Tesla",
+                        "finish_reason": "stop",
                         "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                         "memor_version": "0.6",
                         "date_created": "2025-05-07 21:54:48 +0000",
@@ -624,6 +625,7 @@ def test_json9():
     assert response.top_p == 0.2
     assert response.tokens is None
     assert response.inference_time == 5.2
+    assert response.finish_reason == "stop"
 
 
 def test_json10():
@@ -653,6 +655,7 @@ def test_json10():
     assert response.tokens is None
     assert response.inference_time == 5.2
     assert response._warnings == {"size": {"enable": True, "threshold": 3000}}
+    assert response.finish_reason is None
 
 
 def test_json11():
