@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `_build_context` method
 - `FinishReason` enum
 - `Response` class `finish_reason` property
+- `Response` class `update_finish_reason` method
 ## [1.3] - 2026-07-28
 ### Added
 - `Session` class `enable_all_messages` method
