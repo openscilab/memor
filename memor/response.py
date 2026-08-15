@@ -42,7 +42,7 @@ class Response(Message):
             model: Union[object, str] = LLMModel.DEFAULT,
             gpu: Optional[str] = None,
             date: Optional[datetime.datetime] = None,
-            finish_reason: Optional[Union[object, str]] = None,
+            finish_reason: Optional[Union[FinishReason, str]] = None,
             file_path: Optional[str] = None) -> None:
         """
         Response object initiator.
@@ -194,7 +194,9 @@ class Response(Message):
             self._gpu = gpu
             self._mark_modified()
 
-    def update_finish_reason(self, finish_reason: Optional[str]) -> None:
+    def update_finish_reason(
+            self,
+            finish_reason: Optional[Union[FinishReason, str]]) -> None:
         """
         Update the generation finish reason.
 
