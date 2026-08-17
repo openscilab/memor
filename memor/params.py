@@ -79,4 +79,7 @@ class FinishReason(Enum):
     STOP = "stop"
     LENGTH = "length"
     TOOL_CALLS = "tool_calls"
+    CONTENT_FILTER = "content_filter"
+    ERROR = "error"
+    UNKNOWN = "unknown"
     DEFAULT = STOP
