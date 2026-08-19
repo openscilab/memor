@@ -393,6 +393,6 @@ class Response(Message):
         return self._gpu
 
     @property
-    def finish_reason(self) -> str:
+    def finish_reason(self) -> Optional[str]:
         """Get the generation finish reason."""
         return self._finish_reason
