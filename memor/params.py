@@ -23,6 +23,7 @@ INVALID_CUSTOM_MAP_MESSAGE = "Invalid custom map: it must be a dictionary with k
 INVALID_ROLE_MESSAGE = "Invalid role. It must be an instance of Role enum."
 INVALID_ID_MESSAGE = "Invalid message ID. It must be a valid UUIDv4."
 INVALID_MODEL_MESSAGE = "Invalid model. It must be an instance of LLMModel.<provider> enum or a string."
+INVALID_FINISH_REASON_MESSAGE = "Invalid finish reason. It must be an instance of FinishReason enum or a string."
 INVALID_TEMPLATE_STRUCTURE_MESSAGE = "Invalid template structure. It should be a JSON object with proper fields."
 INVALID_PROMPT_STRUCTURE_MESSAGE = "Invalid prompt structure. It should be a JSON object with proper fields."
 INVALID_RESPONSE_STRUCTURE_MESSAGE = "Invalid response structure. It should be a JSON object with proper fields."
@@ -70,3 +71,15 @@ class TemplateEngine(Enum):
     FORMAT = "format"
     JINJA = "jinja"
     DEFAULT = FORMAT
+
+
+class FinishReason(Enum):
+    """Generation finish reason."""
+
+    STOP = "stop"
+    LENGTH = "length"
+    TOOL_CALLS = "tool_calls"
+    CONTENT_FILTER = "content_filter"
+    ERROR = "error"
+    UNKNOWN = "unknown"
+    DEFAULT = STOP

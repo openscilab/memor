@@ -200,6 +200,7 @@ response.render()
 | `model`          | `LLMModel.<provider>` \| `str` | Model used                                   |
 | `gpu`            | `str`                  | GPU model used                                       |
 | `date`           | `datetime.datetime`    | Timestamp of the creation                            |
+| `finish_reason`  | `FinishReason` \| `str` | Reason the model stopped generating                 |
 | `file_path`      | `str`                  | Path to load a saved response                        |
 
 #### Methods
@@ -213,6 +214,7 @@ response.render()
 | `update_model`                                  | Set the model name or enum                                               |
 | `update_gpu`                                    | Set the GPU model identifier                                             |
 | `update_inference_time`                         | Set the inference time in seconds                                        |
+| `update_finish_reason`                          | Set the generation finish reason                                         |
 | `update_message`                                | Update the response message                                              |
 | `update_message_from_xml`                       | Update the response message from XML                                     |
 | `update_role`                                   | Update the sender role                                                   |

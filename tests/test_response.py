@@ -5,7 +5,7 @@ import uuid
 import json
 import copy
 import pytest
-from memor import Response, Role, LLMModel, MemorValidationError
+from memor import Response, Role, LLMModel, MemorValidationError, FinishReason
 from memor import RenderFormat
 from memor import TokensEstimator
 
@@ -343,6 +343,23 @@ def test_gpu5():
     assert response.gpu is None
 
 
+def test_finish_reason1():
+    response = Response(message="I am fine.", finish_reason=FinishReason.STOP)
+    assert response.finish_reason == "stop"
+
+
+def test_finish_reason2():
+    response = Response(message="I am fine.", finish_reason="stop")
+    response.update_finish_reason(FinishReason.TOOL_CALLS)
+    assert response.finish_reason == "tool_calls"
+
+
+def test_finish_reason3():
+    response = Response(message="I am fine.", finish_reason="length")
+    with pytest.raises(MemorValidationError, match=r"Invalid finish reason. It must be an instance of FinishReason enum or a string."):
+        response.update_finish_reason(4)
+
+
 def test_id1():
     response = Response(message="I am fine.", model=LLMModel.OpenAI.GPT_4)
     assert uuid.UUID(response.id, version=4) == uuid.UUID(response._id, version=4)
@@ -596,6 +613,7 @@ def test_json9():
                         "role": "user",
                         "model": null,
                         "gpu": "Nvidia Tesla",
+                        "finish_reason": "stop",
                         "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
                         "memor_version": "0.6",
                         "date_created": "2025-05-07 21:54:48 +0000",
@@ -607,6 +625,7 @@ def test_json9():
     assert response.top_p == 0.2
     assert response.tokens is None
     assert response.inference_time == 5.2
+    assert response.finish_reason == "stop"
 
 
 def test_json10():
@@ -636,6 +655,7 @@ def test_json10():
     assert response.tokens is None
     assert response.inference_time == 5.2
     assert response._warnings == {"size": {"enable": True, "threshold": 3000}}
+    assert response.finish_reason is None
 
 
 def test_json11():

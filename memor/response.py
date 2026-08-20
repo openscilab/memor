@@ -7,11 +7,11 @@ import warnings
 from .message import Message
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
-from .params import DATA_SAVE_SUCCESS_MESSAGE
+from .params import INVALID_FINISH_REASON_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
-from .params import Role, RenderFormat
+from .params import Role, RenderFormat, FinishReason
 from .llm_models import LLMModel
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
@@ -42,6 +42,7 @@ class Response(Message):
             model: Union[object, str] = LLMModel.DEFAULT,
             gpu: Optional[str] = None,
             date: Optional[datetime.datetime] = None,
+            finish_reason: Optional[Union[FinishReason, str]] = None,
             file_path: Optional[str] = None) -> None:
         """
         Response object initiator.
@@ -57,6 +58,7 @@ class Response(Message):
         :param model: agent model
         :param gpu: GPU model
         :param date: response date
+        :param finish_reason: generation finish reason
         :param file_path: response file path
         """
         super().__init__()
@@ -69,6 +71,7 @@ class Response(Message):
         self._model = LLMModel.DEFAULT.value
         self._date_created = get_time_utc()
         self._gpu = None
+        self._finish_reason = None
         if file_path is not None:
             self.load(file_path)
         else:
@@ -82,6 +85,8 @@ class Response(Message):
                 self.update_model(model)
             if gpu is not None:
                 self.update_gpu(gpu)
+            if finish_reason is not None:
+                self.update_finish_reason(finish_reason)
             if temperature is not None:
                 self.update_temperature(temperature)
             if top_k is not None:
@@ -108,7 +113,7 @@ class Response(Message):
             return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and \
                 self._temperature == other_response._temperature and self._model == other_response._model and self._tokens == other_response._tokens and \
                 self._inference_time == other_response._inference_time and self._top_k == other_response._top_k and self._top_p == other_response._top_p and \
-                self._gpu == other_response._gpu
+                self._gpu == other_response._gpu and self._finish_reason == other_response._finish_reason
         return False
 
     def __repr__(self) -> str:
@@ -189,6 +194,22 @@ class Response(Message):
             self._gpu = gpu
             self._mark_modified()
 
+    def update_finish_reason(
+            self,
+            finish_reason: Optional[Union[FinishReason, str]]) -> None:
+        """
+        Update the generation finish reason.
+
+        :param finish_reason: finish reason
+        """
+        if isinstance(finish_reason, str) or finish_reason is None:
+            self._finish_reason = finish_reason
+        elif isinstance(finish_reason, FinishReason):
+            self._finish_reason = finish_reason.value
+        else:
+            raise MemorValidationError(INVALID_FINISH_REASON_MESSAGE)
+        self._mark_modified()
+
     def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
@@ -225,6 +246,7 @@ class Response(Message):
             result["id"] = loaded_obj.get("id", generate_message_id())
             result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
+            result["finish_reason"] = loaded_obj.get("finish_reason", None)
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
@@ -242,6 +264,8 @@ class Response(Message):
             _validate_pos_int(result["tokens"], "tokens")
         if result["inference_time"] is not None:
             _validate_pos_float(result["inference_time"], "inference_time")
+        if result["finish_reason"] is not None:
+            _validate_string(result["finish_reason"], "finish_reason")
         _validate_string(result["model"], "model")
         _validate_message_id(result["id"])
         _validate_warnings(result["warnings"])
@@ -270,6 +294,7 @@ class Response(Message):
         self._id = data["id"]
         self._date_created = data["date_created"]
         self._date_modified = data["date_modified"]
+        self._finish_reason = data["finish_reason"]
 
     def to_json(self) -> Dict[str, Any]:
         """Convert the response to a JSON object."""
@@ -298,6 +323,7 @@ class Response(Message):
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
             "date_modified": self._date_modified,
+            "finish_reason": self._finish_reason
         }
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
@@ -365,3 +391,8 @@ class Response(Message):
     def gpu(self) -> str:
         """Get the GPU model."""
         return self._gpu
+
+    @property
+    def finish_reason(self) -> Optional[str]:
+        """Get the generation finish reason."""
+        return self._finish_reason
