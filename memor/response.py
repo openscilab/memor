@@ -373,7 +373,7 @@ class Response(Message):
         return self._top_k
 
     @property
-    def top_p(self) -> float:
+    def top_p(self) -> Optional[float]:
         """Get the top-p."""
         return self._top_p
 
