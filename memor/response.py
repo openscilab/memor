@@ -388,7 +388,7 @@ class Response(Message):
         return self._model
 
     @property
-    def gpu(self) -> str:
+    def gpu(self) -> Optional[str]:
         """Get the GPU model."""
         return self._gpu
 
