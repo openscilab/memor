@@ -368,7 +368,7 @@ class Response(Message):
         return self._temperature
 
     @property
-    def top_k(self) -> int:
+    def top_k(self) -> Optional[int]:
         """Get the top-k."""
         return self._top_k
 
