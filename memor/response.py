@@ -378,7 +378,7 @@ class Response(Message):
         return self._top_p
 
     @property
-    def inference_time(self) -> float:
+    def inference_time(self) -> Optional[float]:
         """Get inference time."""
         return self._inference_time
 
