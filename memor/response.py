@@ -363,7 +363,7 @@ class Response(Message):
         return self._score
 
     @property
-    def temperature(self) -> float:
+    def temperature(self) -> Optional[float]:
         """Get the temperature."""
         return self._temperature
 
