@@ -358,7 +358,7 @@ class Response(Message):
         return self._message
 
     @property
-    def score(self) -> float:
+    def score(self) -> Optional[float]:
         """Get the response score."""
         return self._score
 
