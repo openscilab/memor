@@ -358,27 +358,27 @@ class Response(Message):
         return self._message
 
     @property
-    def score(self) -> float:
+    def score(self) -> Optional[float]:
         """Get the response score."""
         return self._score
 
     @property
-    def temperature(self) -> float:
+    def temperature(self) -> Optional[float]:
         """Get the temperature."""
         return self._temperature
 
     @property
-    def top_k(self) -> int:
+    def top_k(self) -> Optional[int]:
         """Get the top-k."""
         return self._top_k
 
     @property
-    def top_p(self) -> float:
+    def top_p(self) -> Optional[float]:
         """Get the top-p."""
         return self._top_p
 
     @property
-    def inference_time(self) -> float:
+    def inference_time(self) -> Optional[float]:
         """Get inference time."""
         return self._inference_time
 
@@ -388,7 +388,7 @@ class Response(Message):
         return self._model
 
     @property
-    def gpu(self) -> str:
+    def gpu(self) -> Optional[str]:
         """Get the GPU model."""
         return self._gpu
 
