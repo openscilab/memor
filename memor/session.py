@@ -133,7 +133,7 @@ class Session:
         """
         return message in self._messages
 
-    def __getitem__(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]:
+    def __getitem__(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response, List[Union[Prompt, Response]]]:
         """
         Get a message from the session object.
 
