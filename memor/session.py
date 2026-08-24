@@ -197,7 +197,7 @@ class Session:
             self._messages_status.insert(index, status)
         self._mark_modified()
 
-    def get_message_by_index(self, index: Union[int, slice]) -> Union[Prompt, Response]:
+    def get_message_by_index(self, index: Union[int, slice]) -> Union[Prompt, Response, List[Union[Prompt, Response]]]:
         """
         Get a message from the session object by index/slice.
 
