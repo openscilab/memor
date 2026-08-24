@@ -611,7 +611,7 @@ class Session:
         return self._date_modified
 
     @property
-    def title(self) -> str:
+    def title(self) -> Optional[str]:
         """Get the session title."""
         return self._title
 
