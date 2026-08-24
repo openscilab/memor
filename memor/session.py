@@ -215,7 +215,7 @@ class Session:
             if message.id == message_id:
                 return self.get_message_by_index(index=index)
 
-    def get_message(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]:
+    def get_message(self, identifier: Union[int, slice, str]) -> Optional[Union[Prompt, Response, List[Union[Prompt, Response]]]]:
         """
         Get a message from the session object.
 
