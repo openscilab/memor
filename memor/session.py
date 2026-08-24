@@ -205,7 +205,7 @@ class Session:
         """
         return self._messages[index]
 
-    def get_message_by_id(self, message_id: str) -> Union[Prompt, Response]:
+    def get_message_by_id(self, message_id: str) -> Optional[Union[Prompt, Response]]:
         """
         Get a message from the session object by message id.
 
