@@ -133,7 +133,7 @@ class Session:
         """
         return message in self._messages
 
-    def __getitem__(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]:
+    def __getitem__(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response, List[Union[Prompt, Response]]]:
         """
         Get a message from the session object.
 
@@ -197,7 +197,7 @@ class Session:
             self._messages_status.insert(index, status)
         self._mark_modified()
 
-    def get_message_by_index(self, index: Union[int, slice]) -> Union[Prompt, Response]:
+    def get_message_by_index(self, index: Union[int, slice]) -> Union[Prompt, Response, List[Union[Prompt, Response]]]:
         """
         Get a message from the session object by index/slice.
 
@@ -205,7 +205,7 @@ class Session:
         """
         return self._messages[index]
 
-    def get_message_by_id(self, message_id: str) -> Union[Prompt, Response]:
+    def get_message_by_id(self, message_id: str) -> Optional[Union[Prompt, Response]]:
         """
         Get a message from the session object by message id.
 
@@ -215,7 +215,7 @@ class Session:
             if message.id == message_id:
                 return self.get_message_by_index(index=index)
 
-    def get_message(self, identifier: Union[int, slice, str]) -> Union[Prompt, Response]:
+    def get_message(self, identifier: Union[int, slice, str]) -> Optional[Union[Prompt, Response, List[Union[Prompt, Response]]]]:
         """
         Get a message from the session object.
 
@@ -611,7 +611,7 @@ class Session:
         return self._date_modified
 
     @property
-    def title(self) -> str:
+    def title(self) -> Optional[str]:
         """Get the session title."""
         return self._title
 
