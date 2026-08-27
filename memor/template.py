@@ -171,7 +171,7 @@ class PromptTemplate:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def _render_jinja(self, context) -> str:
+    def _render_jinja(self, context: Dict[str, Any]) -> str:
         """
         Render Jinja2 template.
 
