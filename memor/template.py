@@ -365,7 +365,7 @@ class PromptTemplate:
         return self._date_modified
 
     @property
-    def custom_map(self) -> Dict[str, str]:
+    def custom_map(self) -> Optional[Dict[str, str]]:
         """Get the PromptTemplate custom map."""
         return self._custom_map
 
