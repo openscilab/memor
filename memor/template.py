@@ -350,7 +350,7 @@ class PromptTemplate:
         return self._content
 
     @property
-    def title(self) -> str:
+    def title(self) -> Optional[str]:
         """Get the PromptTemplate title."""
         return self._title
 
