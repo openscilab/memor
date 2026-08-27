@@ -315,7 +315,7 @@ class PromptTemplate:
         cls,
         file_path: str,
         title: Optional[str] = None,
-        custom_map: Optional[Dict[str, Any]] = None,
+        custom_map: Optional[Dict[str, str]] = None,
         engine: TemplateEngine = TemplateEngine.FORMAT
     ) -> "PromptTemplate":
         """
