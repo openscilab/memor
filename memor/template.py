@@ -89,7 +89,7 @@ class PromptTemplate:
 
     def __str__(self) -> str:
         """Return string representation of PromptTemplate."""
-        return self._content
+        return "" if self._content is None else self._content
 
     def __repr__(self) -> str:
         """Return string representation of PromptTemplate."""
