@@ -89,7 +89,7 @@ class PromptTemplate:
 
     def __str__(self) -> str:
         """Return string representation of PromptTemplate."""
-        return self._content
+        return "" if self._content is None else self._content
 
     def __repr__(self) -> str:
         """Return string representation of PromptTemplate."""
@@ -171,7 +171,7 @@ class PromptTemplate:
         with open(file_path, "r") as file:
             self.from_json(file.read())
 
-    def _render_jinja(self, context) -> str:
+    def _render_jinja(self, context: Dict[str, Any]) -> str:
         """
         Render Jinja2 template.
 
@@ -315,7 +315,7 @@ class PromptTemplate:
         cls,
         file_path: str,
         title: Optional[str] = None,
-        custom_map: Optional[Dict[str, Any]] = None,
+        custom_map: Optional[Dict[str, str]] = None,
         engine: TemplateEngine = TemplateEngine.FORMAT
     ) -> "PromptTemplate":
         """
@@ -345,12 +345,12 @@ class PromptTemplate:
         )
 
     @property
-    def content(self) -> str:
+    def content(self) -> Optional[str]:
         """Get the PromptTemplate content."""
         return self._content
 
     @property
-    def title(self) -> str:
+    def title(self) -> Optional[str]:
         """Get the PromptTemplate title."""
         return self._title
 
@@ -365,7 +365,7 @@ class PromptTemplate:
         return self._date_modified
 
     @property
-    def custom_map(self) -> Dict[str, str]:
+    def custom_map(self) -> Optional[Dict[str, str]]:
         """Get the PromptTemplate custom map."""
         return self._custom_map
 

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - `Response` class typing bugs fixed
 - `Session` class typing bugs fixed
+- `PromptTemplate` class typing bugs fixed
 ## [1.3] - 2026-07-28
 ### Added
 - `Session` class `enable_all_messages` method
