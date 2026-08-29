@@ -289,7 +289,7 @@ class Prompt(Message):
         return self._template
 
     @property
-    def selected_response(self) -> Response:
+    def selected_response(self) -> Optional[Response]:
         """Get the prompt selected response."""
         if 0 <= self._selected_response_index < len(self._responses):
             return self._responses[self._selected_response_index]
