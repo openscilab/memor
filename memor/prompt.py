@@ -147,7 +147,7 @@ class Prompt(Message):
         self._responses = responses
         self._mark_modified()
 
-    def update_template(self, template: PromptTemplate) -> None:
+    def update_template(self, template: Union[PresetPromptTemplate, PromptTemplate]) -> None:
         """
         Update the prompt template.
 
