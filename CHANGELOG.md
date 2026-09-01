@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Response` class `finish_reason` property
 - `Response` class `update_finish_reason` method
 ### Changed
+- `Prompt` class typing bugs fixed
 - `Response` class typing bugs fixed
 - `Session` class typing bugs fixed
 - `PromptTemplate` class typing bugs fixed
