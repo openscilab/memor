@@ -7,6 +7,11 @@ from enum import Enum
 class _OpenAI(Enum):
     """OpenAI models."""
 
+    GPT_5_6_SOL = "gpt-5.6-sol"
+    GPT_5_6_TERRA = "gpt-5.6-terra"
+    GPT_5_6_LUNA = "gpt-5.6-luna"
+    GPT_5_5 = "gpt-5.5"
+    GPT_5_5_PRO = "gpt-5.5-pro"
     GPT_5_4 = "gpt-5.4"
     GPT_5_4_PRO = "gpt-5.4-pro"
     GPT_5_4_MINI = "gpt-5.4-mini"
