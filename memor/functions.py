@@ -8,8 +8,8 @@ from .params import TemplateEngine
 from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE, INVALID_MESSAGE_STATUS_LEN_MESSAGE
-from .params import INVALID_POSFLOAT_VALUE_MESSAGE
-from .params import INVALID_POSINT_VALUE_MESSAGE
+from .params import INVALID_NON_NEGATIVE_FLOAT_VALUE_MESSAGE
+from .params import INVALID_NON_NEGATIVE_INT_VALUE_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_BOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
@@ -83,27 +83,27 @@ def _can_convert_to_string(value: Any) -> bool:
     return True
 
 
-def _validate_pos_int(value: Any, parameter_name: str) -> bool:
+def _validate_non_negative_int(value: Any, parameter_name: str) -> bool:
     """
-    Validate positive integer.
+    Validate non-negative integer.
 
     :param value: value
     :param parameter_name: parameter name
     """
     if not isinstance(value, int) or value < 0:
-        raise MemorValidationError(INVALID_POSINT_VALUE_MESSAGE.format(parameter_name=parameter_name))
+        raise MemorValidationError(INVALID_NON_NEGATIVE_INT_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
 
-def _validate_pos_float(value: Any, parameter_name: str) -> bool:
+def _validate_non_negative_float(value: Any, parameter_name: str) -> bool:
     """
-    Validate positive float.
+    Validate non-negative float.
 
     :param value: value
     :param parameter_name: parameter name
     """
     if not isinstance(value, (float, int)) or value < 0:
-        raise MemorValidationError(INVALID_POSFLOAT_VALUE_MESSAGE.format(parameter_name=parameter_name))
+        raise MemorValidationError(INVALID_NON_NEGATIVE_FLOAT_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
 

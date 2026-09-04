@@ -23,7 +23,7 @@ from .errors import MemorValidationError, MemorRenderError
 from .functions import get_time_utc
 from .functions import _validate_bool, _validate_path
 from .functions import _validate_list_of, _validate_string
-from .functions import _validate_status, _validate_pos_int, _validate_pos_float
+from .functions import _validate_status, _validate_non_negative_int, _validate_non_negative_float
 from .functions import _validate_warnings
 
 
@@ -406,7 +406,7 @@ class Session:
         if result["title"] is not None:
             _validate_string(result["title"], "title")
         _validate_warnings(result["warnings"])
-        _validate_pos_int(result["render_counter"], "render_counter")
+        _validate_non_negative_int(result["render_counter"], "render_counter")
         _validate_status(result["messages_status"], result["messages"])
         _validate_string(result["memor_version"], "memor_version")
         return result
@@ -582,7 +582,7 @@ class Session:
 
         :param threshold: size threshold
         """
-        _validate_pos_float(threshold, "threshold")
+        _validate_non_negative_float(threshold, "threshold")
         self._warnings["size"] = dict()
         self._warnings["size"]["enable"] = True
         self._warnings["size"]["threshold"] = threshold

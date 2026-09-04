@@ -18,8 +18,8 @@ from .params import INVALID_ROLE_MESSAGE, MESSAGE_SIZE_WARNING, INVALID_XML_TREE
 from .params import DATA_SAVE_SUCCESS_MESSAGE
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
-from .functions import _validate_string, _validate_pos_int
-from .functions import _validate_pos_float, _validate_path
+from .functions import _validate_string, _validate_non_negative_int
+from .functions import _validate_non_negative_float, _validate_path
 
 
 class Message(ABC):
@@ -110,7 +110,7 @@ class Message(ABC):
 
         :param tokens: tokens
         """
-        if tokens is None or _validate_pos_int(tokens, "tokens"):
+        if tokens is None or _validate_non_negative_int(tokens, "tokens"):
             self._tokens = tokens
             self._mark_modified()
 
@@ -364,7 +364,7 @@ class Message(ABC):
 
         :param threshold: size threshold
         """
-        _validate_pos_float(threshold, "threshold")
+        _validate_non_negative_float(threshold, "threshold")
         self._warnings["size"] = dict()
         self._warnings["size"]["enable"] = True
         self._warnings["size"]["threshold"] = threshold
