@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Session` class typing bugs fixed
 - `PromptTemplate` class typing bugs fixed
 - OpenAI models updated
+- `_validate_pos_int` function renamed to `_validate_non_negative_int`
+- `_validate_pos_float` function renamed to `_validate_non_negative_float`
+- `INVALID_POSINT_VALUE_MESSAGE` renamed to `INVALID_NON_NEGATIVE_INT_VALUE_MESSAGE` and message text updated
+- `INVALID_POSFLOAT_VALUE_MESSAGE` renamed to `INVALID_NON_NEGATIVE_FLOAT_VALUE_MESSAGE` and message text updated
 ## [1.3] - 2026-07-28
 ### Added
 - `Session` class `enable_all_messages` method
