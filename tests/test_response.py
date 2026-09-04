@@ -73,7 +73,7 @@ def test_estimated_tokens3():
 
 def test_tokens5():
     response = Response(message="I am fine.", tokens=4)
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a positive integer."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be zero or a positive integer."):
         response.update_tokens(-2)
 
 
@@ -105,7 +105,7 @@ def test_inference_time4():
 
 def test_inference_time5():
     response = Response(message="I am fine.", inference_time=8.2)
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `inference_time` must be a positive number."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `inference_time` must be zero or a positive number."):
         response.update_inference_time(-5)
 
 
@@ -221,7 +221,7 @@ def test_temperature2():
 
 def test_temperature3():
     response = Response(message="I am fine.", temperature=0.2)
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `temperature` must be a positive number."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `temperature` must be zero or a positive number."):
         response.update_temperature(-22)
 
 
@@ -249,7 +249,7 @@ def test_top_k2():
 
 def test_top_k3():
     response = Response(message="I am fine.", top_k=5)
-    with pytest.raises(MemorValidationError, match=r"Invalid value. `top_k` must be a positive integer."):
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `top_k` must be zero or a positive integer."):
         response.update_top_k(-22)
 
 
@@ -478,7 +478,7 @@ def test_json3():
 
 def test_json4():
     response = Response()
-    with pytest.raises(MemorValidationError, match="Invalid value. `temperature` must be a positive number."):
+    with pytest.raises(MemorValidationError, match="Invalid value. `temperature` must be zero or a positive number."):
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
@@ -500,7 +500,7 @@ def test_json4():
 
 def test_json5():
     response = Response()
-    with pytest.raises(MemorValidationError, match="Invalid value. `tokens` must be a positive int."):
+    with pytest.raises(MemorValidationError, match="Invalid value. `tokens` must be zero or a positive integer."):
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
@@ -523,7 +523,7 @@ def test_json5():
 
 def test_json6():
     response = Response()
-    with pytest.raises(MemorValidationError, match="Invalid value. `inference_time` must be a positive number."):
+    with pytest.raises(MemorValidationError, match="Invalid value. `inference_time` must be zero or a positive number."):
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
@@ -547,7 +547,7 @@ def test_json6():
 
 def test_json7():
     response = Response()
-    with pytest.raises(MemorValidationError, match="Invalid value. `top_k` must be a positive integer."):
+    with pytest.raises(MemorValidationError, match="Invalid value. `top_k` must be zero or a positive integer."):
         response.from_json(r"""{
                            "message": "I am fine.",
                            "type": "Response",
