@@ -534,6 +534,7 @@ class LLMModel:
     Qwen = _Qwen
     Microsoft = _Microsoft
     XAI = _XAI
+    ZAI = _ZAI
     ZeroOneAI = _ZeroOneAI
     LGAI = _LGAI
     Other = _Other
