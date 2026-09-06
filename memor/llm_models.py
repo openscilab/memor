@@ -456,6 +456,25 @@ class _XAI(Enum):
     DEFAULT = "unknown"
 
 
+class _ZAI(Enum):
+    """Z.AI models."""
+
+    GLM_5_1 = "glm-5.1"
+    GLM_5_TURBO = "glm-5-turbo"
+    GLM_5 = "glm-5"
+    GLM_4_7 = "glm-4.7"
+    GLM_4_7_FLASH = "glm-4.7-flash"
+    GLM_4_7_FLASHX = "glm-4.7-flashx"
+    GLM_4_6 = "glm-4.6"
+    GLM_4_5 = "glm-4.5"
+    GLM_4_5_AIR = "glm-4.5-air"
+    GLM_4_5_X = "glm-4.5-x"
+    GLM_4_5_AIRX = "glm-4.5-airx"
+    GLM_4_5_FLASH = "glm-4.5-flash"
+    GLM_4_32B_0414_128K = "glm-4-32b-0414-128k"
+    DEFAULT = "unknown"
+
+
 class _ZeroOneAI(Enum):
     """10AI models."""
 
