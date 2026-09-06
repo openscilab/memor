@@ -16,7 +16,7 @@ from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
 from .errors import MemorValidationError, MemorRenderError
 from .functions import generate_message_id
-from .functions import _validate_string, _validate_pos_int, _validate_list_of
+from .functions import _validate_string, _validate_non_negative_int, _validate_list_of
 from .functions import _validate_message_id, _validate_warnings
 from .template import PromptTemplate, PresetPromptTemplate
 from .template import _BasicPresetPromptTemplate, _Instruction1PresetPromptTemplate, _Instruction2PresetPromptTemplate, _Instruction3PresetPromptTemplate
@@ -131,7 +131,7 @@ class Prompt(Message):
 
         :param index: index
         """
-        _validate_pos_int(index, "index")
+        _validate_non_negative_int(index, "index")
         self._selected_response_index = index
         self._mark_modified()
         if index < len(self._responses):
@@ -212,11 +212,11 @@ class Prompt(Message):
         _validate_string(result["message"], "message")
 
         if result["tokens"] is not None:
-            _validate_pos_int(result["tokens"], "tokens")
+            _validate_non_negative_int(result["tokens"], "tokens")
         _validate_message_id(result["id"])
         _validate_warnings(result["warnings"])
         _validate_string(result["memor_version"], "memor_version")
-        _validate_pos_int(result["selected_response_index"], "selected_response_index")
+        _validate_non_negative_int(result["selected_response_index"], "selected_response_index")
         return result
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:

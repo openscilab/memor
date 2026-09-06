@@ -15,7 +15,7 @@ from .params import Role, RenderFormat, FinishReason
 from .llm_models import LLMModel
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
-from .functions import _validate_string, _validate_pos_float, _validate_pos_int, _validate_message_id
+from .functions import _validate_string, _validate_non_negative_float, _validate_non_negative_int, _validate_message_id
 from .functions import _validate_date_time, _validate_probability, _validate_warnings
 
 
@@ -136,7 +136,7 @@ class Response(Message):
 
         :param temperature: temperature
         """
-        if temperature is None or _validate_pos_float(temperature, "temperature"):
+        if temperature is None or _validate_non_negative_float(temperature, "temperature"):
             self._temperature = temperature
             self._mark_modified()
 
@@ -146,7 +146,7 @@ class Response(Message):
 
         :param top_k: top-k
         """
-        if top_k is None or _validate_pos_int(top_k, "top_k"):
+        if top_k is None or _validate_non_negative_int(top_k, "top_k"):
             self._top_k = top_k
             self._mark_modified()
 
@@ -166,7 +166,7 @@ class Response(Message):
 
         :param inference_time: inference time
         """
-        if inference_time is None or _validate_pos_float(inference_time, "inference_time"):
+        if inference_time is None or _validate_non_negative_float(inference_time, "inference_time"):
             self._inference_time = inference_time
             self._mark_modified()
 
@@ -253,17 +253,17 @@ class Response(Message):
         if result["score"] is not None:
             _validate_probability(result["score"], "score")
         if result["temperature"] is not None:
-            _validate_pos_float(result["temperature"], "temperature")
+            _validate_non_negative_float(result["temperature"], "temperature")
         if result["top_k"] is not None:
-            _validate_pos_int(result["top_k"], "top_k")
+            _validate_non_negative_int(result["top_k"], "top_k")
         if result["top_p"] is not None:
             _validate_probability(result["top_p"], "top_p")
         if result["gpu"] is not None:
             _validate_string(result["gpu"], "gpu")
         if result["tokens"] is not None:
-            _validate_pos_int(result["tokens"], "tokens")
+            _validate_non_negative_int(result["tokens"], "tokens")
         if result["inference_time"] is not None:
-            _validate_pos_float(result["inference_time"], "inference_time")
+            _validate_non_negative_float(result["inference_time"], "inference_time")
         if result["finish_reason"] is not None:
             _validate_string(result["finish_reason"], "finish_reason")
         _validate_string(result["model"], "model")
