@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Z.AI models
 - `_build_context` method
 - `FinishReason` enum
 - `Response` class `finish_reason` property
