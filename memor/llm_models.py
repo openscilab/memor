@@ -7,6 +7,7 @@ from enum import Enum
 class _OpenAI(Enum):
     """OpenAI models."""
 
+    GPT_6_ASTRA = "gpt-6-astra"
     GPT_5_6_SOL = "gpt-5.6-sol"
     GPT_5_6_TERRA = "gpt-5.6-terra"
     GPT_5_6_LUNA = "gpt-5.6-luna"
@@ -456,6 +457,26 @@ class _XAI(Enum):
     DEFAULT = "unknown"
 
 
+class _ZAI(Enum):
+    """Z.AI models."""
+
+    GLM_5_3 = "glm-5.3"
+    GLM_5_2 = "glm-5.2"
+    GLM_5_1 = "glm-5.1"
+    GLM_5 = "glm-5"
+    GLM_4_7 = "glm-4.7"
+    GLM_4_7_FLASH = "glm-4.7-flash"
+    GLM_4_7_FLASHX = "glm-4.7-flashx"
+    GLM_4_6 = "glm-4.6"
+    GLM_4_5 = "glm-4.5"
+    GLM_4_5_AIR = "glm-4.5-air"
+    GLM_4_5_X = "glm-4.5-x"
+    GLM_4_5_AIRX = "glm-4.5-airx"
+    GLM_4_5_FLASH = "glm-4.5-flash"
+    GLM_4 = "glm-4"
+    DEFAULT = "unknown"
+
+
 class _ZeroOneAI(Enum):
     """10AI models."""
 
@@ -515,6 +536,7 @@ class LLMModel:
     Qwen = _Qwen
     Microsoft = _Microsoft
     XAI = _XAI
+    ZAI = _ZAI
     ZeroOneAI = _ZeroOneAI
     LGAI = _LGAI
     Other = _Other
@@ -528,6 +550,7 @@ class LLMModel:
         Qwen,
         Microsoft,
         XAI,
+        ZAI,
         ZeroOneAI,
         LGAI,
         Other
