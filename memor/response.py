@@ -16,7 +16,7 @@ from .llm_models import LLMModel
 from .errors import MemorValidationError
 from .functions import get_time_utc, generate_message_id
 from .functions import _validate_string, _validate_non_negative_float, _validate_non_negative_int, _validate_message_id
-from .functions import _validate_date_time, _validate_probability, _validate_warnings
+from .functions import _validate_int, _validate_date_time, _validate_probability, _validate_warnings
 
 
 class Response(Message):
@@ -41,6 +41,7 @@ class Response(Message):
             inference_time: Optional[float] = None,
             model: Union[object, str] = LLMModel.DEFAULT,
             gpu: Optional[str] = None,
+            seed: Optional[int] = None,
             date: Optional[datetime.datetime] = None,
             finish_reason: Optional[Union[FinishReason, str]] = None,
             file_path: Optional[str] = None) -> None:
@@ -57,6 +58,7 @@ class Response(Message):
         :param inference_time: inference time
         :param model: agent model
         :param gpu: GPU model
+        :param seed: the model random seed
         :param date: response date
         :param finish_reason: generation finish reason
         :param file_path: response file path
@@ -71,6 +73,7 @@ class Response(Message):
         self._model = LLMModel.DEFAULT.value
         self._date_created = get_time_utc()
         self._gpu = None
+        self._seed = None
         self._finish_reason = None
         if file_path is not None:
             self.load(file_path)
@@ -85,6 +88,8 @@ class Response(Message):
                 self.update_model(model)
             if gpu is not None:
                 self.update_gpu(gpu)
+            if seed is not None:
+                self.update_seed(seed)
             if finish_reason is not None:
                 self.update_finish_reason(finish_reason)
             if temperature is not None:
@@ -113,7 +118,7 @@ class Response(Message):
             return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and \
                 self._temperature == other_response._temperature and self._model == other_response._model and self._tokens == other_response._tokens and \
                 self._inference_time == other_response._inference_time and self._top_k == other_response._top_k and self._top_p == other_response._top_p and \
-                self._gpu == other_response._gpu and self._finish_reason == other_response._finish_reason
+                self._gpu == other_response._gpu and self._seed == other_response._seed and self._finish_reason == other_response._finish_reason
         return False
 
     def __repr__(self) -> str:
@@ -194,6 +199,16 @@ class Response(Message):
             self._gpu = gpu
             self._mark_modified()
 
+    def update_seed(self, seed: Optional[int]) -> None:
+        """
+        Update the model seed.
+
+        :param seed: the model random seed
+        """
+        if seed is None or _validate_int(seed, "seed"):
+            self._seed = seed
+            self._mark_modified()
+
     def update_finish_reason(
             self,
             finish_reason: Optional[Union[FinishReason, str]]) -> None:
@@ -241,6 +256,7 @@ class Response(Message):
             result["inference_time"] = loaded_obj.get("inference_time", None)
             result["model"] = loaded_obj["model"] if loaded_obj["model"] is not None else LLMModel.DEFAULT.value
             result["gpu"] = loaded_obj.get("gpu", None)
+            result["seed"] = loaded_obj.get("seed", None)
             result["role"] = Role(loaded_obj["role"])
             result["memor_version"] = loaded_obj["memor_version"]
             result["id"] = loaded_obj.get("id", generate_message_id())
@@ -260,6 +276,8 @@ class Response(Message):
             _validate_probability(result["top_p"], "top_p")
         if result["gpu"] is not None:
             _validate_string(result["gpu"], "gpu")
+        if result["seed"] is not None:
+            _validate_int(result["seed"], "seed")
         if result["tokens"] is not None:
             _validate_non_negative_int(result["tokens"], "tokens")
         if result["inference_time"] is not None:
@@ -289,6 +307,7 @@ class Response(Message):
         self._inference_time = data["inference_time"]
         self._model = data["model"]
         self._gpu = data["gpu"]
+        self._seed = data["seed"]
         self._role = data["role"]
         self._memor_version = data["memor_version"]
         self._id = data["id"]
@@ -319,6 +338,7 @@ class Response(Message):
             "role": self._role,
             "model": self._model,
             "gpu": self._gpu,
+            "seed": self._seed,
             "id": self._id,
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
@@ -391,6 +411,11 @@ class Response(Message):
     def gpu(self) -> Optional[str]:
         """Get the GPU model."""
         return self._gpu
+
+    @property
+    def seed(self) -> Optional[int]:
+        """Get the model seed."""
+        return self._seed
 
     @property
     def finish_reason(self) -> Optional[str]:
