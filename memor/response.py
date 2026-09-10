@@ -414,7 +414,7 @@ class Response(Message):
 
     @property
     def seed(self) -> Optional[int]:
-        """Get the model seed."""
+        """Get the model random seed."""
         return self._seed
 
     @property
