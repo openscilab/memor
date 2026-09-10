@@ -9,7 +9,7 @@ from .params import INVALID_DATETIME_MESSAGE
 from .params import INVALID_PATH_MESSAGE, INVALID_STR_VALUE_MESSAGE
 from .params import INVALID_PROB_VALUE_MESSAGE, INVALID_MESSAGE_STATUS_LEN_MESSAGE
 from .params import INVALID_NON_NEGATIVE_FLOAT_VALUE_MESSAGE
-from .params import INVALID_NON_NEGATIVE_INT_VALUE_MESSAGE
+from .params import INVALID_INT_VALUE_MESSAGE, INVALID_NON_NEGATIVE_INT_VALUE_MESSAGE
 from .params import INVALID_CUSTOM_MAP_MESSAGE
 from .params import INVALID_BOOL_VALUE_MESSAGE
 from .params import INVALID_LIST_OF_X_MESSAGE
@@ -80,6 +80,18 @@ def _can_convert_to_string(value: Any) -> bool:
         str(value)
     except Exception:
         return False
+    return True
+
+
+def _validate_int(value: Any, parameter_name: str) -> bool:
+    """
+    Validate integer.
+
+    :param value: value
+    :param parameter_name: parameter name
+    """
+    if not isinstance(value, int):
+        raise MemorValidationError(INVALID_INT_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
 
