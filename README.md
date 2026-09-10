@@ -199,6 +199,7 @@ response.render()
 | `inference_time` | `float`                | Time spent generating the response (seconds)         |
 | `model`          | `LLMModel.<provider>` \| `str` | Model used                                   |
 | `gpu`            | `str`                  | GPU model used                                       |
+| `seed`           | `int`                  | Random seed used during LLM inference                |
 | `date`           | `datetime.datetime`    | Timestamp of the creation                            |
 | `finish_reason`  | `FinishReason` \| `str` | Reason the model stopped generating                 |
 | `file_path`      | `str`                  | Path to load a saved response                        |
@@ -213,6 +214,7 @@ response.render()
 | `update_top_p`                                  | Set the top-p value                                                      |
 | `update_model`                                  | Set the model name or enum                                               |
 | `update_gpu`                                    | Set the GPU model identifier                                             |
+| `update_seed`                                   | Set the inference random seed                                            |
 | `update_inference_time`                         | Set the inference time in seconds                                        |
 | `update_finish_reason`                          | Set the generation finish reason                                         |
 | `update_message`                                | Update the response message                                              |
