@@ -343,6 +343,34 @@ def test_gpu5():
     assert response.gpu is None
 
 
+def test_seed1():
+    response = Response(message="I am fine.")
+    assert response.seed is None
+
+
+def test_seed2():
+    response = Response(message="I am fine.", seed=123)
+    assert response.seed == 123
+
+
+def test_seed3():
+    response = Response(message="I am fine.", seed=123)
+    response.update_seed(456)
+    assert response.seed == 456
+
+
+def test_seed4():
+    response = Response(message="I am fine.", seed=123)
+    response.update_seed(None)
+    assert response.seed is None
+
+
+def test_seed5():
+    response = Response(message="I am fine.", seed=123)
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `seed` must be an integer."):
+        response.update_seed("invalid")
+
+
 def test_finish_reason1():
     response = Response(message="I am fine.", finish_reason=FinishReason.STOP)
     assert response.finish_reason == "stop"
@@ -409,7 +437,8 @@ def test_json1():
         role=Role.USER,
         score=0.8,
         top_k=6,
-        top_p=0.9)
+        top_p=0.9,
+        seed=42)
     response1_json = response1.to_json()
     response2 = Response()
     response2.from_json(response1_json)
@@ -597,6 +626,31 @@ def test_json8():
     assert response.top_p is None
     assert response.tokens is None
     assert response.inference_time is None
+
+
+def test_json_invalid_seed():
+    response = Response()
+    with pytest.raises(MemorValidationError, match="Invalid value. `seed` must be an integer."):
+        response.from_json(r"""{
+                           "message": "I am fine.",
+                           "type": "Response",
+                           "score": 0.8,
+                           "temperature": 0.5,
+                           "top_k": 5,
+                           "top_p": 0.2,
+                           "seed": "invalid",
+                           "tokens": null,
+                           "inference_time": 5,
+                           "role": "user",
+                           "model": "gpt-4",
+                           "gpu": "Nvidia Tesla",
+                           "id": "7dfce0e0-53bc-4500-bf79-7c9cd705087c",
+                           "memor_version": "0.6",
+                           "date_created": "2025-05-07 21:54:48 +0000",
+                           "date_modified": "2025-05-07 21:54:48 +0000"}""")
+    assert response.message == ''
+    assert response.model == 'unknown'
+    assert response.seed is None
 
 
 def test_json9():
