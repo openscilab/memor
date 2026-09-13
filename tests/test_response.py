@@ -82,6 +82,11 @@ def test_tokens6():
     assert response.tokens == 0
 
 
+def test_tokens7():
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `tokens` must be a non-negative integer."):
+        Response(message="I am fine.", tokens=False)
+
+
 def test_inference_time1():
     response = Response(message="I am fine.")
     assert response.inference_time is None
@@ -120,6 +125,11 @@ def test_inference_time7():
     assert response.inference_time is None
 
 
+def test_inference_time8():
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `inference_time` must be a non-negative number."):
+        Response(message="I am fine.", inference_time=True)
+
+
 def test_score1():
     response = Response(message="I am fine.", score=0.9)
     assert response.score == 0.9
@@ -146,6 +156,11 @@ def test_score5():
     response = Response(message="I am fine.", score=0.9)
     response.update_score(None)
     assert response.score is None
+
+
+def test_score6():
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `score` must be a value between 0 and 1."):
+        Response(message="I am fine.", score=True)
 
 
 def test_role1():
@@ -236,6 +251,11 @@ def test_temperature5():
     assert response.temperature is None
 
 
+def test_temperature6():
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `temperature` must be a non-negative number."):
+        Response(message="I am fine.", temperature=True)
+
+
 def test_top_k1():
     response = Response(message="I am fine.", top_k=5)
     assert response.top_k == 5
@@ -264,6 +284,11 @@ def test_top_k5():
     assert response.top_k is None
 
 
+def test_top_k6():
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `top_k` must be a non-negative integer."):
+        Response(message="I am fine.", top_k=True)
+
+
 def test_top_p1():
     response = Response(message="I am fine.", top_p=0.9)
     assert response.top_p == 0.9
@@ -290,6 +315,11 @@ def test_top_p5():
     response = Response(message="I am fine.", top_p=0.9)
     response.update_top_p(None)
     assert response.top_p is None
+
+
+def test_top_p6():
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `top_p` must be a value between 0 and 1."):
+        Response(message="I am fine.", top_p=False)
 
 
 def test_model1():
@@ -369,6 +399,11 @@ def test_seed5():
     response = Response(message="I am fine.", seed=123)
     with pytest.raises(MemorValidationError, match=r"Invalid value. `seed` must be an integer."):
         response.update_seed("invalid")
+
+
+def test_seed6():
+    with pytest.raises(MemorValidationError, match=r"Invalid value. `seed` must be an integer."):
+        Response(message="I am fine.", seed=True)
 
 
 def test_finish_reason1():
