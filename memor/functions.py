@@ -90,7 +90,7 @@ def _validate_int(value: Any, parameter_name: str) -> bool:
     :param value: value
     :param parameter_name: parameter name
     """
-    if not isinstance(value, int):
+    if isinstance(value, bool) or not isinstance(value, int):
         raise MemorValidationError(INVALID_INT_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
@@ -102,7 +102,7 @@ def _validate_non_negative_int(value: Any, parameter_name: str) -> bool:
     :param value: value
     :param parameter_name: parameter name
     """
-    if not isinstance(value, int) or value < 0:
+    if isinstance(value, bool) or not isinstance(value, int) or value < 0:
         raise MemorValidationError(INVALID_NON_NEGATIVE_INT_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
@@ -114,7 +114,7 @@ def _validate_non_negative_float(value: Any, parameter_name: str) -> bool:
     :param value: value
     :param parameter_name: parameter name
     """
-    if not isinstance(value, (float, int)) or value < 0:
+    if isinstance(value, bool) or not isinstance(value, (float, int)) or value < 0:
         raise MemorValidationError(INVALID_NON_NEGATIVE_FLOAT_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
@@ -126,7 +126,7 @@ def _validate_probability(value: Any, parameter_name: str) -> bool:
     :param value: value
     :param parameter_name: parameter name
     """
-    if not isinstance(value, (float, int)) or value < 0 or value > 1:
+    if isinstance(value, bool) or not isinstance(value, (float, int)) or value < 0 or value > 1:
         raise MemorValidationError(INVALID_PROB_VALUE_MESSAGE.format(parameter_name=parameter_name))
     return True
 
