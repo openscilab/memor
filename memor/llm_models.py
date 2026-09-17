@@ -526,6 +526,9 @@ class _LGAI(Enum):
     EXAONE_DEEP_2_4B = "exaone-deep-2.4b"
     EXAONE_DEEP_32B = "exaone-deep-32b"
     EXAONE_DEEP_7_8B = "exaone-deep-7.8b"
+    EXAONE_4_5_33B = "exaone-4.5-33b"
+    K_EXAONE_236B = "k-exaone-236b"
+    K_EXAONE_2_0_750B = "k-exaone-2.0-750b"
     DEFAULT = "unknown"
 
 
