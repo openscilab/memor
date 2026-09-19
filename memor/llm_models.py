@@ -82,7 +82,9 @@ class _Anthropic(Enum):
     CLAUDE_OPUS_5 = "claude-opus-5"
     CLAUDE_SONNET_5 = "claude-sonnet-5"
     CLAUDE_FABLE_5 = "claude-fable-5"
+    CLAUDE_FABLE_5_1 = "claude-fable-5.1"
     CLAUDE_MYTHOS_5 = "claude-mythos-5"
+    CLAUDE_MYTHOS_5_1 = "claude-mythos-5.1"
 
     DEFAULT = "unknown"
 
