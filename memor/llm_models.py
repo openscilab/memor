@@ -69,9 +69,10 @@ class _Anthropic(Enum):
     CLAUDE_3_5_SONNET = "claude-3.5-sonnet"
     CLAUDE_3_5_HAIKU = "claude-3.5-haiku"
     CLAUDE_3_7_SONNET = "claude-3.7-sonnet"
-    CLAUDE_4_OPUS = "claude-4-opus"
-    CLAUDE_4_SONNET = "claude-4-sonnet"
-    CLAUDE_4_1_OPUS = "claude-4.1-opus"
+    CLAUDE_OPUS_4 = "claude-opus-4"
+    CLAUDE_SONNET_4 = "claude-sonnet-4"
+    CLAUDE_OPUS_4_1 = "claude-opus-4.1"
+
     DEFAULT = "unknown"
 
 
