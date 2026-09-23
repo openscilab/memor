@@ -190,6 +190,7 @@ class _Meta(Enum):
     CODE_LLAMA_70B = "code-llama-70b"
     CODE_LLAMA_70B_INSTRUCT = "code-llama-70b-instruct"
     CODE_LLAMA_70B_PYTHON = "code-llama-70b-python"
+    MUSE_GLIMMER_30B = "muse-glimmer-30b"
     DEFAULT = "unknown"
 
 
