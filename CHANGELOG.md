@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Google models updated
 - LG-AI models updated
 - Anthropic models updated
+- Meta models updated
 - `_validate_pos_int` function renamed to `_validate_non_negative_int`
 - `_validate_pos_float` function renamed to `_validate_non_negative_float`
 - `INVALID_POSINT_VALUE_MESSAGE` renamed to `INVALID_NON_NEGATIVE_INT_VALUE_MESSAGE` and message text updated
