@@ -406,6 +406,8 @@ class _Qwen(Enum):
     QWEN_3_5_4B = "qwen-3.5-4b"
     QWEN_3_5_2B = "qwen-3.5-2b"
     QWEN_3_5_0_8B = "qwen-3.5-0.8b"
+    QWEN_3_6_35B = "qwen-3.6-35b"
+    QWEN_3_6_27B = "qwen-3.6-27b"
     QWQ_32B = "qwq-32b"
     QVQ_72B = "qvq-72b"
     CODEQWEN_1_5_7B = "codeqwen-1.5-7b"
