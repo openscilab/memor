@@ -371,6 +371,8 @@ class _Qwen(Enum):
     QWEN_2_5_VL_72B_INSTRUCT = "qwen-2.5-vl-72b-instruct"
     QWEN_3_VL_235B_INSTRUCT = "qwen-3-vl-235b-instruct"
     QWEN_3_VL_235B_THINKING = "qwen-3-vl-235b-thinking"
+    QWEN_3_VL_32B_INSTRUCT = "qwen-3-vl-32b-instruct"
+    QWEN_3_VL_32B_THINKING = "qwen-3-vl-32b-thinking"
     QWEN_3_VL_30B_INSTRUCT = "qwen-3-vl-30b-instruct"
     QWEN_3_VL_30B_THINKING = "qwen-3-vl-30b-thinking"
     QWEN_3_VL_8B_INSTRUCT = "qwen-3-vl-8b-instruct"
