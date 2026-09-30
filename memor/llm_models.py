@@ -616,6 +616,7 @@ class LLMModel:
     Qwen = _Qwen
     Microsoft = _Microsoft
     XAI = _XAI
+    MoonshotAI = _MoonshotAI
     ZAI = _ZAI
     ZeroOneAI = _ZeroOneAI
     LGAI = _LGAI
@@ -630,6 +631,7 @@ class LLMModel:
         Qwen,
         Microsoft,
         XAI,
+        MoonshotAI,
         ZAI,
         ZeroOneAI,
         LGAI,
