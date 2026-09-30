@@ -514,6 +514,26 @@ class _XAI(Enum):
     DEFAULT = "unknown"
 
 
+class _MoonshotAI(Enum):
+    """Moonshot AI models."""
+
+    MOONLIGHT_16B = "moonlight-16b"
+    MOONLIGHT_16B_INSTRUCT = "moonlight-16b-instruct"
+    KIMI_VL_THINKING = "kimi-vl-thinking"
+    KIMI_VL_INSTRUCT = "kimi-vl-instruct"
+    KIMI_LINEAR_48B = "kimi-linear-48b"
+    KIMI_LINEAR_48B_INSTRUCT = "kimi-linear-48b-instruct"
+    KIMI_K2 = "kimi-k2"
+    KIMI_K2_THINKING = "kimi-k2-thinking"
+    KIMI_K2_INSTRUCT = "kimi-k2-instruct"
+    KIMI_K2_5 = "kimi-k2.5"
+    KIMI_K2_6 = "kimi-k2.6"
+    KIMI_K2_7_CODE = "kimi-k2.7-code"
+    KIMI_K3 = "kimi-k3"
+
+    DEFAULT = "unknown"
+
+
 class _ZAI(Enum):
     """Z.AI models."""
 
