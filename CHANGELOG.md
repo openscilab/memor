@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.4] - 2026-10-05
 ### Added
 - Z.AI models
 - Moonshot AI models
@@ -227,7 +228,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `PresetPromptTemplate` class
 
 
-[Unreleased]: https://github.com/openscilab/memor/compare/v1.3...dev
+[Unreleased]: https://github.com/openscilab/memor/compare/v1.4...dev
+[1.4]: https://github.com/openscilab/memor/compare/v1.3...v1.4
 [1.3]: https://github.com/openscilab/memor/compare/v1.2...v1.3
 [1.2]: https://github.com/openscilab/memor/compare/v1.1...v1.2
 [1.1]: https://github.com/openscilab/memor/compare/v1.0...v1.1
