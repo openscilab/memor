@@ -6,6 +6,7 @@ updates:
       - "requirements-dev.txt"
       - "setup.py"
       - "examples/requirements.txt"
+      - "pyproject.toml"
   schedule:
     interval: weekly
     time: "01:30"
