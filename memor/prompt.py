@@ -114,11 +114,13 @@ class Prompt(Message):
 
     def remove_response(self, index: int) -> None:
         """
-        Remove a response from the prompt object.
+        Remove a response from the prompt.
 
         :param index: index
         """
-        self._responses.pop(index)
+        response = self._responses.pop(index)
+        if response.id == self._selected_response_id:
+            self._selected_response_id = (self._responses[0].id if self._responses else None)
         self._mark_modified()
 
     def clear_responses(self) -> None:
