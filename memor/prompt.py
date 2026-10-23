@@ -161,7 +161,11 @@ class Prompt(Message):
         :param responses: responses
         """
         _validate_list_of(responses, "responses", Response, "`Response`")
-        self._responses = responses
+        self._responses = list(responses)
+
+        if not any(response.id == self._selected_response_id for response in self._responses):
+            self._selected_response_id = self._responses[0].id if self._responses else None
+
         self._mark_modified()
 
     def update_template(self, template: Union[PresetPromptTemplate, PromptTemplate]) -> None:
