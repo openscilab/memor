@@ -227,13 +227,16 @@ class Prompt(Message):
             result["memor_version"] = loaded_obj["memor_version"]
             result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
-            result["selected_response_index"] = loaded_obj["selected_response_index"]
+            result["selected_response_id"] = loaded_obj.get("selected_response_id")
+            result["selected_response_index"] = loaded_obj.get("selected_response_index", 0)
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
 
         if result["tokens"] is not None:
             _validate_non_negative_int(result["tokens"], "tokens")
+        if result["selected_response_id"] is not None:
+            _validate_string(result["selected_response_id"], "selected_response_id")
         _validate_message_id(result["id"])
         _validate_warnings(result["warnings"])
         _validate_string(result["memor_version"], "memor_version")
