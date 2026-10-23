@@ -60,7 +60,7 @@ class Prompt(Message):
         self._role = Role.USER
         self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
-        self._selected_response_index = 0
+        self._selected_response_id = None
         if file_path is not None:
             self.load(file_path)
         else:
@@ -72,6 +72,8 @@ class Prompt(Message):
                 self.update_tokens(tokens)
             if responses is not None:
                 self.update_responses(responses)
+                if self._selected_response_id is None and self._responses:
+                    self._selected_response_id = self._responses[0].id
             if template:
                 self.update_template(template)
             self._id = generate_message_id()
@@ -125,17 +127,30 @@ class Prompt(Message):
         self._selected_response_index = 0
         self._mark_modified()
 
-    def select_response(self, index: int) -> Optional[Response]:
+    def select_response(self, identifier: Union[int, str]) -> Optional[Response]:
         """
-        Select a response as selected response.
+        Select a response by index or ID.
 
-        :param index: index
+        :param identifier: response index or ID
         """
-        _validate_non_negative_int(index, "index")
-        self._selected_response_index = index
+        if isinstance(identifier, bool):
+            raise MemorValidationError(INVALID_RESPONSE_MESSAGE)
+
+        if isinstance(identifier, int):
+            _validate_non_negative_int(identifier, "identifier")
+            if identifier >= len(self._responses):
+                return None
+            response = self._responses[identifier]
+        elif isinstance(identifier, str):
+            response = next((item for item in self._responses if item.id == identifier), None)
+            if response is None:
+                return None
+        else:
+            raise MemorValidationError(INVALID_RESPONSE_MESSAGE)
+
+        self._selected_response_id = response.id
         self._mark_modified()
-        if index < len(self._responses):
-            return self._responses[index]
+        return response
 
     def update_responses(self, responses: List[Response]) -> None:
         """
