@@ -312,8 +312,9 @@ class Prompt(Message):
     @property
     def selected_response(self) -> Optional[Response]:
         """Get the prompt selected response."""
-        if 0 <= self._selected_response_index < len(self._responses):
-            return self._responses[self._selected_response_index]
+        for response in self._responses:
+            if response.id == self._selected_response_id:
+                return response
         return None
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
