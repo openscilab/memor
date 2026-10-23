@@ -260,7 +260,13 @@ class Prompt(Message):
         self._memor_version = data["memor_version"]
         self._date_created = data["date_created"]
         self._date_modified = data["date_modified"]
-        self.select_response(data["selected_response_index"])
+        selected_response_id = data["selected_response_id"]
+        if selected_response_id is not None:
+            selected = self.select_response(selected_response_id)
+            if selected is None:
+                self.select_response(data["selected_response_index"])
+        else:
+            self.select_response(data["selected_response_index"])
 
     def to_json(self, save_template: bool = True) -> Dict[str, Any]:
         """
