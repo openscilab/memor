@@ -241,7 +241,7 @@ def test_clear_responses():
     response0 = Response(message="I am fine.")
     response1 = Response(message="Great!")
     prompt = Prompt(message=message, responses=[response0, response1])
-    _ = prompt.select_response(index=0)
+    _ = prompt.select_response(0)
     assert len(prompt.responses) == 2
     assert prompt.selected_response == response0
     prompt.clear_responses()
@@ -255,7 +255,7 @@ def test_select_response():
     prompt = Prompt(message=message, responses=[response0])
     response1 = Response(message="Great!")
     prompt.add_response(response1)
-    selected_response = prompt.select_response(index=1)
+    selected_response = prompt.select_response(1)
     assert prompt.selected_response == response1
     assert selected_response == response1
 
@@ -266,9 +266,78 @@ def test_select_response2():
     response1 = Response("Great!")
     prompt.update_responses([response0, response1])
     selected_response = prompt.select_response(20)
-    assert prompt._selected_response_index == 20
     assert prompt.selected_response is None
     assert selected_response is None
+
+
+def test_select_response3():
+    message = "Hello, how are you?"
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    prompt = Prompt(message=message, responses=[response0, response1])
+    selected_response = prompt.select_response(response1.id)
+    assert prompt.selected_response == response1
+    assert selected_response == response1
+
+
+def test_select_response4():
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    response2 = Response(message="Thanks!")
+    prompt = Prompt(responses=[response0, response1, response2])
+    prompt.select_response(response1.id)
+    prompt.update_responses([response2, response0, response1])
+    assert prompt.selected_response == response1
+
+
+def test_select_response5():
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    response2 = Response(message="Thanks!")
+    prompt = Prompt(responses=[response0, response1, response2])
+    prompt.select_response(response1.id)
+    prompt.remove_response(0)
+    assert prompt.selected_response == response1
+
+
+def test_select_response6():
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    prompt = Prompt(responses=[response0, response1])
+    prompt.select_response(response1.id)
+    prompt.remove_response(1)
+    assert prompt.selected_response == response0
+
+
+def test_select_response7():
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    prompt = Prompt(responses=[response0, response1])
+    prompt.select_response(response1.id)
+    prompt_json = prompt.to_json()
+    assert prompt_json["selected_response_id"] == response1.id
+    assert "selected_response_index" not in prompt_json
+
+
+def test_select_response8():
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    prompt = Prompt(responses=[response0, response1])
+    prompt.select_response(1)
+    prompt_json = prompt.to_json()
+    prompt_json.pop("selected_response_id")
+    prompt_json["selected_response_index"] = 1
+    loaded_prompt = Prompt()
+    loaded_prompt.from_json(prompt_json)
+    assert loaded_prompt.selected_response == response1
+
+
+def test_select_response9():
+    response0 = Response(message="I am fine.")
+    prompt = Prompt(responses=[response0])
+    selected_response = prompt.select_response(20)
+    assert selected_response is None
+    assert prompt.selected_response is None
 
 
 def test_template1():
