@@ -286,7 +286,7 @@ class Prompt(Message):
             "message": self._message,
             "warnings": self._warnings,
             "responses": self._responses.copy(),
-            "selected_response_index": self._selected_response_index,
+            "selected_response_id": self._selected_response_id,
             "tokens": self._tokens,
             "role": self._role,
             "id": self._id,
