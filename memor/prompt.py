@@ -3,6 +3,7 @@
 from typing import List, Dict, Union, Tuple, Any, Optional
 import datetime
 import json
+import uuid
 import warnings
 from .message import Message
 from .params import MEMOR_VERSION
@@ -10,7 +11,7 @@ from .params import DATE_TIME_FORMAT
 from .params import RenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import Role
 from .params import INVALID_PROMPT_STRUCTURE_MESSAGE, INVALID_TEMPLATE_MESSAGE
-from .params import INVALID_RESPONSE_MESSAGE
+from .params import INVALID_RESPONSE_MESSAGE, INVALID_RESPONSE_IDENTIFIER_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
@@ -131,27 +132,38 @@ class Prompt(Message):
 
     def select_response(self, identifier: Union[int, str]) -> Optional[Response]:
         """
-        Select a response by index or ID.
+        Select a response by index or UUIDv4 ID.
 
-        :param identifier: response index or ID
+        :param identifier: non-negative index or response UUIDv4
         """
-        if isinstance(identifier, bool):
-            raise MemorValidationError(INVALID_RESPONSE_MESSAGE)
-
         if isinstance(identifier, int):
             _validate_non_negative_int(identifier, "identifier")
+
             if identifier >= len(self._responses):
-                return None
+                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
+
             response = self._responses[identifier]
+
         elif isinstance(identifier, str):
+            try:
+                parsed_id = uuid.UUID(identifier, version=4)
+            except Exception:
+                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
+
+            if str(parsed_id) != identifier.lower():
+                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
+
             response = next((item for item in self._responses if item.id == identifier), None)
+
             if response is None:
-                return None
+                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
+
         else:
-            raise MemorValidationError(INVALID_RESPONSE_MESSAGE)
+            raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
 
         self._selected_response_id = response.id
         self._mark_modified()
+
         return response
 
     def update_responses(self, responses: List[Response]) -> None:

@@ -18,6 +18,7 @@ INVALID_INT_OR_STR_SLICE_MESSAGE = "Invalid value. `{parameter_name}` must be an
 INVALID_DATETIME_MESSAGE = "Invalid value. `{parameter_name}` must be a datetime object that includes timezone information."
 INVALID_TEMPLATE_MESSAGE = "Invalid template. It must be an instance of `PromptTemplate` or `PresetPromptTemplate`."
 INVALID_RESPONSE_MESSAGE = "Invalid response. It must be an instance of `Response`."
+INVALID_RESPONSE_IDENTIFIER_MESSAGE = "Invalid response identifier. It must be a non-negative integer index or a valid UUIDv4 response ID."
 INVALID_MESSAGE = "Invalid message. It must be an instance of `Prompt` or `Response`."
 INVALID_MESSAGE_STATUS_LEN_MESSAGE = "Invalid message status length. It must be equal to the number of messages."
 INVALID_CUSTOM_MAP_MESSAGE = "Invalid custom map: it must be a dictionary with keys and values that can be converted to strings."
