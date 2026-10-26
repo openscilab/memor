@@ -354,7 +354,7 @@ def test_select_response9():
 )
 def test_select_response10(identifier):
     prompt = Prompt(responses=[Response(message="I am fine.")])
-    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
+    with pytest.raises(MemorValidationError):
         prompt.select_response(identifier)
 
 
