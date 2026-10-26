@@ -265,9 +265,8 @@ def test_select_response2():
     response0 = Response("I am fine.")
     response1 = Response("Great!")
     prompt.update_responses([response0, response1])
-    selected_response = prompt.select_response(20)
-    assert prompt.selected_response is None
-    assert selected_response is None
+    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
+        prompt.select_response(20)
 
 
 def test_select_response3():
@@ -335,9 +334,43 @@ def test_select_response8():
 def test_select_response9():
     response0 = Response(message="I am fine.")
     prompt = Prompt(responses=[response0])
-    selected_response = prompt.select_response(20)
-    assert selected_response is None
-    assert prompt.selected_response is None
+    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
+        prompt.select_response(20)
+
+
+@pytest.mark.parametrize(
+    "identifier",
+    [
+        -1,
+        True,
+        False,
+        1.5,
+        None,
+        [],
+        {},
+        "invalid-uuid",
+        "12345678-1234-1234-1234-123456789012",
+    ],
+)
+def test_select_response10(identifier):
+    prompt = Prompt(responses=[Response(message="I am fine.")])
+    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
+        prompt.select_response(identifier)
+
+
+def test_select_response11():
+    prompt = Prompt(responses=[Response(message="I am fine.")])
+    unknown_id = str(uuid.uuid4())
+    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
+        prompt.select_response(unknown_id)
+
+
+def test_select_response12():
+    prompt = Prompt()
+    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
+        prompt.select_response(0)
+    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
+        prompt.select_response(str(uuid.uuid4()))
 
 
 def test_template1():
