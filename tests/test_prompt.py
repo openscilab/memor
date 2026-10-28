@@ -364,6 +364,14 @@ def test_select_response11():
     assert prompt.selected_response is None
 
 
+def test_select_response12():
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    prompt = Prompt(responses=[response0, response1])
+    assert prompt.select_response(None) is None
+    assert prompt.selected_response is None
+
+
 def test_template1():
     message = "Hello, how are you?"
     prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD, init_check=False)
