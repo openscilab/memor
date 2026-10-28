@@ -73,8 +73,6 @@ class Prompt(Message):
                 self.update_tokens(tokens)
             if responses is not None:
                 self.update_responses(responses)
-                if self._selected_response_id is None and self._responses:
-                    self._selected_response_id = self._responses[0].id
             if template:
                 self.update_template(template)
             self._id = generate_message_id()
@@ -242,7 +240,10 @@ class Prompt(Message):
         if result["tokens"] is not None:
             _validate_non_negative_int(result["tokens"], "tokens")
         if result["selected_response_id"] is not None:
-            _validate_string(result["selected_response_id"], "selected_response_id")
+            try:
+                parsed_id = uuid.UUID(result["selected_response_id"], version=4)
+            except Exception:
+                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
         _validate_message_id(result["id"])
         _validate_warnings(result["warnings"])
         _validate_string(result["memor_version"], "memor_version")
