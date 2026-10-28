@@ -130,40 +130,34 @@ class Prompt(Message):
         self._selected_response_id = None
         self._mark_modified()
 
-    def select_response(self, identifier: Union[int, str]) -> Optional[Response]:
+    def select_response(self, identifier: Optional[Union[int, str]]) -> Optional[Response]:
         """
         Select a response by index or UUIDv4 ID.
 
         :param identifier: non-negative index or response UUIDv4
         """
-        if isinstance(identifier, int):
+        if identifier is None:
+            response = None
+        elif isinstance(identifier, int):
             _validate_non_negative_int(identifier, "identifier")
-
             if identifier >= len(self._responses):
-                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
-
-            response = self._responses[identifier]
-
+                response = None
+            else:
+                response = self._responses[identifier]
         elif isinstance(identifier, str):
             try:
                 parsed_id = uuid.UUID(identifier, version=4)
             except Exception:
                 raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
-
-            if str(parsed_id) != identifier.lower():
-                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
-
             response = next((item for item in self._responses if item.id == identifier), None)
-
-            if response is None:
-                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
-
         else:
             raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
 
-        self._selected_response_id = response.id
+        if response is None:
+            self._selected_response_id = None
+        else:
+            self._selected_response_id = response.id
         self._mark_modified()
-
         return response
 
     def update_responses(self, responses: List[Response]) -> None:
