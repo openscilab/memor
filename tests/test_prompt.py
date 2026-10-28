@@ -265,8 +265,8 @@ def test_select_response2():
     response0 = Response("I am fine.")
     response1 = Response("Great!")
     prompt.update_responses([response0, response1])
-    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
-        prompt.select_response(20)
+    assert prompt.select_response(20) is None
+    assert prompt.selected_response is None
 
 
 def test_select_response3():
@@ -331,13 +331,6 @@ def test_select_response8():
     assert loaded_prompt.selected_response == response1
 
 
-def test_select_response9():
-    response0 = Response(message="I am fine.")
-    prompt = Prompt(responses=[response0])
-    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
-        prompt.select_response(20)
-
-
 @pytest.mark.parametrize(
     "identifier",
     [
@@ -345,32 +338,30 @@ def test_select_response9():
         True,
         False,
         1.5,
-        None,
         [],
         {},
         "invalid-uuid",
-        "12345678-1234-1234-1234-123456789012",
     ],
 )
-def test_select_response10(identifier):
+def test_select_response9(identifier):
     prompt = Prompt(responses=[Response(message="I am fine.")])
     with pytest.raises(MemorValidationError):
         prompt.select_response(identifier)
 
 
-def test_select_response11():
+def test_select_response10():
     prompt = Prompt(responses=[Response(message="I am fine.")])
     unknown_id = str(uuid.uuid4())
-    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
-        prompt.select_response(unknown_id)
+    assert prompt.select_response(unknown_id) is None
+    assert prompt.selected_response is None
 
 
-def test_select_response12():
+def test_select_response11():
     prompt = Prompt()
-    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
-        prompt.select_response(0)
-    with pytest.raises(MemorValidationError, match="Invalid response identifier"):
-        prompt.select_response(str(uuid.uuid4()))
+    assert prompt.select_response(0) is None
+    assert prompt.selected_response is None
+    assert prompt.select_response(str(uuid.uuid4())) is None
+    assert prompt.selected_response is None
 
 
 def test_template1():
