@@ -119,7 +119,7 @@ class Prompt(Message):
         """
         response = self._responses.pop(index)
         if response.id == self._selected_response_id:
-            self._selected_response_id = (self._responses[0].id if self._responses else None)
+            self._selected_response_id = None
         self._mark_modified()
 
     def clear_responses(self) -> None:
