@@ -3,6 +3,7 @@
 from typing import List, Dict, Union, Tuple, Any, Optional
 import datetime
 import json
+import uuid
 import warnings
 from .message import Message
 from .params import MEMOR_VERSION
@@ -10,7 +11,7 @@ from .params import DATE_TIME_FORMAT
 from .params import RenderFormat, DATA_SAVE_SUCCESS_MESSAGE
 from .params import Role
 from .params import INVALID_PROMPT_STRUCTURE_MESSAGE, INVALID_TEMPLATE_MESSAGE
-from .params import INVALID_RESPONSE_MESSAGE
+from .params import INVALID_RESPONSE_MESSAGE, INVALID_RESPONSE_IDENTIFIER_MESSAGE
 from .params import PROMPT_RENDER_ERROR_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
@@ -60,7 +61,7 @@ class Prompt(Message):
         self._role = Role.USER
         self._template = PresetPromptTemplate.DEFAULT.value
         self._responses = []
-        self._selected_response_index = 0
+        self._selected_response_id = None
         if file_path is not None:
             self.load(file_path)
         else:
@@ -112,30 +113,50 @@ class Prompt(Message):
 
     def remove_response(self, index: int) -> None:
         """
-        Remove a response from the prompt object.
+        Remove a response from the prompt.
 
         :param index: index
         """
-        self._responses.pop(index)
+        response = self._responses.pop(index)
+        if response.id == self._selected_response_id:
+            self._selected_response_id = None
         self._mark_modified()
 
     def clear_responses(self) -> None:
         """Remove all responses from the prompt."""
         self._responses.clear()
-        self._selected_response_index = 0
+        self._selected_response_id = None
         self._mark_modified()
 
-    def select_response(self, index: int) -> Optional[Response]:
+    def select_response(self, identifier: Optional[Union[int, str]]) -> Optional[Response]:
         """
-        Select a response as selected response.
+        Select a response by index or UUIDv4 ID.
 
-        :param index: index
+        :param identifier: non-negative index or response UUIDv4
         """
-        _validate_non_negative_int(index, "index")
-        self._selected_response_index = index
+        if identifier is None:
+            response = None
+        elif isinstance(identifier, int):
+            _validate_non_negative_int(identifier, "identifier")
+            if identifier >= len(self._responses):
+                response = None
+            else:
+                response = self._responses[identifier]
+        elif isinstance(identifier, str):
+            try:
+                parsed_id = uuid.UUID(identifier, version=4)
+            except Exception:
+                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
+            response = next((item for item in self._responses if item.id == identifier), None)
+        else:
+            raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
+
+        if response is None:
+            self._selected_response_id = None
+        else:
+            self._selected_response_id = response.id
         self._mark_modified()
-        if index < len(self._responses):
-            return self._responses[index]
+        return response
 
     def update_responses(self, responses: List[Response]) -> None:
         """
@@ -144,7 +165,11 @@ class Prompt(Message):
         :param responses: responses
         """
         _validate_list_of(responses, "responses", Response, "`Response`")
-        self._responses = responses
+        self._responses = list(responses)
+
+        if not any(response.id == self._selected_response_id for response in self._responses):
+            self._selected_response_id = None
+
         self._mark_modified()
 
     def update_template(self, template: Union[PresetPromptTemplate, PromptTemplate]) -> None:
@@ -206,17 +231,24 @@ class Prompt(Message):
             result["memor_version"] = loaded_obj["memor_version"]
             result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
-            result["selected_response_index"] = loaded_obj["selected_response_index"]
+            result["selected_response_id"] = loaded_obj.get("selected_response_id")
+            result["selected_response_index"] = loaded_obj.get("selected_response_index")
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
 
         if result["tokens"] is not None:
             _validate_non_negative_int(result["tokens"], "tokens")
+        if result["selected_response_id"] is not None:
+            try:
+                parsed_id = uuid.UUID(result["selected_response_id"], version=4)
+            except Exception:
+                raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
         _validate_message_id(result["id"])
         _validate_warnings(result["warnings"])
         _validate_string(result["memor_version"], "memor_version")
-        _validate_non_negative_int(result["selected_response_index"], "selected_response_index")
+        if result["selected_response_index"] is not None:
+            _validate_non_negative_int(result["selected_response_index"], "selected_response_index")
         return result
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
@@ -236,7 +268,8 @@ class Prompt(Message):
         self._memor_version = data["memor_version"]
         self._date_created = data["date_created"]
         self._date_modified = data["date_modified"]
-        self.select_response(data["selected_response_index"])
+        selected_response_identifier = data["selected_response_id"] or data["selected_response_index"]
+        self.select_response(selected_response_identifier)
 
     def to_json(self, save_template: bool = True) -> Dict[str, Any]:
         """
@@ -265,7 +298,7 @@ class Prompt(Message):
             "message": self._message,
             "warnings": self._warnings,
             "responses": self._responses.copy(),
-            "selected_response_index": self._selected_response_index,
+            "selected_response_id": self._selected_response_id,
             "tokens": self._tokens,
             "role": self._role,
             "id": self._id,
@@ -291,8 +324,9 @@ class Prompt(Message):
     @property
     def selected_response(self) -> Optional[Response]:
         """Get the prompt selected response."""
-        if 0 <= self._selected_response_index < len(self._responses):
-            return self._responses[self._selected_response_index]
+        for response in self._responses:
+            if response.id == self._selected_response_id:
+                return response
         return None
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
@@ -311,6 +345,9 @@ class Prompt(Message):
             format_kwargs = {"prompt": self.to_json(save_template=False)}
             if isinstance(self.selected_response, Response):
                 format_kwargs.update({"response": self.selected_response.to_json()})
+            else:
+                if len(self.responses) > 0 and isinstance(self.responses[0], Response):
+                    format_kwargs.update({"response": self.responses[0].to_json()})
             responses_dicts = []
             for _, response in enumerate(self._responses):
                 responses_dicts.append(response.to_json())
