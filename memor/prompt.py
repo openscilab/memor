@@ -232,7 +232,7 @@ class Prompt(Message):
             result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             result["selected_response_id"] = loaded_obj.get("selected_response_id")
-            result["selected_response_index"] = loaded_obj.get("selected_response_index", 0)
+            result["selected_response_index"] = loaded_obj.get("selected_response_index")
         except Exception:
             raise MemorValidationError(INVALID_PROMPT_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
@@ -247,7 +247,8 @@ class Prompt(Message):
         _validate_message_id(result["id"])
         _validate_warnings(result["warnings"])
         _validate_string(result["memor_version"], "memor_version")
-        _validate_non_negative_int(result["selected_response_index"], "selected_response_index")
+        if result["selected_response_index"] is not None:
+            _validate_non_negative_int(result["selected_response_index"], "selected_response_index")
         return result
 
     def from_json(self, json_object: Union[str, Dict[str, Any]]) -> None:
@@ -267,11 +268,9 @@ class Prompt(Message):
         self._memor_version = data["memor_version"]
         self._date_created = data["date_created"]
         self._date_modified = data["date_modified"]
-        selected_response_id = data["selected_response_id"]
-        if selected_response_id is not None:
-            self.select_response(selected_response_id)
-        else:
-            self.select_response(data["selected_response_index"])
+        selected_response_id = 
+        selected_response_identifier = data["selected_response_id"] | data["selected_response_index"]
+        self.select_response(selected_response_identifier)
 
     def to_json(self, save_template: bool = True) -> Dict[str, Any]:
         """
