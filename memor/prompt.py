@@ -269,9 +269,7 @@ class Prompt(Message):
         self._date_modified = data["date_modified"]
         selected_response_id = data["selected_response_id"]
         if selected_response_id is not None:
-            selected = self.select_response(selected_response_id)
-            if selected is None:
-                self.select_response(data["selected_response_index"])
+            self.select_response(selected_response_id)
         else:
             self.select_response(data["selected_response_index"])
 
