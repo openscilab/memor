@@ -347,6 +347,9 @@ class Prompt(Message):
             format_kwargs = {"prompt": self.to_json(save_template=False)}
             if isinstance(self.selected_response, Response):
                 format_kwargs.update({"response": self.selected_response.to_json()})
+            else:
+                if len(self.responses) > 0 and isinstance(self.responses[0], Response):
+                    format_kwargs.update({"response": self.responses[0].to_json()})
             responses_dicts = []
             for _, response in enumerate(self._responses):
                 responses_dicts.append(response.to_json())
