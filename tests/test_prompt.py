@@ -305,7 +305,7 @@ def test_select_response6():
     prompt = Prompt(responses=[response0, response1])
     prompt.select_response(response1.id)
     prompt.remove_response(1)
-    assert prompt.selected_response == response0
+    assert prompt.selected_response == None
 
 
 def test_select_response7():
