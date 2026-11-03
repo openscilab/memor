@@ -960,6 +960,21 @@ def test_render10():
     assert prompt.render(RenderFormat.AI_STUDIO) == {'role': 'model', 'parts': [{'text': 'Hi, How are you?'}]}
 
 
+def test_render11():
+    message = "Hello, how are you?"
+    response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    response2 = Response(message="Thanks!", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
+    prompt = Prompt(
+        message=message,
+        responses=[
+            response1,
+            response2],
+        role=Role.USER,
+        template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD)
+    prompt.select_response(1)
+    assert prompt.render() == 'Prompt: Hello, how are you?\nResponse: Thanks!'
+
+
 def test_size_warning1():
     message = "How are you?"
     response1 = Response(message="I am fine.", model=LLMModel.GPT_4, temperature=0.5, role=Role.USER, score=0.8)
