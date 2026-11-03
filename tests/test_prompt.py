@@ -372,6 +372,26 @@ def test_select_response12():
     assert prompt.selected_response is None
 
 
+def test_select_response13():
+    response0 = Response(message="I am fine.")
+    response1 = Response(message="Great!")
+    prompt = Prompt(responses=[response0, response1])
+    prompt.select_response(response1.id)
+    prompt_json = prompt.to_json()
+    loaded_prompt = Prompt()
+    loaded_prompt.from_json(prompt_json)
+    assert loaded_prompt.selected_response == response1
+
+
+def test_select_response14():
+    prompt = Prompt(message="Hello, how are you?")
+    prompt_json = prompt.to_json()
+    prompt_json["selected_response_id"] = "invalid_uuid"
+    loaded_prompt = Prompt()
+    with pytest.raises(MemorValidationError, match=r"Invalid response identifier. It must be a non-negative integer index or a valid UUIDv4 response ID."):
+        loaded_prompt.from_json(prompt_json)
+
+
 def test_template1():
     message = "Hello, how are you?"
     prompt = Prompt(message=message, template=PresetPromptTemplate.BASIC.PROMPT_RESPONSE_STANDARD, init_check=False)
