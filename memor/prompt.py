@@ -144,7 +144,7 @@ class Prompt(Message):
                 response = self._responses[identifier]
         elif isinstance(identifier, str):
             try:
-                parsed_id = uuid.UUID(identifier, version=4)
+                _ = uuid.UUID(identifier, version=4)
             except Exception:
                 raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
             response = next((item for item in self._responses if item.id == identifier), None)
@@ -241,7 +241,7 @@ class Prompt(Message):
             _validate_non_negative_int(result["tokens"], "tokens")
         if result["selected_response_id"] is not None:
             try:
-                parsed_id = uuid.UUID(result["selected_response_id"], version=4)
+                _ = uuid.UUID(result["selected_response_id"], version=4)
             except Exception:
                 raise MemorValidationError(INVALID_RESPONSE_IDENTIFIER_MESSAGE)
         _validate_message_id(result["id"])
