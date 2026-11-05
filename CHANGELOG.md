@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - `Python 3.15` added to `test.yml`
 - Build system modified
+- Test system modified
+- Selected response bug fixed
+- `Prompt` class `remove_response` method modified
+- `Prompt` class `clear_responses` method modified
+- `Prompt` class `select_response` method modified
+- `Prompt` class `update_responses` method modified
 ## [1.4] - 2026-10-05
 ### Added
 - Z.AI models
