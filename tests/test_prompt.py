@@ -388,7 +388,7 @@ def test_select_response14():
     prompt_json = prompt.to_json()
     prompt_json["selected_response_id"] = "invalid_uuid"
     loaded_prompt = Prompt()
-    with pytest.raises(MemorValidationError, match=r"Invalid response identifier. It must be a non-negative integer index or a valid UUIDv4 response ID."):
+    with pytest.raises(MemorValidationError, match=r"Invalid response identifier. It must be a non-negative integer index or a valid response ID."):
         loaded_prompt.from_json(prompt_json)
 
 
