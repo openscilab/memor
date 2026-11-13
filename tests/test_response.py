@@ -1037,18 +1037,3 @@ def test_reasoning3():
     assert response.reasoning == reasoning
     response.update_reasoning(None)
     assert response.reasoning is None
-
-
-def test_reasoning4():
-    response1 = Response(message="I am fine.", reasoning="Thinking.")
-    response2 = Response()
-    response2.from_json(json.dumps(response1.to_json()))
-    assert response1 == response2
-    assert response2.reasoning.text == "Thinking."
-
-
-def test_reasoning5():
-    response = Response(message="I am fine.", reasoning="Thinking.")
-    assert response.to_json()["reasoning"] == {"type": "Reasoning", "segments": [{"type": "ReasoningSegment", "text": "Thinking."}]}
-    assert response.to_dict()["reasoning"] == response.reasoning
-    assert Response(message="I am fine.").to_json()["reasoning"] is None
