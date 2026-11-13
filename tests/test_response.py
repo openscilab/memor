@@ -5,7 +5,7 @@ import uuid
 import json
 import copy
 import pytest
-from memor import Response, Role, LLMModel, MemorValidationError, FinishReason
+from memor import Response, Role, LLMModel, MemorValidationError, FinishReason, Reasoning, ReasoningSegment
 from memor import RenderFormat
 from memor import TokensEstimator
 
@@ -1017,3 +1017,38 @@ def test_size():
 
     assert os.path.getsize("response_test3.json") == response.size
     assert response.size == response.get_size()
+
+
+def test_reasoning1():
+    response = Response(message="I am fine.")
+    assert response.reasoning is None
+
+
+def test_reasoning2():
+    response = Response(message="I am fine.", reasoning="The user asked how I am.")
+    assert isinstance(response.reasoning, Reasoning)
+    assert response.reasoning.text == "The user asked how I am."
+    assert len(response.reasoning.segments) == 1
+
+
+def test_reasoning3():
+    reasoning = Reasoning(segments=[ReasoningSegment(text="Step 1."), ReasoningSegment(text="Step 2.")])
+    response = Response(message="I am fine.", reasoning=reasoning)
+    assert response.reasoning == reasoning
+    response.update_reasoning(None)
+    assert response.reasoning is None
+
+
+def test_reasoning4():
+    response1 = Response(message="I am fine.", reasoning="Thinking.")
+    response2 = Response()
+    response2.from_json(json.dumps(response1.to_json()))
+    assert response1 == response2
+    assert response2.reasoning.text == "Thinking."
+
+
+def test_reasoning5():
+    response = Response(message="I am fine.", reasoning="Thinking.")
+    assert response.to_json()["reasoning"] == {"type": "Reasoning", "segments": [{"type": "ReasoningSegment", "text": "Thinking."}]}
+    assert response.to_dict()["reasoning"] == response.reasoning
+    assert Response(message="I am fine.").to_json()["reasoning"] is None
