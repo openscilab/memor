@@ -202,6 +202,7 @@ response.render()
 | `seed`           | `int`                  | Random seed used during LLM inference                |
 | `date`           | `datetime.datetime`    | Timestamp of the creation                            |
 | `finish_reason`  | `FinishReason` \| `str` | Reason the model stopped generating                 |
+| `reasoning`      | `Reasoning` \| `str`   | Model reasoning, kept out of provider render formats |
 | `file_path`      | `str`                  | Path to load a saved response                        |
 
 #### Methods
@@ -217,6 +218,7 @@ response.render()
 | `update_seed`                                   | Set the inference random seed                                            |
 | `update_inference_time`                         | Set the inference time in seconds                                        |
 | `update_finish_reason`                          | Set the generation finish reason                                         |
+| `update_reasoning`                              | Set the model reasoning                  |
 | `update_message`                                | Update the response message                                              |
 | `update_message_from_xml`                       | Update the response message from XML                                     |
 | `update_role`                                   | Update the sender role                                                   |
