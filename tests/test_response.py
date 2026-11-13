@@ -5,7 +5,7 @@ import uuid
 import json
 import copy
 import pytest
-from memor import Response, Role, LLMModel, MemorValidationError, FinishReason
+from memor import Response, Role, LLMModel, MemorValidationError, FinishReason, Reasoning, ReasoningSegment
 from memor import RenderFormat
 from memor import TokensEstimator
 
@@ -1017,3 +1017,23 @@ def test_size():
 
     assert os.path.getsize("response_test3.json") == response.size
     assert response.size == response.get_size()
+
+
+def test_reasoning1():
+    response = Response(message="I am fine.")
+    assert response.reasoning is None
+
+
+def test_reasoning2():
+    response = Response(message="I am fine.", reasoning="The user asked how I am.")
+    assert isinstance(response.reasoning, Reasoning)
+    assert response.reasoning.text == "The user asked how I am."
+    assert len(response.reasoning.segments) == 1
+
+
+def test_reasoning3():
+    reasoning = Reasoning(segments=[ReasoningSegment(text="Step 1."), ReasoningSegment(text="Step 2.")])
+    response = Response(message="I am fine.", reasoning=reasoning)
+    assert response.reasoning == reasoning
+    response.update_reasoning(None)
+    assert response.reasoning is None
