@@ -202,7 +202,7 @@ response.render()
 | `seed`           | `int`                  | Random seed used during LLM inference                |
 | `date`           | `datetime.datetime`    | Timestamp of the creation                            |
 | `finish_reason`  | `FinishReason` \| `str` | Reason the model stopped generating                 |
-| `reasoning`      | `Reasoning` \| `str`   | Model reasoning, kept out of provider render formats |
+| `reasoning`      | `Reasoning` \| `str`   | Model reasoning |
 | `file_path`      | `str`                  | Path to load a saved response                        |
 
 #### Methods
