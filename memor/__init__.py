@@ -5,6 +5,7 @@ from .llm_models import LLMModel
 from .tokens_estimator import TokensEstimator
 from .template import PromptTemplate, PresetPromptTemplate
 from .prompt import Prompt, Role
+from .reasoning import Reasoning, ReasoningSegment
 from .response import Response
 from .session import Session
 from .errors import MemorError, MemorRenderError, MemorValidationError
@@ -22,6 +23,8 @@ __all__ = [
     "Prompt",
     "Role",
     "Response",
+    "Reasoning",
+    "ReasoningSegment",
     "Session",
     "MemorError",
     "MemorRenderError",
