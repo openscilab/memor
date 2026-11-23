@@ -49,20 +49,20 @@ class ReasoningSegment:
         _validate_string(text, "text")
         self._text = text
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> Dict[str, str]:
         """Convert the reasoning segment to a dictionary."""
         return {
             "type": "ReasoningSegment",
             "text": self._text,
         }
 
-    def to_json(self) -> Dict[str, Any]:
+    def to_json(self) -> Dict[str, str]:
         """Convert the reasoning segment to a JSON object."""
         return self.to_dict()
 
     @property
     def text(self) -> str:
-        """Get the segment text."""
+        """Get the reasoning segment text."""
         return self._text
 
 
