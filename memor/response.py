@@ -5,9 +5,10 @@ import datetime
 import json
 import warnings
 from .message import Message
+from .reasoning import Reasoning, ReasoningSegment
 from .params import MEMOR_VERSION
 from .params import DATE_TIME_FORMAT
-from .params import INVALID_FINISH_REASON_MESSAGE
+from .params import INVALID_FINISH_REASON_MESSAGE, INVALID_REASONING_MESSAGE
 from .params import INVALID_RESPONSE_STRUCTURE_MESSAGE
 from .params import INVALID_RENDER_FORMAT_MESSAGE, INVALID_MODEL_MESSAGE
 from .params import AI_STUDIO_SYSTEM_WARNING
@@ -44,6 +45,7 @@ class Response(Message):
             seed: Optional[int] = None,
             date: Optional[datetime.datetime] = None,
             finish_reason: Optional[Union[FinishReason, str]] = None,
+            reasoning: Optional[Union[Reasoning, str]] = None,
             file_path: Optional[str] = None) -> None:
         """
         Response object initiator.
@@ -61,6 +63,7 @@ class Response(Message):
         :param seed: the model random seed
         :param date: response date
         :param finish_reason: generation finish reason
+        :param reasoning: model reasoning
         :param file_path: response file path
         """
         super().__init__()
@@ -75,6 +78,7 @@ class Response(Message):
         self._gpu = None
         self._seed = None
         self._finish_reason = None
+        self._reasoning = None
         if file_path is not None:
             self.load(file_path)
         else:
@@ -92,6 +96,8 @@ class Response(Message):
                 self.update_seed(seed)
             if finish_reason is not None:
                 self.update_finish_reason(finish_reason)
+            if reasoning is not None:
+                self.update_reasoning(reasoning)
             if temperature is not None:
                 self.update_temperature(temperature)
             if top_k is not None:
@@ -118,7 +124,8 @@ class Response(Message):
             return self._message == other_response._message and self._score == other_response._score and self._role == other_response._role and \
                 self._temperature == other_response._temperature and self._model == other_response._model and self._tokens == other_response._tokens and \
                 self._inference_time == other_response._inference_time and self._top_k == other_response._top_k and self._top_p == other_response._top_p and \
-                self._gpu == other_response._gpu and self._seed == other_response._seed and self._finish_reason == other_response._finish_reason
+                self._gpu == other_response._gpu and self._seed == other_response._seed and self._finish_reason == other_response._finish_reason and \
+                self._reasoning == other_response._reasoning
         return False
 
     def __repr__(self) -> str:
@@ -225,6 +232,20 @@ class Response(Message):
             raise MemorValidationError(INVALID_FINISH_REASON_MESSAGE)
         self._mark_modified()
 
+    def update_reasoning(self, reasoning: Optional[Union[Reasoning, str]]) -> None:
+        """
+        Update the model reasoning.
+
+        :param reasoning: model reasoning
+        """
+        if isinstance(reasoning, Reasoning) or reasoning is None:
+            self._reasoning = reasoning
+        elif isinstance(reasoning, str):
+            self._reasoning = Reasoning(segments=[ReasoningSegment(text=reasoning)])
+        else:
+            raise MemorValidationError(INVALID_REASONING_MESSAGE)
+        self._mark_modified()
+
     def save(self, file_path: str) -> Dict[str, Any]:
         """
         Save method.
@@ -263,6 +284,7 @@ class Response(Message):
             result["date_created"] = datetime.datetime.strptime(loaded_obj["date_created"], DATE_TIME_FORMAT)
             result["date_modified"] = datetime.datetime.strptime(loaded_obj["date_modified"], DATE_TIME_FORMAT)
             result["finish_reason"] = loaded_obj.get("finish_reason", None)
+            result["reasoning"] = loaded_obj.get("reasoning", None)
         except Exception:
             raise MemorValidationError(INVALID_RESPONSE_STRUCTURE_MESSAGE)
         _validate_string(result["message"], "message")
@@ -284,6 +306,10 @@ class Response(Message):
             _validate_non_negative_float(result["inference_time"], "inference_time")
         if result["finish_reason"] is not None:
             _validate_string(result["finish_reason"], "finish_reason")
+        if result["reasoning"] is not None:
+            reasoning = Reasoning()
+            reasoning.from_json(result["reasoning"])
+            result["reasoning"] = reasoning
         _validate_string(result["model"], "model")
         _validate_message_id(result["id"])
         _validate_warnings(result["warnings"])
@@ -314,6 +340,7 @@ class Response(Message):
         self._date_created = data["date_created"]
         self._date_modified = data["date_modified"]
         self._finish_reason = data["finish_reason"]
+        self._reasoning = data["reasoning"]
 
     def to_json(self) -> Dict[str, Any]:
         """Convert the response to a JSON object."""
@@ -321,6 +348,8 @@ class Response(Message):
         data["date_created"] = datetime.datetime.strftime(data["date_created"], DATE_TIME_FORMAT)
         data["date_modified"] = datetime.datetime.strftime(data["date_modified"], DATE_TIME_FORMAT)
         data["role"] = data["role"].value
+        if data["reasoning"] is not None:
+            data["reasoning"] = data["reasoning"].to_json()
         return data
 
     def to_dict(self) -> Dict[str, Any]:
@@ -343,7 +372,8 @@ class Response(Message):
             "memor_version": MEMOR_VERSION,
             "date_created": self._date_created,
             "date_modified": self._date_modified,
-            "finish_reason": self._finish_reason
+            "finish_reason": self._finish_reason,
+            "reasoning": self._reasoning
         }
 
     def render(self, render_format: RenderFormat = RenderFormat.DEFAULT,
@@ -421,3 +451,8 @@ class Response(Message):
     def finish_reason(self) -> Optional[str]:
         """Get the generation finish reason."""
         return self._finish_reason
+
+    @property
+    def reasoning(self) -> Optional[Reasoning]:
+        """Get the model reasoning."""
+        return self._reasoning
